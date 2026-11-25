@@ -77,6 +77,7 @@ it('accounts for the complete correspondence registry and both forms', () => {
 it.each(Object.entries(routes).flatMap(([type, sections]) => (['focused', 'scroll'] as const).map((layout) => ({ type, sections, layout }))))('makes every original $type section usable in $layout mode', async ({ type, sections: sectionIds, layout }) => {
   useUIStore.getState().setEditorLayout(layout);
   if (type === 'navmc_10274' || type === 'navmc_118_11') {
+    useUIStore.getState().setFormEditorLayout(layout);
     useDocumentStore.setState({ documentCategory: 'forms', formType: type });
   } else useDocumentStore.setState({ documentCategory: 'correspondence', docType: type });
   if (type === 'i_type') useDocumentStore.setState({ paragraphs: [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' }] });

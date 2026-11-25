@@ -72,6 +72,8 @@ function storedStarterExampleEdits(id: string): StarterExampleSection[] {
 
 interface UIState {
   editorLayout: EditorLayout;
+  formEditorLayout: EditorLayout;
+  setFormEditorLayout: (layout: EditorLayout) => void;
   setEditorLayout: (layout: EditorLayout) => void;
 
   // Theme
@@ -195,7 +197,7 @@ interface UIState {
   welcomeOpen: boolean;
   setWelcomeOpen: (open: boolean) => void;
   documentPositions: Record<string, { top: number; section: string | null; previewPage?: number; layout?: EditorLayout }>;
-  rememberPosition: (id: string, top: number, section: string | null) => void;
+  rememberPosition: (id: string, top: number, section: string | null, layout?: EditorLayout) => void;
   rememberPreviewPage: (id: string, page: number) => void;
   starterExampleEdits: Record<string, readonly StarterExampleSection[]>;
   rememberStarterExampleEdits: (id: string, sections: readonly StarterExampleSection[]) => void;
@@ -242,6 +244,8 @@ export const useUIStore = create<UIState>()(
   persist(
     (set, get) => ({
       editorLayout: 'focused',
+      formEditorLayout: 'scroll',
+      setFormEditorLayout: (formEditorLayout) => set({ formEditorLayout }),
       setEditorLayout: (editorLayout) => set({ editorLayout }),
       // Theme - detect system preference for first-time users
       theme: getSystemTheme(),
@@ -354,10 +358,10 @@ export const useUIStore = create<UIState>()(
       welcomeOpen: false,
       setWelcomeOpen: (open) => set({ welcomeOpen: open }),
       documentPositions: {},
-      rememberPosition: (id, top, section) => set((s) => {
+      rememberPosition: (id, top, section, layout) => set((s) => {
         const positions = { ...s.documentPositions };
         delete positions[id];
-        positions[id] = { ...s.documentPositions[id], top, section, layout: s.editorLayout };
+        positions[id] = { ...s.documentPositions[id], top, section, layout: layout ?? s.editorLayout };
         return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
       }),
       rememberPreviewPage: (id, page) => set((s) => {
@@ -478,6 +482,7 @@ export const useUIStore = create<UIState>()(
         theme: state.theme,
         density: state.density,
         editorLayout: state.editorLayout,
+        formEditorLayout: state.formEditorLayout,
         previewVisible: state.previewVisible,
         previewWidth: state.previewWidth,
         pdfZoomMode: state.pdfZoomMode,

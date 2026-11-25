@@ -14,7 +14,7 @@ beforeEach(() => {
   Element.prototype.scrollIntoView = vi.fn();
   useDocumentsStore.setState({ currentId: 'draft-one', docs: {} });
   useDocumentStore.setState({ documentCategory: 'correspondence', docType: 'naval_letter', paragraphs: [{ text: 'Keep this paragraph.', level: 0 }] });
-  useUIStore.setState({ documentPositions: {}, editorLayout: 'focused', isMobile: false, sidebarOutlineVisible: false, sidebarCollapsed: false });
+  useUIStore.setState({ documentPositions: {}, editorLayout: 'focused', formEditorLayout: 'scroll', isMobile: false, sidebarOutlineVisible: false, sidebarCollapsed: false });
   useEditorOutlineStore.setState({ pendingJump: null, activeId: null });
 });
 
@@ -87,11 +87,15 @@ describe('focused workspace editor', () => {
     await waitFor(() => expect(document.getElementById('sec-addressing')).toHaveFocus());
   });
 
-  it.each(['navmc_10274', 'navmc_118_11'] as const)('keeps all %s sections reachable without showing the entire form at once', (formType) => {
+  it.each(['navmc_10274', 'navmc_118_11'] as const)('opens all %s sections and remembers an explicit switch to one section', async (formType) => {
     useDocumentStore.setState({ documentCategory: 'forms', formType });
     openEditor();
-    expect(screen.getByRole('combobox', { name: 'Document section' })).toHaveValue('content');
     expect(document.getElementById('sec-content')).toBeVisible();
+    expect(document.getElementById('sec-signatures')).toBeVisible();
+    await chooseLayout(/One section/);
+    expect(useUIStore.getState().formEditorLayout).toBe('focused');
+    expect(JSON.parse(localStorage.getItem('dondocs_ui')!).state.formEditorLayout).toBe('focused');
+    selectSection('content');
     expect(document.getElementById('sec-signatures')).not.toBeVisible();
     selectSection('signatures');
     expect(document.getElementById('sec-signatures')).toBeVisible();
@@ -153,9 +157,10 @@ it('persists the layout choice across rehydration without changing document data
 });
 
 
-it.each(['navmc_10274', 'navmc_118_11'] as const)('resumes a deliberately selected setup section for %s', (formType) => {
+it.each(['navmc_10274', 'navmc_118_11'] as const)('resumes a deliberately selected setup section for %s', async (formType) => {
   useDocumentStore.setState({ documentCategory: 'forms', formType });
   const view = openEditor();
+  await chooseLayout(/One section/);
   const setup = formType === 'navmc_10274' ? 'header' : 'marine';
   selectSection(setup);
   view.unmount();

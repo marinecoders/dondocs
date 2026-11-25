@@ -20,7 +20,7 @@ import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
 beforeEach(() => {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({ templates: [] }) }));
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, baseline: null, hydrated: true });
-  useUIStore.setState({ editorLayout: 'focused', documentPositions: {}, saveMenuOpen: false });
+  useUIStore.setState({ formEditorLayout: 'focused', documentPositions: {}, saveMenuOpen: false });
   importForm(fixtureInstance());
 });
 afterEach(() => vi.unstubAllGlobals());
@@ -41,7 +41,7 @@ it('edits a pinned form in both workspace views without exposing a second type p
   await waitFor(() => expect(screen.getByRole('combobox', { name: 'Decision' })).toBeVisible());
   fireEvent.change(screen.getByRole('combobox', { name: 'Decision' }), { target: { value: 'no' } });
   expect(useDocumentStore.getState().genericForm?.answers.decision).toBe('no');
-  act(() => useUIStore.getState().setEditorLayout('scroll'));
+  act(() => useUIStore.getState().setFormEditorLayout('scroll'));
   expect(screen.getByRole('textbox', { name: 'Name' })).toBeVisible();
   expect(screen.getByRole('combobox', { name: 'Decision' })).toBeVisible();
   expect(screen.queryByRole('button', { name: 'Form type' })).not.toBeInTheDocument();

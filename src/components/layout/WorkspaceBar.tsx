@@ -7,8 +7,8 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from './editorSections';
 
 export function WorkspaceBar({ activeSection, inPackage = false }: { activeSection: string; inPackage?: boolean }) {
-  const { sections } = useEditorSections();
-  const layout = useUIStore((s) => s.editorLayout);
+  const { sections, isFormsMode } = useEditorSections();
+  const layout = useUIStore((s) => isFormsMode ? s.formEditorLayout : s.editorLayout);
   const mobile = useUIStore((s) => s.isMobile);
   const showOutline = useUIStore((s) => s.sidebarOutlineVisible && !s.sidebarCollapsed);
   const pendingJump = useRef<string | null>(null);
@@ -41,7 +41,10 @@ export function WorkspaceBar({ activeSection, inPackage = false }: { activeSecti
       <DropdownMenuTrigger asChild><Button variant="ghost" aria-label="Editor view" className="h-11 sm:h-9 px-2 text-sm"><SlidersHorizontal className="h-4 w-4" />View<ChevronDown className="h-3 w-3 text-muted-foreground" /></Button></DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-72">
         <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">Editor layout</DropdownMenuLabel>
-        <DropdownMenuRadioGroup value={layout} onValueChange={(value) => useUIStore.getState().setEditorLayout(value === 'scroll' ? 'scroll' : 'focused')}>
+        <DropdownMenuRadioGroup value={layout} onValueChange={(value) => {
+          const ui = useUIStore.getState();
+          (isFormsMode ? ui.setFormEditorLayout : ui.setEditorLayout)(value === 'scroll' ? 'scroll' : 'focused');
+        }}>
           <DropdownMenuRadioItem value="scroll" className="min-h-14"><span><span className="block">Full document</span><span className="block text-xs text-muted-foreground">Scroll through every section</span></span></DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="focused" className="min-h-14"><span><span className="block">One section</span><span className="block text-xs text-muted-foreground">Edit only the section you choose</span></span></DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>

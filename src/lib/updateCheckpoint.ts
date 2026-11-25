@@ -48,7 +48,7 @@ export async function prepareUpdateCheckpoint(target: string, previous: string):
     documentId: registry.currentId && registry.docs[registry.currentId] ? registry.currentId : null,
     formType: doc.documentCategory === 'forms' ? doc.formType : undefined,
     section: useEditorOutlineStore.getState().activeId,
-    view: { editorLayout: ui.editorLayout, previewVisible: ui.previewVisible, sidebarCollapsed: ui.sidebarCollapsed, sidebarOutlineVisible: ui.sidebarOutlineVisible },
+    view: { editorLayout: ui.editorLayout, formEditorLayout: ui.formEditorLayout, previewVisible: ui.previewVisible, sidebarCollapsed: ui.sidebarCollapsed, sidebarOutlineVisible: ui.sidebarOutlineVisible },
     scroll: editorScroller()?.scrollTop ?? 0 };
   writeUpdateRestore(point); return point;
 }
