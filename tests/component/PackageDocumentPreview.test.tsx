@@ -71,3 +71,22 @@ it('offers a working retry after a failed render', async () => {
   await screen.findByLabelText('Rendered preview');
   expect(screen.queryByRole('alert')).toBeNull();
 });
+
+it('can restart a slow preview and ignores the canceled result', async () => {
+  const captured = await member('Training letter');
+  let finish!: (value: ReturnType<typeof renderedMember>) => void;
+  vi.mocked(renderPackageRecipientMember).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; })).mockResolvedValueOnce(renderedMember());
+  vi.useFakeTimers();
+  try {
+    render(<PackageDocumentPreview packageId="package" revisionId="version" member={captured} active ports={ports} exportGate={createExportGate()} />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(8000); });
+    expect(screen.getByRole('status')).toHaveTextContent('Still preparing Training letter');
+    const signal = vi.mocked(renderPackageRecipientMember).mock.calls[0][4];
+    await act(async () => screen.getByRole('button', { name: 'Retry preview' }).click());
+    expect(signal?.aborted).toBe(true);
+    await act(async () => finish(renderedMember()));
+    expect(renderPackageRecipientMember).toHaveBeenCalledTimes(2);
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText('Still preparing Training letter…')).toBeNull();
+  } finally { vi.useRealTimers(); }
+});
