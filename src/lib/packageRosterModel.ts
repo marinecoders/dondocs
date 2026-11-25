@@ -83,6 +83,6 @@ export async function validPackageRosterPublication(publication: PackageRosterPu
     || !revision.templateState || revision.templateState.templateId !== publication.after.template.id
     || revision.templateState.templateRevision !== publication.after.template.program.revision || revision.templateState.pending
     || JSON.stringify(revision.templateState.answers) !== JSON.stringify(row.answers)) return false;
-  if (revision.templateState.source.sha256 !== await portableResourceDigest(new TextEncoder().encode(JSON.stringify(publication.after.template)).buffer)) return false;
+  if ((revision.templateState.source.resources?.templateSha256 ?? revision.templateState.source.sha256) !== await portableResourceDigest(new TextEncoder().encode(JSON.stringify(publication.after.template)).buffer)) return false;
   return row.receipt.contentSha256 === await packageRosterCreatedFingerprint(record, row.receipt.revisionId, row.name);
 }

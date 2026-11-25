@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.289] — 2026-11-24
+
+### Added
+
+- Reuse pinned PDF resources when transferring package revisions.
+
 ## [1.3.288] — 2026-11-24
 
 ### Added

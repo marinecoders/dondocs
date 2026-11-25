@@ -1,3 +1,4 @@
+import { templateSourceAssets } from './packageConditionalState';
 import { packagePdfReviewSchema } from './packagePdfReviewModel';
 import { packageFieldReviewApplicationSchema, packageFormReviewSchema } from './packageFormReviewModel';
 import { packageSigningSchema, packageSigningAssets, MAX_PACKAGE_SIGNING_HISTORY_BYTES } from './packageSigningModel';
@@ -574,7 +575,7 @@ export function packageAssets(record: ActionPackage): PackageAsset[] {
         : [member.draft, ...Object.values(member.templates ?? {})],
     ),
     ...revision.outputs.map((output) => output.asset),
-    ...(revision.templateState ? [revision.templateState.source, ...revision.templateState.upgrades?.map(item => item.source) ?? []] : []),
+    ...(revision.templateState ? [...templateSourceAssets(revision.templateState.source), ...revision.templateState.upgrades?.flatMap(item => templateSourceAssets(item.source)) ?? []] : []),
     ...(revision.signing ? packageSigningAssets(revision.signing) : []),
     ...(revision.scans?.items.map(scan => scan.source) ?? []),
   ]);
