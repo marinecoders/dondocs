@@ -79,6 +79,21 @@ describe('NAVMC 118(11) column fit', () => {
     expect(text).not.toContain(`LINE ${fit.left.capacity + 1}`);
   });
 
+  it.skipIf(!toolchain)('keeps the entry date on the printable copy when remarks start on the right', async () => {
+    const data = { ...base, remarksTextRight: 'Right-column training entry', entryDate: '23 Nov 26' };
+    const template = readFileSync(TEMPLATE);
+    const legacy = pdfText(await generateNavmc11811Pdf(data, template));
+    expect(legacy).not.toContain(data.entryDate);
+    const text = pdfText(await generateNavmc11811Pdf(data, template, { officialEdition: true })).replace(/\s+/g, ' ');
+    expect(text).toContain('Right-column training entry 23 Nov 26');
+
+    const fit = await computeNavmc11811Fit({ ...data, remarksTextRight: numberedLines(37) }, true);
+    expect(fit.right.truncated).toBe(0);
+    expect(fit.right.spillover).toBe(2);
+    await expect(generateNavmc11811Pdf({ ...data, remarksTextRight: numberedLines(37) }, readFileSync(TEMPLATE),
+      { officialEdition: true, rejectOverflow: true })).rejects.toThrow('Shorten the remarks');
+  });
+
   it('reports a clean fit for a short entry', async () => {
     const fit = await computeNavmc11811Fit({
       ...base,

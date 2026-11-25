@@ -25,7 +25,7 @@ const schema = sessionSchema.extend({
   paragraphs: z.array(sessionSchema.shape.paragraphs.element.safeExtend({
     figure: sessionSchema.shape.paragraphs.element.shape.figure.unwrap().extend({ fileRef: fileRef.optional() }).optional(),
   })).default([]),
-  forms: z.object({ navmc10274: form.optional(), navmc11811: form.optional(), includeCoverPage: z.boolean().default(false) }).optional(),
+  forms: z.object({ officialPdfEdition: z.string().min(1).max(80).optional(), navmc10274: form.optional(), navmc11811: form.optional(), includeCoverPage: z.boolean().default(false) }).optional(),
 });
 
 /** Saved drafts retain local handles and images. Shared links use a separate reader. */

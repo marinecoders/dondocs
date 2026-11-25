@@ -133,6 +133,7 @@ export const NAVMC_11811_FIELD_POLICIES = {
   remarksTextRight: 'text', entryDate: 'document-date', box11: 'text', signatureBlocks: array(object(signature)),
 } satisfies PoliciesFor<Navmc11811Data>;
 const forms = {
+  officialPdfEdition: 'identity',
   navmc10274: object(NAVMC_10274_FIELD_POLICIES), navmc11811: object(NAVMC_11811_FIELD_POLICIES), includeCoverPage: 'value',
 } satisfies PoliciesFor<FormSession>;
 const paragraph = {

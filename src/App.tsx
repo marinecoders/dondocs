@@ -201,6 +201,7 @@ function App() {
   // Individual selectors so App re-renders only when one of these slices changes.
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
+  const officialPdfEdition = useFormStore((s) => s.officialPdfEdition);
   const includeCoverPage = useFormStore((s) => s.includeCoverPage);
   const genericForm = useDocumentStore(s => s.genericForm);
   // Individual selectors across the remaining stores too.
@@ -681,12 +682,12 @@ function App() {
         .catch(() => { if (owns()) setFormError('Could not load the NAVMC 10274 template. Check your connection, then refresh the preview.'); });
     }
     if (formType === 'navmc_118_11' && !navmc11811Template) {
-      void loadNavmc11811Template()
+      void loadNavmc11811Template(!!officialPdfEdition)
         .then(template => { if (owns()) setNavmc11811Template(template); })
         .catch(() => { if (owns()) setFormError('Could not load the NAVMC 118 (11) template. Check your connection, then refresh the preview.'); });
     }
     return () => { cancelled = true; };
-  }, [workspaceReady, currentDocId, activationEpoch, documentCategory, formType, navmc10274Templates, navmc11811Template, formRefresh]);
+  }, [workspaceReady, currentDocId, activationEpoch, documentCategory, formType, navmc10274Templates, navmc11811Template, officialPdfEdition, formRefresh]);
 
   // Generate form preview based on selected form type
   useEffect(() => {
@@ -730,7 +731,8 @@ function App() {
           const resolved = applyPlaceholdersToNavmc11811(owned.forms!.navmc11811!, values);
           pdfBytes = await generateNavmc11811Pdf(
             resolved,
-            navmc11811Template.slice(0)
+            navmc11811Template.slice(0),
+            owned.forms!.officialPdfEdition ? { officialEdition: true } : undefined,
           );
         } else {
           // Config-driven forms (form.json): the registry resolves the type,
@@ -770,7 +772,7 @@ function App() {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [currentDocId, activationEpoch, documentCategory, formType, navmc10274, navmc11811, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
+  }, [currentDocId, activationEpoch, documentCategory, formType, navmc10274, navmc11811, officialPdfEdition, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
 
   const handleDownloadPdf = useCallback(() => {
     useUIStore.getState().setValidationVisible(true);

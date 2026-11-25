@@ -1,5 +1,6 @@
+import { checkOfficialPdfSource, officialPdfProfile, PAGE11_PRINTABLE_SHA256 } from "@/services/forms/officialPdfProfiles";
 import { PDFDocument } from "pdf-lib";
-import { validatePackagePage } from "@/services/forms/packages";
+import { retainTemplateAttachment, validatePackagePage } from "@/services/forms/packages";
 import { retainPortableFormTemplates } from "@/services/forms/portableTemplates";
 import type { NativePackageMember, PackageAsset } from "./actionPackages";
 
@@ -11,7 +12,7 @@ const builtinTemplateHashes: Record<string, Record<string, string>> = {
     page3: "d07faffc16a0c6cbefe824da530573989987622e0db85f3b60fd4e01238443d1",
   },
   navmc_118_11: {
-    page1: "eaea7e582dc90ab4bffc88b5ff28b5795b0432206dda005ee2e912ff6a0401fb",
+    page1: PAGE11_PRINTABLE_SHA256,
   },
 };
 export async function validatePackageMemberTemplates(
@@ -25,11 +26,14 @@ export async function validatePackageMemberTemplates(
   }
   const definition = member.session.genericForm?.definition;
   const templates = member.templates ?? {};
+  const edition = member.session.forms?.officialPdfEdition;
+  const profile = edition ? officialPdfProfile(member.session.formType, edition) : undefined;
   const required = definition
     ? Object.fromEntries(
         definition.pages.map((page) => [page.file, page.sha256]),
       )
-    : builtinTemplateHashes[member.session.formType!];
+    : profile ? { ...builtinTemplateHashes[profile.formId], official: profile.sha256 }
+      : builtinTemplateHashes[member.session.formType];
   if (
     !required ||
     Object.keys(required).length !== Object.keys(templates).length
@@ -48,7 +52,12 @@ export async function validatePackageMemberTemplates(
       throw new Error(
         `The pinned template does not match ${member.label}: ${file}.`,
       );
-    const bytes = new Uint8Array(await read(asset));
+    const data = await read(asset);
+    if (profile && file === "official") {
+      await checkOfficialPdfSource(profile, data);
+      continue;
+    }
+    const bytes = new Uint8Array(data);
     if (definition) await validatePackagePage(definition, file, bytes);
     else if ((await PDFDocument.load(bytes)).getPageCount() !== 1)
       throw new Error(
@@ -62,7 +71,14 @@ export async function retainPackageMemberTemplates(
   read: (asset: PackageAsset) => Promise<ArrayBuffer>,
 ): Promise<void> {
   const definition = member.session.genericForm?.definition;
-  if (!definition) return;
+  if (!definition) {
+    if (member.session.forms?.officialPdfEdition) {
+      await validatePackageMemberTemplates(member, read);
+      for (const [file, asset] of Object.entries(member.templates ?? {}))
+        await retainTemplateAttachment(asset.sha256, file, new Uint8Array(await read(asset)));
+    }
+    return;
+  }
   const pages: Record<string, Uint8Array> = {};
   for (const [file, asset] of Object.entries(member.templates ?? {}))
     pages[file] = new Uint8Array(await read(asset));

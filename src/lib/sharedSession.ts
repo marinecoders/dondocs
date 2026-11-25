@@ -58,7 +58,7 @@ export const sessionSchema = z.object({
   endItems: z.array(z.object({ nsn: z.string(), tamcn: z.string(), id: z.string(), model: z.string() })).default([]),
   publicationTables: z.record(z.string(), z.array(z.object({ values: z.record(z.string(), z.string()), level: z.number().optional(), identificationException: z.string().optional(), openPurchase: z.object({ manufacturer: z.string(), address: z.string() }).optional() }))).default({}),
   distributions: z.array(z.object({ text: z.string() })).default([]),
-  forms: z.object({ navmc10274: form.optional(), navmc11811: form.optional(), includeCoverPage: z.boolean().default(true) }).optional(),
+  forms: z.object({ officialPdfEdition: z.string().min(1).max(80).optional(), navmc10274: form.optional(), navmc11811: form.optional(), includeCoverPage: z.boolean().default(true) }).optional(),
   timestamp: z.number().default(0),
 });
 

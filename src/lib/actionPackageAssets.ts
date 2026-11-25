@@ -128,10 +128,15 @@ export async function capturePackageMember(
         draft.version = 2;
     }
     const reviewed = await validatePackageDraft(draft);
-    const templates = await captureExportFormTemplates(captured);
     const retained: Record<string, PackageAsset> = {};
-    if (templates) {
-      const pages = copyFormExportTemplates(templates);
+    const edition = reviewed.session.forms?.officialPdfEdition;
+    if (edition && previous?.session.formType === reviewed.session.formType
+      && previous.session.forms?.officialPdfEdition === edition) {
+      await validatePackageMemberTemplates(previous, readPackageAsset);
+      Object.assign(retained, previous.templates);
+    } else {
+      const templates = await captureExportFormTemplates(captured);
+      const pages = templates ? copyFormExportTemplates(templates) : {};
       const definition = reviewed.session.genericForm?.definition;
       if (
         definition &&
@@ -177,7 +182,7 @@ export async function capturePackageMember(
         "application/json",
         new TextEncoder().encode(JSON.stringify(draft)).buffer,
       ),
-      ...(templates ? { templates: retained } : {}),
+      ...(Object.keys(retained).length ? { templates: retained } : {}),
     };
   });
 }

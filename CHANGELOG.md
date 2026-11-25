@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.282] — 2026-11-24
+
+### Added
+
+- Pin official Page 11 PDFs to their form edition.
+
 ## [1.3.281] — 2026-11-24
 
 ### Added

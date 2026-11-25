@@ -101,6 +101,7 @@ export interface NavmcForm10274Data {
 }
 
 interface FormStore {
+  officialPdfEdition?: string;
   navmc10274: NavmcForm10274Data;
   setNavmc10274Field: <K extends keyof NavmcForm10274Data>(key: K, value: NavmcForm10274Data[K]) => void;
   resetNavmc10274: () => void;
@@ -142,6 +143,7 @@ interface FormStore {
 
 /** Only the active form travels with a document, never another draft's fields. */
 export interface FormSession {
+  officialPdfEdition?: string;
   navmc10274?: NavmcForm10274Data;
   navmc11811?: Navmc11811Data;
   includeCoverPage: boolean;
@@ -156,21 +158,23 @@ export function serializeForm(formType: string): FormSession {
       ? { navmc11811: state.navmc11811 }
       : { navmc10274: state.navmc10274 }),
     includeCoverPage: state.includeCoverPage,
+    officialPdfEdition: state.officialPdfEdition,
   });
 }
 
 export function prepareFormSession(formType: string, forms?: FormSession): FormSession {
-  return structuredClone(formType === 'navmc_118_11' ? {
-    navmc11811: normalizeNavmc11811(forms?.navmc11811 ?? {}),
-    includeCoverPage: forms?.includeCoverPage ?? false,
-  } : {
-    navmc10274: normalizeNavmc10274(forms?.navmc10274 ?? {}),
+  return structuredClone({
+    ...(formType === 'navmc_118_11'
+      ? { navmc11811: normalizeNavmc11811(forms?.navmc11811 ?? {}) }
+      : { navmc10274: normalizeNavmc10274(forms?.navmc10274 ?? {}) }),
+    ...(forms?.officialPdfEdition ? { officialPdfEdition: forms.officialPdfEdition } : {}),
     includeCoverPage: forms?.includeCoverPage ?? false,
   });
 }
 
 export function loadFormSession(formType: string, forms?: FormSession): void {
-  useFormStore.setState(prepareFormSession(formType, forms));
+  const session = prepareFormSession(formType, forms);
+  useFormStore.setState({ ...session, officialPdfEdition: session.officialPdfEdition });
 }
 
 // Empty defaults for "Clear All" functionality

@@ -28,10 +28,11 @@ export async function renderDocumentForPrint(captured: CapturedDocument, { compi
       signal.throwIfAborted();
       return generateNavmc10274Pdf(forms.navmc10274!, page1, page2, page3, { includeCoverPage: forms.includeCoverPage });
     }
-    const template = await loadNavmc11811Template();
+    const template = await loadNavmc11811Template(!!forms.officialPdfEdition);
     signal.throwIfAborted();
     const form = forms.navmc11811!;
-    return generateNavmc11811Pdf(applyPlaceholdersToNavmc11811(form, buildNavmc11811DefaultValues(form)), template);
+    return generateNavmc11811Pdf(applyPlaceholdersToNavmc11811(form, buildNavmc11811DefaultValues(form)), template,
+      forms.officialPdfEdition ? { officialEdition: true, rejectOverflow: true } : undefined);
   }
 
   const { document } = content;

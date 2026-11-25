@@ -38,7 +38,7 @@ export async function validatePackagePage(d: FormDefinition, file: string, bytes
   if (!await pageDimensionsMatch(bytes, page)) throw new Error(`Template dimensions mismatch: ${file}`);
 }
 
-async function retainTemplateAttachment(hash: string, file: string, bytes: Uint8Array): Promise<void> {
+export async function retainTemplateAttachment(hash: string, file: string, bytes: Uint8Array): Promise<void> {
   const id = formTemplateAttachmentId(hash);
   const before = await idbReadAttachment(id);
   if (before.status === 'found') {

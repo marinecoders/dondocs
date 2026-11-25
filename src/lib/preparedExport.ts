@@ -1,3 +1,4 @@
+import { officialPdfProfile } from '@/services/forms/officialPdfProfiles';
 import { directiveAddressIssues, directiveAuthorityIssues, directiveIssues, isDirective, isSecnavDirective } from './directiveFormats';
 import { staffPaperIssues } from './staffPapers';
 import { hasDlaStationery } from './dlaLetterhead';
@@ -130,6 +131,11 @@ export function prepareExport(input: {
     if (original.kind !== 'correspondence') {
       if (!input.formTemplates || input.formTemplates.kind !== original.kind || input.formTemplates.formType !== original.document.formType) return error('Capture the selected form templates before export.');
       const pages = copyFormExportTemplates(input.formTemplates);
+      const edition = original.kind === 'builtin-form' ? original.document.forms.officialPdfEdition : undefined;
+      if (edition) {
+        officialPdfProfile(original.document.formType!, edition);
+        if (!Object.hasOwn(pages, 'official')) return error('Capture the pinned official PDF before export.');
+      }
       if (original.kind === 'configured-form' && (input.formTemplates.definitionIdentity !== JSON.stringify(original.document.genericForm.definition)
         || original.document.genericForm.definition.pages.some(page => !Object.hasOwn(pages, page.file)))) return error('Captured templates do not match the selected form definition.');
     }
