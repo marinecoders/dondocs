@@ -13,7 +13,7 @@ import { RUNTIME_BASE } from '@/lib/releasePaths';
  * serve returning users a stale worker against a newer API — the classic
  * "worker version does not match the API" failure.
  */
-pdfjs.GlobalWorkerOptions.workerSrc = `${RUNTIME_BASE}lib/pdf.worker.min.mjs?v=${pdfjs.version}`;
+pdfjs.GlobalWorkerOptions.workerSrc = `${RUNTIME_BASE}lib/pdf.worker.min.mjs?v=${pdfjs.version}-form-metadata-1`;
 
 /**
  * CVE-2024-4367 hardening: pdf.js's optional eval-based font glyph renderer

@@ -1,3 +1,4 @@
+import { formTemplateFiles } from '@/services/forms/model';
 import { officialPdfProfile } from '@/services/forms/officialPdfProfiles';
 import { directiveAddressIssues, directiveAuthorityIssues, directiveIssues, isDirective, isSecnavDirective } from './directiveFormats';
 import { staffPaperIssues } from './staffPapers';
@@ -43,6 +44,7 @@ export interface PreparedExportJob {
   readonly wordEnclosurePages?: boolean;
   readonly wordProofreadComments?: boolean;
   readonly filename: string;
+  readonly officialForm?: true;
   readonly policyIdentity: string;
 }
 export interface ReadyExportJob { readonly [readyBrand]: true; readonly job: PreparedExportJob }
@@ -137,7 +139,7 @@ export function prepareExport(input: {
         if (!Object.hasOwn(pages, 'official')) return error('Capture the pinned official PDF before export.');
       }
       if (original.kind === 'configured-form' && (input.formTemplates.definitionIdentity !== JSON.stringify(original.document.genericForm.definition)
-        || original.document.genericForm.definition.pages.some(page => !Object.hasOwn(pages, page.file)))) return error('Captured templates do not match the selected form definition.');
+        || formTemplateFiles(original.document.genericForm.definition).some(page => !Object.hasOwn(pages, page.file)))) return error('Captured templates do not match the selected form definition.');
     }
     const defaults = original.kind === 'builtin-form' && original.document.formType === 'navmc_118_11'
       ? buildNavmc11811DefaultValues(original.document.forms.navmc11811!) : {};
@@ -258,7 +260,8 @@ export function prepareExport(input: {
       ...(input.placeholders ? [detectBatchPII(input.captured, input.placeholders)] : []),
     ]);
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
-    const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.wordProofreadComments ? { wordProofreadComments: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
+    const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target,
+      ...(snapshot.forms?.officialPdfEdition || snapshot.genericForm?.definition.nativePdfEdition ? { officialForm: true as const } : {}), ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.wordProofreadComments ? { wordProofreadComments: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
     prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview, ...(layoutReview ? { layoutReview: true } : {}) } });
     return privacy.found || structure.length || markingReview || layoutReview
       ? Object.freeze({ status: 'needs-review', job })

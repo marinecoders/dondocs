@@ -48,7 +48,7 @@ export async function renderPreparedBatchRow(ready: ReadyExportJob, ports: Corre
   for (let attempt = 0; ; attempt++) {
     if (signal.aborted) throw new Error('Export cancelled.');
     try {
-      if (ready.job.kind === 'configured-form') return await renderPreparedConfiguredForm(ready, signal);
+      if (ready.job.kind === 'configured-form') return await renderPreparedConfiguredForm(ready, signal, mode);
       return ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal, mode)
         : await renderPreparedCorrespondence(ready, ports, signal);
     } catch (error) {

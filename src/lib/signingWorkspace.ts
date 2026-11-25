@@ -1,8 +1,9 @@
+import { isOfficialSigningRecord } from './officialSigning';
 import { z } from 'zod';
 import { base64ToUint8Array, uint8ArrayToBase64 } from './encoding';
 import { idbReadSigningRecords, idbReadSigningEntries, idbCompareSigningRecord, idbDeleteSigningRecord, idbDeleteSigningRecordValue } from './documentsDb';
 import { inspectSigningPdf, placeManualSignatureFields, manualSignatureSchema, signingPageSchema, MAX_SIGNING_PDF_BYTES, type ManualSignature, type SigningPage } from './manualSignatureFields';
-import type { CapturedSource } from './capturedDocument';
+import { capturedSigningSourceSchema, type CapturedSource } from './capturedDocument';
 import { assertSigningHandoffRelation, compareSigningPdfs } from './signingPdfComparison';
 
 const signingPdfSchema = z.object({
@@ -13,8 +14,6 @@ const signingPdfSchema = z.object({
   pages: z.array(signingPageSchema).min(1).max(100), existingFieldNames: z.array(z.string()).max(1000),
   existingSignatureNames: z.array(z.string()).max(1000).optional(),
 }).strict();
-const capturedSigningSourceSchema = z.object({ documentId: z.string().min(1).max(200), epoch: z.number().int().nonnegative(),
-  editSequence: z.number().int().nonnegative(), capturedAt: z.number().finite() }).strict();
 const signingHandoffSchema = z.object({ id: z.string().uuid(), createdAt: z.number().finite(),
   sourceSha256: z.string().regex(/^[a-f0-9]{64}$/), fields: z.array(manualSignatureSchema).max(30),
   pdf: signingPdfSchema }).strict();
@@ -95,6 +94,7 @@ export interface UnreadableSigningRecord { readonly id: string | null; readonly 
 export async function loadSigningInventory(): Promise<{ records: SigningRecord[]; unreadable: UnreadableSigningRecord[] }> {
   const records: SigningRecord[] = [], unreadable: UnreadableSigningRecord[] = [];
   for (const entry of await idbReadSigningEntries()) {
+    if (isOfficialSigningRecord(entry.value)) continue;
     try {
       const record = await validateSigningRecord(entry.value);
       if (entry.key !== `signing-workspace:${record.id}`) throw new Error('The saved record identity does not match its storage entry.');

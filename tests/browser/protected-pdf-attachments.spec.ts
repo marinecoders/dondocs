@@ -112,3 +112,13 @@ test('an encrypted filled form with a verifiable saved appearance remains suppor
   await expect(page.getByText('owner-saved-field.pdf', { exact: true })).toBeVisible();
   expect((await exportDraft(page)).enclosures[0].file.data).toBe((await readFile(fixture)).toString('base64'));
 });
+
+test('an official three-page form with a compressed encrypted field dictionary can be printed', async ({ page }) => {
+  await openSyntheticDraft(page);
+  await page.getByLabel('Upload enclosure PDFs', { exact: true }).last()
+    .setInputFiles(resolve('public/templates/NAVMC10132 - Unit Punishment Book/original.pdf'));
+  const confirm = page.getByRole('alertdialog', { name: 'Include PDF pages as images?', exact: true });
+  await expect(confirm).toContainText('permission restrictions', pdfPreparation);
+  await confirm.getByRole('button', { name: 'Include page images', exact: true }).click();
+  await expect(page.getByText('original.pdf', { exact: true })).toBeVisible();
+});

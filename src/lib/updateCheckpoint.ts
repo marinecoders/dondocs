@@ -1,3 +1,4 @@
+import { formTemplateFiles } from '@/services/forms/model';
 import { flushDocumentWrites, useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
@@ -35,7 +36,7 @@ async function saveAndVerify() {
     if (!(bytes instanceof ArrayBuffer)) throw new Error('An attachment is missing from browser storage. Keep this tab open and reattach it before updating.');
   }
   const form = useDocumentStore.getState().genericForm;
-  if (form) for (const page of form.definition.pages) await waitForStorage(loadPackagePage(form.definition, page.file, true));
+  if (form) for (const page of formTemplateFiles(form.definition)) await waitForStorage(loadPackagePage(form.definition, page.file, true));
   await flushDocumentWrites();
 }
 export async function prepareUpdateCheckpoint(target: string, previous: string): Promise<UpdateRestorePoint> {

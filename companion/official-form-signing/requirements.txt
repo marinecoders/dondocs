@@ -1,0 +1,1 @@
+pyHanko[opentype]==0.38.2

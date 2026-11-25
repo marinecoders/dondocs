@@ -25,6 +25,7 @@ it('retains precisely the issued PDF and its source identity after reviewed deli
   const value = await artifact(), listener = vi.fn(), unsubscribe = subscribeSigningCapture(listener);
   try {
     const saved = await retainSigningExport(value.artifact, () => true);
+    if (saved.format !== 'dondocs-signing-v1') throw new Error('Expected a correspondence handoff.');
     expect(saved.source.sha256).toBe(await signingDigest(value.bytes));
     expect(saved.sourceRevision).toEqual(value.artifact.job.source);expect(listener).toHaveBeenCalledWith(saved.id);
   } finally { unsubscribe(); }

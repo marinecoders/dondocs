@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest';
-import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, writeFile, rm, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { PDFDocument } from 'pdf-lib';
 import { inspectFormGeometry } from '../../scripts/form-geometry-lib';
 
@@ -19,4 +19,23 @@ it('checks legacy published configs against their actual template and every gene
     config.rowGroups.roster.rowStride = 25;await writeFile(join(directory, 'form.json'), JSON.stringify(config));
     expect(await inspectFormGeometry(root)).toEqual({ checked: 1, failures: {} });
   } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+it('detects a misplaced native widget on a later page of the retained official PDF', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'dondocs-native-geometry-'));
+  const source = resolve('public/templates/NAVMC10132 - Unit Punishment Book');
+  try {
+    const definition = JSON.parse(await readFile(join(source, 'form.json'), 'utf8'));
+    await symlink(join(source, 'original.pdf'), join(root, 'original.pdf'));
+    await writeFile(join(root, 'form.json'), JSON.stringify(definition));
+    expect(await inspectFormGeometry(root)).toEqual({ checked: 1, failures: {} });
+    const placement = definition.placements.find((item: { page: number }) => item.page === 2);
+    placement.box.left += 1;
+    await writeFile(join(root, 'form.json'), JSON.stringify(definition));
+    expect((await inspectFormGeometry(root)).failures['form.json']).toBe(
+      `Page 2: ${placement.fieldId} does not match a native widget`,
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });

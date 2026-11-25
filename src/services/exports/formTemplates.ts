@@ -1,3 +1,4 @@
+import { formTemplateFiles } from '@/services/forms/model';
 import { loadOfficialPdfSource, officialPdfProfile } from '@/services/forms/officialPdfProfiles';
 import { loadPackagePage } from '@/services/forms/packages';
 import { copyCapturedDocument, type CapturedDocument } from '@/lib/capturedDocument';
@@ -12,7 +13,7 @@ export async function captureExportFormTemplates(captured: CapturedDocument) {
   if (content.kind === 'configured-form') {
     const definition = content.document.genericForm.definition;
     const pages: Record<string, Uint8Array> = {};
-    for (const page of definition.pages) pages[page.file] = new Uint8Array(await loadPackagePage(definition, page.file));
+    for (const page of formTemplateFiles(definition)) pages[page.file] = new Uint8Array(await loadPackagePage(definition, page.file));
     return captureFormExportTemplates(content.kind, definition.formId, pages, JSON.stringify(definition));
   }
   const { formType, forms } = content.document;

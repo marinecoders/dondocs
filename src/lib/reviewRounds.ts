@@ -1,3 +1,5 @@
+import { canonicalJson as canonicalReviewPayload } from './canonicalJson';
+export { canonicalReviewPayload };
 import { z } from 'zod';
 import { MAX_WORD_REVIEW_HANDOFFS, validWordReviewPrefix, wordReviewHandoffSchema } from './wordReviewModel';
 import { reviewCheckpointSchema, MAX_REVIEW_CHECKPOINTS, MAX_REVIEW_CHECKPOINT_BYTES, type ReviewCheckpoint } from './reviewCheckpointModel';
@@ -129,23 +131,6 @@ export function parseReviewRound(value: unknown): ReviewRound {
   const parsed = reviewRoundSchema.safeParse(value);
   if (!parsed.success) throw new Error('A saved review baseline is invalid. Recover it from an intact workspace backup before sending it.');
   return parsed.data;
-}
-
-/** Stable object ordering binds exactly the captured portable payload, including its bytes. */
-export function canonicalReviewPayload(value: unknown): string {
-  let nodes = 0;
-  const canonical = (item: unknown, depth = 0): unknown => {
-    if (++nodes > 100_000 || depth > 50) throw new Error('This review copy is too complex.');
-    if (Array.isArray(item)) return item.map(child => canonical(child, depth + 1));
-    if (item && typeof item === 'object') return Object.fromEntries(Object.entries(item)
-      .filter(([, child]) => child !== undefined).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
-      .map(([key, child]) => [key, canonical(child, depth + 1)]));
-    if (typeof item === 'number' && !Number.isFinite(item) || ['bigint', 'function', 'symbol'].includes(typeof item)) throw new Error('Invalid review copy content.');
-    return item;
-  };
-  const encoded = JSON.stringify(canonical(value));
-  if (typeof encoded !== 'string') throw new Error('Invalid review copy content.');
-  return encoded;
 }
 
 export async function reviewPayloadDigest(value: unknown): Promise<string> {

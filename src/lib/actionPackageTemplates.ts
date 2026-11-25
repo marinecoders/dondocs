@@ -1,3 +1,4 @@
+import { formTemplateFiles } from '@/services/forms/model';
 import { checkOfficialPdfSource, officialPdfProfile, PAGE11_PRINTABLE_SHA256 } from "@/services/forms/officialPdfProfiles";
 import { PDFDocument } from "pdf-lib";
 import { retainTemplateAttachment, validatePackagePage } from "@/services/forms/packages";
@@ -30,7 +31,7 @@ export async function validatePackageMemberTemplates(
   const profile = edition ? officialPdfProfile(member.session.formType, edition) : undefined;
   const required = definition
     ? Object.fromEntries(
-        definition.pages.map((page) => [page.file, page.sha256]),
+        formTemplateFiles(definition).map((page) => [page.file, page.sha256]),
       )
     : profile ? { ...builtinTemplateHashes[profile.formId], official: profile.sha256 }
       : builtinTemplateHashes[member.session.formType];

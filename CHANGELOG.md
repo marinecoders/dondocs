@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.283] — 2026-11-24
+
+### Added
+
+- Share official form editing and signing between standalone forms and packages.
+
 ## [1.3.282] — 2026-11-24
 
 ### Added

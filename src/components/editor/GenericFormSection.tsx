@@ -1,3 +1,4 @@
+import { formTemplateFiles } from '@/services/forms/model';
 import { useEffect, useRef, useState } from 'react';
 import { runFileImport } from '@/lib/fileImports';
 import { useFormResource } from '@/services/formRegistry';
@@ -76,7 +77,7 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
     try {
       const saved = Object.values(useDocumentsStore.getState().docs).flatMap(e => e.session.genericForm ? [e.session.genericForm.definition] : []);
       await removeUnusedPackages([...saved, definition]);
-      for (const page of definition.pages) await loadPackagePage(definition, page.file, true);
+      for (const page of formTemplateFiles(definition)) await loadPackagePage(definition, page.file, true);
       const available = await packageAvailableOffline(definition);
       if (!available) throw new Error('The complete form could not be saved offline. Reconnect and try again.');
       if (mounted.current) setOffline(true);

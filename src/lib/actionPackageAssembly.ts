@@ -661,7 +661,7 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
         try {
           artifact =
             ready.job.kind === "configured-form"
-              ? await renderPreparedConfiguredForm(ready, signal)
+              ? await renderPreparedConfiguredForm(ready, signal, 'printable')
               : ready.job.kind === "builtin-form"
                 ? await renderPreparedBuiltinForm(ready, signal, 'printable')
                 : await renderPreparedCorrespondence(ready, renderPorts, signal);
