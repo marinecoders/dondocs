@@ -24,7 +24,7 @@ import { PackageLibrary } from "./PackageLibrary";
 import { DocumentPdfChecks, PackageNextActions } from "./PackageNextActions";
 import { PackageBlankPdfs } from "./PackageBlankPdfs";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
-import { PackageExportOptions } from "./PackageExportOptions";
+import { PackageExportOptions, type PackageExportFormat } from "./PackageExportOptions";
 import { PackageExportFindings } from "./PackageExportFindings";
 import { readPackageNewActionContext, type PackageNewActionContext } from '@/lib/packageNewActionContext';
 import './package-workspace.css';
@@ -219,7 +219,8 @@ function PackageDialog({
   const [creating, setCreating] = useState(false);
   const [creatingAction, setCreatingAction] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [deliveryFormat, setDeliveryFormat] = useState<'pdf' | 'draft' | 'editable'>('pdf');
+  const [signedSelectionOwner, setSignedSelectionOwner] = useState<string>();
+  const [deliveryFormat, setDeliveryFormat] = useState<PackageExportFormat>('pdf');
   const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>("overview");
   const [activeMemberId, setActiveMemberId] = useState<string | null>(null);
   const overviewRef = useRef<HTMLDivElement>(null);
@@ -1669,7 +1670,28 @@ function PackageDialog({
                   </fieldset>
                   <fieldset hidden={workspaceSection !== 'delivery'} disabled={busy || pendingPackageEdits && !signingDirty && !assemblyDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Export</h2>
-                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "draft", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions checks={packageChecks} active={workspaceSection === 'delivery' && !formSigning} canSign={editable} onNavigate={openDeliveryFinding} revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { setDeliveryFormat(format); setPrepared(null); setOriginal(null); setPdfUrl(''); setError(''); setNotice(''); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
+                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "draft", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions checks={packageChecks} active={workspaceSection === 'delivery' && !formSigning} canSign={editable} onNavigate={openDeliveryFinding} revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { cancelExport(); setSignedSelectionOwner(undefined); setDeliveryFormat(format); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
+                    {deliveryFormat === 'recipient' && <Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
+            <PackageDeliveryPanel initialMemberIds={signedSelectionOwner === selectionOwner ? revision.members.filter(m => m.kind === 'original' && m.signedOriginal).map(m => m.id) : undefined} canSign={editable} visible={workspaceSection === 'delivery' && deliveryFormat === 'recipient' && !formSigning} onNavigate={openDeliveryFinding} directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
+              onPreparedChange={prepared => {
+                if (!active.current || destinationOwner.current !== selectionOwner) return;
+                const epoch = ++deliverySearchEpoch.current;
+                if (!prepared) { setDeliverySearch(undefined); return; }
+                if (prepared.sourcePackageId !== record.id || prepared.sourceRevisionId !== revision.id) return;
+                void import("@/lib/packageDelivery").then(({ copyPreparedPackageDeliveryProjection, readPreparedPackageDeliveryAsset, assertPackageDeliveryCurrent }) => {
+                  if (!active.current || deliverySearchEpoch.current !== epoch || destinationOwner.current !== selectionOwner) return;
+                  setDeliverySearch({ owner: selectionOwner, scope: { key: prepared.revisionId, label: prepared.packageName,
+                    record: copyPreparedPackageDeliveryProjection(prepared), revisionId: prepared.revisionId, sourceRevisionId: revision.id,
+                    readAsset: async asset => {
+                      const current = () => active.current && deliverySearchEpoch.current === epoch && destinationOwner.current === selectionOwner;
+                      if (!current()) throw new Error('This captured delivery is no longer selected. Prepare it again.');
+                      await assertPackageDeliveryCurrent(prepared, await getExportDeploymentPolicy(), undefined, current);
+                      return readPreparedPackageDeliveryAsset(prepared, asset);
+                    } } });
+                }).catch(cause => { if (active.current && deliverySearchEpoch.current === epoch && destinationOwner.current === selectionOwner) setError(cause instanceof Error ? cause.message : "Delivery search could not be prepared."); });
+              }}
+              busy={busy} run={run} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense>}
                     <div ref={preparedResultRef} tabIndex={-1} className="outline-none">{prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
@@ -1677,7 +1699,7 @@ function PackageDialog({
                   </h3>
 
                   {pdfOutput?.prepared === prepared && <PackagePreparedPdf output={pdfOutput} draft={reviewMode === 'draft'}
-                    hasSignedOriginal={revision.members.some(member => member.kind === 'original' && member.signedOriginal)} />}
+                    onSendOriginals={() => { cancelExport(); setSignedSelectionOwner(selectionOwner); setDeliveryFormat('recipient'); }} hasSignedOriginal={revision.members.some(member => member.kind === 'original' && member.signedOriginal)} />}
                   <PackageExportFindings editable={editable} results={[prepared, ...otherReviews]} revision={revision} onNavigate={followDestination} />
 
                   <div className="flex flex-wrap gap-2"><Button
@@ -1832,30 +1854,7 @@ function PackageDialog({
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-{record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
-          <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
-          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
-            <PackageDeliveryPanel canSign={editable} visible={workspaceSection === 'delivery' && !formSigning} onNavigate={openDeliveryFinding} directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
-              onPreparedChange={prepared => {
-                if (!active.current || destinationOwner.current !== selectionOwner) return;
-                const epoch = ++deliverySearchEpoch.current;
-                if (!prepared) { setDeliverySearch(undefined); return; }
-                if (prepared.sourcePackageId !== record.id || prepared.sourceRevisionId !== revision.id) return;
-                void import("@/lib/packageDelivery").then(({ copyPreparedPackageDeliveryProjection, readPreparedPackageDeliveryAsset, assertPackageDeliveryCurrent }) => {
-                  if (!active.current || deliverySearchEpoch.current !== epoch || destinationOwner.current !== selectionOwner) return;
-                  setDeliverySearch({ owner: selectionOwner, scope: { key: prepared.revisionId, label: prepared.packageName,
-                    record: copyPreparedPackageDeliveryProjection(prepared), revisionId: prepared.revisionId, sourceRevisionId: revision.id,
-                    readAsset: async asset => {
-                      const current = () => active.current && deliverySearchEpoch.current === epoch && destinationOwner.current === selectionOwner;
-                      if (!current()) throw new Error('This captured delivery is no longer selected. Prepare it again.');
-                      await assertPackageDeliveryCurrent(prepared, await getExportDeploymentPolicy(), undefined, current);
-                      return readPreparedPackageDeliveryAsset(prepared, asset);
-                    } } });
-                }).catch(cause => { if (active.current && deliverySearchEpoch.current === epoch && destinationOwner.current === selectionOwner) setError(cause instanceof Error ? cause.message : "Delivery search could not be prepared."); });
-              }}
-              busy={busy} run={run} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-          </Suspense></div>
-        </details>}</div></details>
+</div></details>
                   </fieldset>
                   <div hidden={workspaceSection !== 'delivery'} className="mt-7">
                     {readRecord && revision && <Suspense fallback={<p role="status">Opening saved assembly jobs…</p>}>

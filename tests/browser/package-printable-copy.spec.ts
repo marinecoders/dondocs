@@ -23,7 +23,7 @@ test('XFA originals travel intact beside the reviewed pages used by the combined
   await workspace.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'source.pdf', mimeType: 'application/pdf', buffer: original });
   await expect(workspace.getByText(/A printable copy is needed/)).toBeVisible();
   await packageSection(workspace, 'Delivery');
-  await workspace.getByRole('button', { name: 'Draft PDF', exact: true }).click();
+  await workspace.getByRole('checkbox', { name: 'Draft PDF', exact: true }).check();
   await workspace.getByRole('button', { name: 'Prepare draft PDF' }).click();
   await expect(workspace.getByRole('button', { name: 'Download draft PDF' })).toBeDisabled();
   await packageSection(workspace, 'Documents');
@@ -44,7 +44,7 @@ test('XFA originals travel intact beside the reviewed pages used by the combined
     const restored = await openPackageWorkspace(other);
     await importPackage(restored, { name: 'portable.json', mimeType: 'application/json', buffer: portable });
     await packageSection(restored, 'Delivery');
-    await restored.getByRole('button', { name: 'Draft PDF', exact: true }).click();
+    await restored.getByRole('checkbox', { name: 'Draft PDF', exact: true }).check();
     await restored.getByRole('button', { name: 'Prepare draft PDF' }).click();
     const pending = other.waitForEvent('download');
     await restored.getByRole('button', { name: 'Download draft PDF' }).click();

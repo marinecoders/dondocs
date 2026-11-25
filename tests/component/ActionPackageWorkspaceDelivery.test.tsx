@@ -95,7 +95,10 @@ it('prepares an exact selected delivery while viewing a saved review without mis
   vi.spyOn(reviewRounds, 'openPackageReview').mockImplementation(async (...args) => {
     const value = await openReview(...args); await heldReview; return value;
   });
-  await workspaceSection(dialog, 'Delivery', user); await expandDetails(dialog, user); await workspaceSection(dialog, 'Review', user);
+  await workspaceSection(dialog, 'Delivery', user);
+  await user.click(within(dialog).getByRole('button', { name: 'Send selected files' }));
+  await within(dialog).findByRole('button', { name: 'Prepare selected delivery' });
+  await workspaceSection(dialog, 'Review', user);
   await user.click(within(dialog).getByRole('button', { name: 'Open review Captured delivery review' }));
   const deliverySection = within(dialog).getByRole('heading', { name: 'Export', hidden: true }).closest('fieldset')!;
   const prepare = within(deliverySection).getByRole('button', { name: 'Prepare selected delivery', hidden: true });
@@ -104,8 +107,9 @@ it('prepares an exact selected delivery while viewing a saved review without mis
   await act(async () => { finishReview(); });
   await within(dialog).findByText('Reviewing exact saved package revision');
   await workspaceSection(dialog, 'Delivery', user);
-  await waitFor(() => expect(prepare).toBeEnabled());
-  await user.click(prepare);
+  const reviewDelivery = await within(dialog).findByRole('button', { name: 'Prepare selected delivery' });
+  await waitFor(() => expect(reviewDelivery).toBeEnabled());
+  await user.click(reviewDelivery);
   const contents = await within(dialog).findByRole('region', { name: 'Captured delivery contents' });
   const source = getPackageRevision(record).members[0];
   if (source.kind !== 'original') throw new Error('Expected the captured source PDF.');

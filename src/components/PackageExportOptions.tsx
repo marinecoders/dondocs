@@ -8,16 +8,18 @@ import { PackageDeliveryFindings } from './PackageDeliveryFindings';
 import type { PackageRevision } from '@/lib/actionPackages';
 import { Button } from './ui/button';
 
+export type PackageExportFormat = 'pdf' | 'draft' | 'editable' | 'recipient';
+
 export function PackageExportOptions({ revision, checks, format, disabled, pdfDisabled, active, canSign, onNavigate, onFormat, onPrepare, onOpenDocument }: {
   revision: PackageRevision;
   checks?: ReturnType<typeof usePackageChecks>;
   active: boolean;
   canSign: boolean;
   onNavigate(target: PackageDestination): void;
-  format: 'pdf' | 'draft' | 'editable';
+  format: PackageExportFormat;
   disabled: boolean;
   pdfDisabled: boolean;
-  onFormat(format: 'pdf' | 'draft' | 'editable'): void;
+  onFormat(format: PackageExportFormat): void;
   onPrepare(): void;
   onOpenDocument(id: string): void;
 }) {
@@ -56,11 +58,20 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
     else byDocument.set(item.memberId, [item]);
   }
   const reviewItems = (items: PackageRequirementFinding[]) => <PackageDeliveryFindings documents={documents} revision={revision} findings={items} onNavigate={onNavigate} disabled={disabled} canSign={canSign} />;
-  return <div className="space-y-7">
+  return <div className="max-w-4xl space-y-5">
     <div role="group" aria-label="File format" className="flex flex-wrap gap-2">
-      {(['pdf', 'draft', 'editable'] as const).map(value => <Button key={value} variant={value === format ? 'secondary' : 'outline'} aria-pressed={value === format} disabled={disabled} onClick={() => onFormat(value)}>{value === 'pdf' ? 'PDF' : value === 'draft' ? 'Draft PDF' : 'Editable package'}</Button>)}
+      {(['pdf', 'recipient', 'editable'] as const).map(value => {
+        const selected = format === value || value === 'pdf' && format === 'draft';
+        return <Button key={value} variant={selected ? 'secondary' : 'outline'} aria-pressed={selected}
+          disabled={disabled} onClick={() => onFormat(value)}>{value === 'recipient' ? 'Send selected files' : value === 'editable' ? 'Editable package' : 'PDF'}</Button>;
+      })}
     </div>
-    <section><div className="mb-3 flex items-center justify-between gap-4"><h3 className="text-sm font-medium">Included documents</h3><span className="text-xs text-muted-foreground">{format === 'draft' ? 'Draft marked on every page' : format === 'pdf' ? 'Combined PDF · Unsigned' : 'Open in DonDocs'}</span></div>
+    {format !== 'recipient' && <>
+    <section aria-label="Included documents"><div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+      <div><h3 className="text-sm font-medium">Included documents</h3><p className="text-xs text-muted-foreground">{format === 'draft' ? 'Draft marked on every page' : format === 'pdf' ? 'Combined PDF · Unsigned' : 'Open in DonDocs'}</p></div>
+      {format !== 'editable' && <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={format === 'draft'}
+        disabled={disabled} onChange={e => onFormat(e.target.checked ? 'draft' : 'pdf')} />Draft PDF</label>}
+    </div>
       {inspect && (!checked || checks && !checks.result && !checks.error) && <p role="status" className="text-xs text-muted-foreground">Checking delivery requirements…</p>}
       {inspect && checks?.error && <p role="alert" className="text-sm">{checks.error}</p>}
       {checked?.error && <p role="alert" className="text-sm">{checked.error}</p>}
@@ -86,5 +97,6 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
       </>}
     </section>
     <Button disabled={disabled || format !== 'editable' && (pdfDisabled || !revision.members.length)} onClick={onPrepare}>{format === 'draft' ? 'Prepare draft PDF' : format === 'pdf' ? 'Prepare PDF' : 'Prepare editable package'}</Button>
+    </>}
   </div>;
 }

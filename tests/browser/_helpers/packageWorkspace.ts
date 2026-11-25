@@ -181,6 +181,11 @@ export async function packageTool(dialog: Locator, name: string | RegExp) {
   if ((name === 'Reusable package templates' || name === 'Action intake') && !await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).isVisible()) await newPackage(dialog);
   const section = typeof name === 'string' ? sections[name] : 'Overview';
   if (section && await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).isVisible()) await packageSection(dialog, section);
+  if (name === 'Recipient delivery' || name === 'Captured delivery contents') {
+    const files = dialog.getByRole('button', { name: 'Send selected files', exact: true });
+    if (await files.getAttribute('aria-pressed') !== 'true') await files.click();
+    await expect(dialog.getByRole('region', { name: 'Recipient delivery', exact: true })).toBeVisible();
+  }
   await expandPackageTools(dialog);
   return dialog.getByRole('region', { name, ...(typeof name === 'string' ? { exact: true } : {}) });
 }
