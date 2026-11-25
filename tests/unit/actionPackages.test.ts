@@ -189,6 +189,20 @@ it("keeps endorsements linked to the same letter through reorder, revision and p
   expect(getPackageRevision(stale).members[1]).toEqual(protectedMember);
 });
 
+it("prevents a route offset change from silently redirecting a printed enclosure citation", async () => {
+  const { record, member, source } = await fixture();
+  const enclosure = { title: "Training attachment", hasFile: false };
+  const end = { ...snapshot(), docType: "new_page_endorsement", enclosures: [enclosure],
+    paragraphs: [{ id: "citing-body", text: "See enclosure (1).", level: 0 }] };
+  const captured = await capturePackageMember(captureDocumentRevision(
+    { documentId: "citing-endorsement", epoch: 0, editSequence: 1, capturedAt: 100 }, end), "Forwarding endorsement", "endorsement");
+  const routed = await reviseActionPackage(record, [member, captured]);
+  const updated = await capturePackageMember(captureDocumentRevision(
+    { documentId: "source-example", epoch: 0, editSequence: 2, capturedAt: 200 }, { ...source, enclosures: [enclosure] }), member.label, member.role, member);
+  await expect(reviseActionPackage(routed, [updated, getPackageRevision(routed).members[1]])).rejects.toThrow(/citation affected by the new routing order/);
+  expect((await listActionPackages(routed.id))[0].currentRevisionId).toBe(routed.currentRevisionId);
+});
+
 it("binds comparison copies to two reviewed outputs of the same immutable revision and current policy", async () => {
   const { record } = await fixture();
   const ports = { compile: async () => new Uint8Array(await pdfBytes()), convertDocx: vi.fn(), waitForReady: async () => true };

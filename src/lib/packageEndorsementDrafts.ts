@@ -5,9 +5,26 @@ import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { planReferenceChange } from './referenceCitations';
 import { referenceLetterIndex } from './referenceLetters';
 import { transformRangeComments } from './reviewCommentRanges';
-import { isEndorsement } from './endorsement';
+import { enclosureStartNumber, isEndorsement } from './endorsement';
+import { documentTextFields } from './documentFields';
+import { inspectEnclosureCitations } from './enclosureCitations';
 import { endorsementFields, packageEndorsementRoutes } from './packageEndorsements';
 import { portableResourceDigest } from './portableResources';
+
+/** A printed number can still exist after an offset change while identifying a different enclosure. */
+function checkEnclosureOffsets(member: NativePackageMember, next: number) {
+  const source = member.session;
+  const first = enclosureStartNumber(source.docType, source.formData.startingEnclosureNumber);
+  if (first === next) return;
+  for (const field of documentTextFields(source, 'output')) {
+    if (field.role !== 'text' && field.role !== 'unknown') continue;
+    let affected = false;
+    const issues = inspectEnclosureCitations(field.text, { first, count: source.enclosures.length, inherited: true },
+      (_from, to) => { if (to >= Math.min(first, next)) affected = true; });
+    if (affected || issues.some(issue => issue.id.startsWith('manual:')))
+      throw new Error(member.label + ': ' + field.label + ' contains an enclosure citation affected by the new routing order. Remove the affected citation, change the order, then cite its intended enclosure.');
+  }
+}
 
 /** Materialize the same fields in the editor model and its portable draft before publication. */
 export async function stagePackageEndorsements(revision: PackageRevision, staged: StoredAttachment[],
@@ -35,6 +52,7 @@ export async function stagePackageEndorsements(revision: PackageRevision, staged
       const bytes = staged.find(asset => asset.id === member.draft.id)?.data;
       const draft: unknown = bytes ? JSON.parse(new TextDecoder().decode(bytes)) : (await readDraft(member)).draft;
       if (!draft || typeof draft !== 'object' || !('formData' in draft)) throw new Error('The saved endorsement draft is missing its document fields.');
+      checkEnclosureOffsets(member, fields.startingEnclosureNumber);
       const source = draft as typeof member.session;
       const offset = referenceLetterIndex(fields.startingReferenceLetter)!;
       const plan = planReferenceChange(source, source.references.map((_, i) => i), offset);
