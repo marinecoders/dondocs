@@ -219,7 +219,7 @@ for (const theme of ["light", "dark", "classic"]) {
     await inspectPackageMember(modal, selected.members[0].id);
     await expandPackageTools(modal);
     await modal.getByRole("button", { name: "Edit document", exact: true }).click();
-    await expect(modal).toBeHidden();
+    await expect(page.getByRole("button", { name: "Back to package", exact: true })).toBeVisible();
     await page.getByLabel("Document section", { exact: true }).selectOption("addressing");
     const workingSubject = page.getByRole("textbox", {
       name: "Subject",
@@ -230,11 +230,9 @@ for (const theme of ["light", "dark", "classic"]) {
       `TRAINING SOURCE ${theme}`,
       `WORKING COPY ${theme}`,
     );
-    modal = await packages(page);
-    await choosePackageById(modal, packet.package.id);
+    await page.getByRole("button", { name: "Back to package", exact: true }).click();
     await inspectPackageMember(modal, selected.members[0].id);
     await expandPackageTools(modal);
-    await modal.getByRole("button", { name: "Save working copy as new revision", exact: true }).click();
     expect(await versionCount(modal)).toBe(4);
     await modal.getByRole("button", { name: "Compare newer source", exact: true }).click();
     await expect(
@@ -358,7 +356,7 @@ for (const theme of ["light", "dark", "classic"]) {
       );
       await inspectPackageMember(freshModal, selected.members[0].id);
       await freshModal.getByRole("button", { name: "Edit document", exact: true }).click();
-      await expect(freshModal).toBeHidden();
+      await expect(restored.getByRole("button", { name: "Back to package", exact: true })).toBeVisible();
       await restored.getByLabel("Document section", { exact: true }).selectOption("addressing");
       await expect(
         restored.getByRole("textbox", { name: "Subject", exact: true }),

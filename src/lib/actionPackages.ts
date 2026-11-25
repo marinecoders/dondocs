@@ -691,6 +691,11 @@ export async function reviseActionPackage(
       await (await import('./packageLinkedUpdates')).preserveUnchangedCitations(revision);
     }
   }
+  // Keep an editor attached only while its captured member remains identical.
+  // Unrelated saves should not create another library document when switching back.
+  const currentMemberVersions = new Map(current.members.map(member => [member.id, member.revisionId]));
+  const unchangedMembers = new Set(revision.members.filter(member =>
+    member.revisionId === currentMemberVersions.get(member.id)).map(member => member.id));
   return commitActionPackage(
     record,
     {
@@ -698,8 +703,9 @@ export async function reviseActionPackage(
       sequence: record.sequence + 1,
       currentRevisionId: revision.id,
       revisions: [...record.revisions, revision],
-      ...(savedWorkingCopyId ? { workingCopies: record.workingCopies?.map(copy => copy.documentId === savedWorkingCopyId
-        ? { ...copy, revisionId: revision.id } : copy) } : {}),
+      ...(record.workingCopies && { workingCopies: record.workingCopies.map(copy =>
+        copy.documentId === savedWorkingCopyId || copy.revisionId === current.id && unchangedMembers.has(copy.memberId)
+          ? { ...copy, revisionId: revision.id } : copy) }),
     },
     signal,
     isCurrent,

@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, choosePackageById, preparePackageExport, packageTool, prepareReviewTransfer, openPackageWorkspace } from './_helpers/packageWorkspace';
+import { openPackagePreparation, importPackage, packageSection, choosePackageById, preparePackageExport, packageTool, prepareReviewTransfer } from './_helpers/packageWorkspace';
 import { expect, test, type Download, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
@@ -44,13 +44,10 @@ for (const theme of ['light', 'dark', 'classic']) test(`returned package feedbac
   await modal.getByRole('button', { name: 'Back to current package', exact: true }).click();
   await packageSection(modal, 'Documents', true);
   await modal.getByRole('button', { name: 'Edit document', exact: true }).first().click();
-  await expect(modal).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Back to package', exact: true })).toBeVisible();
   await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('SYNTHETIC NEWER OWNER SUBJECT');
   await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Unrelated newer owner paragraph remains.');
-  modal = await openPackageWorkspace(page);
-  await choosePackageById(modal, fixture.package.id);
-  await packageSection(modal, 'Documents', true);
-  await modal.getByRole('button', { name: 'Save working copy as new revision', exact: true }).first().click();
+  await page.getByRole('button', { name: 'Back to package', exact: true }).click();
   await expect(modal).not.toHaveAttribute('aria-busy', 'true');
   await packageSection(modal, 'Review', true);
   await modal.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();

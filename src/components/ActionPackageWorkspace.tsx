@@ -3,11 +3,15 @@ import { bindUnsignedFormPdf, checkPackageFormReturn, signingMemberKey } from '@
 import { officialEdition } from '@/services/forms/nativeCatalog';
 import { packageMemberHistory, reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
 import { isEditableOfficialForm } from '@/lib/packageFormEditing';
+import type { PackageEditorSurface } from './PackageCorrespondenceEditor';
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
 import { officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { memberSigningFormId, packageOfficialForms, createOfficialFormMember, packageFormSigningAction, preparePackageFormSigning } from '@/lib/packageOfficialForms';
-import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
+import { createBlankSession, getSerializedSession, prepareSessionState } from '@/stores/documentStore';
+import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
+import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import type { PackageSearchScope } from './PackageSearchPanel';
 import { configuredApprovalOrigin } from '@/lib/packageApprovalOrigin';
 import { PackageReviewControls } from "./PackageReviewControls";
@@ -82,7 +86,7 @@ import {
   adoptPackageSource,
 } from "@/lib/actionPackageWorkingCopy";
 import { captureCurrentDocumentRevision } from "@/stores/captureDocument";
-import { useDocumentsStore } from "@/stores/documentsStore";
+import { sameContent, useDocumentsStore } from "@/stores/documentsStore";
 import { useUIStore } from "@/stores/uiStore";
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { triggerDownload } from "@/lib/encoding";
@@ -124,6 +128,7 @@ type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
 };
 const PackageMemberReviewPanel = lazy(() => import("./PackageMemberReviewPanel").then(module => ({ default: module.PackageMemberReviewPanel })));
+const PackageCorrespondenceEditor = lazy(() => import('./PackageCorrespondenceEditor'));
 const PackageFormEditor = lazy(() => import('./PackageFormEditor'));
 const PackageReviewApplicationPanel = lazy(() => import("./PackageReviewApplicationPanel").then(module => ({ default: module.PackageReviewApplicationPanel })));
 const PackageReviewTransfer = lazy(() => import("./PackageReviewTransfer").then(module => ({ default: module.PackageReviewTransfer })));
@@ -133,9 +138,11 @@ const packageRoleLabels: Record<PackageMember['role'], string> = {
 };
 
 export function ActionPackageWorkspace({
+  editorSurface,
   ports,
   exportGate,
 }: {
+  editorSurface?: PackageEditorSurface;
   ports: Ports;
   exportGate: ExportGate;
 }) {
@@ -149,6 +156,7 @@ export function ActionPackageWorkspace({
   }, [open]);
   return open ? (
     <PackageDialog
+      editorSurface={editorSurface}
       ports={ports}
       exportGate={exportGate}
       onClose={() => setOpen(false)}
@@ -156,10 +164,12 @@ export function ActionPackageWorkspace({
   ) : null;
 }
 function PackageDialog({
+  editorSurface,
   ports,
   exportGate,
   onClose,
 }: {
+  editorSurface?: PackageEditorSurface;
   ports: Ports;
   exportGate: ExportGate;
   onClose(): void;
@@ -322,13 +332,50 @@ function PackageDialog({
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
-  const formMember = editable && revision?.members.find(m =>
-    formLocation === record.id + '/' + m.id && isEditableOfficialForm(m));
+  const editorMember = editable && revision?.members.find(m => formLocation === record.id + '/' + m.id);
+  const formMember = editorMember && isEditableOfficialForm(editorMember) ? editorMember : undefined;
+  const correspondence = editorMember && editorMember.kind === 'native' && editorMember.session.documentCategory !== 'forms' ? editorMember : undefined;
+  const copy = correspondence && record?.workingCopies?.find(item => item.memberId === correspondence.id && item.revisionId === revision?.id);
   function openMemberEditor(id?: string) {
-    const location = id && record ? record.id + '/' + id : '';
-    if (id) rememberMember(id);
-    setFormLocation(location);
-    rememberFormLocation('active', location);
+    if (!record || !revision) return;
+    const target = revision.members.find(item => item.id === id);
+    function enter(location: string) {
+      if (id) rememberMember(id);
+      setFormLocation(location);
+      rememberFormLocation('active', location);
+    }
+    if (target?.kind === 'native' && target.session.documentCategory !== 'forms') {
+      void run(async () => {
+        const [latest] = await listActionPackages(record.id);
+        const current = latest && getPackageRevision(latest).members.find(item => item.id === target.id);
+        if (!latest || latest.archived || !current || current.kind !== 'native' || current.revisionId !== target.revisionId)
+          throw new Error('The selected document changed. Reopen its current package version.');
+        const standalone = useDocumentsStore.getState().currentId;
+        const next = await editPackageMember(latest, current, operation.current?.signal);
+        if (!readFormLocation('return-document') && standalone) rememberFormLocation('return-document', standalone);
+        const activeId = useDocumentsStore.getState().currentId;
+        const location = record.id + '/' + target.id;
+        // Older installations can already have edits in a standalone working copy.
+        if (latest.workingCopies?.some(copy => copy.documentId === activeId && copy.revisionId === latest.currentRevisionId)) {
+          const baseline = serializeDocumentSnapshot(prepareSessionState(current.session, supportsReviewComments(current.session)), 0);
+          if (!sameContent(getSerializedSession(), baseline)) rememberFormLocation(location + '/unsaved', '1');
+        }
+        update(next);
+        enter(location);
+        const section = readFormLocation(location + '/section');
+        if (section && activeId) useEditorOutlineStore.getState().requestJump(activeId, section);
+      });
+      return;
+    }
+    const standalone = readFormLocation('return-document');
+    if (standalone && currentId === copy?.documentId && docs[standalone] && !docs[standalone].meta.deletedAt)
+      useDocumentsStore.getState().switchTo(standalone);
+    rememberFormLocation('return-document', '');
+    enter(target && isEditableOfficialForm(target) && !record.workingCopies?.some(item => item.memberId === target.id && item.revisionId === revision.id) ? record.id + '/' + id : '');
+  }
+  function onEditorSave(next: ActionPackage) {
+    setRecords(all => all.map(item => item.id === next.id ? next : item));
+    setRevisionId(next.currentRevisionId);
   }
   const library = libraryOpen || !record && !creating;
   const selectedRetainedOutput = selectedRetainedOutputId
@@ -797,9 +844,13 @@ function PackageDialog({
     <Dialog open onOpenChange={value => { if (!value) close(); }}>
       <DialogContent fullscreen showCloseButton={false} ref={dialogRoot} className="package-workspace-dialog" aria-busy={busy} data-package-id={record?.id} data-revision-id={revision?.id}>
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
+        {editorSurface && record && correspondence && copy && copy.documentId === currentId && <Suspense fallback={<p role="status">Opening document…</p>}>
+          <PackageCorrespondenceEditor key={copy.documentId} record={record} member={correspondence} documentId={copy.documentId}
+            {...editorSurface} navigationError={error} disabled={busy} onSave={onEditorSave} onNavigate={openMemberEditor} />
+        </Suspense>}
         {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
           <PackageFormEditor key={record.id + '/' + formMember.id} record={record} member={formMember} ports={ports} exportGate={exportGate}
-            onSave={next => { setRecords(all => all.map(item => item.id === next.id ? next : item)); setRevisionId(next.currentRevisionId); }}
+            onSave={onEditorSave} navigationError={error}
             onSharedDetails={() => {
               openMemberEditor();
               navigate('overview');
@@ -1226,6 +1277,7 @@ function PackageDialog({
                       copy.memberId === member.id &&
                       copy.revisionId === record.currentRevisionId,
                   );
+                  const inPackageEditor = !!editorSurface && member.kind === 'native' && member.session.documentCategory !== 'forms';
                   return (
                     <li
                       key={member.id}
@@ -1242,6 +1294,8 @@ function PackageDialog({
                         onClick={() => void openMemberSigning(member)}>{packageFormSigningAction(member)}</Button>}
                       {editable && isEditableOfficialForm(member) && !working ? (
                         <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit form</Button>
+                      ) : inPackageEditor && editable ? (
+                        <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit document</Button>
                       ) : member.kind === 'native' && editable && (<Button
                               size="sm"
                               variant="outline"
@@ -1290,7 +1344,7 @@ function PackageDialog({
                             Version {version + 1} · {entry.member.kind === 'native' ? 'Editable document' : entry.member.signedOriginal ? 'Signed original' : 'Original file'}
                           </Button></li>)}</ol>
                       </details>}
-{working && (
+{working && !inPackageEditor && (
                         <p className="text-xs">
                           Working copy:{" "}
                           {docs[working.documentId]?.meta.title ||
@@ -1299,7 +1353,7 @@ function PackageDialog({
                           save a new revision.
                         </p>
                       )}
-<PackageDocumentPreview packageId={record.id} revisionId={revision.id} member={member} active={loaded && !formMember && !library && workspaceSection === 'documents' && selectedMember?.id === member.id} ports={ports} exportGate={exportGate} />
+<PackageDocumentPreview packageId={record.id} revisionId={revision.id} member={member} active={loaded && !editorMember && !library && workspaceSection === 'documents' && selectedMember?.id === member.id} ports={ports} exportGate={exportGate} />
 <details><summary className="cursor-pointer text-xs text-muted-foreground">Document details</summary><div className="mt-4 space-y-4"><p className="break-all text-xs text-muted-foreground">
                         {packageRoleLabels[member.role]} ·{" "}
                         {member.kind === "original"
@@ -1408,7 +1462,7 @@ function PackageDialog({
                         {member.kind === "native" && editable && (
                           <>
 
-                            {working && (
+                            {working && !inPackageEditor && (
                               <>
                                 <Button
                                   size="sm"

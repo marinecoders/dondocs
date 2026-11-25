@@ -1,5 +1,6 @@
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { expect, test, type Page, type Locator } from '@playwright/test';
+import { expect, test, type BrowserContext, type Page, type Locator } from '@playwright/test';
+import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { newBlankPackage, openPackageWorkspace, packageSection } from './_helpers/packageWorkspace';
 
 test.use({ serviceWorkers: 'block' });
@@ -69,7 +70,7 @@ test.beforeEach(async ({ context }) => {
   });
 });
 
-test('two Unit Punishment Books retain independent answers, previews and recovery drafts', async ({ page, context }) => {
+async function injectPackageWriteFailure(context: BrowserContext) {
   await context.addInitScript(() => {
     const put = IDBObjectStore.prototype.put;
     IDBObjectStore.prototype.put = function (value, ...args) {
@@ -78,6 +79,58 @@ test('two Unit Punishment Books retain independent answers, previews and recover
       return request;
     };
   });
+}
+
+test('correspondence edits, previews and recovery stay with the selected package member', async ({ page, context }) => {
+  await injectPackageWriteFailure(context);
+  await context.addInitScript(() => localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused' } })));
+  await page.goto('/');
+  const workspace = await openPackageWorkspace(page);
+  await newBlankPackage(workspace, 'Two letters');
+  await capturePackageDocument(workspace);
+  await capturePackageDocument(workspace);
+  await workspace.getByRole('button', { name: 'Edit document', exact: true }).click();
+  const editor = page.getByRole('dialog', { name: 'Two letters', exact: true });
+  const picker = editor.getByRole('combobox', { name: 'Package document' });
+  const section = editor.getByLabel('Document section', { exact: true });
+  const subject = editor.getByRole('textbox', { name: 'Subject', exact: true });
+  await expect(picker.locator('option')).toHaveCount(2);
+  const ids = await picker.locator('option').evaluateAll(options => options.map(option => (option as HTMLOptionElement).value));
+  expect(ids).toHaveLength(2);
+  const originalMember = await picker.inputValue(), other = ids.find(id => id !== originalMember)!;
+  await section.selectOption('addressing');
+  await subject.fill('SYNTHETIC ALPHA');
+  await subject.blur();
+  await checkPreview(editor, page, 'SYNTHETIC ALPHA');
+  await picker.selectOption(other);
+  await expect(picker).toHaveValue(other);
+  await section.selectOption('addressing');
+  await expect(subject).not.toHaveValue('SYNTHETIC ALPHA');
+  await page.evaluate(() => sessionStorage.setItem('test-fail-package-write', '1'));
+  await subject.fill('SYNTHETIC BRAVO'); await subject.blur();
+  await picker.selectOption(originalMember);
+  await expect(editor.getByRole('button', { name: 'Retry save' })).toBeVisible();
+  await expect(picker).toHaveValue(other);
+  await expect(subject).toHaveValue('SYNTHETIC BRAVO');
+  page.once('dialog', dialog => dialog.accept());
+  await page.reload();
+  await expect(subject).toHaveValue('SYNTHETIC BRAVO');
+  await expect(editor.getByRole('button', { name: 'Retry save' })).toBeVisible();
+  await page.evaluate(() => sessionStorage.removeItem('test-fail-package-write'));
+  await editor.getByRole('button', { name: 'Retry save' }).click();
+  await expect(editor.getByText('Saved to package', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(picker).toHaveValue(other);
+  await expect(subject).toHaveValue('SYNTHETIC BRAVO');
+  await picker.selectOption(originalMember);
+  await expect(section).toHaveValue('addressing');
+  await expect(subject).toHaveValue('SYNTHETIC ALPHA');
+  await page.keyboard.press('Escape');
+  await expect(workspace.getByRole('button', { name: 'Edit document', exact: true })).toBeVisible();
+});
+
+test('two Unit Punishment Books retain independent answers, previews and recovery drafts', async ({ page, context }) => {
+  await injectPackageWriteFailure(context);
   await page.goto('/');
   const workspace = await openPackageWorkspace(page);
   await newBlankPackage(workspace, 'Two form test');

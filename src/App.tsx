@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
 import { captureCurrentDocumentRevision } from '@/stores/captureDocument';
 import { copyCapturedDocument } from '@/lib/capturedDocument';
@@ -156,6 +157,7 @@ function App() {
   // change, not on every store update. Setters are stable, so selecting them is free.
   const theme = useUIStore((s) => s.theme);
   const density = useUIStore((s) => s.density);
+  const [packageEditorHost, setPackageEditorHost] = useState<HTMLDivElement | null>(null);
   const [workspaceReady, setWorkspaceReady] = useState(false);
   const isMobile = useUIStore((s) => s.isMobile);
   const setIsMobile = useUIStore((s) => s.setIsMobile);
@@ -1268,7 +1270,7 @@ function App() {
                   starterExamples.onCategoryInput(section);
                 }
               }}>
-                <FormPanel />
+                {packageEditorHost ? createPortal(<FormPanel inPackage />, packageEditorHost) : <FormPanel />}
               </div>
 
               {/* The outer slot closes; its full-width contents stay mounted and
@@ -1316,7 +1318,7 @@ function App() {
       </div>
 
       {/* Modals */}
-      <ActionPackageWorkspace exportGate={exportGate} ports={{ compile, convertDocx: convertLatexToDocx, waitForReady }} />
+      <ActionPackageWorkspace editorSurface={{ setEditorHost: setPackageEditorHost, preview: { documentId: pdfDocumentId, url: currentPreviewUrl, error: compileError || engineError } }} exportGate={exportGate} ports={{ compile, convertDocx: convertLatexToDocx, waitForReady }} />
       <ProfileManager />
       <ProfileModal />
       <ReferenceLibraryModal />
