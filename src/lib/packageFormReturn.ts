@@ -1,4 +1,5 @@
 import type { ActionPackage, PackageMember } from './actionPackages';
+import { memberSigningFormId } from './packageOfficialForms';
 import { identifyOfficialOriginal, officialEdition } from '@/services/forms/nativeCatalog';
 import { officialRevisionBytes, officialSigningRecords, type OfficialSigningRecord } from './officialSigning';
 import type { OfficialInspection } from '@/services/forms/signingBridge';
@@ -32,7 +33,7 @@ export async function checkPackageFormReturn(record: ActionPackage, member: Pack
       saved.revisions.length < 2 || saved.revisions[0].sha256 !== expected.base ||
       inspection.sha256 !== saved.revisions.at(-1)?.sha256)
     throw new Error('Reopen the signing handoff for this document revision.');
-  const formId = member.kind === 'native' ? member.session.formType : member.kind === 'original' ? member.officialFormId : undefined;
+  const formId = memberSigningFormId(member);
   const fields = inspection.fields.filter(field => field.signed);
   if (inspection.formId !== formId || !officialEdition(inspection.formId, inspection.edition) ||
       !fields.length || fields.some(field => !field.trusted))

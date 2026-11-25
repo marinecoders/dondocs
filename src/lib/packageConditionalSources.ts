@@ -1,3 +1,4 @@
+import { nativeSigningFormId } from '@/services/forms/nativeCatalog';
 import type { ActionPackage, PackageAsset, PackageRevision } from './actionPackages';
 import { getPackageRevision } from './actionPackages';
 import { readPackageAsset } from './actionPackageAssets';
@@ -47,7 +48,7 @@ function stateMatches(template: PackageTemplateV2, value: PackageConditionalStat
       throw new Error('A saved action document does not belong to this template.');
     const captured = revision.members.find(member => member.id === instance.memberId);
     const signedForm = captured?.kind === 'original' && captured.signedOriginal && !!captured.officialFormId
-      && blueprint.kind === 'native' && captured.officialFormId === blueprint.draft.formType;
+      && blueprint.kind === 'native' && captured.officialFormId === nativeSigningFormId(blueprint.draft.documentCategory, blueprint.draft.formType);
     if (captured && !signedForm && (captured.kind === 'native') !== (blueprint.kind === 'native'))
       throw new Error('A captured action document does not match its declared kind.');
     if ((instance.generatedDigest || captured?.kind === 'native') && blueprint.kind === 'native') {

@@ -168,3 +168,35 @@ test('Page 11 edits appear in the printable preview and survive returning to the
   await workspace.getByRole('button', { name: 'Edit form' }).click();
   await expect(editor.getByLabel('Last Name', { exact: true })).toHaveValue('EXAMPLE');
 });
+
+test('reviews a saved Unit Punishment Book signature location before pairing', async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.goto('/');
+  const workspace = await openPackageWorkspace(page);
+  await newBlankPackage(workspace, 'Official signature test');
+  await packageSection(workspace, 'Documents');
+  await workspace.getByText('Add documents', { exact: true }).click();
+  await workspace.getByRole('button', { name: 'Add Unit Punishment Book' }).click();
+  await expect(workspace).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
+  await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
+  const editor = page.getByRole('dialog', { name: 'Official signature test', exact: true });
+  await editor.getByLabel('18 Accused full name', { exact: true }).fill('TRAINING EXAMPLE');
+  await editor.getByRole('button', { name: 'Back to package' }).click();
+  await workspace.getByRole('button', { name: 'Sign official form' }).click();
+  const signing = page.getByRole('region', { name: 'Official form signatures' });
+  const confirm = page.getByRole('button', { name: 'Download reviewed signing files' });
+  await expect(signing.or(confirm)).toBeVisible({ timeout: 45_000 });
+  if (await confirm.isVisible()) await confirm.click();
+  await signing.getByRole('button', { name: 'Review signature location' }).click();
+  const location = signing.getByRole('combobox', { name: 'PDF signature location' });
+  await location.selectOption('9 NJP AUTHORITY SIGNATURE');
+  const preview = signing.locator('[data-signing-preview-page]');
+  await expect(preview).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
+  await expect(preview.locator('span[aria-hidden]')).toBeVisible();
+  await signing.getByRole('button', { name: 'Next page' }).click();
+  await expect(signing.getByText('Page 2 of 3')).toBeVisible();
+  await expect(preview.locator('span[aria-hidden]')).toHaveCount(0);
+  await signing.getByRole('button', { name: 'Previous page' }).click();
+  await expect(preview.locator('span[aria-hidden]')).toBeVisible({ timeout: 30_000 });
+  await expect(signing.getByLabel('Local bridge pairing code')).toHaveValue('');
+});

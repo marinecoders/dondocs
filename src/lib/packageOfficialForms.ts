@@ -1,6 +1,6 @@
 import { FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
-import { identifyOfficialOriginal, officialEdition, officialFormChoices } from '@/services/forms/nativeCatalog';
+import { identifyOfficialOriginal, officialEdition, nativeSigningFormId, officialFormChoices } from '@/services/forms/nativeCatalog';
 import { loadDefinition } from '@/services/forms/packages';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { captureDocumentRevision } from './capturedDocument';
@@ -70,18 +70,31 @@ export async function memberFactLinks(session: Parameters<typeof listSessionFiel
   return links;
 }
 
+export function memberSigningFormId(member: PackageMember) {
+  if (member.kind === 'original') return member.officialFormId;
+  if (member.kind === 'native') return nativeSigningFormId(member.session.documentCategory, member.session.formType);
+}
+
 export function packageFormSigningAction(member: PackageMember) {
   if (member.kind === 'original' && member.signedOriginal && member.officialFormId) return 'Open signed form';
   if (member.kind === 'native') {
+    if (member.session.documentCategory === 'correspondence') return 'Sign correspondence';
     const edition = member.session.formType === 'navmc_118_11' ? member.session.forms?.officialPdfEdition : member.session.genericForm?.definition.nativePdfEdition;
     if (edition && officialEdition(member.session.formType ?? '', edition)) return 'Sign official form';
   }
 }
 
-export async function preparePackageFormSigning(member: PackageMember, policy: PolicyResolution, signal: AbortSignal) {
+export async function preparePackageFormSigning(member: PackageMember, policy: PolicyResolution, signal: AbortSignal,
+  ports?: Parameters<typeof import('./packageNativeDelivery').renderPackageRecipientMember>[2]) {
   if (member.kind === 'native' && packageFormSigningAction(member)) {
+    if (member.session.documentCategory === 'correspondence' && !member.session.paragraphs?.some(p => p.text?.trim()))
+      throw new Error('Write the correspondence before preparing its signature revision.');
     const { renderPackageRecipientMember } = await import('./packageNativeDelivery');
-    const { bytes } = await renderPackageRecipientMember(member, policy, undefined, readPackageAsset, signal, undefined, 'editable');
+    const { bytes } = await renderPackageRecipientMember(member, policy, ports, readPackageAsset, signal, undefined, 'editable');
+    if (member.session.documentCategory === 'correspondence') {
+      const { prepareCorrespondenceSignature } = await import('@/services/pdf/packageCorrespondenceSignature');
+      return { bytes: await prepareCorrespondenceSignature(bytes), label: member.label + '.pdf', metadata: member.session.formData };
+    }
     return { bytes: new Uint8Array(bytes), label: member.label + '.pdf', metadata: member.session.genericForm?.answers ?? member.session.forms };
   }
   if (member.kind === 'original' && member.signedOriginal) {

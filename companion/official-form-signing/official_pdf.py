@@ -84,6 +84,15 @@ UPB_DIFF = StandardDiffPolicy(
 )
 
 
+ACROFORM_DIFF = StandardDiffPolicy(DEFAULT_DIFF_POLICY.global_rules, ChangedFormObjects())
+
+
+def revision_policy(profile):
+    if profile["formId"] == "navmc10132":
+        return UPB_DIFF
+    return ACROFORM_DIFF if profile["format"] == "acroform" else DEFAULT_DIFF_POLICY
+
+
 def official_profile(data):
     for profile in EDITIONS:
         length = profile["length"]
@@ -127,11 +136,11 @@ def inspect_revision(data, context):
     for sig in signatures:
         policy = sig.fieldmdp
         if policy and policy.fields:
-            # Encrypted publisher locks contain PDF text objects, not Python strings.
-            policy.fields[:] = [str(item.get_object()) if hasattr(item, "get_object") else str(item)
-                                for item in policy.fields]
+            # pyHanko retains the reader's PDF array in the policy. Normalize a
+            # detached policy so historical signature dictionaries stay intact.
+            sig._fieldmdp = fields.FieldMDPSpec(policy.action, [str(item.get_object()) for item in policy.fields])
         result = asyncio.run(async_validate_pdf_signature(sig, signer_validation_context=context,
-            diff_policy=UPB_DIFF if edition == "Unit Punishment Book" else DEFAULT_DIFF_POLICY))
+            diff_policy=revision_policy(profile)))
         if not (result.intact and result.valid
                 and result.coverage in (SignatureCoverageLevel.ENTIRE_FILE, SignatureCoverageLevel.ENTIRE_REVISION)):
             raise ValueError("A PDF signature is damaged or does not cover its entire signed revision.")
@@ -158,7 +167,7 @@ def inspect_revision(data, context):
         locked = bool(locked or int(widget.get("/Ff", 0)) & 1)
         lock = widget["/Lock"] if "/Lock" in widget else {}
         result.append({
-            "name": name, "label": PAGE11_LABELS.get(name, name),
+            "name": name, "label": PAGE11_LABELS.get(name, str(widget.get("/TU", name))),
             "signed": value is not None, "locked": locked,
             "trusted": checked.get(name), "lockAction": str(lock.get("/Action", "")).lstrip("/"),
             "lockFields": [str(item.get_object()) for item in lock.get("/Fields", [])],
@@ -227,7 +236,7 @@ def inspect_return(data, base_length, base_hash, context):
     reader = OfficialReader(BytesIO(data), strict=False)
     if reader.security_handler:
         reader.decrypt("")
-    policy = UPB_DIFF if edition == "Unit Punishment Book" else DEFAULT_DIFF_POLICY
+    policy = revision_policy(official_profile(data))
     result = policy.review_file(reader, base.total_revisions - 1)
     if isinstance(result, Exception) or result.changed_form_fields != additions:
         raise ValueError("The return changes more than the selected signature.")

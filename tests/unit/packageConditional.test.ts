@@ -56,6 +56,18 @@ beforeEach(async () => {
 });
 
 describe('captured conditional package membership', () => {
+  it('reopens signed correspondence using its signing profile and rejects a different form identity', async () => {
+    const record = await create();
+    const revision = record.revisions[0];
+    const letter = revision.members[0];
+    if (letter.kind !== 'native') throw new Error('Expected a native letter');
+    revision.members[0] = { id: letter.id, label: letter.label, revisionId: letter.revisionId, role: letter.role,
+      required: letter.required, kind: 'original', original: letter.draft, signedOriginal: true, officialFormId: 'package_correspondence' };
+    await expect(readConditionalPackageTemplate(record)).resolves.toEqual(template());
+    revision.members[0].officialFormId = 'navmc_118_11';
+    await expect(readConditionalPackageTemplate(record)).rejects.toThrow('declared kind');
+  });
+
   it('prepares without writes and captures source, documents, facts and links in one initial transaction', async () => {
     const supplied = answers(true), plan = await prepareConditionalPackage({ template: template(), answers: supplied }, policy);
     supplied.values.subject = 'Caller changed';
