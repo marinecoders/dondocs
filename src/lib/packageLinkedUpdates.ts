@@ -115,6 +115,7 @@ export async function captureLinkedPackageChanges(
     changes.push({ bindingId: prior.id, memberId: prior.memberId, label: prior.id, state: 'detach', message: 'The document value is preserved without a shared link.' });
   if (bindings) revision.bindings = { version: 1, items: kept };
   const attachments: StoredAttachment[] = [], reviews = [...informationReviews(current, policy), ...informationReviews(revision, policy)];
+  let endorsementsChanged = false;
   if (!issues.length) {
     for (const [memberId, updates] of patches) {
       signal?.throwIfAborted();
@@ -130,9 +131,11 @@ export async function captureLinkedPackageChanges(
       attachments.push({ ...asset, data });
       revision.members[index] = { ...member, revisionId: newPackageId('member-revision'), session: patched.session, draft: asset };
     }
+    if (revision.members.some(member => member.role === 'endorsement'))
+      endorsementsChanged = await (await import('./packageEndorsementDrafts')).stagePackageEndorsements(revision, attachments, current, readDraft);
     await preserveUnchangedCitations(revision);
   }
   const changed = !sameReviewStoredValue(current.information, revision.information)
-    || !sameReviewStoredValue(current.bindings, revision.bindings) || patches.size > 0;
+    || !sameReviewStoredValue(current.bindings, revision.bindings) || patches.size > 0 || endorsementsChanged;
   return { revision, changes, issues, reviews, attachments, changed };
 }

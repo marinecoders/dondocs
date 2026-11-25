@@ -63,7 +63,7 @@ export function documentSourceCondition(stage: PackageTemplateCondition, id: str
 
 export async function correspondenceMember(input: {
   key: string; label: string; docType: string; role: NativeBlueprint['role']; when?: PackageTemplateCondition;
-  facts?: Record<string, string>; subject?: string;
+  facts?: Record<string, string>; subject?: string; endorses?: string;
 }): Promise<NativeBlueprint> {
   if (!Object.hasOwn(DOC_TYPE_CONFIG, input.docType)) throw new Error('Unknown correspondence type: ' + input.docType);
   const session = createBlankSession(undefined, input.docType);
@@ -72,5 +72,5 @@ export async function correspondenceMember(input: {
   if (session.paragraphs.length) session.paragraphs = [{ id: 'starter-body', text: '', level: 0 }];
   session.formData.subject = input.subject ?? '';
   const member = await native(input.key, input.label, session, input.facts ?? {}, { when: input.when });
-  return { ...member, role: input.role };
+  return { ...member, role: input.role, ...(input.endorses && { endorses: input.endorses }) };
 }

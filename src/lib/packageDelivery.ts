@@ -60,7 +60,7 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
   const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds), assets = new Map<string, CapturedDeliveryAsset>(), members: PackageMember[] = [], reviews: Array<{ member: string; review: ExportReview }> = [];
   const sourceRevision = getPackageRevision(source, revisionId);
   if (selection.scope === 'complete' && selected.length !== sourceRevision.members.length) throw new Error('Include every member for complete package delivery.');
-  if (selection.purpose === 'recipient' && (sourceRevision.templateState || sourceRevision.requirements)) {
+  if (selection.purpose === 'recipient' && (sourceRevision.templateState || sourceRevision.requirements || selected.some(member => member.endorsementLink))) {
     const { assertDeliveryRequirements } = await import('./packageRequirements');
     await assertDeliveryRequirements(sourceRevision, selection.scope === 'selected' ? selection.memberIds : undefined, signal);
   }

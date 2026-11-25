@@ -1,3 +1,4 @@
+import { packageEndorsementRoutes } from '@/lib/packageEndorsements';
 import { bindUnsignedFormPdf, checkPackageFormReturn, signingMemberKey } from '@/lib/packageFormReturn';
 import { officialEdition } from '@/services/forms/nativeCatalog';
 import { packageMemberHistory, reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
@@ -316,6 +317,7 @@ function PackageDialog({
     revision = useMemo(() => record
       ? openedReview?.baseline ?? getPackageRevision(record, revisionId || record.currentRevisionId)
       : null, [record, openedReview, revisionId]);
+  const endorsementRoutes = useMemo(() => revision && packageEndorsementRoutes(revision), [revision]);
   const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, reviewApplications: undefined, fieldReviewApplications: undefined, workingCopies: undefined } : record;
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
@@ -1212,6 +1214,9 @@ function PackageDialog({
               <PackageMemberNavigation members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} onSelect={inspectMember} />
               <ol className="min-w-0 space-y-3">
                 {revision.members.map((member, index) => {
+                  const route = endorsementRoutes?.get(member.id);
+                  const linkedLetter = member.endorsementLink && revision.members.find(item => item.id === member.endorsementLink?.basicMemberId);
+                  const routeLetter = route && revision.members.find(item => item.id === route.basicMemberId);
                   const source =
                     member.kind === "native" &&
                     member.source?.local &&
@@ -1303,7 +1308,15 @@ function PackageDialog({
                             : "Original PDF"
                           : member.kind === "attachment" ? `Supporting file (${member.original.type})` : "Captured native draft"}{" "}
                         · Member revision: {member.revisionId}
-                      </p>{member.kind === "native" && (
+                      </p>{member.role === 'endorsement' && member.endorsementLink &&
+                        <p className="text-xs">{member.endorsementLink.ordinal} endorsement of {linkedLetter?.label ?? 'a removed letter'}</p>}
+                        {editable && member.role === 'endorsement' && member.kind === 'native' && route && routeLetter &&
+                          member.endorsementLink?.basicMemberId !== route.basicMemberId &&
+                          <Button size="sm" variant="outline" disabled={busy || pendingPackageEdits}
+                            onClick={() => void run(() => modify(revision.members.map(item => item.id === member.id ? { ...item, endorsementLink: route } : item)))}>
+                            Link endorsement to {routeLetter.label}
+                          </Button>}
+                      {member.kind === "native" && (
                         <p className="break-all text-xs">
                           Source:{" "}
                           {source && !source.meta.deletedAt
@@ -1329,7 +1342,7 @@ function PackageDialog({
                                     modify(
                                       revision.members.map((item): PackageMember =>
                                         item.id === member.id
-                                          ? packageMemberSchema.parse({ ...item, role: event.target.value })
+                                          ? packageMemberSchema.parse({ ...item, role: event.target.value, endorsementLink: undefined })
                                           : item,
                                       ),
                                     ),
@@ -1741,7 +1754,7 @@ function PackageDialog({
                 const bytes = await checkPackageFormReturn(record, source, saved, formSigning, inspection);
                 const original = await captureOriginalPackageMember({ name: saved.filename, data: bytes.buffer }, source.role, true);
                 await modify(revision.members.map(item => item.id === source.id
-                  ? { ...original, id: source.id, label: source.label, required: source.required } : item));
+                  ? { ...original, id: source.id, label: source.label, required: source.required, ...(source.endorsementLink && { endorsementLink: source.endorsementLink }) } : item));
                 setFormSigning(undefined);
               }} /></Suspense>}
       {record && revision && shareOpen && <Suspense fallback={<p role="status">Opening package sharing…</p>}><PackageShareDialog key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} onClose={() => setShareOpen(false)} /></Suspense>}

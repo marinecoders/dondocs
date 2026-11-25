@@ -368,6 +368,8 @@ export async function instantiatePackageTemplate(input: PackageTemplate, name: s
     }
   }
   const revision = { id: newPackageId('revision'), createdAt: Date.now(), members, outputs: [] };
+  if (members.some(member => member.role === 'endorsement'))
+    await (await import('./packageEndorsementDrafts')).stagePackageEndorsements(revision, staged);
   const record = actionPackageSchema.parse({ kind: 'dondocs-action-package-record', version: 1, id: newPackageId('package'), name,
     archived: false, sequence: 0, currentRevisionId: revision.id, revisions: [revision] });
   return commitActionPackage(null, record, signal, () => !signal?.aborted, staged);

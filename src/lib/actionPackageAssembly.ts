@@ -1,3 +1,5 @@
+import { canLeadRecipeEndorsements, endorsementLinkIssue, packageEndorsementRoutes } from './packageEndorsements';
+import { ENDORSEMENT_ORDINALS } from './appendedEndorsement';
 import { officialEdition } from '@/services/forms/nativeCatalog';
 import { officialFormCompletionIssues } from './packageFormCompletion';
 import { saveGeneratedPdf } from '@/services/pdf/generatedPdfMetadata';
@@ -165,11 +167,6 @@ function prepareMember(
     incompleteFormPreview: input.incompleteFormPreview,
   });
 }
-function canLeadRecipeEndorsements(member: PackageMember) {
-  return member.kind === 'native' && (member.role === 'supporting-document' || member.role === 'basic-letter')
-    && member.session.documentCategory === 'correspondence' && !isEndorsement(member.session.docType ?? '');
-}
-
 export async function preparePackageAssembly(
   record: ActionPackage,
   revisionId: string,
@@ -327,6 +324,7 @@ export async function preparePackageAssembly(
       );
     }
   }
+  const routes = packageEndorsementRoutes(revision);
   let passedEndorsements = false,
     endorsementCount = 0;
   const basic = revision.members[0];
@@ -334,6 +332,8 @@ export async function preparePackageAssembly(
   let previousSnapshot: DocumentSnapshot | null = null;
   for (const member of revision.members) {
     options.signal?.throwIfAborted();
+    const linkIssue = endorsementLinkIssue(member, routes.get(member.id));
+    if (purpose === "pdf" && linkIssue) error(linkIssue, member.id);
     const startsLetterChain = !!primaryKey && canLeadRecipeEndorsements(member);
     if (startsLetterChain && member.kind === 'native') {
       basicSession = member.session;
@@ -409,18 +409,6 @@ export async function preparePackageAssembly(
           member.id,
         );
       if (member.role === "endorsement") {
-        const ordinals = [
-          "FIRST",
-          "SECOND",
-          "THIRD",
-          "FOURTH",
-          "FIFTH",
-          "SIXTH",
-          "SEVENTH",
-          "EIGHTH",
-          "NINTH",
-          "TENTH",
-        ];
         if (
           !basicSession ||
           basicSession.documentCategory === "forms" ||
@@ -441,7 +429,7 @@ export async function preparePackageAssembly(
             );
           if (
             snapshot.formData.endorsementOrdinal?.toUpperCase() !==
-            ordinals[endorsementCount]
+            ENDORSEMENT_ORDINALS[endorsementCount]
           )
             error(
               "The endorsement ordinal does not match its position in this package.",

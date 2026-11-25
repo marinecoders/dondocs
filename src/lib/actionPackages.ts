@@ -63,6 +63,8 @@ const common = {
   id,
   revisionId: id,
   label: z.string().min(1).max(120),
+  endorsementLink: z.object({ basicMemberId: id, basicRevisionId: id, ordinal: z.string().min(1).max(12),
+    firstReference: z.string().regex(/^[a-z]+$/).max(12), firstEnclosure: z.number().int().positive() }).strict().optional(),
   role: z.enum(packageRoles),
   required: z.boolean(),
 };
@@ -681,6 +683,14 @@ export async function reviseActionPackage(
     ...(current.assembly ? { assembly: current.assembly } : {}),
     ...(current.scans ? { scans: current.scans } : {}),
   };
+  const staged = [...(stagedAttachments ?? [])];
+  if (revision.members.some(member => member.role === 'endorsement')) {
+    const { stagePackageEndorsements } = await import('./packageEndorsementDrafts');
+    if (await stagePackageEndorsements(revision, staged, current) && revision.citations) {
+      revision.citations = structuredClone(revision.citations);
+      await (await import('./packageLinkedUpdates')).preserveUnchangedCitations(revision);
+    }
+  }
   return commitActionPackage(
     record,
     {
@@ -693,7 +703,7 @@ export async function reviseActionPackage(
     },
     signal,
     isCurrent,
-    stagedAttachments,
+    staged,
   );
 }
 export async function renameActionPackage(

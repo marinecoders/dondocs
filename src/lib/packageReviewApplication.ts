@@ -220,6 +220,8 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
     ...(current.assembly ? { assembly: structuredClone(current.assembly) } : {}),
     ...(current.scans ? { scans: structuredClone(current.scans) } : {}),
     ...(current.citations ? { citations: structuredClone(current.citations) } : {}) };
+  if (members.some(member => member.role === 'endorsement'))
+    await (await import('./packageEndorsementDrafts')).stagePackageEndorsements(revision, attachments, current);
   // Rebind an unchanged known citation identity only when every recorded value except the new member revision still matches.
   if (revision.citations) {
     const candidates = await packageCitationCandidates(revision), occurrences = await packageCitationOccurrences(revision);
