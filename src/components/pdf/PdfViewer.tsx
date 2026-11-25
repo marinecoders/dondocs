@@ -33,6 +33,7 @@ export interface PdfViewerProps {
   documentId?: string;
   /** Captured review exports keep delivery behind their final authority/policy gate. */
   allowOpenInTab?: boolean;
+  pageRequest?: { page: number };
   onPagePaint?: (success: boolean) => void;
   onDownloadPdf?: () => void;
   /** Optional workspace title/status, sharing the viewer's existing toolbar. */
@@ -57,7 +58,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ follow, starterExamples, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, onPagePaint, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
+export default function PdfViewer({ follow, starterExamples, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, onPagePaint, pageRequest, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [menuContainer, setMenuContainer] = useState<HTMLDivElement | null>(null);
   const setRoot = useCallback((node: HTMLDivElement | null) => {
@@ -174,6 +175,10 @@ export default function PdfViewer({ follow, starterExamples, sourceNavigationMes
     },
     [reducedMotion]
   );
+
+  useEffect(() => {
+    if (pageRequest && docMeta?.numPages) activeLayerRef.current?.scrollToPage(Math.min(pageRequest.page, docMeta.numPages) - 1, false);
+  }, [pageRequest, docMeta?.numPages]);
 
   // ── Keyboard access ───────────────────────────────────────────────────────
   // The scrollable element lives inside a per-generation layer that is

@@ -384,12 +384,7 @@ it("cancels a held render on close and never publishes into a reopened dialog or
       name: "Prepare PDF",
     }),
   );
-  await within(dialog).findByRole("button", { name: "Download PDF" });
-  await user.click(
-    within(dialog).getByRole("button", {
-      name: "Download PDF",
-    }),
-  );
+  expect(await within(dialog).findByRole("button", { name: "Download PDF" })).toBeDisabled();
   await waitFor(() => expect(compile).toHaveBeenCalledOnce());
   await user.click(
     within(dialog).getByRole("button", {
@@ -924,8 +919,7 @@ it.each([false, true])('queues PDF assembly behind a preview lease (cancel: %s)'
   await workspaceSection(dialog, 'Delivery', user);
   await user.click(within(dialog).getByRole('button', { name: 'Prepare PDF' }));
   const download = await within(dialog).findByRole('button', { name: 'Download PDF' });
-  await waitFor(() => expect(download).toBeEnabled());
-  await user.click(download);
+  expect(download).toBeDisabled();
   await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Cancel operation' })).toBeVisible());
   expect(within(dialog).queryByRole('alert')).toBeNull();
   if (cancel) await user.click(within(dialog).getByRole('button', { name: 'Cancel operation' }));
@@ -934,6 +928,8 @@ it.each([false, true])('queues PDF assembly behind a preview lease (cancel: %s)'
     await within(dialog).findByRole('alert');
     expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(record);
   } else {
+    await waitFor(() => expect(download).toBeEnabled(), { timeout: 15_000 });
+    await user.click(download);
     await within(dialog).findByText('PDF downloaded. A copy is kept with this version.', {}, { timeout: 15_000 });
     const saved = (await listActionPackages()).find(value => value.id === record.id)!;
     expect(getPackageRevision(saved).outputs).toHaveLength(getPackageRevision(record).outputs.length + 1);

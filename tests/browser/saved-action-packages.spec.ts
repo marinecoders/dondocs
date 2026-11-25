@@ -481,34 +481,24 @@ test("configured package survives fresh offline import, native editing, reload a
       });
     await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
     await packageSection(modal, 'Documents', true);
-    await expect(
-      modal.getByRole("button", { name: "Edit document", exact: true }),
-    ).toBeVisible();
-    expect(
-      await download(
-        restored,
-        "Download retained PDF",
-        "Download reviewed retained PDF",
-      ),
-    ).toEqual(retained);
-  await packageSection(modal, 'Documents', true);
-    await modal.getByRole("button", { name: "Edit document", exact: true }).click();
-    await expect(modal).toBeHidden();
-    await editField(
-      restored.getByRole("textbox", { name: "Fictional name", exact: true }),
-      "Fictional retained form",
-      "Fictional working form",
-    );
-    await actions(restored, /^Save checkpoint/);
+    const editForm = modal.getByRole('button', { name: 'Edit form', exact: true });
+    await expect(editForm).toBeVisible();
+    expect(await download(restored, 'Download retained PDF', 'Download reviewed retained PDF')).toEqual(retained);
+    await packageSection(modal, 'Documents');
+    await editForm.click();
+    const editor = restored.getByRole('dialog', { name: 'Configured package', exact: true });
+    const field = editor.getByRole('textbox', { name: /^Fictional name/ });
+    await editField(field, 'Fictional retained form', 'Fictional working form');
+    await editor.getByRole('button', { name: 'Back to package', exact: true }).click();
+    await expect(editor).toBeHidden();
     await restored.reload();
-    await expect(restored.getByRole("button", { name: "Document actions", exact: true })).toBeVisible();
-    await expect(
-      restored.getByRole("textbox", { name: "Fictional name", exact: true }),
-    ).toHaveValue("Fictional working form");
-    modal = await packages(restored);
-    await choosePackageById(modal, JSON.parse(portable.toString("utf8")).package.id);
-    await packageSection(modal, 'Documents', true);
-    await modal.getByRole("button", { name: "Save working copy as new revision", exact: true }).click();
+    modal = await openPackageWorkspace(restored);
+    await choosePackageById(modal, JSON.parse(portable.toString('utf8')).package.id);
+    await packageSection(modal, 'Documents');
+    await editForm.click();
+    await expect(field).toHaveValue('Fictional working form');
+    await editor.getByRole('button', { name: 'Back to package', exact: true }).click();
+    await expect(editor).toBeHidden();
     await preparePackageExport(modal, 'pdf');
     await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
     await approve(restored, "Download PDF");

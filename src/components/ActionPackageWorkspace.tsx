@@ -1,3 +1,4 @@
+import { PackagePreparedPdf } from './PackagePreparedPdf';
 import { PackagePrintableCopyField } from './PackagePrintableCopyField';
 import { setPackagePrintableCopy } from '@/lib/packagePrintableCopy';
 import { packageEndorsementRoutes } from '@/lib/packageEndorsements';
@@ -71,7 +72,7 @@ import {
   readPackageAsset,
 } from "@/lib/actionPackageAssets";
 import {
-  assemblePackage, renderPackageDraft,
+  preparePackagePdfOutput,
   copyPreparedPackageOutput,
   preparePackageAssembly,
   assertPreparedPackagePolicy,
@@ -308,7 +309,7 @@ function PackageDialog({
   const requestedPackageId = useUIStore(state => state.actionPackageSelectionId);
   const requestedRevisionId = useUIStore(state => state.actionPackageSelectionRevisionId);
   const inventoryLoaded = useRef(false);
-  const [prepared, setPrepared] = useState<PreparedPackageAssembly | null>(null);
+  const [prepared, setPreparedState] = useState<PreparedPackageAssembly | null>(null);
   const [reviewMode, setReviewMode] = useState<
     "assemble" | "draft" | "portable" | "saved" | "preview" | "original" | "compare"
   >("assemble");
@@ -316,6 +317,12 @@ function PackageDialog({
     [afterOutputId, setAfterOutputId] = useState(""),
     [renderComparison, setRenderComparison] = useState<PackageRenderComparison | null>(null);
   const [selectedRetainedOutputId, setSelectedRetainedOutputId] = useState("");
+  const [pdfOutput, setPdfOutput] = useState<(Awaited<ReturnType<typeof preparePackagePdfOutput>> & { url: string })>();
+  useEffect(() => () => { if (pdfOutput) URL.revokeObjectURL(pdfOutput.url); }, [pdfOutput]);
+  function setPrepared(value: PreparedPackageAssembly | null) {
+    setPdfOutput(undefined);
+    setPreparedState(value);
+  }
   const [otherReviews, setOtherReviews] = useState<PreparedPackageAssembly[]>(
     [],
   );
@@ -770,13 +777,21 @@ function PackageDialog({
       ? await (await import("@/lib/packageRenderComparison")).preparePackageRenderComparison(
           readRecord!, revision.id, policy, operation.current!.signal,
         )
-      : await preparePackageAssembly(readRecord!, revision.id, policy, { includeRetainedDraftText: mode === "portable", draftPdf: mode === "draft" });
+      : await preparePackageAssembly(readRecord!, revision.id, policy, { signal: operation.current!.signal, includeRetainedDraftText: mode === "portable", draftPdf: mode === "draft" });
     assertOperationCurrent();
     setOtherReviews([]);
     setPdfUrl('');
     setReviewMode(mode);
     setPrepared(result);
-
+    if ((mode === 'assemble' || mode === 'draft') && ['ready', 'exported'].includes(result.readiness.state)) {
+      const signal = operation.current!.signal;
+      const release = await exportGate.acquireWhenAvailable(signal);
+      try {
+        const rendered = await preparePackagePdfOutput(result, ports, signal);
+        assertOperationCurrent();
+        setPdfOutput({ ...rendered, url: URL.createObjectURL(rendered.blob) });
+      } finally { release(); }
+    }
   }
   async function reviewOriginal(
     member: Exclude<PackageMember, { kind: "native" }>,
@@ -800,13 +815,6 @@ function PackageDialog({
       readiness: { state: "ready", findings: [] },
       reviews: [{ member: member.label, review }],
     });
-  }
-  async function previewAsset(asset: PackageAsset) {
-    const bytes = await readPackageAsset(asset);
-    assertOperationCurrent();
-    setPdfUrl(
-      URL.createObjectURL(new Blob([bytes], { type: "application/pdf" })),
-    );
   }
   function requireRetainedOutput() {
     if (!selectedRetainedOutput) throw new Error(selectedRetainedOutputId
@@ -881,34 +889,21 @@ function PackageDialog({
         setNotice(`Retained PDF downloaded. SHA-256: ${output.asset.sha256}`);
       }
     } else {
-      const release = await exportGate.acquireWhenAvailable(operation.current!.signal);
-      let updated: ActionPackage;
-      try {
-        assertOperationCurrent();
-        if (reviewMode === 'draft') {
-          const bytes = await renderPackageDraft(prepared, ports, operation.current!.signal);
-          assertOperationCurrent();
-          assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
-          triggerDownload(bytes, record.name + '-draft.pdf', 'application/pdf');
-          setNotice('Draft PDF downloaded.');
-          return;
-        }
-        updated = await assemblePackage(
-          prepared,
-          ports,
-          operation.current?.signal,
-        );
-      } finally {
-        release();
+      if (!pdfOutput || pdfOutput.prepared !== prepared) throw new Error('Prepare the current PDF again.');
+      const updated = await pdfOutput.deliver(operation.current!.signal);
+      assertOperationCurrent();
+      assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
+      if (!updated) {
+        triggerDownload(pdfOutput.blob, record.name + '-draft.pdf');
+        setNotice('Draft PDF downloaded.');
+        return;
       }
       update(updated);
       const output = getPackageRevision(updated, revision.id).outputs.at(-1)!;
       setRevisionId(revision.id);
       setSelectedRetainedOutputId(output.id);
-      await previewAsset(output.asset);
-      const bytes = await readPackageAsset(output.asset);
-      assertOperationCurrent(); assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
-      triggerDownload(new Uint8Array(bytes), output.asset.name, output.asset.type);
+      setPdfUrl(URL.createObjectURL(pdfOutput.blob));
+      triggerDownload(pdfOutput.blob, output.asset.name);
       setNotice('PDF downloaded. A copy is kept with this version.');
     }
     setPrepared(null);
@@ -1676,11 +1671,14 @@ function PackageDialog({
                     {reviewMode === 'original' ? original?.asset.name : reviewMode === 'saved' || reviewMode === 'preview' ? selectedRetainedOutput?.asset.name : prepared.purpose === "portable" ? "Editable package" : "PDF export"}
                   </h3>
 
+                  {pdfOutput?.prepared === prepared && <PackagePreparedPdf output={pdfOutput} draft={reviewMode === 'draft'}
+                    hasSignedOriginal={revision.members.some(member => member.kind === 'original' && member.signedOriginal)} />}
                   <PackageExportFindings editable={editable} results={[prepared, ...otherReviews]} revision={revision} onNavigate={followDestination} />
 
                   <div className="flex flex-wrap gap-2"><Button
                     disabled={
                       pendingPackageEdits || busy ||
+                      ((reviewMode === "assemble" || reviewMode === "draft") && pdfOutput?.prepared !== prepared) ||
                       [prepared, ...otherReviews].some((result) =>
                         ["draft", "incomplete"].includes(
                           result.readiness.state,

@@ -55,6 +55,7 @@ import {
 } from "./actionPackageAssets";
 import {
   commitActionPackage,
+  listActionPackages,
   getPackageRevision,
   newPackageId,
   type ActionPackage,
@@ -311,7 +312,7 @@ export async function preparePackageAssembly(
       const pdf = await PDFDocument.load(bytes);
       if (
         pdf.getPageCount() !==
-        Math.max(output.assembly?.frontMatterPages ?? 0, ...output.boundaries.map(boundary => boundary.startPage + boundary.pageCount - 1))
+        outputPageCount(output)
       )
         throw new Error(
           "The retained PDF does not match its preserved member boundaries.",
@@ -738,6 +739,39 @@ export async function assemblePackage(
 ): Promise<ActionPackage> {
   if (preparedAssemblies.get(prepared)?.draftPdf) throw new Error('Prepare a final PDF before retaining a package output.');
   return renderPackageAssembly(prepared, ports, signal, controls);
+}
+
+function outputPageCount(output: PackageOutput) {
+  return Math.max(output.assembly?.frontMatterPages ?? 0, ...output.boundaries.map(entry => entry.startPage + entry.pageCount - 1));
+}
+
+/** Prepare one immutable output for both the delivery preview and download. */
+export async function preparePackagePdfOutput(prepared: PreparedPackageAssembly, ports: Parameters<typeof assemblePackage>[1], signal: AbortSignal) {
+  const input = preparedAssemblies.get(prepared);
+  if (!input?.eligible) throw new Error('Resolve the package findings before previewing the PDF.');
+  let captured: { after: ActionPackage; asset: StoredAttachment; output: PackageOutput } | undefined;
+  await renderPackageAssembly(prepared, ports, signal, { commit: async (before, after, _signal, assets) => {
+    const output = getPackageRevision(after, prepared.revisionId).outputs.at(-1);
+    if (!output || assets.length !== 1 || assets[0].id !== output.asset.id) throw new Error('The rendered package output is unavailable.');
+    captured = { after, asset: assets[0], output };
+    return before;
+  } });
+  if (!captured) throw new Error('The package PDF could not be rendered.');
+  await assertAssemblyPolicyCurrent(input);
+  signal.throwIfAborted();
+  const { after, asset, output } = captured;
+  const blob = new Blob([asset.data], { type: 'application/pdf' });
+  return {
+    prepared, blob, pages: outputPageCount(output), entries: output.navigation ?? [],
+    async deliver(operation: AbortSignal) {
+      const [latest] = await listActionPackages(input.record.id);
+      if (!latest || latest.sequence !== input.record.sequence || latest.currentRevisionId !== input.record.currentRevisionId)
+        throw new Error('The package changed after preparation. Open the latest version and prepare the PDF again.');
+      await assertAssemblyPolicyCurrent(input);
+      operation.throwIfAborted();
+      if (!input.draftPdf) return commitActionPackage(input.record, after, operation, () => assemblyPolicyCurrent(input), [asset]);
+    },
+  };
 }
 
 export async function renderPackageDraft(prepared: PreparedPackageAssembly, ports: Parameters<typeof assemblePackage>[1], signal: AbortSignal) {
