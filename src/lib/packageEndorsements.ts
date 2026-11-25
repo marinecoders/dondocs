@@ -1,6 +1,8 @@
 import { ENDORSEMENT_ORDINALS } from './appendedEndorsement';
 import type { NativePackageMember, PackageMember, PackageRevision } from './actionPackages';
 import { composeBasicLetterId, isEndorsement } from './endorsement';
+import { isOutputFieldActive } from './documentFields';
+import { isStaffPaper } from './staffPapers';
 import { referenceLetterAt } from './referenceLetters';
 
 export function canLeadRecipeEndorsements(member: PackageMember): member is NativePackageMember {
@@ -25,8 +27,11 @@ export function packageEndorsementRoutes(revision: Pick<PackageRevision, 'member
     if ((index === 0 && member.role === 'basic-letter' || revision.templateState?.primaryMemberKey) && canLeadRecipeEndorsements(member)) {
       basic = member;
       ordinal = 0;
-      references = member.session.references?.length ?? 0;
-      enclosures = member.session.enclosures?.length ?? 0;
+      // Staff papers can retain hidden letter fields when their document type changes.
+      const source = member.session;
+      const staff = isStaffPaper(source.docType);
+      references = !staff || isOutputFieldActive(source, ['references']) ? source.references?.length ?? 0 : 0;
+      enclosures = !staff || isOutputFieldActive(source, ['enclosures']) ? source.enclosures?.length ?? 0 : 0;
     } else if (member.role === 'endorsement' && basic && ordinal < ENDORSEMENT_ORDINALS.length) {
       routes.set(member.id, { basicMemberId: basic.id, basicRevisionId: basic.revisionId,
         ordinal: ENDORSEMENT_ORDINALS[ordinal++], firstReference: referenceLetterAt(references), firstEnclosure: enclosures + 1 });

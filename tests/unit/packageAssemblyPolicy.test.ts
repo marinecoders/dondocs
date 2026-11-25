@@ -8,7 +8,7 @@ import { composeBasicLetterId } from '@/lib/endorsement';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { captureOriginalPackageMember, capturePackageMember } from '@/lib/actionPackageAssets';
 import { createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
-import { preparePackageAssembly, assemblePackage } from '@/lib/actionPackageAssembly';
+import { preparePackageAssembly, preparePackagePdfOutput, assemblePackage } from '@/lib/actionPackageAssembly';
 import { resolveExportDeploymentPolicy, type PolicyResolution } from '@/lib/exportDeploymentPolicy';
 import { idbGetAllAttachments } from '@/lib/documentsDb';
 import { extractPdfText } from '@/lib/pdfText';
@@ -117,4 +117,21 @@ it('continues endorsement numbering from the rendered staff paper', async () => 
   const assembled = await assemblePackage(prepared, { compile: async () => rendered, convertDocx: vi.fn(), waitForReady: async () => true });
   const boundaries = getPackageRevision(assembled).outputs[0]?.boundaries;
   expect(boundaries?.map(boundary => [boundary.startPage, boundary.firstPageLabel, boundary.pageCount])).toEqual([[1, '1', 1], [2, '2', 2]]);
+});
+
+it('rechecks deployment and package revision between a real PDF preview and delivery', async () => {
+  const member = await captureOriginalPackageMember({ name: 'Preview.pdf', data: await markedPdf() }, 'basic-letter', false);
+  const record = await reviseActionPackage(await createActionPackage('Reviewed output'), [member]);
+  const signal = new AbortController().signal;
+  const prepared = await preparePackageAssembly(record, record.currentRevisionId, secret);
+  const output = await preparePackagePdfOutput(prepared, { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }, signal);
+  expect((await PDFDocument.load(await output.blob.arrayBuffer())).getPageCount()).toBe(output.pages);
+  const stored = async () => getPackageRevision((await listActionPackages(record.id))[0]);
+  expect((await stored()).outputs).toHaveLength(0);
+  currentPolicy = unclassified;
+  await expect(output.deliver(signal)).rejects.toThrow(/deployment|policy|settings/i);
+  currentPolicy = secret;
+  await reviseActionPackage(record, [{ ...member, label: 'Updated original' }]);
+  await expect(output.deliver(signal)).rejects.toThrow(/changed after preparation/);
+  expect((await stored()).outputs).toHaveLength(0);
 });

@@ -51,6 +51,12 @@ for (const width of [1440, 320]) {
     layout = await section(dialog, 'Assembly layout');
     await expect(layout.getByLabel('Assembly profile', { exact: true })).toHaveValue('mixed'); await expect(layout.getByRole('checkbox', { name: 'Include a package cover', exact: true })).toBeChecked(); await expect(layout.getByRole('checkbox', { name: 'Include linked contents', exact: true })).toBeChecked();
     await preparePackageExport(dialog, 'pdf');
+    const preparedView = dialog.getByRole('region', { name: 'Prepared PDF contents' });
+    await expect(preparedView.getByRole('heading')).toHaveText('Combined PDF · 5 pages · 2 documents');
+    await preparedView.getByRole('button', { name: 'Training enclosure · Page 5' }).click();
+    await expect(preparedView.getByLabel('Page number', { exact: true })).toHaveValue('5');
+    const url = await preparedView.locator('[data-pdf-layer="active"]').getAttribute('data-preview-blob');
+    const previewDigest = await page.evaluate(async url => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', await (await fetch(url!)).arrayBuffer()))).map(n => n.toString(16).padStart(2, '0')).join(''), url);
   await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
     if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check(); await dialog.getByRole('button', { name: 'Download PDF', exact: true }).click();
     await expect(dialog.getByText(/^PDF downloaded\./)).toBeVisible();
@@ -58,6 +64,7 @@ for (const width of [1440, 320]) {
     if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
     await preparePackageExport(dialog, 'saved');
     const bytes = await download(page, () => dialog.getByRole('button', { name: 'Download reviewed retained PDF', exact: true }).click());
+    expect(sha(bytes)).toBe(previewDigest);
     const output = await PDFDocument.load(bytes, { updateMetadata: false });
     expect(output.getPageCount()).toBe(5);
     expect(output.getCreator()).toBe('DonDocs');
