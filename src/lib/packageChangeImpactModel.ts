@@ -43,7 +43,8 @@ export const sameImpactValue = sameReviewStoredValue;
 export function packageMemberInputs(member: PackageMember) {
   const asset = ({ name, type, size, sha256 }: { name: string; type: string; size: number; sha256: string }) => ({ name, type, size, sha256 });
   return { kind: member.kind, label: member.label, role: member.role, required: member.required,
-    ...(member.kind !== 'native' ? { original: asset(member.original), signedOriginal: member.signedOriginal }
+    ...(member.kind !== 'native' ? { original: asset(member.original), signedOriginal: member.signedOriginal,
+      ...(member.kind === 'original' && member.printableCopy && { printableCopy: asset(member.printableCopy.asset) }) }
       : { draft: asset(member.draft), source: member.source && { documentId: member.source.documentId, capturedAt: member.source.capturedAt, editSequence: member.source.editSequence },
         templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, value]) => [file, asset(value)]) }) };
 }

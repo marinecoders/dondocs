@@ -1,4 +1,6 @@
 import 'fake-indexeddb/auto';
+import { reviewRestoredPackageSources } from '@/lib/packageRestoredSources';
+import { extractPdfText } from '@/lib/pdfText';
 import { setPackagePrintableCopy } from '@/lib/packagePrintableCopy';
 import { reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
 import { packageMemberSchema } from '@/lib/actionPackages';
@@ -150,6 +152,11 @@ it('binds a printable copy to the source bytes and includes it only in editable 
   const member = getPackageRevision(paired).members.find(item => item.id === excluded.id);
   if (member?.kind !== 'original' || !member.printableCopy) throw new Error('Printable copy missing');
   expect(packageMemberSchema.safeParse({ ...member, printableCopy: { ...member.printableCopy, sourceSha256: 'f'.repeat(64) } }).success).toBe(false);
+  vi.mocked(extractPdfText).mockClear();
+  await reviewRestoredPackageSources({ ...getPackageRevision(paired), members: [member] }, policy);
+  expect(vi.mocked(extractPdfText).mock.calls.map(([bytes]) => bytes)).toEqual([
+    await readPackageAsset(member.original), await readPackageAsset(member.printableCopy.asset),
+  ]);
   for (const purpose of ['editable', 'recipient'] as const) {
     const delivery = await preparePackageDelivery(paired, paired.currentRevisionId, { label: 'Selected form', purpose, memberIds: [member.id] }, policy);
     expect(delivery.files.map(item => item.sha256)).toEqual(purpose === 'editable'

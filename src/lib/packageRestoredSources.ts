@@ -19,7 +19,14 @@ export async function reviewRestoredPackageSources(revision: PackageRevision, po
         ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === 'application/pdf')])
         if (file) reviews.push(await reviewPackageOriginal(file.data, `${member.label}: ${file.name}`, policy));
     } else if (member.kind === 'attachment') reviews.push((await reviewPackageAttachment(member.original, await readPackageAsset(member.original), policy, signal)).review);
-    else reviews.push(await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy));
+    else {
+      reviews.push(await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy));
+      if (member.printableCopy) {
+        signal?.throwIfAborted();
+        const copy = member.printableCopy.asset;
+        reviews.push(await reviewPackageOriginal(await readPackageAsset(copy), copy.name, policy));
+      }
+    }
   }
   const backgrounds = new Map(revision.members.flatMap(member => member.kind === 'native'
     ? Object.values(member.templates ?? {}).map(asset => [asset.id, asset] as const) : []));
