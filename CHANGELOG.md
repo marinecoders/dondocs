@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.280] — 2026-11-24
+
+### Added
+
+- Add the standalone macOS CAC signing companion.
+
 ## [1.3.279] — 2026-11-23
 
 ### Fixed
