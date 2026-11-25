@@ -8,15 +8,15 @@ import { inspectOfficialPdf, signOfficialPdf, signingIdentities, type OfficialIn
 import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
 import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 
-type Props = { record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
+type Props = { initialField?: string; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
   onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> };
 
-export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
+export function OfficialFormSigning({ record, initialField, onSave, onAttach }: Props) {
   const [code, setCode] = useState('');
   const [inspection, setInspection] = useState<OfficialInspection>();
   const [identities, setIdentities] = useState<Awaited<ReturnType<typeof signingIdentities>>>([]);
   const [certificate, setCertificate] = useState('');
-  const [field, setField] = useState('');
+  const [field, setField] = useState(initialField ?? '');
   const [finalize, setFinalize] = useState(false);
   const [reviewed, setReviewed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -45,7 +45,7 @@ export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
   }
   async function pair(signal: AbortSignal) {
     const bytes = await officialRevisionBytes(record);
-    await confirmSigningDisclosure({ pdfs: [{ bytes, label: record.filename }] }, () => !signal.aborted);
+    await confirmSigningDisclosure({ pdfs: [{ bytes, label: record.filename }] }, () => !signal.aborted, { action: 'inspect' });
     const info = await inspectOfficialPdf(bytes, code.trim(), signal);
     selectInspection(info);
     setIdentities([]); setCertificate('');
@@ -79,7 +79,7 @@ export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {message && <p role="status" className="text-sm">{message}</p>}
     <fieldset disabled={busy} className="space-y-3">
-      <OfficialSignatureLocation key={latest.sha256} record={record} choice={field} onChoice={setField} paired={inspected} />
+      <OfficialSignatureLocation key={latest.sha256} initiallyOpen={!!initialField} record={record} choice={field} onChoice={setField} paired={inspected} />
       <div className="flex flex-wrap items-end gap-2"><label className="grid gap-1 text-sm">Local bridge pairing code
         <input type="password" autoComplete="off" className="rounded border bg-background px-2 py-1" value={code}
           onChange={e => { setCode(e.target.value); setInspection(undefined); setIdentities([]); setReviewed(false); }} /></label>
@@ -114,7 +114,7 @@ export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
             if (file) void run(async signal => {
               if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF up to 20 MB.');
               const bytes = new Uint8Array(await file.arrayBuffer());
-              await confirmSigningDisclosure({ pdfs: [{ bytes, label: file.name }] }, () => !signal.aborted);
+              await confirmSigningDisclosure({ pdfs: [{ bytes, label: file.name }] }, () => !signal.aborted, { action: 'inspect' });
               const result = await inspectOfficialPdf(bytes, code.trim(), signal, latest);
               const next = await saveOfficialRevision(record.filename, bytes, () => !signal.aborted, record);
               signal.throwIfAborted(); onSave(next); selectInspection(result); setMessage('Returned signature verified and saved.');

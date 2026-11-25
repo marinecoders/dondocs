@@ -5,13 +5,13 @@ import { showAppConfirm } from '@/stores/alertStore';
 
 /** Resolve current policy again for each external signing delivery. */
 export async function confirmSigningDisclosure(input: SigningDisclosureInput, isCurrent: () => boolean,
-  callbacks: { onPrivacyReview?(): void; onPrivacyApproved?(): void } = {}): Promise<void> {
+  callbacks: { action?: 'sign' | 'inspect'; onPrivacyReview?(): void; onPrivacyApproved?(): void } = {}): Promise<void> {
   const policy = await getExportDeploymentPolicy(undefined, true);
   const review = await reviewSigningDisclosure(input, policy, isCurrent);
   if (review.privacy.found) {
     callbacks.onPrivacyReview?.();
     const fields = [...new Set(review.privacy.findings.map(finding => `${getPIITypeLabel(finding.type)} in ${finding.field}`))];
-    if (!await showAppConfirm({ title: 'Review signing export', message: `Potential personal information was found:\n\n${fields.slice(0, 20).join('\n')}\n\nReview these documents and their markings before downloading. Text inspection cannot read scanned images.`, confirmLabel: 'Download reviewed signing files' })) {
+    if (!await showAppConfirm({ title: 'Review signing export', message: `Potential personal information was found:\n\n${fields.slice(0, 20).join('\n')}\n\nReview these documents and their markings before downloading. Text inspection cannot read scanned images.`, confirmLabel: callbacks.action === 'sign' ? 'Continue to signing' : callbacks.action === 'inspect' ? 'Inspect reviewed PDF' : 'Download reviewed signing files' })) {
       throw new Error('The signing download was cancelled.');
     }
     if (!isCurrent()) throw new Error('The signing delivery was cancelled.');

@@ -15,7 +15,7 @@ import { renderPackageRecipientMember } from './packageNativeDelivery';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
 
 export const packageDeliverySelectionSchema = z.object({ label: z.string().trim().min(1).max(120).refine(value => Array.from(value).every(character => character.charCodeAt(0) >= 32 && character.charCodeAt(0) !== 127), 'Use a single-line delivery label.'),
-  purpose: z.enum(['recipient', 'editable']), taggedNativePdfs: z.boolean().optional(), memberIds: z.array(z.string().min(1).max(100)).min(1).max(100) }).strict();
+  purpose: z.enum(['recipient', 'editable']), scope: z.enum(['complete', 'selected']).optional(), taggedNativePdfs: z.boolean().optional(), memberIds: z.array(z.string().min(1).max(100)).min(1).max(100) }).strict();
 export type PackageDeliverySelection = z.infer<typeof packageDeliverySelectionSchema>;
 export interface PackageDeliveryFile { id: string; name: string; type: string; size: number; sha256: string }
 export interface PreparedPackageDelivery {
@@ -59,9 +59,10 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
   signal.throwIfAborted(); const source = actionPackageSchema.parse(structuredClone(input)), selection = packageDeliverySelectionSchema.parse(structuredClone(selectionInput)), policyKey = identity(policy);
   const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds), assets = new Map<string, CapturedDeliveryAsset>(), members: PackageMember[] = [], reviews: Array<{ member: string; review: ExportReview }> = [];
   const sourceRevision = getPackageRevision(source, revisionId);
-  if (selection.purpose === 'recipient' && sourceRevision.templateState) {
-    const { assertRecipeDeliveryReady } = await import('./packageRequirements');
-    await assertRecipeDeliveryReady(sourceRevision, signal);
+  if (selection.scope === 'complete' && selected.length !== sourceRevision.members.length) throw new Error('Include every member for complete package delivery.');
+  if (selection.purpose === 'recipient' && (sourceRevision.templateState || sourceRevision.requirements)) {
+    const { assertDeliveryRequirements } = await import('./packageRequirements');
+    await assertDeliveryRequirements(sourceRevision, selection.scope === 'selected' ? selection.memberIds : undefined, signal);
   }
   const taggedNativePdfs = selection.taggedNativePdfs === true;
   if (taggedNativePdfs && (selection.purpose !== 'recipient' || !selected.some(member => member.kind === 'native'))) {

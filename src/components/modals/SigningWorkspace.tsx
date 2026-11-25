@@ -16,14 +16,14 @@ import { SigningReturnReview } from '@/components/SigningReturnReview';
 import { confirmSigningDisclosure } from '@/components/signingDisclosure';
 import { signingRecordDisclosure } from '@/lib/signingDisclosure';
 
-export default function SigningWorkspace({ open, onOpenChange, initialRecordId, onAttach }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
+export default function SigningWorkspace({ open, onOpenChange, initialRecordId, initialField, onAttach }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string; initialField?: string; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
   return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="flex max-h-[95dvh] max-w-5xl flex-col overflow-hidden sm:max-w-5xl">
     <DialogHeader><DialogTitle>Signing workspace</DialogTitle><DialogDescription>Review the PDF revision, select a signature field, and save the signed original.</DialogDescription></DialogHeader>
-    {open && <SigningRecords key={initialRecordId} initialRecordId={initialRecordId} onAttach={onAttach} />}
+    {open && <SigningRecords key={initialRecordId} initialRecordId={initialRecordId} initialField={initialField} onAttach={onAttach} />}
   </DialogContent></Dialog>;
 }
 
-function SigningRecords({ initialRecordId, onAttach }: { initialRecordId?: string; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
+function SigningRecords({ initialRecordId, initialField, onAttach }: { initialRecordId?: string; initialField?: string; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
   const [records, setRecords] = useState<OfficialSigningRecord[]>([]);
   const [selected, setSelected] = useState(initialRecordId ?? '');
   const [error, setError] = useState('');
@@ -55,7 +55,7 @@ function SigningRecords({ initialRecordId, onAttach }: { initialRecordId?: strin
         <option value="">PDF handoffs and placement</option>
         {records.map(item => <option key={item.id} value={item.id}>{item.filename} · Revision {item.revisions.length}</option>)}
       </select></label>}
-    {record ? <OfficialFormSigning key={record.id} record={record} onAttach={onAttach}
+    {record ? <OfficialFormSigning key={record.id} record={record} initialField={record.id === initialRecordId ? initialField : undefined} onAttach={onAttach}
       onSave={saved => setRecords(rows => rows.map(item => item.id === saved.id ? saved : item))} />
       : loaded && !onAttach ? <SigningEditor initialRecordId={selected || undefined} /> : <p role="status">{loaded ? 'This signing file is unavailable.' : 'Opening signing records…'}</p>}
     {record && !onAttach && <Button variant="ghost" size="sm" onClick={async () => {

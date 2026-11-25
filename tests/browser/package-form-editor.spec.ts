@@ -180,7 +180,7 @@ test('reviews a saved Unit Punishment Book signature location before pairing', a
   await editor.getByRole('button', { name: 'Back to package' }).click();
   await workspace.getByRole('button', { name: 'Sign official form' }).click();
   const signing = page.getByRole('region', { name: 'Official form signatures' });
-  const confirm = page.getByRole('button', { name: 'Download reviewed signing files' });
+  const confirm = page.getByRole('button', { name: 'Continue to signing' });
   await expect(signing.or(confirm)).toBeVisible({ timeout: 45_000 });
   if (await confirm.isVisible()) await confirm.click();
   await signing.getByRole('button', { name: 'Review signature location' }).click();

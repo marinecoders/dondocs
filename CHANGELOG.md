@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.296] — 2026-11-25
+
+### Added
+
+- Open missing evidence, confirmations and signature locations from recipient delivery. Choose a complete package or a separate handoff of selected files.
+
 ## [1.3.295] — 2026-11-25
 
 ### Fixed

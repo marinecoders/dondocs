@@ -11,6 +11,11 @@ function hasValue(value: Answer) {
   return typeof value === 'string' ? !!value.trim() : Array.isArray(value) ? value.length > 0 : typeof value === 'boolean';
 }
 
+export function missingPackageSignatures(member: PackageMember, rule?: FormCompletion) {
+  return rule?.signatureFields?.filter(field => member.kind !== 'original' || !member.signedOriginal ||
+    !hasInspectedSignature(member.original.sha256, field)) ?? [];
+}
+
 export function officialFormCompletionIssues(member: PackageMember, rule?: FormCompletion): string[] {
   const issues: string[] = [];
   if (member.kind === 'native' && member.session.genericForm) {
@@ -32,8 +37,7 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
     issues.push('Review the visible signature on the received PDF in Documents.');
   if (rule?.writtenContent && member.kind === 'native' && !member.session.paragraphs?.some(p => p.text?.trim()))
     issues.push('Write the body of this case record before delivery.');
-  const missing = rule?.signatureFields?.filter(field => member.kind !== 'original' || !member.signedOriginal ||
-    !hasInspectedSignature(member.original.sha256, field));
+  const missing = missingPackageSignatures(member, rule);
   if (missing?.length) issues.push('Sign or verify these fields in the official signing workspace: ' + missing.map(name => name.replaceAll('_', ' ')).join(', ') + '.');
   return issues;
 }

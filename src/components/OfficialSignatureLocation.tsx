@@ -35,10 +35,10 @@ async function readLayout(record: OfficialSigningRecord, signal: AbortSignal) {
 }
 
 /** Reads only the saved bytes. Certificate trust and signing permission come from the bridge. */
-interface LocationProps { record: OfficialSigningRecord; choice: string; onChoice(value: string): void; paired: boolean }
+interface LocationProps { initiallyOpen?: boolean; record: OfficialSigningRecord; choice: string; onChoice(value: string): void; paired: boolean }
 
 export function OfficialSignatureLocation(props: LocationProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(props.initiallyOpen ?? false);
   return <div className="space-y-2">
     <Button variant="outline" aria-expanded={open} onClick={() => setOpen(!open)}>Review signature location</Button>
     {open && <SignatureLocations {...props} />}
