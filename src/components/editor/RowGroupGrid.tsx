@@ -34,7 +34,7 @@ export function FormRows({ groupKey, group, rows, issues = [], editForm }: Props
   return <div className="space-y-2">
     {group.editor === 'cards' ? rows.map((_, index) => <div key={rowKey(index)} className="space-y-2 rounded border p-3">
       <p>Row {index + 1}</p>
-      {columns.map(([key, column]) => <div key={key}>
+      {columns.map(([key, column]) => <div key={key} data-binding-row={rows[index].id} data-binding-field={key} data-binding-group={groupKey}>
         <span className="text-sm">{column.label}{column.requiredAt === 'export' ? ' *' : ''}</span>
         {control(index, key)}
       </div>)}
@@ -48,7 +48,7 @@ export function FormRows({ groupKey, group, rows, issues = [], editForm }: Props
           <th scope="col">Actions</th>
         </tr></thead>
         <tbody>{rows.map((_, index) => <tr key={rowKey(index)}>
-          {columns.map(([key]) => <td key={key} className="min-w-32 p-1">{control(index, key)}</td>)}
+          {columns.map(([key]) => <td key={key} data-binding-row={rows[index].id} data-binding-field={key} data-binding-group={groupKey} className="min-w-32 p-1">{control(index, key)}</td>)}
           <td><Button variant="ghost" aria-label={`Remove row ${index + 1}`} onClick={() => remove(index)}>Remove</Button></td>
         </tr>)}</tbody>
       </table>

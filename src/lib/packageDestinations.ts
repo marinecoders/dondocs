@@ -4,6 +4,7 @@ export interface PackageDestination {
   panel?: 'information' | 'requirements' | 'intake' | 'consistency' | 'work' | 'signing';
   factId?: string;
   bindingId?: string;
+  fieldDecision?: 'keep-local' | 'shared';
   memberId?: string;
   requirementId?: string;
   intakeSlot?: string;

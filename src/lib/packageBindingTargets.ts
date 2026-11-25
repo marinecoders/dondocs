@@ -46,6 +46,17 @@ const labels: Record<string, string> = {
   actionNo: 'Action number', ssicFileNo: 'SSIC / file number', orgStation: 'Organization / station', natureOfAction: 'Nature of action',
   lastName: 'Last name', firstName: 'First name', middleName: 'Middle name', edipi: 'EDIPI', entryDate: 'Entry date', box11: 'SRB page number',
 };
+export function packageBindingFieldLabel(session: SerializedSession, target: PackageBindingTarget): string {
+  if (target.kind !== 'configured-form') return labels[target.field] ?? target.field;
+  const form = session.genericForm;
+  const row = target.row;
+  if (!row) return form?.definition.fields[target.fieldId]?.label ?? target.fieldId;
+  const group = form?.definition.rowGroups[row.groupId];
+  const index = form?.rows[row.groupId]?.findIndex(item => item.id === row.rowId) ?? -1;
+  const label = group?.columns[target.fieldId]?.label ?? target.fieldId;
+  return index < 0 ? label : rowFieldLabel(group?.title ?? row.groupId, index, label);
+}
+
 const unsupportedTypes = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume']);
 function scalar(value: unknown): value is string | boolean {
   return typeof value === 'boolean' || typeof value === 'string' && value.length <= 10000;
