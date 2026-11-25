@@ -398,6 +398,7 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
         fadingOut && 'transition-opacity duration-150'
       )}
       data-pdf-layer={visible ? 'active' : 'incoming'}
+      data-preview-blob={visible && url.startsWith('blob:') ? url : undefined}
     >
       <Document
         file={url}

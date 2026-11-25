@@ -105,6 +105,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     await fill(panel, { Requester: 'Alex Example' });
     await expect(panel.getByRole('combobox', { name: 'Include a supporting PDF?', exact: true })).toHaveValue('');
     await panel.getByRole('button', { name: 'Save package draft', exact: true }).click();
+    await expect(dialog).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
     await expect(panel.getByText('Intake saved; document changes not applied.', { exact: true })).toBeVisible();
     const pending = await portable(page, dialog);
     const pendingRevision = pending.data.package.revisions[0];

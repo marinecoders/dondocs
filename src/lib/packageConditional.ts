@@ -396,7 +396,7 @@ export function conditionalRequirementSlots(template: PackageTemplateV2, answers
     const condition = requirement.when ? evaluatePackageTemplateCondition(template.program, answers, requirement.when, scope) : true;
     const key = JSON.stringify(['requirement', requirement.id, scope?.participantId ?? null]);
     const instance = requirement.memberKey && state.instances.find(instance => instance.memberKey === requirement.memberKey && instance.participantId === scope?.participantId);
-    slots.push({ key, id: idFor(key), definitionId: requirement.id, ...(scope ? { participantId: scope.participantId } : {}),
+    slots.push({ key, id: idFor(key), definitionId: requirement.id, ...(requirement.completion && { completion: requirement.completion }), ...(scope ? { participantId: scope.participantId } : {}),
       label: label ? `${requirement.label} · ${label}`.slice(0, 160) : requirement.label, kind: requirement.kind, operations: [...requirement.operations],
       condition: condition === 'unknown' ? 'unknown' : condition ? 'active' : 'inactive', ...(instance ? { memberId: instance.memberId } : {}) });
   }

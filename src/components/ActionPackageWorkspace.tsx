@@ -1250,7 +1250,19 @@ function PackageDialog({
                             >
                               Edit document
                             </Button>)}</header>
-{editable && member.kind === 'original' && !member.signedOriginal && <label className="inline-block cursor-pointer rounded border px-3 py-2 text-sm">
+{editable && member.kind === 'original' && revision.requirements?.items.some(rule =>
+                        rule.kind === 'document' && rule.memberId === member.id && rule.completion?.reviewedScan) &&
+                        <label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={busy || pendingPackageEdits}
+                          checked={member.signatureReviewSha256 === member.original.sha256} onChange={event => {
+                            const reviewed = event.target.checked;
+                            void run(async () => {
+                              await readPackageAsset(member.original);
+                              const { signatureReviewSha256: _old, ...previous } = member;
+                              await modify(revision.members.map(item => item.id === member.id ? { ...previous,
+                                revisionId: crypto.randomUUID(), ...(reviewed && { signatureReviewSha256: member.original.sha256 }) } : item));
+                            });
+                          }} />I reviewed the signature on this exact scan</label>}
+                      {editable && member.kind === 'original' && !member.signedOriginal && <label className="inline-block cursor-pointer rounded border px-3 py-2 text-sm">
                         Replace PDF in this slot
                         <input className="sr-only" type="file" accept="application/pdf,.pdf" disabled={busy || pendingPackageEdits}
                           onChange={event => {

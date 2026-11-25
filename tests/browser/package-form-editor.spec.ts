@@ -12,7 +12,7 @@ async function checkPreview(editor: Locator, page: Page, expected: string, field
   let previous: string | undefined, text = '';
   let box: number[] | undefined;
   await expect.poll(async () => {
-    const url = await page.evaluate(() => document.documentElement.dataset.testFormPreview);
+    const url = await editor.locator('[data-pdf-layer="active"]').getAttribute('data-preview-blob');
     if (!url || previous === url) return text;
     const data = await page.evaluate(async url => {
       try {
@@ -66,12 +66,6 @@ async function checkPreview(editor: Locator, page: Page, expected: string, field
 test.beforeEach(async ({ context }) => {
   await context.addInitScript(() => {
     localStorage.setItem('browser-test-visitor', 'returning');
-    const create = URL.createObjectURL;
-    URL.createObjectURL = function (object) {
-      const url = create.call(URL, object);
-      if (object instanceof Blob && object.type === 'application/pdf') document.documentElement.dataset.testFormPreview = url;
-      return url;
-    };
   });
 });
 
@@ -91,8 +85,10 @@ test('two Unit Punishment Books retain independent answers, previews and recover
   await workspace.getByText('Add documents', { exact: true }).click();
   const add = workspace.getByRole('button', { name: 'Add Unit Punishment Book' });
   await add.click();
+  await expect(workspace).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
   await expect(workspace.getByRole('button', { name: 'Edit form', exact: true })).toBeEnabled();
   await add.click();
+  await expect(workspace).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
   await expect(workspace.locator('li[id^="package-member-"]')).toHaveCount(2);
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
   const editor = page.getByRole('dialog', { name: 'Two form test', exact: true });

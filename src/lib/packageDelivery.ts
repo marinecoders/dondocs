@@ -58,6 +58,11 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
   ports?: CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> }, signal = new AbortController().signal, isCurrent: () => boolean = () => true): Promise<PreparedPackageDelivery> {
   signal.throwIfAborted(); const source = actionPackageSchema.parse(structuredClone(input)), selection = packageDeliverySelectionSchema.parse(structuredClone(selectionInput)), policyKey = identity(policy);
   const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds), assets = new Map<string, CapturedDeliveryAsset>(), members: PackageMember[] = [], reviews: Array<{ member: string; review: ExportReview }> = [];
+  const sourceRevision = getPackageRevision(source, revisionId);
+  if (selection.purpose === 'recipient' && sourceRevision.templateState) {
+    const { assertRecipeDeliveryReady } = await import('./packageRequirements');
+    await assertRecipeDeliveryReady(sourceRevision, signal);
+  }
   const taggedNativePdfs = selection.taggedNativePdfs === true;
   if (taggedNativePdfs && (selection.purpose !== 'recipient' || !selected.some(member => member.kind === 'native'))) {
     throw new Error('Select supported correspondence to prepare a recipient delivery with tagged PDFs.');

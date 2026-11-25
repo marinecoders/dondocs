@@ -135,6 +135,7 @@ export async function preparePackageExport(dialog: Locator, mode: 'pdf' | 'edita
     await expandPackageTools(dialog);
     await dialog.getByRole('button', { name: mode === 'saved' ? 'Download retained PDF' : 'Preview retained PDF', exact: true }).click();
   }
+  await expect(dialog).toHaveAttribute('aria-busy', 'false', { timeout: 90_000 });
   await expect(dialog.getByRole('button', { name: 'Cancel export', exact: true })).toBeVisible();
   await expandPackageTools(dialog);
 }
