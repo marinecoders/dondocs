@@ -1,4 +1,4 @@
-import { openPackagePreparation, inspectPackageMember, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, preparePackageExport, packageTool, downloadPackageExport } from './_helpers/packageWorkspace';
+import { openPackagePreparation, inspectPackageMember, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, preparePackageExport, packageTool, downloadPackageExport, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator, type TestInfo } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -59,7 +59,9 @@ async function finishPrintedName(page: Page, dialog: Locator, label: string, las
   await expect(dialog).toBeHidden();
   await page.getByLabel('Document section', { exact: true }).selectOption('signature');
   await page.getByRole('textbox', { name: 'Last Name', exact: true }).fill(lastName);
-  const reopened = await packages(page);
+  await page.getByRole('button', { name: 'Return to package', exact: true }).click();
+  const reopened = await openPackageWorkspace(page);
+  await expandPackageTools(reopened);
   const previousRevision = await selectedPackageRevision(reopened);
   await reopened.getByRole('button', { name: 'Save working copy as new revision', exact: true }).click();
   await expect(reopened).not.toHaveAttribute('data-revision-id', previousRevision);
@@ -114,7 +116,9 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     expect(pendingRevision.templateState.answers.values).toEqual({ requester: 'Alex Example' });
     const source = pendingRevision.templateState.source;
     expect(pending.data.portableResources.entries.some((entry: { path: string }) => entry.path === `assets/${source.id}`)).toBe(true);
-    await page.reload(); dialog = await packages(page); panel = await continueIntake(dialog); await showAnswers(panel);
+    await page.reload(); dialog = await openPackageWorkspace(page);
+    await choosePackageById(dialog, pending.data.package.id);
+    panel = await continueIntake(dialog); await showAnswers(panel);
     await expect(panel.getByRole('textbox', { name: 'Requester', exact: true })).toHaveValue('Alex Example');
     await expect(panel.getByRole('combobox', { name: 'Include a supporting PDF?', exact: true })).toHaveValue('');
     await fill(panel, { Organization: 'Fictional Training Unit', Recipient: 'Training Office', 'Request subject': 'Attend local training', 'Request date': '2026-11-17', SSIC: '01500', 'Requested action and justification': 'Request participation in local training.' });
@@ -178,7 +182,8 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     await location.pressSequentially('Locally corrected room');
     await location.blur();
     await expect(location).toHaveValue('Locally corrected room');
-    dialog = await packages(page);
+    await page.getByRole('button', { name: 'Return to package', exact: true }).click();
+    dialog = await openPackageWorkspace(page);
     const beforeLocalEdit = await selectedPackageRevision(dialog);
     await packageSection(dialog, 'Documents', true);
     await dialog.getByRole('button', { name: 'Save working copy as new revision', exact: true }).click();
@@ -217,7 +222,8 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     expect(result.members.findIndex((member: { id: string }) => member.id === inPerson.id)).toBe(revision.members.findIndex((member: { id: string }) => member.id === inPerson.id));
     const blairIndex = result.members.findIndex((member: { kind: string; session?: { genericForm?: { answers: { name?: string } } } }) => member.session?.genericForm?.answers.name === 'Blair Sample');
     expect(result.members[blairIndex].session.genericForm.answers.course).toBe('Updated by the package information editor');
-    await page.reload(); dialog = await packages(page);
+    await page.reload(); dialog = await openPackageWorkspace(page);
+    await choosePackageById(dialog, changed.data.package.id);
     const resumed = await portable(page, dialog);
     expect(resumed.data.package.revisions[0].templateState).toEqual(result.templateState);
     const receiver = await browser.newContext({ viewport: page.viewportSize()!, serviceWorkers: 'block' });

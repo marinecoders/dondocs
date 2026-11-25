@@ -1,4 +1,4 @@
-import { openPackagePreparation, expandPackageTools, choosePackage, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
+import { openPackagePreparation, expandPackageTools, choosePackage, preparePackageExport, packageTool, packageHeading, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type TestInfo } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument, PDFName, PDFSignature } from 'pdf-lib';
@@ -152,9 +152,10 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
       await panel.getByRole('button', { name: 'Save package template', exact: true }).click();
       await expect(panel.getByText('Package template saved.', { exact: true })).toBeVisible();
       template = (await snapshot(page)).templates.find(record => record.name === TEMPLATE)!;
-      await page.reload();dialog = await openPackages(page);
-      await expandPackageTools(dialog);
-      panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
+      await page.reload();
+      dialog = await openPackageWorkspace(page);
+      await choosePackageById(dialog, sourcePackage.id);
+      panel = await packageTool(dialog, 'Reusable package templates');
       await panel.getByLabel('Saved package templates', { exact: true }).selectOption({ label: TEMPLATE });
       await panel.getByLabel('New action name', { exact: true }).fill(FRESH_PACKAGE);
       await panel.getByLabel('Template value NAME', { exact: true }).fill('NEW MARINE');

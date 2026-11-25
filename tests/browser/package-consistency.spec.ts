@@ -1,4 +1,4 @@
-import { openPackagePreparation, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, preparePackageExport, packageTool } from './_helpers/packageWorkspace';
+import { openPackagePreparation, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, preparePackageExport, packageTool, openPackageWorkspace, choosePackage } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
@@ -75,7 +75,8 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await relationships.getByLabel('Exception reason for Action dates', { exact: true }).fill('Fictional example: approved local date exception for this training scenario.');
   await relationships.getByRole('button', { name: 'Add exception to changes', exact: true }).click();
   await saveRelationships(relationships);
-  await page.reload(); dialog = await packages(page);
+  await page.reload(); dialog = await openPackageWorkspace(page);
+  await choosePackage(dialog, 'Request: Coordination check');
   await expandPackageTools(dialog);
   relationships = await packageTool(dialog, 'Package relationships');
   await relationships.getByRole('button', { name: 'Check declared relationships', exact: true }).click();

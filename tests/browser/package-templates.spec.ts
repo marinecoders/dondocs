@@ -1,4 +1,4 @@
-import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
+import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, packageHeading, openPackageWorkspace, choosePackage } from './_helpers/packageWorkspace';
 import { expect, test, type Page } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -49,7 +49,9 @@ for (const theme of ['light', 'dark']) {
     await panel.getByRole('button', { name: 'Save package template', exact: true }).click();
     await expect(panel.getByText('Package template saved.', { exact: true })).toBeVisible();
     await page.reload();
-    dialog = await openPackages(page); await expandPackageTools(dialog); panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
+    dialog = await openPackageWorkspace(page);
+    await choosePackage(dialog, 'Training action starter');
+    panel = await packageTool(dialog, 'Reusable package templates');
     await panel.getByLabel('Saved package templates', { exact: true }).selectOption({ label: 'Training package template' });
     await panel.getByRole('button', { name: 'Review template export', exact: true }).click();
     await panel.getByRole('checkbox', { name: /I reviewed this template's retained text/ }).check();

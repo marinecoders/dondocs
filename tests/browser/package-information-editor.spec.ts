@@ -1,4 +1,4 @@
-import { openPackageWorkspace, importPackage, packageTool } from './_helpers/packageWorkspace';
+import { openPackageWorkspace, importPackage, packageTool, selectedPackageId, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
@@ -13,6 +13,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`edits, links, reviews an
   let dialog = await openPackageWorkspace(page);
   const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
   await importPackage(dialog, { name: 'synthetic-package.json', mimeType: 'application/json', buffer: bytes });
+  const id = await selectedPackageId(dialog);
   let panel = await packageTool(dialog, 'Details');
   if (await panel.getByRole('button', { name: 'Field links and other details', exact: true }).getAttribute('aria-expanded') === 'false') await panel.getByRole('button', { name: 'Field links and other details', exact: true }).click();
   await expect(panel.getByRole('button', { name: 'Add shared value', exact: true })).toBeEnabled();
@@ -23,6 +24,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`edits, links, reviews an
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, id);
   panel = dialog.getByRole('region', { name: 'Details', exact: true });
   await expect(panel.getByText('Recovered unapplied edits.', { exact: true })).toBeVisible();
   if (await panel.getByRole('button', { name: 'Field links and other details', exact: true }).getAttribute('aria-expanded') === 'false') await panel.getByRole('button', { name: 'Field links and other details', exact: true }).click();
@@ -51,7 +53,9 @@ for (const theme of ['light', 'dark', 'classic']) test(`edits, links, reviews an
   await panel.getByRole('button', { name: 'Apply package changes', exact: true }).click();
   await expect(panel.getByText('Package changes saved as a new revision.', { exact: true })).toBeVisible();
   await page.reload();
-  dialog = await openPackageWorkspace(page); panel = dialog.getByRole('region', { name: 'Details', exact: true });
+  dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, id);
+  panel = dialog.getByRole('region', { name: 'Details', exact: true });
   if (await panel.getByRole('button', { name: 'Field links and other details', exact: true }).getAttribute('aria-expanded') === 'false') await panel.getByRole('button', { name: 'Field links and other details', exact: true }).click();
   await expect(panel.getByLabel('Value 1', { exact: true })).toHaveValue('000042');
   await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).getByRole('button', { name: 'Documents', exact: true }).click();

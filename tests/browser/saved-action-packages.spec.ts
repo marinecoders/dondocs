@@ -1,4 +1,4 @@
-import { expectSelectedPackageMemberKind, openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport } from './_helpers/packageWorkspace';
+import { expectSelectedPackageMemberKind, openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport, openPackageWorkspace } from './_helpers/packageWorkspace';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { test, expect, type Page, type BrowserContext, type Locator } from "@playwright/test";
 import { PDFDocument, StandardFonts } from "pdf-lib";
@@ -508,6 +508,7 @@ test("configured package survives fresh offline import, native editing, reload a
     ).toHaveValue("Fictional working form");
     modal = await packages(restored);
     await choosePackageById(modal, JSON.parse(portable.toString("utf8")).package.id);
+    await packageSection(modal, 'Documents', true);
     await modal.getByRole("button", { name: "Save working copy as new revision", exact: true }).click();
     await preparePackageExport(modal, 'pdf');
     await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
@@ -591,8 +592,8 @@ test("maximum-length package names duplicate durably and empty originals cannot 
   const emptyBytes = Buffer.from(await empty.save({ addDefaultPage: false }));
   let previousCopyId: string | undefined;
   for (const name of ["A".repeat(120), "😀".repeat(60)]) {
-    let modal = await packages(page);
-    if (previousCopyId) await expect(modal).toHaveAttribute('data-package-id', previousCopyId);
+    let modal = await openPackageWorkspace(page);
+    if (previousCopyId) await expect(modal.locator(`button[data-package-id="${previousCopyId}"]`)).toBeVisible();
     await newPackage(modal);
     await expandPackageTools(modal);
     const nameInput = modal.getByRole("textbox", { name: "Package name", exact: true });
@@ -610,20 +611,19 @@ test("maximum-length package names duplicate durably and empty originals cannot 
     expect(copiedName.length).toBeLessThanOrEqual(120);
     expect(Buffer.from(copiedName).toString("utf8")).toBe(copiedName);
     await page.reload();
-    modal = await packages(page);
-    await showPackageLibrary(modal);
+    modal = await openPackageWorkspace(page);
     await expect(modal.locator('button[data-package-id]').filter({ hasText: copiedName })).toHaveCount(1);
     await choosePackageById(modal, copiedId);
     await expect(modal.getByRole('heading', { name: copiedName, exact: true, level: 1 })).toBeVisible();
-  await packageSection(modal, 'Documents', true);
+    await packageSection(modal, 'Documents', true);
     await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: "empty-original.pdf", mimeType: "application/pdf", buffer: emptyBytes });
     await expect(modal.getByRole("alert")).toContainText(/at least one page/i);
     await expect(modal.getByRole("heading", { name: /^1\./ })).toHaveCount(0);
     await page.reload();
-    modal = await packages(page);
-    await showPackageLibrary(modal);
+    modal = await openPackageWorkspace(page);
     await expect(modal.locator('button[data-package-id]').filter({ hasText: copiedName })).toHaveCount(1);
     await choosePackageById(modal, copiedId);
+    await packageSection(modal, 'Documents');
     await expect(modal.getByRole("heading", { name: /^1\./ })).toHaveCount(0);
     await modal.getByRole("button", { name: "Close", exact: true }).click();
     await expect(modal).toBeHidden();
@@ -644,7 +644,10 @@ test("package-name validation preserves Unicode and blocks overlong commits", as
   const id = await selectedPackageId(modal);
   await packageSection(modal, 'Overview', true);
   await name.fill("B".repeat(121));await expect(modal.getByRole("button", { name: "Rename", exact: true })).toBeDisabled();
-  await page.reload();modal = await packages(page);name = modal.getByRole("textbox", { name: "Package name", exact: true });
+  await page.reload();
+  modal = await openPackageWorkspace(page);
+  await choosePackageById(modal, id);
+  name = modal.getByRole("textbox", { name: "Package name", exact: true });
   await packageSection(modal, 'Overview', true);
   await expect(name).toHaveValue(unicode);await expect(modal).toHaveAttribute('data-package-id', id);
   await showPackageLibrary(modal); await expect(modal.locator('button[data-package-id]')).toHaveCount(1);

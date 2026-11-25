@@ -1,4 +1,4 @@
-import { openPackagePreparation, newPackage, importPackage, packageSection, expandPackageTools, packageVersion, preparePackageExport, packageTool, packageHeading, downloadPackageExport } from './_helpers/packageWorkspace';
+import { openPackagePreparation, newPackage, importPackage, packageSection, expandPackageTools, packageVersion, preparePackageExport, packageTool, packageHeading, downloadPackageExport, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
@@ -76,7 +76,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`administrative request l
   await expect(dialog.getByRole('region', { name: /^(Details|Package information)$/ }).getByLabel('Value 4', { exact: true })).toHaveValue('Attend training');
   await expect(dialog.getByRole('button', { name: 'Apply package changes', exact: true })).toHaveCount(0);
   await packageVersion(dialog, updatedRevision.id);
-  await page.reload(); dialog = await openPackages(page);
+  await page.reload(); dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, initial.package.id);
   await expect(dialog).toHaveAttribute('data-package-id', initial.package.id);
   await expect(dialog.getByRole('region', { name: /^(Details|Package information)$/ }).getByLabel('Value 4', { exact: true })).toHaveValue('Final training request');
   await createRequest(dialog, 'Blair Sample', 'Second training action', 'B. SAMPLE');

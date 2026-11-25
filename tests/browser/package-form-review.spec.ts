@@ -1,4 +1,4 @@
-import { openPackagePreparation, packageSection, expandPackageTools, selectedPackageId, packageTool, prepareReviewTransfer } from './_helpers/packageWorkspace';
+import { openPackagePreparation, packageSection, expandPackageTools, selectedPackageId, packageTool, prepareReviewTransfer, openPackageWorkspace, choosePackage, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator, type Download } from '@playwright/test';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { readFile } from 'node:fs/promises';
@@ -50,7 +50,8 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   const downloaded = await downloading; expect(await downloaded.failure()).toBeNull();
   const returned = JSON.parse((await readFile((await downloaded.path())!)).toString());
   expect(JSON.stringify(returned)).toContain('Please confirm this exact captured answer.'); expect(JSON.stringify(returned)).toContain('fieldReview');
-  await page.reload(); dialog = await packages(page);
+  await page.reload(); dialog = await openPackageWorkspace(page);
+  await choosePackage(dialog, 'Request: Form review exercise');
   await packageSection(dialog, 'Review', true);
   await dialog.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();
   await dialog.getByRole('navigation', { name: 'Captured review members', exact: true }).getByRole('button', { name: 'DonDocs request details worksheet', exact: true }).click();
@@ -160,8 +161,9 @@ for (const width of [1440, 320]) {
     await decisions.getByRole('button', { name: 'Review rejection for Organization', exact: true }).click(); await saveDecision(dialog);
     await expect.poll(async () => answers(await savedPackage(page, id)).organization).toBe('Fictional Training Unit');
     await expect(decisions.getByText('Rejected in a saved package revision.', { exact: true })).toBeVisible();
-    await page.reload(); const reopened = await packages(page);
-  await packageSection(reopened, 'Review', true);
+    await page.reload(); const reopened = await openPackageWorkspace(page);
+    await choosePackageById(reopened, id);
+    await packageSection(reopened, 'Review', true);
     await reopened.getByRole('button', { name: 'Open review Package review 1', exact: true }).click(); await openWorksheet(reopened);
     await expect(reopened.getByText('Rejected in a saved package revision.', { exact: true })).toBeVisible();
     await info.attach('saved-form-decisions', { body: JSON.stringify(await savedPackage(page, id), null, 2), contentType: 'application/json' });

@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, versionCount, preparePackageExport, packageTool } from './_helpers/packageWorkspace';
+import { openPackagePreparation, importPackage, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, versionCount, preparePackageExport, packageTool, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
@@ -140,7 +140,9 @@ for (const theme of ['light', 'dark', 'classic']) test(`captured impact preserve
   await expect(information.getByLabel('Value 2', { exact: true })).toHaveCount(0);
   expect(await versionCount(dialog)).toBe(3);
   await page.reload();
-  dialog = await openPackages(page); information = dialog.getByRole('region', { name: /^(Details|Package information)$/ });
+  dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, fixture.package.id);
+  information = dialog.getByRole('region', { name: /^(Details|Package information)$/ });
   await expect(dialog).toHaveAttribute('data-revision-id', finalUpdate);
   await packageSection(dialog, 'Overview', true);
   await expect(information.getByLabel('Value 1', { exact: true })).toHaveValue('SYNTHETIC FINAL IMPACT SUBJECT');

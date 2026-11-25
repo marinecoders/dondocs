@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, packageHeading } from './_helpers/packageWorkspace';
+import { openPackagePreparation, importPackage, packageSection, packageHeading, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Page, type Locator } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -62,7 +62,9 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   await scans.getByRole('button', { name: 'Review corrected extraction', exact: true }).click();
   const save = scans.getByRole('button', { name: 'Save reviewed extraction', exact: true }); await expect(save).toBeDisabled();
   await scans.getByRole('checkbox', { name: /^I reviewed the exact source, all corrected pages/ }).check(); await save.click(); await expect(save).not.toBeVisible();
-  await page.reload(); dialog = await packages(page); scans = await section(dialog, 'Scanned evidence');
+  await page.reload(); dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, 'package_evidence_browser');
+  scans = await section(dialog, 'Scanned evidence');
   await scans.getByLabel('Saved extraction', { exact: true }).selectOption({ index: 1 });
   await scans.evaluate(root => {
     const heights: number[] = [];

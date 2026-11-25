@@ -1,4 +1,4 @@
-import { openPackageWorkspace, importPackage, packageSection } from './_helpers/packageWorkspace';
+import { openPackageWorkspace, importPackage, packageSection, choosePackageById } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -134,7 +134,9 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await expect(add).not.toBeVisible(); await capturedHandoff(panel); await expect(panel.locator('p').filter({ hasText: /Return 1: Synthetic associated return.pdf/ })).toBeVisible();
   await informationPanel(dialog);
   await expect(information.getByLabel('Value 1', { exact: true })).toHaveValue('Preserve this newer package work');
-  await page.reload(); dialog = await packages(page); panel = await signingPanel(dialog);
+  await page.reload(); dialog = await packages(page);
+  await choosePackageById(dialog, 'package_signing_browser');
+  panel = await signingPanel(dialog);
   await capturedHandoff(panel); await expect(panel.locator('p').filter({ hasText: /Return 1: Synthetic associated return.pdf/ })).toBeVisible();
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await panel.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`package-signing-${theme}-${width}px.png`) });
