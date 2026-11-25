@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.309] — 2026-11-25
+
+### Added
+
+- Edit administrative action forms and other native documents directly inside their package with a live preview and save recovery.
+
 ## [1.3.308] — 2026-11-25
 
 ### Added

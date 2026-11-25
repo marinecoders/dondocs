@@ -249,3 +249,42 @@ test('reviews a saved Unit Punishment Book signature location before pairing', a
   await expect(preview.locator('span[aria-hidden]')).toBeVisible({ timeout: 30_000 });
   await expect(signing.getByLabel('Local bridge pairing code')).toHaveValue('');
 });
+
+test('administrative action forms edit and recover inside the package', async ({ page, context }) => {
+  await injectPackageWriteFailure(context);
+  await page.goto('/');
+  const draft = { documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType: 'navmc_10274',
+    formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [],
+    forms: { navmc10274: { actionNo: 'INITIAL' }, includeCoverPage: false } };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'action.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.locator('#actionNo')).toHaveValue('INITIAL');
+  const workspace = await openPackageWorkspace(page);
+  await newBlankPackage(workspace, 'Two action forms');
+  await capturePackageDocument(workspace);
+  await capturePackageDocument(workspace);
+  await workspace.getByRole('button', { name: 'Edit document', exact: true }).click();
+  const editor = page.getByRole('dialog', { name: 'Two action forms', exact: true });
+  const picker = editor.getByRole('combobox', { name: 'Package document' });
+  const action = editor.locator('#actionNo');
+  const first = await picker.inputValue();
+  const other = await picker.locator('option').evaluateAll(options =>
+    options.map(option => (option as HTMLOptionElement).value));
+  await action.fill('ALPHA-01');
+  await action.blur();
+  await checkPreview(editor, page, 'ALPHA-01');
+  await picker.selectOption(other.find(id => id !== first)!);
+  await expect(action).toHaveValue('INITIAL');
+  await page.evaluate(() => sessionStorage.setItem('test-fail-package-write', '1'));
+  await action.fill('BRAVO-02');
+  await picker.selectOption(first);
+  await expect(editor.getByRole('button', { name: 'Retry save' })).toBeVisible();
+  await expect(action).toHaveValue('BRAVO-02');
+  await page.evaluate(() => sessionStorage.removeItem('test-fail-package-write'));
+  await editor.getByRole('button', { name: 'Retry save' }).click();
+  await expect(editor.getByText('Saved to package', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(action).toHaveValue('BRAVO-02');
+  await picker.selectOption(first);
+  await expect(action).toHaveValue('ALPHA-01');
+});

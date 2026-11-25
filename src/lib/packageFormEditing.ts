@@ -3,7 +3,6 @@ import { validatePackageDraft } from './actionPackageDraft';
 import { getPackageRevision, listActionPackages, newPackageId, reviseActionPackage, type ActionPackage, type NativePackageMember, type PackageMember } from './actionPackages';
 import { newAttachmentId } from './attachments';
 import { portableResourceDigest } from './portableResources';
-import { packageFormSigningAction } from './packageOfficialForms';
 import type { FormInstance } from '@/services/forms/model';
 import type { Navmc11811Data } from '@/stores/formStore';
 
@@ -11,7 +10,7 @@ export type PackageFormValues = { kind: 'configured'; answers: FormInstance['ans
   | { kind: 'page11'; page11: Navmc11811Data };
 
 export function isEditableOfficialForm(member: PackageMember): member is NativePackageMember {
-  return member.kind === 'native' && !!packageFormSigningAction(member)
+  return member.kind === 'native' && member.session.documentCategory === 'forms'
     && !!(member.session.genericForm || member.session.forms?.navmc11811);
 }
 

@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
-import PackageCorrespondenceEditor from '@/components/PackageCorrespondenceEditor';
+import PackageNativeDocumentEditor from '@/components/PackageNativeDocumentEditor';
 import { capturePackageMember } from '@/lib/actionPackageAssets';
 import { createActionPackage, reviseActionPackage } from '@/lib/actionPackages';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
@@ -17,10 +17,10 @@ it('labels the previous PDF while updating and hides it when the replacement fai
   const record = await reviseActionPackage(await createActionPackage('Preview test'), [member]);
   const props = { record, member, documentId, setEditorHost: vi.fn(), navigationError: '', onSave: vi.fn(), onNavigate: vi.fn(), disabled: false };
   const preview = { documentId, url: 'blob:previous-output', busy: true };
-  const editor = render(<PackageCorrespondenceEditor {...props} preview={preview} />);
+  const editor = render(<PackageNativeDocumentEditor {...props} preview={preview} />);
   expect(await screen.findByText('Rendered PDF')).toBeTruthy();
   expect(screen.getByText('Updating preview…')).toBeTruthy();
-  editor.rerender(<PackageCorrespondenceEditor {...props} preview={{ ...preview, busy: false, error: 'Preview failed' }} />);
+  editor.rerender(<PackageNativeDocumentEditor {...props} preview={{ ...preview, busy: false, error: 'Preview failed' }} />);
   expect(screen.getByText('Preview failed')).toBeTruthy();
   expect(screen.queryByText('Rendered PDF')).toBeNull();
 });
