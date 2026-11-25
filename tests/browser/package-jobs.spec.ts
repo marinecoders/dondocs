@@ -1,4 +1,4 @@
-import { openPackageWorkspace, importPackage, packageSection } from './_helpers/packageWorkspace';
+import { openPackageWorkspace, importPackage, packageSection, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -89,7 +89,9 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
     finally { database.close(); }
   }, retained.outputId);
   const checkpoint = Buffer.from(retainedBytes); expect(checkpoint.length).toBe(retained.size); expect(sha(checkpoint)).toBe(retained.sha256); expect((await PDFDocument.load(checkpoint)).getPageCount()).toBe(1);
-  await page.reload(); dialog = await openPackageWorkspace(page); panel = await jobsPanel(dialog);
+  await page.reload(); dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, packageId);
+  panel = await jobsPanel(dialog);
   await panel.getByRole('button', { name: 'Review saved job', exact: true }).click();
   const resume = panel.getByRole('button', { name: 'Resume reviewed assembly', exact: true }); await expect(resume).toBeDisabled();
   await expect(panel.getByRole('checkbox', { name: /^I reviewed every captured document/ })).not.toBeChecked();
@@ -111,7 +113,9 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await info.attach('resumed-package.pdf', { body: output, contentType: 'application/pdf' });
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await panel.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`resumable-package-${theme}-${width}px.png`) });
-  await page.reload(); dialog = await openPackageWorkspace(page); panel = await jobsPanel(dialog);
+  await page.reload(); dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, packageId);
+  panel = await jobsPanel(dialog);
   await expect(panel.getByRole('button', { name: 'Review saved job', exact: true })).toHaveCount(0);
   await expect(panel.getByText(`complete · ${count} of ${count} documents`, { exact: true })).toBeVisible();
 });

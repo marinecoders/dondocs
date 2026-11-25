@@ -1,4 +1,4 @@
-import { expectSelectedPackageMemberKind, openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport } from './_helpers/packageWorkspace';
+import { expectSelectedPackageMemberKind, openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport, openPackageWorkspace } from './_helpers/packageWorkspace';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { test, expect, type Page, type BrowserContext, type Locator } from "@playwright/test";
 import { PDFDocument, StandardFonts } from "pdf-lib";
@@ -508,6 +508,7 @@ test("configured package survives fresh offline import, native editing, reload a
     ).toHaveValue("Fictional working form");
     modal = await packages(restored);
     await choosePackageById(modal, JSON.parse(portable.toString("utf8")).package.id);
+    await packageSection(modal, 'Documents', true);
     await modal.getByRole("button", { name: "Save working copy as new revision", exact: true }).click();
     await preparePackageExport(modal, 'pdf');
     await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
@@ -644,7 +645,10 @@ test("package-name validation preserves Unicode and blocks overlong commits", as
   const id = await selectedPackageId(modal);
   await packageSection(modal, 'Overview', true);
   await name.fill("B".repeat(121));await expect(modal.getByRole("button", { name: "Rename", exact: true })).toBeDisabled();
-  await page.reload();modal = await packages(page);name = modal.getByRole("textbox", { name: "Package name", exact: true });
+  await page.reload();
+  modal = await openPackageWorkspace(page);
+  await choosePackageById(modal, id);
+  name = modal.getByRole("textbox", { name: "Package name", exact: true });
   await packageSection(modal, 'Overview', true);
   await expect(name).toHaveValue(unicode);await expect(modal).toHaveAttribute('data-package-id', id);
   await showPackageLibrary(modal); await expect(modal.locator('button[data-package-id]')).toHaveCount(1);

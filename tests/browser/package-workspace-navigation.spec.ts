@@ -1,4 +1,4 @@
-import { openPackageWorkspace, showPackageLibrary, newPackage, importPackage, packageSection, expandPackageTools, packageVersion, inspectPackageMember } from './_helpers/packageWorkspace';
+import { openPackageWorkspace, newPackage, importPackage, packageSection, expandPackageTools, packageVersion, inspectPackageMember, choosePackage, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
@@ -32,13 +32,14 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
       await page.keyboard.press('Escape');
       await expect(dialog).toBeHidden();
       dialog = await openPackageWorkspace(page);
+      await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
       await newPackage(dialog);
       await dialog.getByRole('button', { name: `Start ${action}`, exact: true }).click();
       await expect(dialog.getByRole('button', { name: 'Back to actions', exact: true })).toBeEnabled();
       await dialog.getByRole('button', { name: 'Close', exact: true }).click();
       await expect(dialog).toBeHidden();
       dialog = await openPackageWorkspace(page);
-      await showPackageLibrary(dialog);
+      await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
       await expect(dialog.getByText('No packages yet. Create one to bring your documents together.', { exact: true })).toBeVisible();
     }
   });
@@ -54,6 +55,8 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     await expect(dialog).toBeHidden();
     await page.reload();
     dialog = await openPackageWorkspace(page);
+    await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
+    await dialog.getByRole('button', { name: 'Resume unfinished action', exact: true }).click();
     const requester = dialog.getByRole('textbox', { name: 'Requester', exact: true });
     await expect(requester).toHaveValue('Alex Example');
     const back = dialog.getByRole('button', { name: 'Back to actions', exact: true });
@@ -68,7 +71,23 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     await expect(dialog).toBeHidden();
   });
 
-  test('package workspace resumes the exact selected revision and original member', async ({ page }, info) => {
+  test('closing a newly saved action returns to the library on the next launch', async ({ page }) => {
+    await page.goto('/');
+    const dialog = await openPackageWorkspace(page);
+    await newPackage(dialog);
+    await dialog.getByRole('button', { name: 'Start administrative request', exact: true }).click();
+    await dialog.getByRole('textbox', { name: 'Requester', exact: true }).fill('Alex Example');
+    await dialog.getByRole('button', { name: 'Save package draft', exact: true }).click();
+    await expect(dialog.getByRole('heading', { name: 'Administrative request', exact: true, level: 1 })).toBeVisible();
+    await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+    await expect(dialog).toBeHidden();
+    await openPackageWorkspace(page);
+    await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
+    await choosePackage(dialog, 'Administrative request');
+    await expect(dialog.getByRole('textbox', { name: 'Requester', exact: true })).toHaveValue('Alex Example');
+  });
+
+  test('reopens to the library and keeps saved versions available', async ({ page }, info) => {
     await page.goto('/');
     let dialog = await openPackageWorkspace(page);
     const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
@@ -87,11 +106,14 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
     dialog = await openPackageWorkspace(page);
-    expect(await packageVersion(dialog)).toBe(savedRevision);
-    await expect(member).toHaveAttribute('data-selected', 'true');
+    await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
+    await choosePackageById(dialog, fixture.package.id);
+    expect(await packageVersion(dialog)).not.toBe(savedRevision);
     await page.reload();
     dialog = await openPackageWorkspace(page);
-    expect(await packageVersion(dialog)).toBe(savedRevision);
+    await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
+    await choosePackageById(dialog, fixture.package.id);
+    await packageVersion(dialog, savedRevision);
     await expect(dialog.getByText(/Historical/)).toBeVisible();
     await inspectPackageMember(dialog, original.id);
     await expect(member).toHaveAttribute('data-selected', 'true');

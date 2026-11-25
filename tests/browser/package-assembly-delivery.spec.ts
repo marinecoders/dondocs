@@ -1,5 +1,5 @@
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
-import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, newBlankPackage, importPackage as importWorkspacePackage } from './_helpers/packageWorkspace';
+import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, newBlankPackage, importPackage as importWorkspacePackage, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -46,7 +46,9 @@ for (const width of [1440, 320]) {
     await expect(layout.getByRole('button', { name: 'Save assembly settings', exact: true })).toBeDisabled();
     await layout.getByRole('checkbox', { name: /^I reviewed the assembly profile/ }).check(); await layout.getByRole('button', { name: 'Save assembly settings', exact: true }).click();
     await expect(layout.getByText('Showing saved assembly settings.', { exact: true })).toBeVisible();
-    await page.reload(); dialog = await packages(page); layout = await section(dialog, 'Assembly layout');
+    await page.reload(); dialog = await openPackageWorkspace(page);
+    await choosePackageById(dialog, 'package_assembly_browser');
+    layout = await section(dialog, 'Assembly layout');
     await expect(layout.getByLabel('Assembly profile', { exact: true })).toHaveValue('mixed'); await expect(layout.getByRole('checkbox', { name: 'Include a package cover', exact: true })).toBeChecked(); await expect(layout.getByRole('checkbox', { name: 'Include linked contents', exact: true })).toBeChecked();
     await preparePackageExport(dialog, 'pdf');
   await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();

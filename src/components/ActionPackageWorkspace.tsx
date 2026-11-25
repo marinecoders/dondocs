@@ -17,7 +17,7 @@ import { PackageBlankPdfs } from "./PackageBlankPdfs";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
 import { PackageExportOptions } from "./PackageExportOptions";
 import { PackageExportFindings } from "./PackageExportFindings";
-import { readPackageNewActionContext } from '@/lib/packageNewActionContext';
+import { readPackageNewActionContext, type PackageNewActionContext } from '@/lib/packageNewActionContext';
 import './package-workspace.css';
 import { ArrowLeft, X } from 'lucide-react';
 import { readPackageWorkspaceContext, rememberPackageWorkspaceContext, type PackageWorkspaceSection } from "@/lib/packageWorkspaceContext";
@@ -198,14 +198,15 @@ function PackageDialog({
     onClose();
   }
   const [savedWorkspace] = useState(readPackageWorkspaceContext);
-  const [unfinishedAction] = useState(readPackageNewActionContext);
+  const [unfinishedAction, setUnfinishedAction] = useState(readPackageNewActionContext);
+  const [actionToResume, setActionToResume] = useState<PackageNewActionContext>();
   const [libraryOpen, setLibraryOpen] = useState(false);
-  const [creating, setCreating] = useState(() => !!unfinishedAction && !useUIStore.getState().actionPackageSelectionId);
+  const [creating, setCreating] = useState(false);
   const [creatingAction, setCreatingAction] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [deliveryFormat, setDeliveryFormat] = useState<'pdf' | 'draft' | 'editable'>('pdf');
-  const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>(unfinishedAction ? 'overview' : savedWorkspace?.section ?? "overview");
-  const [activeMemberId, setActiveMemberId] = useState<string | null>(savedWorkspace?.memberId ?? null);
+  const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>("overview");
+  const [activeMemberId, setActiveMemberId] = useState<string | null>(null);
   const overviewRef = useRef<HTMLDivElement>(null);
   const mainScroll = useRef<HTMLDivElement>(null);
   const preparedResultRef = useRef<HTMLDivElement>(null);
@@ -214,7 +215,6 @@ function PackageDialog({
   const documentsRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
   const deliveryRef = useRef<HTMLDivElement>(null);
-  const resumed = useRef(false);
   const [original, setOriginal] = useState<{
     asset: PackageAsset;
     bytes: ArrayBuffer;
@@ -397,15 +397,6 @@ function PackageDialog({
     if (record && revision) rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: revision.id,
       memberId: selectedMember?.id ?? null, section: workspaceSection });
   }, [record, revision, selectedMember?.id, workspaceSection]);
-  useEffect(() => {
-    if (!loaded || resumed.current) return;
-    resumed.current = true;
-    if (!savedWorkspace || requestedPackageId) return;
-    const target = savedWorkspace.section === "documents"
-      ? document.getElementById(`package-member-${savedWorkspace.memberId}`) ?? documentsRef.current
-      : savedWorkspace.section === "delivery" ? deliveryRef.current : savedWorkspace.section === "review" ? reviewRef.current : overviewRef.current;
-    target?.focus({ preventScroll: true });
-  }, [loaded, savedWorkspace, requestedPackageId]);
   function navigate(section: PackageWorkspaceSection) {
     setLibraryOpen(false);
     setWorkspaceSection(section);
@@ -456,7 +447,7 @@ function PackageDialog({
           const explicit = records.find(record => record.id === requestedPackageId);
           const restoredForm = readFormLocation('active');
           const resumeForm = !requestedPackageId && records.find(r => restoredForm.startsWith(r.id + '/'));
-          const requested = explicit || resumeForm || (!requestedPackageId && !creating ? records.find(record => record.id === savedWorkspace?.packageId) : undefined);
+          const requested = explicit || resumeForm;
           if (requested) {
             setCreating(false);
             setCreatingAction(false);
@@ -465,11 +456,10 @@ function PackageDialog({
             setSelectedId(requested.id);
             if (requestedRevisionId && !requested.revisions.some(revision => revision.id === requestedRevisionId))
               throw new Error("The reviewed package revision is no longer available. Reopen the share and review it again.");
-            const restoredRevision = !resumeForm && !explicit && requested.revisions.some(revision => revision.id === savedWorkspace?.revisionId)
-              ? savedWorkspace!.revisionId : requested.currentRevisionId;
-            setRevisionId(requestedRevisionId ?? restoredRevision);
+            setRevisionId(requestedRevisionId ?? requested.currentRevisionId);
             const returningToDocument = explicit && savedWorkspace?.packageId === explicit.id && savedWorkspace.revisionId === requestedRevisionId && savedWorkspace.section === 'documents';
-            if (explicit && !returningToDocument) { setWorkspaceSection("overview"); setActiveMemberId(null); }
+            setWorkspaceSection(returningToDocument ? "documents" : "overview");
+            setActiveMemberId(returningToDocument ? savedWorkspace.memberId : null);
             if (resumeForm) {
               setWorkspaceSection('documents');
               setActiveMemberId(restoredForm.slice(requested.id.length + 1));
@@ -494,7 +484,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, consistencyDirty, workDirty, pendingPackageEdits, savedWorkspace, creating]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, consistencyDirty, workDirty, pendingPackageEdits, savedWorkspace]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -532,11 +522,19 @@ function PackageDialog({
     setSelectedRetainedOutputId("");
     setRenderComparison(null);
   }
-  function startNewPackage() {
+  function showLibrary() {
+    if (creating && !pendingPackageEdits) setCreating(false);
+    setUnfinishedAction(readPackageNewActionContext());
+    setLibraryOpen(true);
+    setError('');
+    setNotice('');
+  }
+  function startNewPackage(resume?: PackageNewActionContext) {
     if (busy || pendingPackageEdits) return;
     operation.current?.abort();
     setSelectedId(''); setRevisionId(''); setOpenedReview(null);
     setName(''); setPrepared(null); setPdfUrl(''); setOriginal(null); setComparison(null);
+    setActionToResume(resume);
     setWorkspaceSection('overview'); setLibraryOpen(false); setCreatingAction(false); setCreating(true);
     setError(''); setNotice('');
   }
@@ -787,7 +785,7 @@ function PackageDialog({
         <div className="package-workspace-appbar">
           <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-9 object-contain brightness-0 dark:invert" />
           <span className="package-workspace-brand text-sm font-semibold">DonDocs</span><span className="text-muted-foreground">/</span>
-          {library ? <span className="text-sm">Packages</span> : <Button variant="ghost" size="sm" aria-label="Back to packages" disabled={busy} onClick={() => { setLibraryOpen(true); setError(''); setNotice(''); }}><ArrowLeft aria-hidden="true" className="size-4" />Packages</Button>}
+          {library ? <span className="text-sm">Packages</span> : <Button variant="ghost" size="sm" aria-label="Back to packages" disabled={busy} onClick={showLibrary}><ArrowLeft aria-hidden="true" className="size-4" />Packages</Button>}
           <Button variant="ghost" size="sm" className="ml-auto" onClick={close}>Close<X aria-hidden="true" className="size-4" /></Button>
         </div>
         <div className="package-workspace-layout" style={library || creating ? { gridTemplateColumns: 'minmax(0, 1fr)' } : undefined}>
@@ -804,7 +802,8 @@ function PackageDialog({
               </div>
               <div hidden={!library} className="package-workspace-page">
                 {pendingPackageEdits && <div role="status" className="mb-7 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm"><span>Finish your edits before opening another package.</span><Button variant="outline" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
-                <PackageLibrary records={records} loaded={loaded} disabled={busy || pendingPackageEdits} onOpen={select} onCreate={startNewPackage} />
+                <PackageLibrary records={records} loaded={loaded} disabled={busy || pendingPackageEdits} onOpen={select} onCreate={() => startNewPackage()}
+                  onResume={unfinishedAction ? () => startNewPackage(unfinishedAction) : undefined} />
                 <details className="mt-10 border-t pt-5"><summary className="text-sm">Advanced</summary><div className="mt-5 space-y-5"><details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Maintain package templates{templateDirty ? " · editing separate revision" : ""}</summary>
           <div tabIndex={-1} data-package-panel="templates" className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening template maintenance…</p>}>
@@ -834,11 +833,11 @@ function PackageDialog({
                 {pendingPackageEdits && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
                 <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
                   {record && revision && <PackageNextActions record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
-                  <div hidden={!!record && !revision?.templateState}><Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel workspace resume={creating ? unfinishedAction ?? undefined : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+                  {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
+          <PackageIntakePanel workspace resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
             busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense></div>
+        </Suspense>}
                   <div hidden={!creating || creatingAction} className="space-y-7">
                     <details><summary className="cursor-pointer text-sm font-medium">Blank package, saved templates and imports</summary><div className="mt-5 space-y-5"><fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 scroll-mt-4 space-y-4">
           <legend className="mb-2 text-sm font-medium">Blank packages, templates and imports</legend>

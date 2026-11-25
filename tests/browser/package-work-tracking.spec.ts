@@ -1,4 +1,4 @@
-import { openPackageWorkspace, importPackage, packageSection, packageVersion, selectedPackageRevision } from './_helpers/packageWorkspace';
+import { openPackageWorkspace, importPackage, packageSection, packageVersion, selectedPackageRevision, selectedPackageId, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Locator } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
@@ -36,6 +36,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   let dialog = await openPackageWorkspace(page);
   const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
   await importPackage(dialog, { name: 'synthetic-work-package.json', mimeType: 'application/json', buffer: bytes });
+  const id = await selectedPackageId(dialog);
   const baseline = await selectedPackageRevision(dialog);
   let work = await openWork(dialog);
   const details = dialog.getByRole('region', { name: 'Details', exact: true });
@@ -70,6 +71,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   const complete = await selectedPackageRevision(dialog); expect(complete).not.toBe(pending);
   await page.reload();
   dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, id);
   await expect(dialog).toHaveAttribute('data-revision-id', complete);
   work = await openWork(dialog);
   await expect(work.getByLabel('Mark task 1 complete', { exact: true })).toBeChecked();

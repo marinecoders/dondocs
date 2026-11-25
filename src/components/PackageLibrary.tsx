@@ -3,12 +3,13 @@ import type { ActionPackage } from '@/lib/actionPackages';
 import { getPackageRevision } from '@/lib/actionPackages';
 import { Button } from './ui/button';
 
-export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate }: {
+export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate, onResume }: {
   records: readonly ActionPackage[];
   loaded: boolean;
   disabled: boolean;
   onOpen(record: ActionPackage): void;
   onCreate(): void;
+  onResume?(): void;
 }) {
   const [query, setQuery] = useState('');
   const filtered = [...records].sort((a, b) => getPackageRevision(b).createdAt - getPackageRevision(a).createdAt)
@@ -18,6 +19,7 @@ export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate }: 
       <h1 id="package-library-title" className="text-2xl font-semibold tracking-tight">Packages</h1>
       <Button disabled={!loaded || disabled} onClick={onCreate}>New package</Button>
     </div>
+    {onResume && <Button variant="outline" disabled={!loaded || disabled} onClick={onResume}>Resume unfinished action</Button>}
     {!loaded ? <p role="status" className="text-sm text-muted-foreground">Loading packages…</p> : records.length === 0 ?
       <p className="py-10 text-sm text-muted-foreground">No packages yet. Create one to bring your documents together.</p> : <>
         <label className="block max-w-md text-sm">Search packages

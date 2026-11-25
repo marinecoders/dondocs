@@ -87,6 +87,9 @@ it('returns from the library to the exact unfinished action and closes without l
   await waitFor(() => expect(dialog).not.toBeVisible()); view.unmount();
   useUIStore.setState({ actionPackagesOpen: true }); render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
   dialog = await screen.findByRole('dialog', { name: 'Action packages' });
+  expect(within(dialog).getByRole('heading', { name: 'Packages', level: 1 })).toBeVisible();
+  const resume = within(dialog).getByRole('button', { name: 'Resume unfinished action' });
+  await waitFor(() => expect(resume).toBeEnabled()); await user.click(resume);
   await waitFor(() => expect(within(dialog).getByRole('textbox', { name: 'Course or activity' })).toHaveValue('Preserve the unfinished action'));
   expect(await listActionPackages()).toEqual(before);
   await user.click(within(dialog).getByRole('button', { name: 'Discard' }));
@@ -172,6 +175,9 @@ it("recovers an unfinished new action after close and reload without creating a 
   view.unmount(); useUIStore.setState({ actionPackagesOpen: true });
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
   dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  expect(within(dialog).getByRole("heading", { name: "Packages", level: 1 })).toBeVisible();
+  const resume = within(dialog).getByRole("button", { name: "Resume unfinished action" });
+  await waitFor(() => expect(resume).toBeEnabled()); await user.click(resume);
   await waitFor(() => expect(within(dialog).getByLabelText("Course or activity", { exact: true })).toHaveValue("Unapplied course title"));
   expect(await listActionPackages()).toEqual(before);
   await user.click(within(dialog).getByRole("button", { name: "Discard" }));
@@ -219,7 +225,7 @@ it("preserves request intake through close and queued selection until the user c
   expect((await listActionPackages()).find(record => record.id === previous.id)).toEqual(previous);
 });
 
-it("finishes restoring saved context before allowing package creation", async () => {
+it("loads the package library before allowing package creation", async () => {
   const remembered = await createActionPackage("Previous package name");
   rememberPackageWorkspaceContext({ version: 1, packageId: remembered.id, revisionId: remembered.currentRevisionId, memberId: null, section: "overview" });
   let resolveInventory!: (records: typeof remembered[]) => void;
@@ -229,15 +235,16 @@ it("finishes restoring saved context before allowing package creation", async ()
   const dialog = screen.getByRole("dialog", { name: "Action packages" }), user = userEvent.setup();
   expect(within(dialog).getByRole("button", { name: "New package" })).toBeDisabled();
   await act(async () => resolveInventory([remembered]));
-  await within(dialog).findByRole("heading", { name: remembered.name, level: 1 });
+  expect(within(dialog).getByRole("heading", { name: "Packages", level: 1 })).toBeVisible();
+  await startNewPackage(dialog, user);
   await expandDetails(dialog, user);
   const name = within(dialog).getByRole("textbox", { name: "Package name" });
-  expect(name).toHaveValue(remembered.name);
-  await user.clear(name); await user.type(name, "New package name"); expect(name).toHaveValue("New package name");
+  expect(name).toHaveValue("");
+  await user.type(name, "New package name"); expect(name).toHaveValue("New package name");
 });
 
 
-it("resumes the saved package revision and selected member after closing and reopening", async () => {
+it("reopens the library after closing a historical version and keeps the saved package available", async () => {
   const source = createBlankSession();
   const first = await capturePackageMember(captureDocumentRevision(
     { documentId: "workspace-first", epoch: 0, editSequence: 1, capturedAt: 100 },
@@ -249,20 +256,20 @@ it("resumes the saved package revision and selected member after closing and reo
   const user = userEvent.setup();
   useUIStore.setState({ actionPackagesOpen: true });
   const ports = { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true };
-  const view = render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
   let dialog = screen.getByRole("dialog", { name: "Action packages" });
   await openSavedPackage(dialog, current, user);
   await choosePackageVersion(dialog, previous.currentRevisionId, user);
   await workspaceSection(dialog, "Documents", user);
   await user.click(within(dialog).getByRole("button", { name: /2\. Second workspace member/ }));
   await waitFor(() => expect(readPackageWorkspaceContext()).toMatchObject({ packageId: current.id, revisionId: previous.currentRevisionId, memberId: second.id, section: "documents" }));
-  view.unmount();
-  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  await user.click(within(dialog).getByRole("button", { name: "Close" }));
+  await waitFor(() => expect(dialog).not.toBeVisible());
+  act(() => useUIStore.getState().setActionPackagesOpen(true));
   dialog = await screen.findByRole("dialog", { name: "Action packages" });
-  await waitFor(() => expect(readPackageWorkspaceContext()?.revisionId).toBe(previous.currentRevisionId));
-  expect(readPackageWorkspaceContext()?.packageId).toBe(current.id);
-  await waitFor(() => expect(within(dialog).getByRole("heading", { name: "2. Second workspace member" }).closest("li")).toHaveAttribute("data-selected", "true"));
-  expect(within(dialog).getByRole("navigation", { name: "Package workspace" })).toContainElement(within(dialog).getByRole("button", { name: "Documents" }));
+  expect(within(dialog).getByRole("heading", { name: "Packages", level: 1 })).toBeVisible();
+  await openSavedPackage(dialog, current, user);
+  expect(dialog).toHaveAttribute("data-revision-id", current.currentRevisionId);
   expect((await listActionPackages()).find(record => record.id === current.id)).toEqual(current);
 });
 
@@ -393,7 +400,7 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   expect(screen.queryByRole("dialog", { name: "Action packages" })).toBeNull();
   await user.click(screen.getByRole("button", { name: "Packages" }));
   dialog = screen.getByRole("dialog", { name: "Action packages" });
-  await within(dialog).findByRole("heading", { name: record.name, level: 1 });
+  expect(within(dialog).getByRole("heading", { name: "Packages", level: 1 })).toBeVisible();
   const pdf = await PDFDocument.create();
   pdf.addPage();
   finish(await pdf.save());
@@ -757,11 +764,10 @@ it("cancels a held package member write before its parent CAS", async () => {
 
 it("validates long package names without discarding a valid full-length Unicode replacement", async () => {
   const record = await createActionPackage("Original name");
-  rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: record.currentRevisionId, memberId: null, section: "overview" });
   useUIStore.setState({ actionPackagesOpen: true });
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const dialog = screen.getByRole("dialog", { name: "Action packages" }), user = userEvent.setup();
-  await within(dialog).findByRole("heading", { name: record.name, level: 1 });
+  await openSavedPackage(dialog, record, user);
   await expandDetails(dialog, user);
   const name = within(dialog).getByRole("textbox", { name: "Package name" });
   await waitFor(() => expect(name).toBeEnabled());
