@@ -1,4 +1,7 @@
 import { matchesPackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
+import { PackageRevisionPicker } from './PackageRevisionPicker';
+import { packageRevisionSources } from '@/lib/packageRevisionSources';
+import type { ConditionalPdfChoice } from '@/lib/packageConditional';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { PackageIntakeQuestions } from './PackageIntakeQuestions';
@@ -11,7 +14,7 @@ import { applyPreparedConditionalPackage, conditionalPackageAnswers, prepareCond
 import { getPackageRevision, type ActionPackage, type PackageRevision } from '@/lib/actionPackages';
 import type { PackageTemplateAnswers } from '@/lib/packageTemplateProgram';
 import type { PackageTemplateV2 } from '@/lib/packageTemplateSchema';
-import { listPackageTemplates, MAX_TEMPLATE_ACTION_BYTES, type TemplateAttachment } from '@/lib/packageTemplateLibrary';
+import { listPackageTemplates, MAX_TEMPLATE_ACTION_BYTES } from '@/lib/packageTemplateLibrary';
 import type { PackageUpdateChoices } from '@/lib/packageUpdates';
 import { sameReviewStoredValue } from '@/lib/documentsDb';
 import { getExportDeploymentPolicy } from '@/config/classification';
@@ -49,7 +52,8 @@ const recoveredValues = z.record(z.string().max(100), z.union([z.string().max(10
 const recoveredIntake = z.object({
   name: z.string().max(120),
   answers: z.object({ version: z.literal(1), values: recoveredValues, groups: z.record(z.string().max(100), z.array(z.object({ id: z.string().max(100), label: z.string().max(160), answers: recoveredValues })).max(20)) }),
-  attachments: z.record(z.string().max(500), z.object({ name: z.string().max(1000), data: z.union([z.instanceof(ArrayBuffer), z.instanceof(Blob)]), signedOriginal: z.boolean() })),
+  attachments: z.record(z.string().max(500), z.union([z.object({ name: z.string().max(1000), data: z.union([z.instanceof(ArrayBuffer), z.instanceof(Blob)]), signedOriginal: z.boolean() }),
+    z.object({ name: z.string().max(1000), reuse: z.object({ memberId: z.string().min(1).max(100), revisionId: z.string().min(1).max(100) }) })])),
   attachmentLabels: z.record(z.string().max(500), z.string().max(1000)),
   memberChoices: z.record(z.string().max(500), z.enum(['keep', 'remove', 'restore'])),
   answerChoices: z.record(z.string().max(500), z.enum(['keep-current', 'use-intake'])),
@@ -73,7 +77,7 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
   const resumedAction = useRef(false);
   const [preview, setPreview] = useState<PreparedConditionalPackage | null>(null), [fresh, setFresh] = useState(false), [reviewed, setReviewed] = useState(false);
   const [memberChoices, setMemberChoices] = useState<Record<string, IntakeMemberChoice>>({}), [answerChoices, setAnswerChoices] = useState<Record<string, IntakeAnswerChoice>>({});
-  const [fieldChoices, setFieldChoices] = useState<PackageUpdateChoices>({}), [attachments, setAttachments] = useState<Record<string, TemplateAttachment>>({});
+  const [fieldChoices, setFieldChoices] = useState<PackageUpdateChoices>({}), [attachments, setAttachments] = useState<Record<string, ConditionalPdfChoice>>({});
   const [attachmentLabels, setAttachmentLabels] = useState<Record<string, string>>({});
   const [undo, setUndo] = useState<ConditionalPackageUndo | null>(null);
   const [library, setLibrary] = useState<PackageTemplateV2[] | null>(null), [libraryId, setLibraryId] = useState('');
@@ -92,17 +96,19 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
   const dirty = !!template && (!baseline || name !== baseline.name || !sameReviewStoredValue(answers, baseline.answers)
     || Object.keys(attachments).length > 0 || hasDecisions);
   useEffect(() => { onNewActionChange?.(workspace && mode === 'new' && !!template); }, [workspace, mode, template, onNewActionChange]);
-  const recoverableFiles = useMemo(() => Object.fromEntries(Object.entries(attachments).map(([key, file]) => [key, { ...file, data: new Blob([file.data]) }])), [attachments]);
+  const sources = useMemo(() => record && revision && mode === 'saved'
+    ? packageRevisionSources(record, revision.id).filter(source => source.originalPdf) : [], [record, revision, mode]);
+  const recoverableFiles = useMemo(() => Object.fromEntries(Object.entries(attachments).map(([key, file]) => [key, 'reuse' in file ? file : { ...file, data: new Blob([file.data]) }])), [attachments]);
   const recovery = usePackageEditDraft({
     scope: packageEditDraftScope(mode === 'saved' ? record?.id ?? '' : `new-${template?.id ?? ''}`, mode === 'saved' ? revision?.id ?? '' : `template-${template?.program.revision ?? 0}`, 'intake'),
     value: useMemo(() => ({ name, answers, attachments: recoverableFiles, attachmentLabels, memberChoices, answerChoices, fieldChoices }), [name, answers, recoverableFiles, attachmentLabels, memberChoices, answerChoices, fieldChoices]),
     dirty, enabled: workspace && !!template && (mode === 'new' || editable && !loading && loadedOwner === ownerScope),
     async restore(value, isCurrentDraft) {
       const parsed = recoveredIntake.safeParse(value);
-      if (!parsed.success || Object.values(parsed.data.attachments).reduce((sum, file) => sum + (file.data instanceof Blob ? file.data.size : file.data.byteLength), 0) > MAX_TEMPLATE_ACTION_BYTES)
+      if (!parsed.success || Object.values(parsed.data.attachments).reduce((sum, file) => sum + ('reuse' in file ? 0 : file.data instanceof Blob ? file.data.size : file.data.byteLength), 0) > MAX_TEMPLATE_ACTION_BYTES)
         throw new Error('This unfinished action could not be recovered. The saved package is unchanged.');
       const next = parsed.data;
-      const restoredFiles = Object.fromEntries(await Promise.all(Object.entries(next.attachments).map(async ([key, file]) => [key, { ...file, data: file.data instanceof Blob ? await file.data.arrayBuffer() : file.data }] as const)));
+      const restoredFiles = Object.fromEntries(await Promise.all(Object.entries(next.attachments).map(async ([key, file]) => [key, 'reuse' in file ? file : { ...file, data: file.data instanceof Blob ? await file.data.arrayBuffer() : file.data }] as const)));
       if (!isCurrentDraft()) return;
       generation.current++; setName(next.name); setAnswers(next.answers); setAttachments(restoredFiles); setAttachmentLabels(next.attachmentLabels);
       setMemberChoices(next.memberChoices); setAnswerChoices(next.answerChoices); setFieldChoices(next.fieldChoices);
@@ -330,23 +336,30 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
         {files.slots.map(slot => {
           const captured = mode === 'saved' ? revision?.templateState?.instances.find(instance => instance.key === slot.key) : undefined;
           const saved = captured && revision?.members.find(member => member.id === captured.memberId);
+          const selected = attachments[slot.key];
           return <div key={slot.key} className="min-w-0 space-y-2 border-t pt-2 text-sm">
           <p className="break-words text-xs text-muted-foreground">{saved?.kind === 'original' ? `Saved original: ${saved.original.name}${saved.signedOriginal ? ' · marked signed by uploader' : ''}` : 'No original PDF saved for this slot.'}</p>
+          {!saved && <PackageRevisionPicker label={slot.label} sources={sources} disabled={locked}
+            value={selected && 'reuse' in selected ? selected.reuse : undefined} onSelect={source => {
+              invalidate();
+              setAttachments(previous => ({ ...previous, [slot.key]: { name: source.label, reuse: { memberId: source.memberId, revisionId: source.revisionId } } }));
+              setAttachmentLabels(previous => ({ ...previous, [slot.key]: slot.label }));
+            }} />}
           <label className="block break-words">{slot.label}<input data-intake-slot={slot.key} aria-label={`PDF for ${slot.label}`} className="mt-1 block w-full min-w-0 text-xs file:mr-2 file:max-w-full file:whitespace-normal" type="file" accept=".pdf,application/pdf" disabled={locked}
             onChange={event => {
               const file = event.target.files?.[0]; event.target.value = '';
               if (file) void perform(async capture => {
                 if (!/\.pdf$/i.test(file.name) || file.size < 1 || file.size > 25 * 1024 * 1024) throw new Error('Choose a nonempty PDF no larger than 25 MB.');
-                const total = Object.entries(attachments).reduce((sum, [key, value]) => sum + (key === slot.key ? 0 : value.data.byteLength), file.size);
+                const total = Object.entries(attachments).reduce((sum, [key, value]) => sum + (key === slot.key || 'reuse' in value ? 0 : value.data.byteLength), file.size);
                 if (total > MAX_TEMPLATE_ACTION_BYTES) throw new Error('Selected action files exceed the combined 64 MB limit.');
                 const data = await file.arrayBuffer();
                 if (current(capture)) { invalidate(); setAttachments(previous => ({ ...previous, [slot.key]: { name: file.name, data, signedOriginal: false } })); setAttachmentLabels(previous => ({ ...previous, [slot.key]: slot.label })); }
               });
             }} /></label>
-          {attachments[slot.key] && <><p className="break-words">Selected: {attachments[slot.key].name}</p>
-            <label className="flex items-start gap-2"><input type="checkbox" disabled={locked} checked={attachments[slot.key].signedOriginal} onChange={event => {
-              invalidate(); setAttachments(previous => ({ ...previous, [slot.key]: { ...previous[slot.key], signedOriginal: event.target.checked } }));
-            }} />I mark this original as signed; its signature has not been verified.</label>
+          {selected && <><p className="break-words">Selected: {selected.name}</p>
+            {'signedOriginal' in selected && <label className="flex items-start gap-2"><input type="checkbox" disabled={locked} checked={selected.signedOriginal} onChange={event => {
+              invalidate(); setAttachments(previous => ({ ...previous, [slot.key]: { ...selected, signedOriginal: event.target.checked } }));
+            }} />I mark this original as signed; its signature has not been verified.</label>}
             <Button className={buttonClass} variant="outline" disabled={locked} onClick={() => removeFile(slot.key)}>Remove selected PDF for {slot.label}</Button>
           </>}
         </div>; })}

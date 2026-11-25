@@ -254,3 +254,20 @@ it('tracks manual scan review by exact PDF bytes independently of certificate tr
   original.signatureReviewSha256 = '0'.repeat(64);
   expect((await inspectPackageRequirements(revision, 'pdf')).ready).toBe(false);
 });
+
+it('assigns an older exact PDF to a manual evidence slot across portable transfer without replacing the current member', async () => {
+  const first = await fixture(), revision = getPackageRevision(first), original = revision.members[1];
+  if (original.kind !== 'original') throw new Error('Expected an original');
+  const other = await PDFDocument.create(); other.addPage([300, 300]);
+  const replacement = await captureOriginalPackageMember({ name: 'revised.pdf', data: new Uint8Array(await other.save()).buffer }, 'enclosure', false);
+  const changed = await reviseActionPackage(first, [revision.members[0], { ...replacement, id: original.id }]);
+  const assigned = await attach(changed, requirements(slot({ memberId: original.id, memberRevisionId: original.revisionId })));
+  const transferred = await parsePortableActionPackage(await buildPortableActionPackage(assigned));
+  const saved = getPackageRevision(transferred.record);
+  expect(saved.members[1]).toMatchObject({ id: original.id, revisionId: replacement.revisionId });
+  expect(saved.members[2]).toMatchObject({ kind: 'original', original: original.original });
+  expect(saved.requirements!.items[0]).toMatchObject({ memberId: saved.members[2].id, memberRevisionId: saved.members[2].revisionId });
+  expect((await inspectPackageRequirements(saved, 'pdf')).ready).toBe(true);
+  saved.members[2] = { ...replacement, id: saved.members[2].id };
+  expect((await inspectPackageRequirements(saved, 'pdf')).ready).toBe(false);
+});

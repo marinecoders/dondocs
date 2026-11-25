@@ -23,12 +23,14 @@ export const formCompletionSchema = z.object({
 }).strict();
 export type FormCompletion = z.infer<typeof formCompletionSchema>;
 export const packageRequirementSchema = z.discriminatedUnion('kind', [
-  z.object({ ...common, kind: z.literal('document'), memberId: identity.optional(), completion: formCompletionSchema.optional() }).strict(),
+  z.object({ ...common, kind: z.literal('document'), memberId: identity.optional(), memberRevisionId: identity.optional(), completion: formCompletionSchema.optional() }).strict(),
   z.object({ ...common, kind: z.literal('confirmation'), confirmed: z.boolean().optional() }).strict(),
 ]);
 export type PackageRequirement = z.infer<typeof packageRequirementSchema>;
 export const packageRequirementsSchema = z.object({ version: z.literal(1), items: z.array(packageRequirementSchema).max(500) }).strict()
   .superRefine((value, context) => {
+    if (value.items.some(item => item.kind === 'document' && item.memberRevisionId && !item.memberId))
+      context.addIssue({ code: 'custom', message: 'A saved document version needs its member identity.' });
     const declarations = value.items.filter(item => item.definitionId !== undefined).map(item => JSON.stringify([item.definitionId, item.participantId]));
     if (new Set(declarations).size !== declarations.length) context.addIssue({ code: 'custom', message: 'Duplicate requirement definition and person.' });
     if (new Set(value.items.map(item => item.id)).size !== value.items.length)
@@ -49,7 +51,7 @@ export function requirementDeclaration(item: PackageRequirement, fromTemplate: b
     return declaration;
   }
   if (hasPinnedCompletionMember(item, fromTemplate)) return item;
-  const { memberId: _member, ...declaration } = item;
+  const { memberId: _member, memberRevisionId: _revision, ...declaration } = item;
   return declaration;
 }
 
@@ -61,7 +63,7 @@ export function materializePackageRequirements(proposed: PackageRequirements, pr
       && value.participantId === item.participantId && value.kind === item.kind);
     if (!prior || hasPinnedCompletionMember(item, true)) return item;
     if (item.kind === 'document' && prior.kind === 'document')
-      return { ...item, ...(prior.memberId === undefined ? {} : { memberId: prior.memberId }) };
+      return { ...item, ...(prior.memberId && { memberId: prior.memberId }), ...(prior.memberRevisionId && { memberRevisionId: prior.memberRevisionId }) };
     if (item.kind === 'confirmation' && prior.kind === 'confirmation')
       return { ...item, ...(prior.confirmed === undefined ? {} : { confirmed: prior.confirmed }) };
     return item;

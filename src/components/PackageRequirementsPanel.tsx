@@ -1,8 +1,10 @@
+import { PackageRevisionPicker } from './PackageRevisionPicker';
 import { hasPinnedCompletionMember } from '@/lib/packageRequirementsModel';
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
-import { inspectPackageRequirements, updatePackageRequirements, type PackageRequirementOperation, type PackageRequirements, type PackageRequirementsInspection } from '@/lib/packageRequirements';
+import { packageRevisionSources } from '@/lib/packageRevisionSources';
+import { captureRequirementVersions, inspectPackageRequirements, updatePackageRequirements, type PackageRequirementOperation, type PackageRequirements, type PackageRequirementsInspection } from '@/lib/packageRequirements';
 import { reviewPackageRequirements } from '@/lib/actionPackageDisclosure';
 import { captureLegacyConditionalRequirementIds, resolveConditionalPackageRequirements } from '@/lib/packageConditionalRequirements';
 import { getExportDeploymentPolicy } from '@/config/classification';
@@ -96,6 +98,7 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
     }); }
     finally { running.current = false; if (mounted.current) setPending(false); }
   }
+  const sources = useMemo(() => packageRevisionSources(record, revision.id), [record, revision.id]);
   const shown = draft?.items.slice(page * 25, (page + 1) * 25) ?? [];
   return <section ref={content} tabIndex={-1} data-package-panel="requirements" aria-labelledby={heading} aria-busy={pending || loading} className="min-w-0 space-y-3 rounded-lg border bg-background p-3 sm:p-4">
     <h3 id={heading} className="font-medium">Evidence and requirements</h3>
@@ -116,15 +119,26 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
         return <article key={item.id} tabIndex={-1} data-package-requirement-id={item.id} className="min-w-0 space-y-2 rounded border p-3">
           <h4 className="break-words text-sm font-medium">{item.label}</h4>
           <p className="break-words text-xs text-muted-foreground">{personContext} · Required for {item.operations.map(value => operationLabels[value]).join(', ')} · {item.condition === 'active' ? 'Active' : item.condition === 'inactive' ? 'Inactive for saved answers' : 'Condition unresolved'}</p>
-          {item.kind === 'document' ? <label className="block text-sm">Captured evidence<select disabled={hasPinnedCompletionMember(item, !!revision.templateState)} aria-label={`Evidence for ${controlLabel}`} className={inputClass} value={item.memberId ?? ''} onChange={event => {
+          {item.kind === 'document' ? <><label className="block text-sm">Captured evidence<select disabled={hasPinnedCompletionMember(item, !!revision.templateState)} aria-label={`Evidence for ${controlLabel}`} className={inputClass} value={item.memberRevisionId ? JSON.stringify([item.memberId, item.memberRevisionId]) : item.memberId ?? ''} onChange={event => {
             if (!draft) return;
-            const next = { ...item }; if (event.target.value) next.memberId = event.target.value; else delete next.memberId;
+            const next = { ...item };
+            delete next.memberRevisionId;
+            if (event.target.value) next.memberId = event.target.value;
+            else delete next.memberId;
             edit({ ...draft, items: draft.items.map(value => value.id === item.id ? next : value) });
           }}>
             <option value="">Missing evidence · leave slot unassigned</option>
             {item.memberId && !revision.members.some(member => member.id === item.memberId) && <option value={item.memberId}>Unavailable captured document</option>}
             {revision.members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {member.label} · {member.kind === 'native' ? 'Editable document' : member.kind === 'original' ? 'Original PDF' : 'Supporting file'}</option>)}
-          </select></label> : <label className="flex items-start gap-2 text-sm"><input type="checkbox" aria-label={`User declaration for ${controlLabel}`} checked={item.confirmed === true} onChange={event => {
+            {item.memberRevisionId && <option value={JSON.stringify([item.memberId, item.memberRevisionId])}>
+              {sources.find(source => source.memberId === item.memberId && source.revisionId === item.memberRevisionId)?.label ?? 'Unavailable saved version'}
+            </option>}
+          </select></label>
+          {!hasPinnedCompletionMember(item, !!revision.templateState) && <PackageRevisionPicker label={controlLabel}
+            sources={sources} disabled={locked} value={item.memberId && item.memberRevisionId ? { memberId: item.memberId, revisionId: item.memberRevisionId } : undefined}
+            onSelect={source => {
+              if (draft) edit({ ...draft, items: draft.items.map(value => value.id === item.id ? { ...item, memberId: source.memberId, memberRevisionId: source.revisionId } : value) });
+            }} />}</> : <label className="flex items-start gap-2 text-sm"><input type="checkbox" aria-label={`User declaration for ${controlLabel}`} checked={item.confirmed === true} onChange={event => {
             if (draft) edit({ ...draft, items: draft.items.map(value => value.id === item.id ? { ...item, confirmed: event.target.checked } : value) });
           }} />I confirm: {item.label}. This is my declaration, not an approval.</label>}
           <p className="break-words text-xs">{finding ? `${finding.state}: ${finding.message}` : 'Not checked for the selected operation. Saving an assignment does not establish overall package readiness.'}</p>
@@ -141,7 +155,8 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
         <option value="review">Review</option><option value="pdf">PDF assembly</option><option value="portable">Editable transfer</option>
       </select></label>
       <Button variant="outline" disabled={busy || pending || loading || unavailable} onClick={() => void perform(async current => {
-        const captured = { ...revision, requirements: draft };
+        const materialized = dirty ? await captureRequirementVersions(record, draft, signal()) : { members: revision.members, requirements: draft };
+        const captured = { ...revision, ...materialized };
         const legacy = await captureLegacyConditionalRequirementIds(revision, draft);
         if (legacy) captured.templateState = legacy.state;
         const value = await inspectPackageRequirements(captured, operation, { signal: signal() });

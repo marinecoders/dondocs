@@ -1,6 +1,7 @@
 import { matchesExpectedForm, missingPackageSignatures, officialFormCompletionIssues } from './packageFormCompletion';
+import { resolvePackageRevisionSource } from './packageRevisionSources';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
-import { requirementDeclaration, packageRequirementOperationSchema, packageRequirementsSchema, type PackageRequirement, type PackageRequirementOperation, type PackageRequirements } from './packageRequirementsModel';
+import { requirementDeclaration, packageRequirementOperationSchema, packageRequirementsSchema, type FormCompletion, type PackageRequirement, type PackageRequirementOperation, type PackageRequirements } from './packageRequirementsModel';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, packageMemberSchema, type ActionPackage, type PackageAsset, type PackageMember, type PackageRevision } from './actionPackages';
 import { readPackageAsset, validatePackageOriginalPdf } from './actionPackageAssets';
 import { validatePackageDraft } from './actionPackageDraft';
@@ -83,6 +84,10 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
     }
     const member = requirement.memberId ? members.get(requirement.memberId) : undefined;
     if (!member) { items.push({ ...base, state: 'missing', message: 'Assign an actual captured document or PDF to this evidence slot.' }); continue; }
+    if (requirement.memberRevisionId && requirement.memberRevisionId !== member.revisionId) {
+      items.push({ ...base, state: 'missing', message: 'This document has changed since its exact version was assigned. Review and select the intended version.' });
+      continue;
+    }
     try {
       let validation = checked.get(member.id);
       if (!validation) { validation = validateMember(member, options.readAsset ?? readPackageAsset, options.signal, originalsNeeded.has(member.id)); checked.set(member.id, validation); }
@@ -118,6 +123,19 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
   }
   return { operation, ready: items.every(item => ['satisfied', 'inactive', 'not-required'].includes(item.state)), items };
 }
+/** Validate a proposed reuse with the same byte, field and signature checks used for final delivery. */
+export async function verifyRevisionForEvidence(member: PackageMember, rules: FormCompletion[], options: InspectionOptions = {}) {
+  if (!rules.length) {
+    await validateMember(member, options.readAsset ?? readPackageAsset, options.signal);
+    return;
+  }
+  const revision: PackageRevision = { id: 'selection', createdAt: 0, members: [member], outputs: [] };
+  const requirements: PackageRequirements = { version: 1, items: rules.map((completion, i) => ({
+    id: `rule-${i}`, label: member.label, kind: 'document', operations: ['pdf'], condition: 'active', memberId: member.id, completion,
+  })) };
+  requireSatisfied(await inspectResolvedRequirements(revision, requirements, 'pdf', options));
+}
+
 export const packageRequirementReadiness = inspectPackageRequirements;
 export async function assertPackageRequirementsReady(revision: PackageRevision, operation: PackageRequirementOperation, options: InspectionOptions = {}): Promise<void> {
   const inspection = await inspectPackageRequirements(revision, operation, options);
@@ -167,6 +185,30 @@ function requireSatisfied(inspection: PackageRequirementsInspection) {
   if (!inspection.ready) throw new Error(inspection.items.filter(item => ['missing', 'unknown', 'invalid'].includes(item.state)).map(item => `${item.label}: ${item.message}`).join(' '));
 }
 
+/** Materialize an older selection as an independent member so a current-only transfer includes its exact assets. */
+export async function captureRequirementVersions(record: ActionPackage, next: PackageRequirements | undefined, signal?: AbortSignal) {
+  const current = getPackageRevision(record), members = [...current.members], requirements = structuredClone(next);
+  const copies = new Map<string, PackageMember>();
+  for (const item of requirements?.items ?? []) {
+    if (item.kind !== 'document' || !item.memberId || !item.memberRevisionId) continue;
+    const prior = current.requirements?.items.find(existing => existing.id === item.id);
+    if (prior?.kind === 'document' && prior.memberId === item.memberId && prior.memberRevisionId === item.memberRevisionId) continue;
+    const source = resolvePackageRevisionSource(record, { memberId: item.memberId, revisionId: item.memberRevisionId });
+    await verifyRevisionForEvidence(source, item.completion ? [item.completion] : [], { signal });
+    if (members.some(member => member.id === source.id && member.revisionId === source.revisionId)) continue;
+    const key = JSON.stringify([source.id, source.revisionId]);
+    let copy = copies.get(key);
+    if (!copy) {
+      copy = { ...source, id: newPackageId('member'), revisionId: newPackageId('member-revision'), role: 'supporting-document', required: false };
+      copies.set(key, copy);
+      members.push(copy);
+    }
+    item.memberId = copy.id;
+    item.memberRevisionId = copy.revisionId;
+  }
+  return { members, requirements };
+}
+
 /** Assignment and confirmation are captured in a child revision; incomplete drafts remain saveable. */
 export async function updatePackageRequirements(input: ActionPackage, next: PackageRequirements | undefined, policy: PolicyResolution, signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<ActionPackage> {
   signal?.throwIfAborted();
@@ -174,7 +216,8 @@ export async function updatePackageRequirements(input: ActionPackage, next: Pack
   assertExportDeploymentPolicy(policy.policy);
   const record = actionPackageSchema.parse(structuredClone(input));
   if (record.archived || record.reviewRounds?.some(round => round.ownerPackageId === undefined)) throw new Error('Only the current, unarchived owning package can change requirements.');
-  const requirements = next === undefined ? undefined : packageRequirementsSchema.parse(structuredClone(next));
+  const proposed = next === undefined ? undefined : packageRequirementsSchema.parse(next);
+  const { members, requirements } = await captureRequirementVersions(record, proposed, signal);
   const current = getPackageRevision(record);
   const legacy = current.templateState && current.requirements === undefined && requirements !== undefined
     ? await (await import('./packageConditionalRequirements')).captureLegacyConditionalRequirementIds(current, requirements) : undefined;
@@ -190,7 +233,7 @@ export async function updatePackageRequirements(input: ActionPackage, next: Pack
     const prior = previous?.items.find(value => value.id === item.id);
     if (prior && (prior.kind !== item.kind || prior.definitionId !== item.definitionId || prior.participantId !== item.participantId)) throw new Error('A requirement identity cannot change its kind, definition or person.');
     if (item.kind === 'document' && item.memberId && item.memberId !== (prior?.kind === 'document' ? prior.memberId : undefined)) {
-      const member = current.members.find(member => member.id === item.memberId);
+      const member = members.find(member => member.id === item.memberId);
       if (!member) throw new Error('Choose a captured member of this package for the evidence slot.');
       await validateMember(member, readPackageAsset, signal);
     }
@@ -198,7 +241,7 @@ export async function updatePackageRequirements(input: ActionPackage, next: Pack
   if (requirements) reviewPackageRequirements(requirements, policy);
   const fresh = await getExportDeploymentPolicy();
   if (fresh.status !== 'ready' || JSON.stringify(fresh.policy) !== JSON.stringify(policy.policy)) throw new Error('Deployment settings changed. Review the requirements again.');
-  const revision: PackageRevision = { ...structuredClone(current), id: newPackageId('revision'), parentId: current.id, createdAt: Date.now(), requirements, ...(legacy ? { templateState: legacy.state } : {}), outputs: [] };
+  const revision: PackageRevision = { ...structuredClone(current), id: newPackageId('revision'), parentId: current.id, createdAt: Date.now(), members, requirements, ...(legacy ? { templateState: legacy.state } : {}), outputs: [] };
   return commitActionPackage(record, { ...record, sequence: record.sequence + 1, currentRevisionId: revision.id, revisions: [...record.revisions, revision] }, signal, () => {
     const currentPolicy = getExportDeploymentPolicySync();
     return isCurrent() && currentPolicy.status === 'ready' && JSON.stringify(currentPolicy.policy) === JSON.stringify(policy.policy);
