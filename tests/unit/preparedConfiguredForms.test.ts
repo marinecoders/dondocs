@@ -42,3 +42,22 @@ it('refuses to capture unverified template revisions', async () => {
   const captured = capture();
   await expect(captureExportFormTemplates(captured)).rejects.toThrow(/checksum/);
 });
+
+it('renders a partial form for preview while final output still requires complete answers', async () => {
+  const instance = fixtureInstance();
+  const page = await fixturePage();
+  instance.definition.pages[0].sha256 = page.sha256;
+  delete instance.answers.name;
+  vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
+  const captured = capture(instance);
+  const input = { id: 'partial', captured, target: 'pdf' as const, filename: 'form.pdf', policy,
+    formTemplates: await captureExportFormTemplates(captured) };
+  expect(prepareExport(input)).toMatchObject({ status: 'error', issues: [expect.stringMatching(/Name is required/)] });
+  const preview = prepareExport({ ...input, incompleteFormPreview: true });
+  if ('issues' in preview) throw new Error(preview.issues.join(' '));
+  const ready = preview.status === 'ready' ? preview.job : acknowledgePreparedExport(preview.job);
+  const rendered = await renderPreparedConfiguredForm(ready, new AbortController().signal);
+  expect((await PDFDocument.load(await rendered.blob.arrayBuffer())).getPageCount()).toBe(1);
+  instance.answers.decision = 'invalid';
+  expect(prepareExport({ ...input, captured: capture(instance), incompleteFormPreview: true })).toMatchObject({ status: 'error' });
+});

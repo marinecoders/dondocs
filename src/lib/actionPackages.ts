@@ -560,8 +560,8 @@ export function getPackageRevision(
   return structuredClone(revision);
 }
 /** Failed or corrupt inventory reads must never look like an empty workspace. */
-export async function listActionPackages(): Promise<ActionPackage[]> {
-  const records = (await idbReadActionPackages()).map(value => actionPackageSchema.parse(value));
+export async function listActionPackages(id?: string): Promise<ActionPackage[]> {
+  const records = (await idbReadActionPackages(id)).map(value => actionPackageSchema.parse(value));
   const { validatePackageReviewBaselines } = await import("./packageReviewRounds");
   for (const record of records) await validatePackageReviewBaselines(record);
   return records;
@@ -648,6 +648,7 @@ export async function reviseActionPackage(
   citations: PackageCitations | undefined = getPackageRevision(record).citations,
   isCurrent: () => boolean = () => true,
   savedWorkingCopyId?: string,
+  stagedAttachments?: readonly import('./documentsDb').StoredAttachment[],
 ): Promise<ActionPackage> {
   if (record.archived)
     throw new Error("Reopen this archived package before editing.");
@@ -690,6 +691,7 @@ export async function reviseActionPackage(
     },
     signal,
     isCurrent,
+    stagedAttachments,
   );
 }
 export async function renameActionPackage(

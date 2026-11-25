@@ -1,7 +1,7 @@
 import { FormAnswerControl } from './FormAnswerControl';
 import { editForm } from '@/services/forms/documents';
 import { useDocumentStore } from '@/stores/documentStore';
-import type { FormDefinition, FormDiagnostic } from '@/services/forms/model';
+import type { FormDefinition, FormDiagnostic, AnswerRow } from '@/services/forms/model';
 import { Button } from '@/components/ui/button';
 
 interface Props {
@@ -12,6 +12,12 @@ interface Props {
 
 export function RowGroupGrid({ groupKey, group, issues = [] }: Props) {
   const rows = useDocumentStore(s => s.genericForm?.rows[groupKey]) ?? [];
+  return <FormRows groupKey={groupKey} group={group} rows={rows} issues={issues} editForm={editForm} />;
+}
+
+export function FormRows({ groupKey, group, rows, issues = [], editForm }: Props & {
+  rows: AnswerRow[]; editForm: typeof import('@/services/forms/documents').editForm;
+}) {
   const columns = Object.entries(group.columns);
   const idCounts = new Map<string, number>();
   for (const row of rows) idCounts.set(row.id, (idCounts.get(row.id) ?? 0) + 1);

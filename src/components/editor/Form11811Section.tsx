@@ -6,7 +6,7 @@ import {
   isCurrentDocumentTarget,
   openSessionAsNew,
 } from '@/stores/documentsStore';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Trash2, AlertTriangle } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -20,7 +20,7 @@ import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { AbbreviationHelper } from '@/components/editor/AbbreviationHelper';
 import { DatePicker } from '@/components/ui/date-picker';
-import { useFormStore } from '@/stores/formStore';
+import { useFormStore, type Navmc11811Data } from '@/stores/formStore';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import { SignatureStylePicker } from './SignatureStylePicker';
 import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
@@ -84,6 +84,31 @@ export function Form11811Section() {
       setOpeningRebuttal(false);
     }
   };
+  return <Page11Fields navmc11811={navmc11811} officialPdfEdition={officialPdfEdition}
+    setNavmc11811Field={setNavmc11811Field}
+    getCurrent={() => useFormStore.getState().navmc11811}
+    captureOwner={() => { const target = captureDocumentTarget(); return () => isCurrentDocumentTarget(target); }}
+    rebuttal={<Button type="button" variant="outline" size="sm" disabled={openingRebuttal} onClick={startRebuttal}>
+              {openingRebuttal ? 'Saving Page 11…' : 'Save and start rebuttal'}
+            </Button>} />;
+}
+
+export function Page11Fields({ navmc11811, officialPdfEdition, setNavmc11811Field, getCurrent, captureOwner,
+  rebuttal, prefix = '', expanded, onExpandedChange, TextField = InputWithVariables, RemarksField = VariableChipEditor }: {
+  navmc11811: Navmc11811Data;
+  officialPdfEdition?: string;
+  setNavmc11811Field<K extends keyof Navmc11811Data>(key: K, value: Navmc11811Data[K]): void;
+  getCurrent(): Navmc11811Data;
+  captureOwner?(): () => boolean;
+  rebuttal?: ReactNode;
+  TextField?: typeof InputWithVariables;
+  RemarksField?: typeof VariableChipEditor;
+  prefix?: string;
+  expanded?: string[];
+  onExpandedChange?(value: string[]): void;
+}) {
+  const mounted = useRef(false);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
   // The counselor's initials + SURNAME from the active profile — the counselor
   // is usually the person at the app, so offer their name as a one-click fill
   // (never written silently), the same as the AA form's originator.
@@ -93,7 +118,7 @@ export function Form11811Section() {
   });
   const signatureBlocks = navmc11811.signatureBlocks;
   const setSignatureBlock = (index: number, patch: Partial<FormSignatureBlock>) => {
-    const current = useFormStore.getState().navmc11811.signatureBlocks;
+    const current = getCurrent().signatureBlocks;
     const targetIndex = current.indexOf(signatureBlocks[index]);
     if (targetIndex < 0) return;
     setNavmc11811Field('signatureBlocks', current.map((block, i) => i === targetIndex ? { ...block, ...patch } : block));
@@ -111,7 +136,7 @@ export function Form11811Section() {
   // uploaded signature image. Confirm first, same rule as References /
   // Enclosures: an empty block still removes in a single click.
   const removeSignatureBlock = async (index: number) => {
-    const target = captureDocumentTarget();
+    const stillCurrent = captureOwner?.();
     const b = signatureBlocks[index];
     const hasContent =
       (b?.statement ?? '').trim() !== '' || (b?.name ?? '').trim() !== '' || !!b?.image;
@@ -124,7 +149,7 @@ export function Form11811Section() {
       });
       if (!confirmed) return;
     }
-    if (!isCurrentDocumentTarget(target)) return;
+    if (!mounted.current || (stillCurrent && !stillCurrent()) || getCurrent().signatureBlocks !== signatureBlocks) return;
     setNavmc11811Field('signatureBlocks', signatureBlocks.filter((_, i) => i !== index));
   };
   // Move focus into a block's first input after it's added, so a preset pick
@@ -134,7 +159,7 @@ export function Form11811Section() {
   const focusStatement = (index: number) =>
     requestAnimationFrame(() =>
       requestAnimationFrame(() =>
-        document.getElementById(`p11-sig-${index}-statement`)?.focus()
+        document.getElementById(`${prefix}p11-sig-${index}-statement`)?.focus()
       )
     );
 
@@ -180,18 +205,18 @@ export function Form11811Section() {
 
   return (
     <div className="space-y-4">
-      <Accordion type="multiple" className="space-y-2">
+      <Accordion type="multiple" value={expanded} onValueChange={onExpandedChange} className="space-y-2">
         {/* Marine Identification */}
-        <AccordionItem value="marine" id="sec-marine" tabIndex={-1} data-section="marine">
+        <AccordionItem value="marine" id={prefix + 'sec-marine'} tabIndex={-1} data-section="marine">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Marine Identification</span>
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
-                <InputWithVariables
-                  id="lastName"
+                <Label htmlFor={prefix + 'lastName'}>Last Name</Label>
+                <TextField
+                  id={prefix + 'lastName'}
                   value={navmc11811.lastName}
                   onValueChange={(v) => setNavmc11811Field('lastName', v)}
                   placeholder="DOE (type @ for variables)"
@@ -200,9 +225,9 @@ export function Form11811Section() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
-                <InputWithVariables
-                  id="firstName"
+                <Label htmlFor={prefix + 'firstName'}>First Name</Label>
+                <TextField
+                  id={prefix + 'firstName'}
                   value={navmc11811.firstName}
                   onValueChange={(v) => setNavmc11811Field('firstName', v)}
                   placeholder="JOHN (type @ for variables)"
@@ -211,9 +236,9 @@ export function Form11811Section() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="middleName">Middle Name</Label>
-                <InputWithVariables
-                  id="middleName"
+                <Label htmlFor={prefix + 'middleName'}>Middle Name</Label>
+                <TextField
+                  id={prefix + 'middleName'}
                   value={navmc11811.middleName}
                   onValueChange={(v) => setNavmc11811Field('middleName', v)}
                   placeholder="ADAM (type @ for variables)"
@@ -225,9 +250,9 @@ export function Form11811Section() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="edipi">EDIPI</Label>
-                <InputWithVariables
-                  id="edipi"
+                <Label htmlFor={prefix + 'edipi'}>EDIPI</Label>
+                <TextField
+                  id={prefix + 'edipi'}
                   value={navmc11811.edipi}
                   onValueChange={(v) => setNavmc11811Field('edipi', v)}
                   placeholder="1234567890 (type @ for variables)"
@@ -237,20 +262,20 @@ export function Form11811Section() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="entryDate">Entry Date</Label>
+                <Label htmlFor={prefix + 'entryDate'}>Entry Date</Label>
                 {/* DatePicker for military date format ("15 Dec 24") per
                     SECNAV M-5216.5 / MCO 1070.12K. It accepts ISO on input,
                     so old ISO-format values reformat on first edit. */}
                 <DatePicker
-                  id="entryDate"
+                  id={prefix + 'entryDate'}
                   value={navmc11811.entryDate}
                   onChange={(value) => setNavmc11811Field('entryDate', value)}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="box11">SRB Pg #</Label>
-                <InputWithVariables
-                  id="box11"
+                <Label htmlFor={prefix + 'box11'}>SRB Pg #</Label>
+                <TextField
+                  id={prefix + 'box11'}
                   value={navmc11811.box11}
                   onValueChange={(v) => setNavmc11811Field('box11', v)}
                   placeholder="Page # (type @)"
@@ -264,15 +289,15 @@ export function Form11811Section() {
         </AccordionItem>
 
         {/* Entry Content */}
-        <AccordionItem value="content" id="sec-content" tabIndex={-1} data-section="content">
+        <AccordionItem value="content" id={prefix + 'sec-content'} tabIndex={-1} data-section="content">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">6105 Entry Content</span>
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="remarksText">Administrative Remarks (Left)</Label>
-                <VariableChipEditor
+                <Label htmlFor={prefix + 'remarksText'}>Administrative Remarks (Left)</Label>
+                <RemarksField
                   ariaLabel="Administrative Remarks (Left)"
                   value={navmc11811.remarksText}
                   onChange={(v) => setNavmc11811Field('remarksText', v)}
@@ -288,8 +313,8 @@ export function Form11811Section() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="remarksTextRight">Administrative Remarks (Right)</Label>
-                <VariableChipEditor
+                <Label htmlFor={prefix + 'remarksTextRight'}>Administrative Remarks (Right)</Label>
+                <RemarksField
                   ariaLabel="Administrative Remarks (Right)"
                   value={navmc11811.remarksTextRight || ''}
                   onChange={(v) => setNavmc11811Field('remarksTextRight', v)}
@@ -324,14 +349,12 @@ export function Form11811Section() {
               The form is a single page — text does not flow between columns, and
               anything past a column&apos;s last printed line is left off the PDF.
             </p>
-            <Button type="button" variant="outline" size="sm" disabled={openingRebuttal} onClick={startRebuttal}>
-              {openingRebuttal ? 'Saving Page 11…' : 'Save and start rebuttal'}
-            </Button>
+            {rebuttal}
           </AccordionContent>
         </AccordionItem>
 
         {/* Signatures — close the 6105 entry (counselor + counseled Marine) */}
-        <AccordionItem value="signatures" id="sec-signatures" tabIndex={-1} data-section="signatures">
+        <AccordionItem value="signatures" id={prefix + 'sec-signatures'} tabIndex={-1} data-section="signatures">
           <AccordionTrigger>Signatures</AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-1">
@@ -371,8 +394,8 @@ export function Form11811Section() {
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
-                      <InputWithVariables
-                        id={`p11-sig-${index}-statement`}
+                      <TextField
+                        id={`${prefix}p11-sig-${index}-statement`}
                         value={block.statement}
                         onValueChange={(v) => setSignatureBlock(index, { statement: v })}
                         placeholder="Statement above the signing line (e.g. I have been counseled…)"
@@ -381,7 +404,7 @@ export function Form11811Section() {
                       />
                       <div className="flex items-center gap-2">
                         <div className="min-w-0 flex-1">
-                          <InputWithVariables
+                          <TextField
                             value={block.name}
                             onValueChange={(v) => setSignatureBlock(index, { name: v })}
                             placeholder="Typed name (e.g. A. B. SMITH)"

@@ -1499,9 +1499,9 @@ export async function idbComparePackageEditDraft(scope: string, expectedToken: u
   });
 }
 
-export async function idbReadActionPackages(): Promise<unknown[]> {
+export async function idbReadActionPackages(id?: string): Promise<unknown[]> {
   const records = await run<Array<{ key: string; value: unknown }>>(APP_STORE, 'readonly', store =>
-    store.getAll(IDBKeyRange.bound('action-package:', 'action-package:\uffff')));
+    store.getAll(id === undefined ? IDBKeyRange.bound('action-package:', 'action-package:\uffff') : `action-package:${id}`));
   return records.map(record => {
     if (!record.value || typeof record.value !== 'object' || !('id' in record.value) || record.key !== `action-package:${record.value.id}`) throw new Error('The saved package inventory is corrupt. Keep a workspace backup before recovery.');
     return record.value;
