@@ -12,6 +12,10 @@ test('assembles a custom letter and two PDFs and preserves their order on reload
   await custom.getByRole('button', { name: 'Create package' }).click();
   await workspace.getByRole('button', { name: 'Add letter', exact: true }).click();
   await expect(workspace.getByRole('heading', { name: '1. Naval letter' })).toBeVisible();
+  const actions = workspace.locator('header').filter({ has: page.getByRole('heading', { name: '1. Naval letter' }) });
+  await expect(actions.getByRole('button')).toHaveText(['Edit document', 'Sign correspondence']);
+  const navigation = workspace.getByRole('navigation', { name: 'Package workspace', exact: true });
+  await expect(navigation.getByRole('button', { name: 'Documents' })).toHaveAttribute('aria-current', 'location');
   await workspace.getByLabel('New member role').selectOption('enclosure');
   for (const [index, name] of ['First.pdf', 'Second.pdf'].entries()) {
     const pdf = await PDFDocument.create();

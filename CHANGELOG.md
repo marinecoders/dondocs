@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.307] — 2026-11-25
+
+### Added
+
+- Group editing and signing actions on each document and highlight the current package workspace section.
+
 ## [1.3.306] — 2026-11-25
 
 ### Added
