@@ -25,7 +25,7 @@ async function continueIntake(dialog: Locator) {
   await packageSection(dialog, 'Overview', true);
   await expect(dialog).toHaveAttribute('aria-busy', 'false');
   const panel = intake(dialog);
-  await expect(panel.getByRole('button', { name: 'Edit details', exact: true }).or(panel.getByRole('button', { name: 'Done editing', exact: true }))).toBeVisible();
+  await expect(panel.getByRole('button', { name: 'Edit details', exact: true }).or(panel.getByRole('button', { name: 'Collapse details', exact: true }))).toBeVisible();
   if (await panel.getByRole('button', { name: 'Edit details', exact: true }).isVisible()) await panel.getByRole('button', { name: 'Edit details', exact: true }).click();
   await expect(panel.getByRole('region', { name: 'Intake questions', exact: true })).toBeVisible();
   return panel;
