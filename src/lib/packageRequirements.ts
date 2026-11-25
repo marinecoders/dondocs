@@ -22,6 +22,7 @@ export interface PackageRequirementFinding {
   message: string;
   memberId?: string;
   documentIssues?: string[];
+  corrections?: import('./packageDestinations').PackageCorrection[];
   signatureFields?: string[];
   fromIntake?: boolean;
 }
@@ -96,7 +97,8 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
       const originalBytes = await validation; options.signal?.throwIfAborted();
       if (operation === 'pdf') {
         const rule = requirement.completion;
-        const issues = officialFormCompletionIssues(member, rule);
+        const corrections: NonNullable<PackageRequirementFinding['corrections']> = [];
+        const issues = officialFormCompletionIssues(member, rule, (_, target) => { if (target) corrections.push(target); });
         if (rule?.expectedForm && !await matchesExpectedForm(member, rule.expectedForm, originalBytes)) {
           issues.push('This slot needs the maintained form and edition named in the recipe.');
         } else if (rule?.requiredPdfFields?.length && originalBytes) {
@@ -108,7 +110,10 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
           }
           const fields = await answered;
           const missing = rule.requiredPdfFields.filter(field => !fields.has(field));
-          if (missing.length) issues.push('The saved PDF is missing required answers: ' + missing.join(', ') + '.');
+          if (missing.length) {
+            issues.push('The saved PDF is missing required answers: ' + missing.join(', ') + '.');
+            if (member.kind === 'original' && !member.signedOriginal) corrections.push({ kind: 'replace', label: 'Replace PDF' });
+          }
         } else if (rule?.requiredPdfFields?.length && !(member.kind === 'native' && member.session.genericForm)) {
           issues.push('The required fields cannot be verified on this document.');
         }
@@ -117,7 +122,7 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
           const messages = signatureFields.length
             ? [...issues, 'Sign or verify: ' + signatureFields.map(field => packageSignatureFieldLabel(member, field)).join(', ') + '.']
             : issues;
-          items.push({ ...base, state: 'missing', message: messages.join(' '), documentIssues: issues, signatureFields });
+          items.push({ ...base, state: 'missing', message: messages.join(' '), documentIssues: issues, corrections, signatureFields });
           continue;
         }
       }

@@ -317,3 +317,44 @@ test('legacy Page 11 saves uploaded signature bytes in its package working copy'
   await workspace.getByRole('button', { name: 'Edit document' }).click();
   await expect(editor.getByRole('button', { name: 'Remove signature image' })).toBeVisible();
 });
+
+test('delivery corrections preserve input after a failed save and advance to the next document', async ({ page, context }) => {
+  await injectPackageWriteFailure(context);
+  await context.addInitScript(() => localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused' } })));
+  await page.goto('/');
+  const workspace = await openPackageWorkspace(page);
+  await newBlankPackage(workspace, 'Two incomplete letters');
+  await packageSection(workspace, 'Documents');
+  for (let i = 0; i < 2; i++) {
+    await openAddDocuments(workspace);
+    await workspace.getByRole('button', { name: 'Add letter', exact: true }).click();
+    await expect(workspace.locator('li[id^="package-member-"]')).toHaveCount(i + 1);
+  }
+  await packageSection(workspace, 'Delivery');
+  await workspace.getByRole('button', { name: 'Prepare PDF', exact: true }).click();
+  const corrections = workspace.getByRole('button', { name: 'Complete addressing', exact: true });
+  await expect(corrections).toHaveCount(2);
+  await corrections.nth(1).click();
+  const editor = page.getByRole('dialog').filter({ has: page.getByRole('combobox', { name: 'Package document', exact: true }) });
+  const picker = editor.getByLabel('Package document', { exact: true });
+  await expect(picker).toHaveValue(await picker.locator('option').nth(1).getAttribute('value') ?? '');
+  await expect(editor.getByLabel('Document section', { exact: true })).toHaveValue('addressing');
+  const section = editor.getByLabel('Document section', { exact: true });
+  const position = async () => [await picker.inputValue(), await section.inputValue()];
+  const startingPosition = await position();
+  const subject = editor.getByRole('textbox', { name: 'Subject', exact: true });
+  await page.evaluate(() => sessionStorage.setItem('test-fail-package-write', '1'));
+  await subject.fill('SECOND DOCUMENT');
+  await editor.getByRole('button', { name: 'Next item' }).click();
+  await expect(editor.getByRole('button', { name: 'Retry save' })).toBeVisible();
+  await expect(subject).toHaveValue('SECOND DOCUMENT');
+  await page.evaluate(() => sessionStorage.removeItem('test-fail-package-write'));
+  await editor.getByRole('button', { name: 'Retry save' }).click();
+  await editor.getByRole('button', { name: 'Next item' }).click();
+  await expect.poll(position).not.toEqual(startingPosition);
+  const nextPosition = await position();
+  await editor.getByRole('button', { name: 'Next item' }).click();
+  await expect.poll(position).not.toEqual(nextPosition);
+  await editor.getByRole('button', { name: 'Back to Delivery' }).click();
+  await expect(workspace.getByRole('navigation', { name: 'Package workspace' }).getByRole('button', { name: 'Delivery' })).toHaveAttribute('aria-current', 'location');
+});

@@ -36,11 +36,13 @@ type Props = Pick<ComponentProps<typeof PackageDocumentPreview>, 'ports' | 'expo
   onFieldReview?(target: PackageDestination): void;
   onSave(next: ActionPackage): void;
   onNavigate(memberId?: string): void | Promise<void>;
+  correction?: PackageDestination['correction'];
+  onFinishFinding?(advance: boolean): Promise<void>;
   onSharedDetails(): void;
   navigationError?: string;
 };
 
-export default function PackageFormEditor({ record, member, onFieldReview, onSave, onNavigate, onSharedDetails, ports, exportGate, navigationError }: Props) {
+export default function PackageFormEditor({ record, member, onFieldReview, onSave, onNavigate, onSharedDetails, ports, exportGate, navigationError, correction, onFinishFinding }: Props) {
   const editor = usePackageFormEditor(record, member, onSave);
   const titleId = useId();
   const [mobilePreview, setMobilePreview] = useState(false);
@@ -51,8 +53,16 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
   }, [editor.values]);
   const position = record.id + '/' + member.id;
   const defaultLayout = useUIStore(s => s.formEditorLayout);
-  const [sectionId, setSection] = useState(() => readFormLocation(position));
+  const [sectionId, setSection] = useState(() => correction?.kind === 'edit' && correction.sectionId || readFormLocation(position));
   const [expanded, setExpanded] = useState(() => (readFormLocation(position + '/sections') || (defaultLayout === 'scroll' ? 'marine,content,signatures' : 'marine')).split(','));
+  const focusRequest = useRef(correction);
+  useEffect(() => {
+    if (!editor.ready || focusRequest.current?.kind !== 'edit') return;
+    const { fieldKey, sectionId } = focusRequest.current;
+    if (fieldKey) document.getElementById('pkg-answer-' + fieldKey)?.focus();
+    if (sectionId && member.session.formType === 'navmc_118_11') setExpanded(values => [...new Set([...values, sectionId])]);
+    focusRequest.current = undefined;
+  }, [editor.ready, member.session.formType]);
   const switching = useRef(false);
   const [leaving, setLeaving] = useState(false);
   async function navigate(action: () => void | Promise<void>) {
@@ -80,11 +90,12 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
     (sectionId === 'all' || defaultLayout === 'scroll' ? 'all' : sections[0]?.id);
   const issues = instance ? validateAnswers(instance.definition, instance.answers, instance.rows, false) : [];
   const selectClass = 'block min-w-0 max-w-full rounded-md border bg-background px-2 py-1.5 text-sm';
-  return <Dialog open onOpenChange={open => { if (!open) void navigate(() => onNavigate()); }}>
+  return <Dialog open onOpenChange={open => { if (!open) void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate()); }}>
     <DialogContent fullscreen showCloseButton={false} aria-labelledby={titleId} className="flex flex-col gap-0">
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-4 py-3">
-        <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate(() => onNavigate())}><ArrowLeft />Back to package</Button>
+        <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate())}><ArrowLeft />{onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
         <div className="min-w-0"><DialogTitle id={titleId}>{record.name}</DialogTitle><DialogDescription>Package form editor</DialogDescription></div>
+        {onFinishFinding && <Button size="sm" disabled={leaving} onClick={() => void navigate(() => onFinishFinding(true))}>Next item</Button>}
         <span className="ml-auto text-sm text-muted-foreground" role="status">{({ opening: 'Opening form…', saved: 'Saved to package', saving: 'Saving…', pending: 'Editing draft', error: 'Save needs attention' })[editor.phase]}</span>
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
         <Button size="sm" disabled={leaving || editor.phase !== 'pending'} onClick={() => void editor.flush()}>Save changes</Button>

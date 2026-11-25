@@ -35,7 +35,7 @@ import { reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import type { PackageAsset } from "@/lib/actionPackages";
 import type { SerializedSession } from "@/stores/documentStore";
 import { useEffect, useId, useMemo, useLayoutEffect, useState, useRef, lazy, Suspense } from "react";
-import { focusPackageDestination, type PackageDestination, type PackageDestinationRequest } from "@/lib/packageDestinations";
+import { packageCorrectionKey, focusPackageDestination, type PackageDestination, type PackageDestinationRequest } from "@/lib/packageDestinations";
 import {
   Dialog,
   DialogContent,
@@ -343,10 +343,11 @@ function PackageDialog({
   const copy = nativeEditorMember && record?.workingCopies?.find(item =>
     item.memberId === nativeEditorMember.id && item.revisionId === revision?.id);
   const formMember = nativeEditorMember && !copy && isEditableOfficialForm(nativeEditorMember) ? nativeEditorMember : undefined;
-  async function openMemberEditor(id?: string) {
+  async function openMemberEditor(id?: string, finding?: PackageDestination) {
     if (!record || !revision) return;
     const target = revision.members.find(item => item.id === id);
     function enter(location: string) {
+      setEditingFinding(finding);
       if (id) rememberMember(id);
       setFormLocation(location);
       rememberFormLocation('active', location);
@@ -370,7 +371,7 @@ function PackageDialog({
         }
         update(next);
         enter(location);
-        const section = readFormLocation(location + '/section');
+        const section = (finding?.correction?.kind === 'edit' && finding.correction.sectionId) || readFormLocation(location + '/section');
         if (section && activeId) useEditorOutlineStore.getState().requestJump(activeId, section);
       });
       return;
@@ -420,6 +421,31 @@ function PackageDialog({
     });
   }
   const [deliveryReturnPackage, setDeliveryReturnPackage] = useState<string>();
+  const [editingFinding, setEditingFinding] = useState<PackageDestination>();
+  const [advanceFrom, setAdvanceFrom] = useState<{ packageId: string; correction: string }>();
+  const followLatest = useRef(followDestination);
+  useLayoutEffect(() => { followLatest.current = followDestination; });
+  async function finishFinding(advance: boolean) {
+    await openMemberEditor();
+    setEditingFinding(undefined);
+    setPrepared(null);
+    navigate('delivery');
+    const previous = editingFinding && packageCorrectionKey(editingFinding);
+    if (advance && record && previous) setAdvanceFrom({ packageId: record.id, correction: previous });
+  }
+  useEffect(() => {
+    if (!advanceFrom || !record || !revision || advanceFrom.packageId !== record.id || workspaceSection !== 'delivery' || library) return;
+    const controller = new AbortController();
+    void import('@/lib/packageNextActions').then(async ({ derivePackageNextActions, nextPackageCorrection }) => {
+      const checks = await derivePackageNextActions(record, revision.id, { signal: controller.signal });
+      if (controller.signal.aborted) return;
+      setAdvanceFrom(undefined);
+      const next = nextPackageCorrection(checks.actions, advanceFrom.correction);
+      if (next) followLatest.current({ ...next, revisionId: revision.id });
+      else setNotice('Review the remaining delivery checks.');
+    }).catch(cause => { if (!controller.signal.aborted) { setAdvanceFrom(undefined); setError(cause instanceof Error ? cause.message : 'Delivery checks could not be loaded.'); } });
+    return () => controller.abort();
+  }, [advanceFrom, record, revision, workspaceSection, library]);
   function openDeliveryFinding(target: PackageDestination) {
     if (!record || !revision) return;
     setDeliveryReturnPackage(record.id);
@@ -431,6 +457,15 @@ function PackageDialog({
   function followDestination(target: PackageDestination) {
     if (!active.current || destinationOwner.current !== selectionOwner || !record || !revision) return;
     if (busy || pendingPackageEdits) { setError("Save or discard package edits before following a finding."); return; }
+    const correctionMember = target.correction && revision.members.find(member => member.id === target.memberId);
+    if (editable && (!target.revisionId || target.revisionId === revision.id) && correctionMember) {
+      setDeliveryReturnPackage(record.id);
+      if (target.correction?.kind === 'edit' && correctionMember.kind === 'native') {
+        setWorkspaceSection('documents');
+        void openMemberEditor(correctionMember.id, { ...target, revisionId: revision.id });
+        return;
+      }
+    }
     if (target.reviewRoundId) {
       const round = record.reviewRounds?.find(item => item.id === target.reviewRoundId);
       if (!round || target.revisionId && round.revisionId !== target.revisionId) { setNotice("That exact review is not included in this package."); return; }
@@ -475,6 +510,11 @@ function PackageDialog({
   }
   useEffect(() => {
     if (!destination || record?.id !== destination.packageId || revision?.id !== destination.revisionId) return;
+    if (editable && destination.correction && destination.memberId && destination.correction.kind !== 'edit') {
+      const row = document.getElementById('package-member-' + destination.memberId);
+      const input = row?.querySelector<HTMLInputElement>(destination.correction.kind === 'printable' ? '[data-printable-input]' : '[data-replacement-input]');
+      if (input) { const details = input.closest('details'); if (details) details.open = true; input.focus(); input.scrollIntoView({ block: 'center' }); return; }
+    }
     if (destination.factId || destination.bindingId || destination.requirementId) return;
     if (destination.signingId) return; // The signing panel focuses its exact captured handoff.
     if (destination.citationId) return; // Citation identities load asynchronously in their panel.
@@ -486,12 +526,13 @@ function PackageDialog({
       : destination.section === "documents" ? documentsRef.current : destination.section === "review" ? reviewRef.current
         : destination.section === "delivery" ? deliveryRef.current : overviewRef.current;
     target?.focus({ preventScroll: true }); target?.scrollIntoView?.({ block: "start" });
-  }, [destination, record?.id, revision?.id]);
+  }, [destination, editable, record?.id, revision?.id]);
   useEffect(() => {
     if (record && revision) rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: revision.id,
       memberId: selectedMember?.id ?? null, section: workspaceSection });
   }, [record, revision, selectedMember?.id, workspaceSection]);
   function navigate(section: PackageWorkspaceSection) {
+    setAdvanceFrom(undefined);
     if (section !== 'overview') setFieldReviewPackage('');
     setLibraryOpen(false);
     setWorkspaceSection(section);
@@ -601,7 +642,7 @@ function PackageDialog({
     setLibraryOpen(false);
     setCreating(false);
     setDestination(undefined);
-    if (value.id !== selectedId) { setRole(undefined); setSigned(false); setActiveMemberId(null); setWorkspaceSection("overview"); }
+    if (value.id !== selectedId) { setEditingFinding(undefined); setAdvanceFrom(undefined); setRole(undefined); setSigned(false); setActiveMemberId(null); setWorkspaceSection("overview"); }
     setOpenedReview(null);
     setCitationReorder(null);
     setSelectedId(value.id);
@@ -880,10 +921,10 @@ function PackageDialog({
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
         {editorSurface && record && nativeEditorMember && copy && copy.documentId === currentId && <Suspense fallback={<p role="status">Opening document…</p>}>
           <PackageNativeDocumentEditor key={copy.documentId} record={record} member={nativeEditorMember} documentId={copy.documentId}
-            {...editorSurface} navigationError={error} disabled={busy} onFieldReview={reviewEditorField} onSave={onEditorSave} onNavigate={openMemberEditor} />
+            {...editorSurface} onFinishFinding={editingFinding?.memberId === nativeEditorMember.id ? finishFinding : undefined} navigationError={error} disabled={busy} onFieldReview={reviewEditorField} onSave={onEditorSave} onNavigate={openMemberEditor} />
         </Suspense>}
         {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
-          <PackageFormEditor key={record.id + '/' + formMember.id} record={record} member={formMember} ports={ports} exportGate={exportGate}
+          <PackageFormEditor key={record.id + '/' + formMember.id} record={record} member={formMember} correction={editingFinding?.memberId === formMember.id ? editingFinding.correction : undefined} onFinishFinding={editingFinding?.memberId === formMember.id ? finishFinding : undefined} ports={ports} exportGate={exportGate}
             onFieldReview={reviewEditorField} onSave={onEditorSave} navigationError={error}
             onSharedDetails={() => {
               openMemberEditor();
@@ -1357,7 +1398,7 @@ function PackageDialog({
                           }} />I reviewed the signature on this exact scan</label>}
                       {editable && member.kind === 'original' && !member.signedOriginal && <label className="inline-block cursor-pointer rounded border px-3 py-2 text-sm">
                         Replace PDF in this slot
-                        <input className="sr-only" type="file" accept="application/pdf,.pdf" disabled={busy || pendingPackageEdits}
+                        <input data-replacement-input className="sr-only" type="file" accept="application/pdf,.pdf" disabled={busy || pendingPackageEdits}
                           onChange={event => {
                             const file = event.target.files?.[0];
                             event.target.value = '';
@@ -1635,7 +1676,7 @@ function PackageDialog({
                     {reviewMode === 'original' ? original?.asset.name : reviewMode === 'saved' || reviewMode === 'preview' ? selectedRetainedOutput?.asset.name : prepared.purpose === "portable" ? "Editable package" : "PDF export"}
                   </h3>
 
-                  <PackageExportFindings results={[prepared, ...otherReviews]} revision={revision} onNavigate={followDestination} />
+                  <PackageExportFindings editable={editable} results={[prepared, ...otherReviews]} revision={revision} onNavigate={followDestination} />
 
                   <div className="flex flex-wrap gap-2"><Button
                     disabled={

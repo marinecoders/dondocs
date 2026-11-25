@@ -39,15 +39,23 @@ export function PackageDeliveryFindings({ revision, documents, findings, onNavig
       return target.memberId && finding.label !== member?.label
         ? details.map(message => finding.label + ' — ' + message) : details;
     }));
+    const corrections = canSign && target.memberId ? [...new Map(items.flatMap(item => item.corrections ?? []).map(action => [JSON.stringify(action), action])).values()] : [];
     const signingAvailable = !!target.memberId && !!member && canSign && !!packageFormSigningAction(member);
+    const handoff = member && fields.size > 0 && revision.signing?.handoffs.slice().reverse().find(entry =>
+      entry.target.kind === 'member' && entry.target.id === member.id && entry.target.revisionId === member.revisionId && !entry.returns?.length);
     if (!signingAvailable && member && fields.size) {
       messages.add('Outstanding signatures: ' + Array.from(fields, field => packageSignatureFieldLabel(member, field)).join(', ') + '.');
     }
     return <li key={key} className="space-y-1 py-3">
       <p className="font-medium">{target.memberId ? member?.label : item.label}</p>
       {Array.from(messages, message => <p key={message} className="break-words text-xs">{message}</p>)}
-      {(messages.size > 0 || !fields.size || !member) && <Button type="button" size="sm" variant="link" disabled={disabled}
+      {corrections.map(action => <Button key={JSON.stringify(action)} size="sm" variant="link" disabled={disabled}
+        onClick={() => onNavigate({ ...target, revisionId: revision.id, correction: action })}>{action.label}</Button>)}
+      {!corrections.length && (messages.size > 0 || !fields.size || !member) && <Button type="button" size="sm" variant="link" disabled={disabled}
         onClick={() => onNavigate({ ...target, revisionId: revision.id })}>{action}</Button>}
+      {handoff && <p className="text-xs">Signing handoff prepared. No return recorded.{' '}
+        <Button type="button" size="sm" variant="link" disabled={disabled} onClick={() => onNavigate({ revisionId: revision.id, signingId: handoff.id })}>Review handoff</Button>
+      </p>}
       {signingAvailable && member && Array.from(fields, field => {
         return <Button type="button" key={field} size="sm" variant="link" disabled={disabled}
           onClick={() => onNavigate({ revisionId: revision.id, memberId: member.id, signatureField: field })}>Review {packageSignatureFieldLabel(member, field)}</Button>;
