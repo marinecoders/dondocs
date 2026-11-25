@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.311] — 2026-11-25
+
+### Added
+
+- Check PDFs when attaching them and retain a reviewed printable copy beside the original for combined package output.
+
 ## [1.3.310] — 2026-11-25
 
 ### Added

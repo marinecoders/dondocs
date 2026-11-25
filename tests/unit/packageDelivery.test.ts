@@ -1,4 +1,9 @@
 import 'fake-indexeddb/auto';
+import { reviewRestoredPackageSources } from '@/lib/packageRestoredSources';
+import { extractPdfText } from '@/lib/pdfText';
+import { setPackagePrintableCopy } from '@/lib/packagePrintableCopy';
+import { reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
+import { packageMemberSchema } from '@/lib/actionPackages';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
@@ -137,4 +142,28 @@ for (const purpose of ['editable', 'recipient'] as const) it(`keeps pinned confi
     expect(selected.original.sha256).not.toBe(template.sha256); expect((await PDFDocument.load(await readPreparedPackageDeliveryAsset(prepared, selected.original))).getPageCount()).toBe(1);
   }
   const parsed = await parsePortableActionPackage(await buildPackageDeliveryFile(prepared, policy, true)); expect(getPackageRevision(parsed.record).members).toHaveLength(1);
+});
+
+
+it('binds a printable copy to the source bytes and includes it only in editable delivery', async () => {
+  const { record, excluded } = await fixture();
+  const file = new File([await pdf('Printable pages')], 'printable.pdf');
+  const paired = await setPackagePrintableCopy(record, excluded, file);
+  const member = getPackageRevision(paired).members.find(item => item.id === excluded.id);
+  if (member?.kind !== 'original' || !member.printableCopy) throw new Error('Printable copy missing');
+  expect(packageMemberSchema.safeParse({ ...member, printableCopy: { ...member.printableCopy, sourceSha256: 'f'.repeat(64) } }).success).toBe(false);
+  vi.mocked(extractPdfText).mockClear();
+  await reviewRestoredPackageSources({ ...getPackageRevision(paired), members: [member] }, policy);
+  expect(vi.mocked(extractPdfText).mock.calls.map(([bytes]) => bytes)).toEqual([
+    await readPackageAsset(member.original), await readPackageAsset(member.printableCopy.asset),
+  ]);
+  for (const purpose of ['editable', 'recipient'] as const) {
+    const delivery = await preparePackageDelivery(paired, paired.currentRevisionId, { label: 'Selected form', purpose, memberIds: [member.id] }, policy);
+    expect(delivery.files.map(item => item.sha256)).toEqual(purpose === 'editable'
+      ? [excluded.original.sha256, member.printableCopy.asset.sha256] : [excluded.original.sha256]);
+  }
+  await expect(setPackagePrintableCopy(paired, excluded, null)).rejects.toThrow('current original');
+  const replaced = await reviseUnsignedPackagePdf(paired, member, new File([await pdf('New source')], 'new-source.pdf'));
+  expect(getPackageRevision(replaced).members.find(item => item.id === member.id)).not.toHaveProperty('printableCopy');
+  expect(getPackageRevision(replaced, paired.currentRevisionId).members.find(item => item.id === member.id)).toEqual(member);
 });

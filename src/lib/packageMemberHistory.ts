@@ -32,7 +32,7 @@ export async function reviseUnsignedPackagePdf(record: ActionPackage, selected: 
   if (sha256 === member.original.sha256) throw new Error('This exact PDF is already saved in this slot.');
   signal?.throwIfAborted();
   const original = { id: newAttachmentId(), type: 'application/pdf', name: file.name, size: data.byteLength, sha256 };
-  const { signatureReviewSha256: _previousReview, ...previous } = member;
+  const { signatureReviewSha256: _previousReview, printableCopy: _previousCopy, ...previous } = member;
   const replacement = { ...previous, revisionId: newPackageId('member-revision'), original };
   return reviseActionPackage(record, revision.members.map(item => item.id === member.id ? replacement : item),
     signal, revision.citations, undefined, undefined, [{ ...original, data }]);

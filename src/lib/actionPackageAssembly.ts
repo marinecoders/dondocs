@@ -1,6 +1,7 @@
 import { canLeadRecipeEndorsements, endorsementLinkIssue, packageEndorsementRoutes } from './packageEndorsements';
 import { ENDORSEMENT_ORDINALS } from './appendedEndorsement';
 import { officialEdition } from '@/services/forms/nativeCatalog';
+import { checkPackagePrintablePdf } from './packagePrintableCopy';
 import { officialFormCompletionIssues } from './packageFormCompletion';
 import { saveGeneratedPdf } from '@/services/pdf/generatedPdfMetadata';
 import { directiveIssues } from './directiveFormats';
@@ -360,21 +361,29 @@ export async function preparePackageAssembly(
       if (member.kind === "original") {
         const original = await read(member.original);
         await validatePackageOriginalPdf(original);
-        if (purpose === 'pdf' && member.officialFormId && officialEdition(member.officialFormId)?.format === 'xfa')
-          error(`${member.label}: this signed XFA form needs its original PDF. Use editable package or recipient delivery to retain its signatures.`, member.id);
-        reviews.push({
-          member: member.label,
-          review: await reviewOriginal(original, member.label, policy),
-        });
+        const copy = member.printableCopy?.asset;
+        const printable = copy ? await read(copy) : original;
+        reviews.push({ member: member.label, review: await reviewOriginal(original, member.label, policy) });
+        if (copy) reviews.push({ member: member.label + ' · Printable copy', review: await reviewOriginal(printable, copy.name, policy) });
+        if (purpose === 'pdf') {
+          try {
+            if (!copy && member.officialFormId && officialEdition(member.officialFormId)?.format === 'xfa')
+              throw new Error('Use editable package or recipient delivery to retain this signed XFA form.');
+            await checkPackagePrintablePdf(printable, options.signal);
+          } catch (cause) {
+            options.signal?.throwIfAborted();
+            error(`${member.label}: ${cause instanceof Error ? cause.message : 'This PDF cannot be assembled.'} Add a reviewed printable copy in Documents.`, member.id);
+          }
+        }
         if (member.role === "endorsement") {
           endorsementCount++;
           previousSnapshot = null;
         }
-        inputs.push({ member, original });
+        inputs.push({ member, original: printable });
         findings.push({
           memberId: member.id,
           severity: "warning",
-          message: `${member.label}: review the original PDF content and signing status. The assembled derivative is unsigned. Imported links and interactive fields are omitted, and printable annotations may be included as page images.`,
+          message: `${member.label}: ${copy ? 'assembled pages use the printable copy (' + copy.name + '). ' : ''}Review the original PDF content and signing status. The assembled derivative is unsigned. Imported links and interactive fields are omitted, and printable annotations may be included as page images.`,
         });
         continue;
       }

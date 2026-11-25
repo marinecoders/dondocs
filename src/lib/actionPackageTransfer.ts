@@ -278,6 +278,11 @@ export async function validateActionPackageResources(
             throw new Error('The retained PDF does not match its official form edition.');
         }
         await validatePackageOriginalPdf(data);
+        if (member.printableCopy && !checkedEvidence.has(member.printableCopy.asset.sha256)) {
+          const { checkPackagePrintablePdf } = await import('./packagePrintableCopy');
+          await checkPackagePrintablePdf(await read(member.printableCopy.asset));
+          checkedEvidence.add(member.printableCopy.asset.sha256);
+        }
         continue;
       }
       const draft: unknown = JSON.parse(
