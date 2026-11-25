@@ -1,5 +1,8 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { buildPackageDeliveryBundle } from '@/lib/packageDeliveryBundle';
+import { PackageDeliveryFindings } from './PackageDeliveryFindings';
+import { PackageDeliveryBlocked, assertDeliveryRequirements, type PackageRequirementFinding } from '@/lib/packageRequirements';
+import type { PackageDestination } from '@/lib/packageDestinations';
 import { PackageDeliveryPreview } from './PackageDeliveryPreview';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
@@ -15,15 +18,38 @@ interface Props {
   signal(): AbortSignal | undefined; isCurrent(): boolean;
   onPreparedChange?(prepared: PreparedPackageDelivery | null): void;
   directDownload?: boolean;
+  onNavigate?(target: PackageDestination): void;
+  visible?: boolean;
 }
 export function PackageDeliveryPanel(props: Props) {
-  return <DeliveryProfile key={`${props.record.id}:${props.record.sequence}:${props.revision.id}`} {...props} />;
+  return <DeliverySelection key={props.record.id} {...props} />;
 }
-function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal, isCurrent, onPreparedChange, directDownload = false }: Props) {
-  const heading = useId(), [label, setLabel] = useState('Selected documents'), [purpose, setPurpose] = useState<PackageDeliverySelection['purpose']>('recipient');
-  const [taggedNativePdfs, setTaggedNativePdfs] = useState(false);
-  const [memberIds, setMemberIds] = useState<string[]>(() => revision.members.map(member => member.id));
+function DeliverySelection(props: Props) {
+  const [selection, setSelection] = useState<PackageDeliverySelection>({ label: 'Selected documents', purpose: 'recipient', scope: 'complete', memberIds: [] });
+  const [recheck, setRecheck] = useState(false);
+  return <DeliveryProfile key={props.record.sequence + ':' + props.revision.id} {...props} selection={selection}
+    setSelection={setSelection} recheck={recheck} setRecheck={setRecheck} />;
+}
+type ProfileProps = Props & { selection: PackageDeliverySelection; setSelection(selection: PackageDeliverySelection): void;
+  recheck: boolean; setRecheck(value: boolean): void };
+function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal, isCurrent, onPreparedChange, directDownload = false,
+  onNavigate, visible = true, selection, setSelection, recheck, setRecheck }: ProfileProps) {
+  const heading = useId();
+  const { label, purpose, scope, taggedNativePdfs = false } = selection;
+  const memberIds = revision.members.filter(member => scope === 'complete' || selection.memberIds.includes(member.id)).map(member => member.id);
   const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
+  const [findings, setFindings] = useState<PackageRequirementFinding[]>([]);
+  useEffect(() => {
+    if (!visible || !recheck || disabled || purpose !== 'recipient') return;
+    const controller = new AbortController();
+    void assertDeliveryRequirements(revision, scope === 'selected' ? selection.memberIds : undefined, controller.signal)
+      .then(() => { if (!controller.signal.aborted) setFindings([]); })
+      .catch(cause => { if (!controller.signal.aborted) {
+        if (cause instanceof PackageDeliveryBlocked) setFindings(cause.findings);
+        else setError(cause instanceof Error ? cause.message : 'Readiness check failed.');
+      } });
+    return () => controller.abort();
+  }, [visible, recheck, revision, selection.memberIds, scope, purpose, disabled]);
   const [reviewCount, setReviewCount] = useState(10), [fileCount, setFileCount] = useState(25);
   const preparedPolicy = useRef<string | undefined>(undefined);
   const mounted = useRef(false), running = useRef(false), generation = useRef(0), callback = useRef(onPreparedChange);
@@ -42,7 +68,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
     window.addEventListener('focus', invalidatePolicy);
     return () => window.removeEventListener('focus', invalidatePolicy);
   }, []);
-  function invalidate() { generation.current++; preparedPolicy.current = undefined; setPrepared(null); setApproved(false); setError(''); callback.current?.(null); }
+  function invalidate() { generation.current++; preparedPolicy.current = undefined; setPrepared(null); setApproved(false); setError(''); setFindings([]); setRecheck(false); callback.current?.(null); }
   const locked = disabled || busy || pending;
   const requiresLayoutReview = prepared?.purpose === 'recipient' && prepared.reviews.some(({ review }) => review.layoutReview);
   const requiresApproval = !directDownload || requiresLayoutReview;
@@ -56,7 +82,9 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       const operationSignal = signal(), current = () => mounted.current && generation.current === captured && !latest.current.disabled
         && latest.current.isCurrent() && latest.current.signal() === operationSignal && !operationSignal?.aborted;
       try { if (current()) await action(current, operationSignal); }
-      catch (cause) { if (current()) { setError(cause instanceof Error ? cause.message : 'Delivery preparation failed.'); setPrepared(null); setApproved(false); callback.current?.(null); } }
+      catch (cause) { if (current()) { if (cause instanceof PackageDeliveryBlocked) {
+        setFindings(cause.findings); setRecheck(true);
+      } else setError(cause instanceof Error ? cause.message : 'Delivery preparation failed.'); setPrepared(null); setApproved(false); callback.current?.(null); } }
     }); } catch (cause) { if (mounted.current && generation.current === captured && isCurrent()) setError(cause instanceof Error ? cause.message : 'The package operation could not start.'); }
     finally { running.current = false; if (mounted.current) setPending(false); }
   }
@@ -64,20 +92,26 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
     <h3 id={heading} className="font-medium">Recipient delivery</h3>
     <p className="text-xs text-muted-foreground">Choose the exact captured members for an independent delivery copy. Review its actual files and content before downloading.</p>
     {error && <p role="alert" className="break-words text-destructive">{error}</p>}
+    {findings.length > 0 && <><p role="alert">{findings.length} delivery {findings.length === 1 ? 'item needs' : 'items need'} attention.</p>
+      <PackageDeliveryFindings revision={revision} findings={findings} onNavigate={target => onNavigate?.(target)} disabled={locked || !onNavigate} /></>}
     <fieldset disabled={locked} className="min-w-0 space-y-3">
-      <label className="block">Delivery name<input aria-label="Delivery name" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" maxLength={120} value={label} onChange={event => { invalidate(); setLabel(event.target.value); }} /></label>
-      <label className="block">Delivery purpose<select aria-label="Delivery purpose" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" value={purpose} onChange={event => { invalidate(); setPurpose(event.target.value as typeof purpose); }}><option value="recipient">Recipient files</option><option value="editable">Editable handoff</option></select></label>
+      <label className="block">Delivery name<input aria-label="Delivery name" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" maxLength={120} value={label} onChange={event => { invalidate(); setSelection({ ...selection, label: event.target.value }); }} /></label>
+      <label className="block">Delivery purpose<select aria-label="Delivery purpose" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" value={purpose} onChange={event => { invalidate(); setSelection({ ...selection, purpose: event.target.value as typeof purpose }); }}><option value="recipient">Recipient files</option><option value="editable">Editable handoff</option></select></label>
       <p className="text-xs text-muted-foreground">Recipient copies render selected native documents as PDFs and preserve other files in their original formats. Editable handoffs include their full retained answers and embedded attachments.</p>
       {canTagNativePdfs &&
         <label className="flex items-start gap-2">
-          <input type="checkbox" checked={taggedNativePdfs} onChange={event => { invalidate(); setTaggedNativePdfs(event.target.checked); }} />
+          <input type="checkbox" checked={taggedNativePdfs} onChange={event => { invalidate(); setSelection({ ...selection, taggedNativePdfs: event.target.checked }); }} />
           <span>Tag supported correspondence PDFs (experimental)<span className="block text-xs text-muted-foreground">Logical reading order and table headings are included. Original files keep their existing accessibility.</span></span>
         </label>}
-      <div className="min-w-0 space-y-2">{revision.members.map(member => <label key={member.id} className="flex items-start gap-2 break-words"><input type="checkbox" checked={memberIds.includes(member.id)} onChange={event => { invalidate(); setMemberIds(previous => event.target.checked ? [...previous, member.id] : previous.filter(id => id !== member.id)); }} />Include {member.label}</label>)}</div>
+      {purpose === 'recipient' && <label className="block">Delivery scope<select className="mt-1 block w-full rounded border bg-background p-2" value={scope}
+        onChange={event => { invalidate(); setSelection({ ...selection, scope: event.target.value as PackageDeliverySelection['scope'], memberIds }); }}>
+        <option value="complete">Complete package</option><option value="selected">Selected files only</option>
+      </select></label>}
+      <div className="min-w-0 space-y-2">{revision.members.map(member => <label key={member.id} className="flex items-start gap-2 break-words"><input type="checkbox" checked={memberIds.includes(member.id)} onChange={event => { invalidate(); setSelection({ ...selection, scope: 'selected', memberIds: event.target.checked ? [...memberIds, member.id] : memberIds.filter(id => id !== member.id) }); }} />Include {member.label}</label>)}</div>
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length} onClick={() => void perform(async (current, operationSignal) => {
         const policy = await getExportDeploymentPolicy();
-        const value = await preparePackageDelivery(record, revision.id, { label, purpose, memberIds, taggedNativePdfs: canTagNativePdfs && taggedNativePdfs }, policy, ports, operationSignal, current);
-        if (current()) { preparedPolicy.current = policy.status === 'ready' ? JSON.stringify(policy.policy) : undefined; setPrepared(value); setApproved(false); setReviewCount(10); setFileCount(25); callback.current?.(value); }
+        const value = await preparePackageDelivery(record, revision.id, { label, purpose, scope, memberIds, taggedNativePdfs: canTagNativePdfs && taggedNativePdfs }, policy, ports, operationSignal, current);
+        if (current()) { preparedPolicy.current = policy.status === 'ready' ? JSON.stringify(policy.policy) : undefined; setFindings([]); setPrepared(value); setApproved(false); setReviewCount(10); setFileCount(25); callback.current?.(value); }
       })}>Prepare selected delivery</Button>
     </fieldset>
     {prepared && <section aria-label="Captured delivery contents" className="min-w-0 space-y-3 border-t pt-3">

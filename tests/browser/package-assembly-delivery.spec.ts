@@ -187,3 +187,28 @@ for (const docType of ['naval_letter', 'plain_paper_memorandum', 'letterhead_mem
 
   });
 }
+
+test('complete delivery opens a manual confirmation and selected files remain independently deliverable', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  const bytes = await pdf('TRAINING HANDOFF');
+  const original = asset('delivery_resource', 'Training.pdf', 'application/pdf', bytes);
+  const member = { kind: 'original', id: 'training', revisionId: 'saved_copy', label: 'Training PDF',
+    role: 'basic-letter', required: true, signedOriginal: false, original };
+  const requirements = { version: 1, items: [{ id: 'receipt', kind: 'confirmation', operations: ['pdf'],
+    label: 'Confirm receipt', condition: 'active' }] };
+  await page.goto('/');
+  const dialog = await packages(page);
+  await importPackage(dialog, packet('delivery_scope', 'Training handoff', [
+    { id: 'first', createdAt: 1, members: [member], requirements, outputs: [] },
+  ], 'first', [resource(original, bytes)]));
+  const delivery = await section(dialog, 'Recipient delivery');
+  await delivery.getByLabel('Delivery name').fill('My selected files');
+  await delivery.getByRole('button', { name: 'Prepare selected delivery' }).click();
+  await delivery.getByRole('button', { name: 'Review requirement' }).click();
+  await expect(dialog.getByRole('checkbox', { name: /User declaration for Confirm receipt/ })).toBeVisible();
+  await dialog.getByRole('button', { name: 'Return to delivery' }).click();
+  await expect(delivery.getByLabel('Delivery name')).toHaveValue('My selected files');
+  await delivery.getByLabel('Delivery scope').selectOption('selected');
+  await delivery.getByRole('button', { name: 'Prepare selected delivery' }).click();
+  await expect(delivery.getByRole('button', { name: 'Download reviewed delivery bundle' })).toBeEnabled();
+});

@@ -243,7 +243,7 @@ function PackageDialog({
   const [consistencyDirty, setConsistencyDirty] = useState(false);
   const [workDirty, setWorkDirty] = useState(false);
   const [formLocation, setFormLocation] = useState(() => readFormLocation('active'));
-  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; documentId: string; base: string }>();
+  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; documentId: string; base: string; initialField?: string }>();
   const [signingDirty, setSigningDirty] = useState(false);
   const [assemblyDirty, setAssemblyDirty] = useState(false);
   useEffect(() => { if (!assemblyDirty) setError(previous => previous === "Save or discard assembly settings before closing this package." ? "" : previous); }, [assemblyDirty]);
@@ -334,6 +334,29 @@ function PackageDialog({
   const missingRetainedOutput = !!selectedRetainedOutputId && !selectedRetainedOutput;
   const selectionOwner = `${record?.id ?? ''}:${record?.sequence ?? ''}:${revision?.id ?? ''}:${openedReview?.id ?? ''}`;
   useLayoutEffect(() => { destinationOwner.current = selectionOwner; }, [selectionOwner]);
+  function openMemberSigning(member: PackageMember, initialField?: string) {
+    if (!record || !editable || busy || pendingPackageEdits || !packageFormSigningAction(member)) return;
+    return run(async () => {
+      const signal = operation.current!.signal;
+      const documentId = await signingMemberKey(record.id, member);
+      let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId);
+      if (!saved) {
+        const policy = await getExportDeploymentPolicy();
+        const release = await exportGate.acquireWhenAvailable(signal);
+        const source = await preparePackageFormSigning(member, policy, signal, ports).finally(release);
+        const current = () => active.current && !signal.aborted;
+        const { confirmSigningDisclosure } = await import('./signingDisclosure');
+        await confirmSigningDisclosure({ pdfs: [source], metadata: source.metadata }, current, { action: 'sign' });
+        const edition = member.kind === 'native' && officialEdition(memberSigningFormId(member) ?? '');
+        const bytes = edition ? bindUnsignedFormPdf(source.bytes, edition.length, documentId) : source.bytes;
+        saved = await saveOfficialRevision(source.label, bytes, current, undefined,
+          { documentId, epoch: 0, editSequence: 0, capturedAt: Date.now() });
+      }
+      signal.throwIfAborted();
+      setFormSigning({ id: saved.id, initialField, memberId: member.id, revisionId: member.revisionId, documentId, base: saved.revisions[0].sha256 });
+    });
+  }
+  const [deliveryReturnPackage, setDeliveryReturnPackage] = useState<string>();
   function followDestination(target: PackageDestination) {
     if (!active.current || destinationOwner.current !== selectionOwner || !record || !revision) return;
     if (busy || pendingPackageEdits) { setError("Save or discard package edits before following a finding."); return; }
@@ -358,7 +381,7 @@ function PackageDialog({
     const binding = target.bindingId && selected.bindings?.items.find(item => item.id === target.bindingId);
     const valid = target.bindingId ? !!binding && (!target.factId || binding.factId === target.factId) && (!target.memberId || binding.memberId === target.memberId)
       : target.factId ? !!selected.information?.facts.some(item => item.id === target.factId)
-        : target.requirementId ? !!selected.requirements?.items.some(item => item.id === target.requirementId)
+        : target.requirementId ? (!!selected.requirements?.items.some(item => item.id === target.requirementId) || !!selected.templateState && !selected.requirements)
           : target.signingId ? !!selected.signing?.handoffs.some(item => item.id === target.signingId)
           : target.outputId ? selected.outputs.some(item => item.id === target.outputId)
             : target.citationId ? !!selected.citations && [...selected.citations.targets, ...selected.citations.links].some(item => item.id === target.citationId)
@@ -791,6 +814,8 @@ function PackageDialog({
         <div className="package-workspace-layout" style={library || creating ? { gridTemplateColumns: 'minmax(0, 1fr)' } : undefined}>
           <aside hidden={library || creating} className="package-workspace-sidebar">
             <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record && !library && !creating} disabled={busy || library || creating} onNavigate={navigate} />
+            {record && !library && deliveryReturnPackage === record.id && workspaceSection !== 'delivery' &&
+              <Button variant="link" disabled={busy || pendingPackageEdits} onClick={() => navigate('delivery')}>Return to delivery</Button>}
             {record && !library && <Button variant="ghost" className="package-workspace-history" onClick={() => setHistoryOpen(true)}>Version history</Button>}
           </aside>
           <div ref={mainScroll} className="package-workspace-main">
@@ -834,7 +859,7 @@ function PackageDialog({
                 <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
                   {record && revision && <PackageNextActions record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
                   {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel workspace resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+          <PackageIntakePanel workspace destination={destination} resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
             busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
@@ -937,7 +962,7 @@ function PackageDialog({
             destination={destination}
             onDirtyChange={setInformationDirty} onRecoveryChange={setInformationRecoverable} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense></details>}
-                  {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <details open={requirementsDirty}><summary className="cursor-pointer text-sm">Requirements</summary><div className="mt-4"><Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
+                  {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <details open={requirementsDirty || destination?.panel === 'requirements' && destination.revisionId === revision.id}><summary className="cursor-pointer text-sm">Requirements</summary><div className="mt-4"><Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
           <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setRequirementsDirty}
             destination={destination}
@@ -1209,25 +1234,7 @@ function PackageDialog({
                         {index + 1}. {member.label}
                       </h3>
                       {editable && packageFormSigningAction(member) && <Button size="sm" variant="outline" disabled={busy || pendingPackageEdits}
-                        onClick={() => void run(async () => {
-                          const signal = operation.current!.signal;
-                          const documentId = await signingMemberKey(record.id, member);
-                          let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId);
-                          if (!saved) {
-                            const policy = await getExportDeploymentPolicy();
-                            const release = await exportGate.acquireWhenAvailable(signal);
-                            const source = await preparePackageFormSigning(member, policy, signal, ports).finally(release);
-                            const current = () => active.current && !signal.aborted;
-                            const { confirmSigningDisclosure } = await import('./signingDisclosure');
-                            await confirmSigningDisclosure({ pdfs: [source], metadata: source.metadata }, current);
-                            const edition = member.kind === 'native' && officialEdition(memberSigningFormId(member) ?? '');
-                            const bytes = edition ? bindUnsignedFormPdf(source.bytes, edition.length, documentId) : source.bytes;
-                            saved = await saveOfficialRevision(source.label, bytes, current, undefined,
-                              { documentId, epoch: 0, editSequence: 0, capturedAt: Date.now() });
-                          }
-                          signal.throwIfAborted();
-                          setFormSigning({ id: saved.id, memberId: member.id, revisionId: member.revisionId, documentId, base: saved.revisions[0].sha256 });
-                        })}>{packageFormSigningAction(member)}</Button>}
+                        onClick={() => void openMemberSigning(member)}>{packageFormSigningAction(member)}</Button>}
                       {editable && isEditableOfficialForm(member) && !working ? (
                         <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit form</Button>
                       ) : member.kind === 'native' && editable && (<Button
@@ -1677,7 +1684,13 @@ function PackageDialog({
 {record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
-            <PackageDeliveryPanel directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
+            <PackageDeliveryPanel visible={workspaceSection === 'delivery' && !formSigning} onNavigate={target => {
+                setDeliveryReturnPackage(record.id);
+                const member = revision.members.find(item => item.id === target.memberId);
+                if (editable && target.signatureField && target.revisionId === revision.id && member && packageFormSigningAction(member)) {
+                  void openMemberSigning(member, target.signatureField);
+                } else followDestination(target);
+              }} directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
               onPreparedChange={prepared => {
                 if (!active.current || destinationOwner.current !== selectionOwner) return;
                 const epoch = ++deliverySearchEpoch.current;
@@ -1719,7 +1732,7 @@ function PackageDialog({
         </Dialog>
       </DialogContent>
     </Dialog>
-    {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id}
+    {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id} initialField={formSigning.initialField}
               onOpenChange={open => { if (!open) setFormSigning(undefined); }}
               onAttach={async (saved, inspection) => {
                 if (!editable || !record) throw new Error('The package changed. Reopen the current member before applying a signed revision.');

@@ -1,3 +1,4 @@
+import { matchesPackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { PackageIntakeQuestions } from './PackageIntakeQuestions';
@@ -24,6 +25,7 @@ import { clearPackageNewActionContext, rememberPackageNewActionContext, type Pac
 const inputClass = 'mt-1 w-full min-w-0 rounded border bg-background p-2';
 const buttonClass = 'h-auto min-h-9 max-w-full whitespace-normal';
 interface Props {
+  destination?: PackageDestinationRequest;
   record?: ActionPackage;
   revision?: PackageRevision;
   editable: boolean;
@@ -54,7 +56,7 @@ const recoveredIntake = z.object({
   fieldChoices: z.record(z.string().max(500), z.enum(['apply-package', 'keep-local', 'detach', 'reconnect'])),
 }).strict();
 
-export function PackageIntakePanel({ record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, resume }: Props) {
+export function PackageIntakePanel({ destination, record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, resume }: Props) {
   const ownerScope = scope(record, revision);
   const [template, setTemplate] = useState<PackageTemplateV2 | null>(null), [answers, setAnswers] = useState(emptyAnswers);
   const [mode, setMode] = useState<'none' | 'new' | 'saved'>('none'), [name, setName] = useState('');
@@ -182,6 +184,20 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
     catch (cause) { return { slots: [], error: cause instanceof Error ? cause.message : 'The file slots could not be inspected.' }; }
   }, [template, answers, view]);
   const validShape = !!template && !view?.error && !view?.value?.invalidLabels.length && !!name.trim();
+  const focusedDeliveryRequest = useRef<number | undefined>(undefined);
+  useEffect(() => {
+    if (!record || !revision || !template || loading || !matchesPackageDestination(destination, record.id, revision.id)
+      || destination.panel !== 'intake' || focusedDeliveryRequest.current === destination.requestId) return;
+    if (!open) {
+      const frame = requestAnimationFrame(() => setOpen(true));
+      return () => cancelAnimationFrame(frame);
+    }
+    const input = Array.from(heading.current?.closest('section')?.querySelectorAll<HTMLInputElement>('input[data-intake-slot]') ?? [])
+      .find(item => item.dataset.intakeSlot === destination.intakeSlot);
+    (input ?? heading.current)?.focus();
+    (input ?? heading.current)?.scrollIntoView({ block: 'center' });
+    focusedDeliveryRequest.current = destination.requestId;
+  }, [destination, record, revision, template, loading, open]);
   const hasInactiveFiles = Object.keys(attachments).some(key => !files.slots.some(slot => slot.key === key));
   function token(): Token { return { generation: generation.current, owner: owner.current, signal: signal() }; }
   function current(capture: Token): boolean {
@@ -316,7 +332,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
           const saved = captured && revision?.members.find(member => member.id === captured.memberId);
           return <div key={slot.key} className="min-w-0 space-y-2 border-t pt-2 text-sm">
           <p className="break-words text-xs text-muted-foreground">{saved?.kind === 'original' ? `Saved original: ${saved.original.name}${saved.signedOriginal ? ' · marked signed by uploader' : ''}` : 'No original PDF saved for this slot.'}</p>
-          <label className="block break-words">{slot.label}<input aria-label={`PDF for ${slot.label}`} className="mt-1 block w-full min-w-0 text-xs file:mr-2 file:max-w-full file:whitespace-normal" type="file" accept=".pdf,application/pdf" disabled={locked}
+          <label className="block break-words">{slot.label}<input data-intake-slot={slot.key} aria-label={`PDF for ${slot.label}`} className="mt-1 block w-full min-w-0 text-xs file:mr-2 file:max-w-full file:whitespace-normal" type="file" accept=".pdf,application/pdf" disabled={locked}
             onChange={event => {
               const file = event.target.files?.[0]; event.target.value = '';
               if (file) void perform(async capture => {

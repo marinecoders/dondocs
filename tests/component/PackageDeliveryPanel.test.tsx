@@ -3,6 +3,7 @@ import { afterEach, expect, it, vi } from 'vitest';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PDFDocument } from 'pdf-lib';
+import { PackageDeliveryFindings } from '@/components/PackageDeliveryFindings';
 import { PackageDeliveryPanel } from '@/components/PackageDeliveryPanel';
 import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
 import { captureOriginalPackageMember, capturePackageMember } from '@/lib/actionPackageAssets';
@@ -144,4 +145,15 @@ it('does not download an already generated delivery after the parent disables th
   view.rerender(<PackageDeliveryPanel {...props} disabled />); release();
   await waitFor(() => expect(screen.getByRole('region', { name: 'Recipient delivery' })).toHaveAttribute('aria-busy', 'false'));
   expect(download).not.toHaveBeenCalled(); expect(onPreparedChange).toHaveBeenLastCalledWith(null);
+});
+
+it('opens intake for an unresolved condition even when its document already exists', async () => {
+  const revision = getPackageRevision(await fixture());
+  const member = revision.members[0], navigate = vi.fn();
+  render(<PackageDeliveryFindings revision={revision} onNavigate={navigate} disabled={false} findings={[{
+    id: 'intake:1', kind: 'document', state: 'missing', label: member.label,
+    memberId: member.id, fromIntake: true, message: 'Resolve the intake questions.',
+  }]} />);
+  await userEvent.click(screen.getByRole('button', { name: 'Review intake' }));
+  expect(navigate).toHaveBeenCalledWith(expect.objectContaining({ revisionId: revision.id, panel: 'intake' }));
 });

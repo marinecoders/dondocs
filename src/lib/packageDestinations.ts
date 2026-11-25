@@ -6,6 +6,8 @@ export interface PackageDestination {
   bindingId?: string;
   memberId?: string;
   requirementId?: string;
+  intakeSlot?: string;
+  signatureField?: string;
   outputId?: string;
   reviewRoundId?: string;
   citationId?: string;

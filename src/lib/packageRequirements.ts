@@ -1,4 +1,4 @@
-import { matchesExpectedForm, officialFormCompletionIssues } from './packageFormCompletion';
+import { matchesExpectedForm, missingPackageSignatures, officialFormCompletionIssues } from './packageFormCompletion';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
 import { requirementDeclaration, packageRequirementOperationSchema, packageRequirementsSchema, type PackageRequirement, type PackageRequirementOperation, type PackageRequirements } from './packageRequirementsModel';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, packageMemberSchema, type ActionPackage, type PackageAsset, type PackageMember, type PackageRevision } from './actionPackages';
@@ -19,6 +19,8 @@ export interface PackageRequirementFinding {
   state: 'satisfied' | 'missing' | 'unknown' | 'inactive' | 'invalid' | 'not-required';
   message: string;
   memberId?: string;
+  signatureFields?: string[];
+  fromIntake?: boolean;
 }
 export interface PackageRequirementsInspection {
   operation: PackageRequirementOperation;
@@ -104,7 +106,7 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
           issues.push('The required fields cannot be verified on this document.');
         }
         if (issues.length) {
-          items.push({ ...base, state: 'missing', message: issues.join(' ') });
+          items.push({ ...base, state: 'missing', message: issues.join(' '), signatureFields: missingPackageSignatures(member, rule) });
           continue;
         }
       }
@@ -122,15 +124,34 @@ export async function assertPackageRequirementsReady(revision: PackageRevision, 
   requireSatisfied(inspection);
 }
 
-export async function assertRecipeDeliveryReady(revision: PackageRevision, signal: AbortSignal) {
-  if (!revision.templateState) return;
-  const { resolveConditionalPackageRequirements } = await import('./packageConditionalRequirements');
-  const requirements = await resolveConditionalPackageRequirements(revision);
-  if (!requirements?.items.some(item => item.kind === 'document' && item.completion)) return;
-  const { conditionalMembershipFindings } = await import('./packageConditionalSources');
-  const findings = conditionalMembershipFindings(revision);
-  if (findings.length) throw new Error(findings.map(item => item.message).join(' '));
-  requireSatisfied(await inspectResolvedRequirements(revision, requirements, 'pdf', { signal }));
+export class PackageDeliveryBlocked extends Error {
+  readonly findings: PackageRequirementFinding[];
+  constructor(findings: PackageRequirementFinding[]) {
+    super(findings.map(item => item.label + ': ' + item.message).join(' '));
+    this.findings = findings;
+  }
+}
+
+export async function assertDeliveryRequirements(revision: PackageRevision, selectedIds: readonly string[] | undefined, signal?: AbortSignal) {
+  const state = revision.templateState;
+  const requirements = state
+    ? await (await import('./packageConditionalRequirements')).resolveConditionalPackageRequirements(revision)
+    : revision.requirements;
+  const selected = selectedIds && new Set(selectedIds);
+  const applicable = selected && requirements ? { ...requirements, items: requirements.items.filter(item =>
+    item.kind === 'document' && item.memberId && selected.has(item.memberId)) } : requirements;
+  const inspected = await inspectResolvedRequirements(revision, applicable, 'pdf', { signal });
+  const failures = inspected.items.filter(item => ['missing', 'invalid', 'unknown'].includes(item.state));
+  if (state) {
+    const { conditionalMembershipFindings } = await import('./packageConditionalSources');
+    for (const issue of conditionalMembershipFindings(revision)) {
+      if (selected && (!issue.memberId || !selected.has(issue.memberId))) continue;
+      const slot = state.instances.find(instance => instance.memberId === issue.memberId);
+      failures.push({ id: 'intake:' + failures.length, kind: 'document', state: 'missing', label: slot?.label ?? 'Package details',
+        message: issue.message, memberId: issue.memberId, fromIntake: true });
+    }
+  }
+  if (failures.length) throw new PackageDeliveryBlocked(failures);
 }
 
 function requireSatisfied(inspection: PackageRequirementsInspection) {
