@@ -1,3 +1,4 @@
+import { getExportDeploymentPolicySync } from '@/config/classification';
 import { newAttachmentId } from './attachments';
 import { getPackageRevision, newPackageId, reviseActionPackage, type ActionPackage, type PackageMember } from './actionPackages';
 import { portableResourceDigest } from './portableResources';
@@ -19,7 +20,19 @@ export async function checkPackagePrintablePdf(data: ArrayBuffer, signal?: Abort
   return digest;
 }
 
-export async function setPackagePrintableCopy(record: ActionPackage, selected: PackageMember, file: File | null, signal?: AbortSignal) {
+export interface ReviewedPrintableCopy {
+  file: File;
+  policyIdentity: string;
+}
+
+export async function setPackagePrintableCopy(record: ActionPackage, selected: PackageMember, copy: ReviewedPrintableCopy | null, signal?: AbortSignal) {
+  const file = copy?.file;
+  const policyCurrent = () => {
+    if (!copy) return true;
+    const policy = getExportDeploymentPolicySync();
+    return policy.status === 'ready' && policy.policy.identity === copy.policyIdentity;
+  };
+  if (!policyCurrent()) throw new Error('Preview policy changed. Choose the file again.');
   const revision = getPackageRevision(record);
   const member = revision.members.find(item => item.id === selected.id);
   if (record.archived || record.reviewRounds?.some(round => !round.ownerPackageId) ||
@@ -36,5 +49,5 @@ export async function setPackagePrintableCopy(record: ActionPackage, selected: P
   const replacement = { ...source, revisionId: newPackageId('member-revision'),
     ...(asset && { printableCopy: { sourceSha256: source.original.sha256, asset } }) };
   return reviseActionPackage(record, revision.members.map(item => item.id === member.id ? replacement : item),
-    signal, revision.citations, undefined, undefined, asset && data ? [{ ...asset, data }] : []);
+    signal, revision.citations, policyCurrent, undefined, asset && data ? [{ ...asset, data }] : []);
 }

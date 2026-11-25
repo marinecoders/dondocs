@@ -33,6 +33,7 @@ export interface PdfViewerProps {
   documentId?: string;
   /** Captured review exports keep delivery behind their final authority/policy gate. */
   allowOpenInTab?: boolean;
+  onPagePaint?: (success: boolean) => void;
   onDownloadPdf?: () => void;
   /** Optional workspace title/status, sharing the viewer's existing toolbar. */
   toolbarLabel?: React.ReactNode;
@@ -56,7 +57,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ follow, starterExamples, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
+export default function PdfViewer({ follow, starterExamples, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, onPagePaint, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [menuContainer, setMenuContainer] = useState<HTMLDivElement | null>(null);
   const setRoot = useCallback((node: HTMLDivElement | null) => {
@@ -147,7 +148,7 @@ export default function PdfViewer({ follow, starterExamples, sourceNavigationMes
     []
   );
 
-  const handleActiveFailed = useCallback(() => setLoadFailed(true), []);
+  const handleActiveFailed = useCallback(() => { setLoadFailed(true); onPagePaint?.(false); }, [onPagePaint]);
   const rememberPage = useCallback((page: number) => {
     // Ignore the first empty layer's provisional page-one notification.
     if (!docMeta) return;
@@ -370,6 +371,7 @@ export default function PdfViewer({ follow, starterExamples, sourceNavigationMes
               currentPage={pageInView}
               onDocMeta={handleDocMeta}
               onPageInView={rememberPage}
+              onPaint={onPagePaint}
               onFailed={handleActiveFailed}
             />
           ),
