@@ -1,8 +1,7 @@
 import type { ActionPackage, PackageAsset, PackageRevision } from './actionPackages';
 import { getPackageRevision } from './actionPackages';
 import { readPackageAsset } from './actionPackageAssets';
-import { portableResourceDigest } from './portableResources';
-import { validatePackageTemplate } from './packageTemplateLibrary';
+import { restoreTemplateSource } from './packageTemplateResources';
 import { packageTemplateProgramText, type PackageTemplateV2 } from './packageTemplateSchema';
 import { evaluatePackageTemplateCondition, evaluatePackageTemplateProgram } from './packageTemplateProgram';
 import { packageConditionalStateSchema, conditionalStateText, type PackageConditionalState } from './packageConditionalState';
@@ -16,12 +15,7 @@ import { sameReviewStoredValue } from './documentsDb';
 
 type Reader = (asset: PackageAsset) => Promise<ArrayBuffer>;
 async function sourceTemplate(state: Pick<PackageConditionalState, 'source'>, read: Reader): Promise<PackageTemplateV2> {
-  const bytes = await read(state.source);
-  if (bytes.byteLength !== state.source.size || await portableResourceDigest(bytes) !== state.source.sha256)
-    throw new Error('The captured action template is missing or corrupt.');
-  const template = await validatePackageTemplate(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)));
-  if (template.version !== 2) throw new Error('This action requires its exact versioned template.');
-  return template;
+  return restoreTemplateSource(state.source, read);
 }
 function stateMatches(template: PackageTemplateV2, value: PackageConditionalState, revision: PackageRevision): void {
   const state = packageConditionalStateSchema.parse(value);
@@ -80,12 +74,12 @@ export async function validateConditionalPackageStates(record: ActionPackage, re
   for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
     const state = revision.templateState;
     if (!state) continue;
-    let template = templates.get(state.source.sha256);
-    if (!template) { template = sourceTemplate(state, read); templates.set(state.source.sha256, template); }
+    let template = templates.get(JSON.stringify(state.source));
+    if (!template) { template = sourceTemplate(state, read); templates.set(JSON.stringify(state.source), template); }
     stateMatches(await template, state, revision);
     for (const upgrade of state.upgrades ?? []) {
-      let retained = templates.get(upgrade.source.sha256);
-      if (!retained) { retained = sourceTemplate(upgrade, read); templates.set(upgrade.source.sha256, retained); }
+      let retained = templates.get(JSON.stringify(upgrade.source));
+      if (!retained) { retained = sourceTemplate(upgrade, read); templates.set(JSON.stringify(upgrade.source), retained); }
       const original = await retained;
       if (original.id !== upgrade.templateId || original.program.revision !== upgrade.templateRevision)
         throw new Error('A retained template upgrade source does not match its recorded revision.');
@@ -104,8 +98,8 @@ export async function loadConditionalPackageSource(revision: PackageRevision, re
   templates: Map<string, Promise<PackageTemplateV2>> = new Map()): Promise<{ template: PackageTemplateV2; state: PackageConditionalState } | undefined> {
   if (!revision.templateState) return undefined;
   const state = packageConditionalStateSchema.parse(revision.templateState);
-  let retained = templates.get(state.source.sha256);
-  if (!retained) { retained = sourceTemplate(state, read); templates.set(state.source.sha256, retained); }
+  let retained = templates.get(JSON.stringify(state.source));
+  if (!retained) { retained = sourceTemplate(state, read); templates.set(JSON.stringify(state.source), retained); }
   const template = await retained; stateMatches(template, state, revision); return { template, state };
 }
 /** Include inactive branch text and PDF backgrounds carried by the pinned source in disclosure review. */
@@ -132,9 +126,9 @@ export async function reviewConditionalPackage(revision: PackageRevision, policy
   const template = await sourceTemplate(revision.templateState, read); stateMatches(template, revision.templateState, revision);
   const reviews = [reviewPackageText(conditionalStateText(revision.templateState), 'Captured intake including retained inactive answers', policy),
     ...await reviewConditionalTemplate(template, policy)];
-  const seen = new Set([revision.templateState.source.sha256]);
-  for (const upgrade of revision.templateState.upgrades ?? []) if (!seen.has(upgrade.source.sha256)) {
-    seen.add(upgrade.source.sha256); reviews.push(...await reviewConditionalTemplate(await sourceTemplate(upgrade, read), policy));
+  const seen = new Set([JSON.stringify(revision.templateState.source)]);
+  for (const upgrade of revision.templateState.upgrades ?? []) if (!seen.has(JSON.stringify(upgrade.source))) {
+    seen.add(JSON.stringify(upgrade.source)); reviews.push(...await reviewConditionalTemplate(await sourceTemplate(upgrade, read), policy));
   }
   return reviews;
 }

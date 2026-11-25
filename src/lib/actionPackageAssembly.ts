@@ -1,3 +1,4 @@
+import { officialEdition } from '@/services/forms/nativeCatalog';
 import { officialFormCompletionIssues } from './packageFormCompletion';
 import { saveGeneratedPdf } from '@/services/pdf/generatedPdfMetadata';
 import { directiveIssues } from './directiveFormats';
@@ -350,6 +351,8 @@ export async function preparePackageAssembly(
       if (member.kind === "original") {
         const original = await read(member.original);
         await validatePackageOriginalPdf(original);
+        if (purpose === 'pdf' && member.officialFormId && officialEdition(member.officialFormId)?.format === 'xfa')
+          error(`${member.label}: this signed XFA form needs its original PDF. Use editable package or recipient delivery to retain its signatures.`, member.id);
         reviews.push({
           member: member.label,
           review: await reviewOriginal(original, member.label, policy),

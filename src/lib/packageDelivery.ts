@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { PDFDocument } from 'pdf-lib';
 import { actionPackageSchema, getPackageRevision, listActionPackages, newPackageId, packageAssets, type ActionPackage, type PackageAsset, type PackageMember } from './actionPackages';
-import { readPackageAsset } from './actionPackageAssets';
+import { readPackageAsset, validatePackageOriginalPdf } from './actionPackageAssets';
 import { MAX_PORTABLE_RESOURCE_COUNT, MAX_PORTABLE_TOTAL_BYTES, portableResourceDigest } from './portableResources';
 import { preparePackageAssembly } from './actionPackageAssembly';
 import { buildPortableActionPackage } from './actionPackageTransfer';
@@ -91,10 +91,12 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
         }
         name = `document-${members.length + 1}${taggedNativePdfs ? '-tagged' : ''}.pdf`;
       }
-      await PDFDocument.load(bytes.slice(0)); signal.throwIfAborted();
+      if (selectedMember.kind === 'original') await validatePackageOriginalPdf(bytes);
+      else await PDFDocument.load(bytes.slice(0));
+      signal.throwIfAborted();
       const asset: PackageAsset = { id: newPackageId('delivery-file'), name, type: 'application/pdf', size: bytes.byteLength, sha256: await portableResourceDigest(bytes) };
       if (taggedNativePdfs && selectedMember.kind === 'native') taggedAssetIds.push(asset.id);
-      members.push({ id: selectedMember.id, revisionId: newPackageId('member-revision'), label: selectedMember.label, role: selectedMember.role, required: selectedMember.required, kind: 'original', signedOriginal, original: asset }); addAsset({ asset, bytes });
+      members.push({ id: selectedMember.id, revisionId: newPackageId('member-revision'), label: selectedMember.label, role: selectedMember.role, required: selectedMember.required, kind: 'original', signedOriginal, ...(selectedMember.kind === 'original' && selectedMember.officialFormId && { officialFormId: selectedMember.officialFormId }), original: asset }); addAsset({ asset, bytes });
     }
   }
   const revision = { id: newPackageId('revision'), createdAt: Date.now(), members, outputs: [] };

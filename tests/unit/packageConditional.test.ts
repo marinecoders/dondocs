@@ -391,6 +391,13 @@ describe('PR8 independent adversarial regressions', () => {
       links: [{ questionId: 'date', target: fields.find(field => field.target.kind === 'configured-form' && field.target.fieldId === 'date' && field.target.row?.rowId === 'first')!.target, format: 'field' }] }];
     let record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: { version: 1, values: {}, groups: {} } }, policy), policy, true)).record;
     const member = getPackageRevision(record).members[0]; if (member.kind !== 'native') throw new Error('Expected worksheet');
+    const captured = getPackageRevision(record).templateState!.source;
+    expect(captured.resources?.pdfs).toEqual([member.templates!['page1.pdf']]);
+    const json = await buildPortableActionPackage(record);
+    expect(JSON.parse(json).portableResources.entries.filter((entry: { sha256: string }) => entry.sha256 === page.sha256)).toHaveLength(1);
+    await clearDb();
+    record = await importPortableActionPackage(json);
+    expect(await readConditionalPackageTemplate(record)).toEqual(source);
     await retainPackageMemberTemplates(member, readPackageAsset);
     const firstId = member.session.genericForm!.rows.roster[0].id; expect(firstId).not.toBe('first');
     const edited = structuredClone((await readPackageMemberDraft(member)).reviewed.session); edited.genericForm!.rows.roster.reverse();

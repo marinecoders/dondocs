@@ -7,8 +7,17 @@ const identity = z.string().min(1).max(100).regex(/^[A-Za-z0-9_-]+$/)
   .refine(value => value !== 'prototype' && !Object.hasOwn(Object.prototype, value), 'Reserved template state identity.');
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const label = z.string().trim().min(1).max(160);
+const pdfResource = z.object({ id: identity, name: z.string().min(1).max(255), type: z.literal('application/pdf'),
+  size: z.number().int().positive().max(25 * 1024 * 1024), sha256: digest }).strict();
 const sourceSchema = z.object({ id: identity, name: z.string().min(1).max(255), type: z.literal('application/json'),
-  size: z.number().int().positive().max(12 * 1024 * 1024), sha256: digest }).strict();
+  size: z.number().int().positive().max(12 * 1024 * 1024), sha256: digest,
+  // Older captures contain the full template inline.
+  resources: z.object({ templateSha256: digest, pdfs: z.array(pdfResource).min(1).max(256) }).strict().optional(),
+}).strict();
+export type CapturedTemplateSource = z.infer<typeof sourceSchema>;
+export function templateSourceAssets({ resources, ...descriptor }: CapturedTemplateSource) {
+  return [descriptor, ...resources?.pdfs ?? []];
+}
 export const packageTemplateUpgradeSchema = z.object({ id: identity, source: sourceSchema, templateId: identity,
   templateRevision: z.string().trim().min(1).max(100), answers: packageTemplateAnswersSchema,
   appliedAnswers: packageTemplateAnswersSchema.optional(), questionMappings: z.record(identity, identity.nullable()),

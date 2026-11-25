@@ -1,8 +1,9 @@
+import { captureTemplateSource } from './packageTemplateResources';
 import { templateMemberPages } from '@/lib/packageTemplateSchema';
 import { reviewPackageSigningMetadata } from './actionPackageDisclosure';
 import { reviewPackageScans } from './actionPackageDisclosure';
 import { materializePackageRequirements } from './packageRequirementsModel';
-import { actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId, packageMemberLabel,
+import { actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId, packageMemberLabel, packageAssets,
   type ActionPackage, type NativePackageMember, type PackageAsset, type PackageMember, type PackageRevision } from './actionPackages';
 import { packageTemplateV2Schema, type PackageTemplateV2 } from './packageTemplateSchema';
 import { validatePackageTemplate, MAX_TEMPLATE_ACTION_BYTES, type TemplateAttachment } from './packageTemplateLibrary';
@@ -191,9 +192,9 @@ async function context(input: Pick<ConditionalPackageInput, 'template' | 'answer
   const current = before ? getPackageRevision(before) : undefined;
   const bytes = new TextEncoder().encode(JSON.stringify(template)).buffer;
   const sha256 = await portableResourceDigest(bytes);
-  if (before && (!current?.templateState || current.templateState.source.sha256 !== sha256))
+  if (before && (!current?.templateState || (current.templateState.source.resources?.templateSha256 ?? current.templateState.source.sha256) !== sha256))
     throw new Error('Use the exact captured template for this action. Newer templates require deliberate adoption.');
-  const source = current?.templateState?.source ?? await stage(attachments, `${template.name}.dondocs-template.json`, 'application/json', bytes);
+  const source = current?.templateState?.source ?? await captureTemplateSource(template, (name, type, data) => stage(attachments, name, type, data));
   return { template, answers, before, current, source: source as PackageConditionalState['source'], name: packageMemberLabel(input.name?.trim() || before?.name || `${template.name} action`) };
 }
 function buildRecord(before: ActionPackage | null, name: string, revision: PackageRevision, reservedId?: string): ActionPackage {
@@ -335,7 +336,12 @@ async function nativeMember(blueprint: Extract<PackageTemplateV2['members'][numb
   }
   if (updates.length) { const patched = await patchPackageBindingDraftFields(raw, updates); draft = patched.draft; reviewed = await validatePackageDraft(draft); }
   const pages: NonNullable<NativePackageMember['templates']> = {};
-  for (const [file, page] of Object.entries(templateMemberPages(template, blueprint))) pages[file] = await stage(attachments, page.name, page.type, new Uint8Array(base64ToUint8Array(page.data)).buffer);
+  for (const [file, page] of Object.entries(templateMemberPages(template, blueprint))) {
+    const bytes = new Uint8Array(base64ToUint8Array(page.data)).buffer;
+    const digest = await portableResourceDigest(bytes);
+    pages[file] = state.source.resources?.pdfs.find(asset => asset.sha256 === digest && asset.name === page.name)
+      ?? await stage(attachments, page.name, page.type, bytes);
+  }
   bindings.push(...links);
   return { id: instance.memberId, revisionId: newPackageId('member-revision'), label: instance.label, role: blueprint.role, required: blueprint.required,
     kind: 'native', session: reviewed.session, draft: await stage(attachments, `${instance.label}.dondocs.json`, 'application/json', new TextEncoder().encode(JSON.stringify(draft)).buffer),
@@ -623,9 +629,8 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
   const prepared = freeze({ packageName: name, ready: !issues.length, changed, changes: own(changes), answerChanges: own(reconciled.changes),
     fieldChanges: own(fieldChanges), issues: [...issues], reviews: [...own(reviews), ...own(planned.reviews)],
     ...(current && !issues.length ? { impact: await comparePackageChangeImpact(current, planned.revision, { reviewRounds: before?.reviewRounds, retainedRevisions: before?.revisions.filter(item => item.outputs.length), packageId: before?.id, signal }) } : {}) });
-  plans.set(prepared, { before, after, attachments: [...attachments, ...planned.attachments].filter(asset =>
-    after.revisions.some(revision => revision.members.some(member => member.kind === 'native' && (member.draft.id === asset.id || Object.values(member.templates ?? {}).some(template => template.id === asset.id))
-      || member.kind !== 'native' && member.original.id === asset.id) || revision.templateState?.source.id === asset.id)), policy: policyKey });
+  const retained = new Set(packageAssets(after).map(asset => asset.id));
+  plans.set(prepared, { before, after, attachments: [...attachments, ...planned.attachments].filter(asset => retained.has(asset.id)), policy: policyKey });
   return prepared;
 }
 
@@ -677,7 +682,7 @@ export async function prepareConditionalTemplateUpgrade(input: ConditionalTempla
   const before = actionPackageSchema.parse(own(input.record)); editable(before);
   const original = getPackageRevision(before), previous = await readConditionalPackageTemplate(before), template = packageTemplateV2Schema.parse(await validatePackageTemplate(input.template));
   if (original.templateState!.pending) throw new Error('Apply or resolve the saved intake draft before adopting another template.');
-  if (await portableResourceDigest(new TextEncoder().encode(JSON.stringify(template)).buffer) === original.templateState!.source.sha256)
+  if (await portableResourceDigest(new TextEncoder().encode(JSON.stringify(template)).buffer) === (original.templateState!.source.resources?.templateSha256 ?? original.templateState!.source.sha256))
     throw new Error('This exact template is already captured by the action.');
   const questionMappings = own(input.questionMappings), memberMappings = own(input.memberMappings);
   const requireMappings = (known: string[], mappings: Readonly<Record<string, string | null>>, targets: string[]) => {
@@ -698,7 +703,7 @@ export async function prepareConditionalTemplateUpgrade(input: ConditionalTempla
     const target = template.program.participantGroups.find(item => item.id === group.id);
     if (target && target.role !== group.role) throw new Error('Existing participants cannot inherit a different role during an upgrade.');
   }
-  const attachments: StoredAttachment[] = [], source = await stage(attachments, `${template.name}.dondocs-template.json`, 'application/json', new TextEncoder().encode(JSON.stringify(template)).buffer);
+  const attachments: StoredAttachment[] = [], source = await captureTemplateSource(template, (name, type, data) => stage(attachments, name, type, data));
   const current = own(original), prior = current.templateState!;
   prior.upgrades = [...prior.upgrades ?? [], { id: newPackageId('template-upgrade'), source: own(prior.source), templateId: prior.templateId,
     templateRevision: prior.templateRevision, answers: own(prior.answers), ...(prior.appliedAnswers ? { appliedAnswers: own(prior.appliedAnswers) } : {}),
