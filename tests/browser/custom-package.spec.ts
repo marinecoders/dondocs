@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { PDFDocument } from 'pdf-lib';
-import { choosePackage, downloadPackageExport, importPackage, newPackage, openPackageWorkspace, packageHeading, packageSection } from './_helpers/packageWorkspace';
+import { openAddDocuments, choosePackage, downloadPackageExport, importPackage, newPackage, openPackageWorkspace, packageHeading, packageSection } from './_helpers/packageWorkspace';
 
 test('assembles a custom letter and two PDFs and preserves their order on reload and transfer', async ({ page, browser, baseURL }) => {
   await page.goto('/');
@@ -16,8 +16,11 @@ test('assembles a custom letter and two PDFs and preserves their order on reload
   await expect(actions.getByRole('button')).toHaveText(['Edit document', 'Sign correspondence']);
   const navigation = workspace.getByRole('navigation', { name: 'Package workspace', exact: true });
   await expect(navigation.getByRole('button', { name: 'Documents' })).toHaveAttribute('aria-current', 'location');
+  await openAddDocuments(workspace);
+  await expect(workspace.getByLabel('New member role')).toHaveValue('supporting-document');
   await workspace.getByLabel('New member role').selectOption('enclosure');
   for (const [index, name] of ['First.pdf', 'Second.pdf'].entries()) {
+    await openAddDocuments(workspace);
     const pdf = await PDFDocument.create();
     pdf.addPage().drawText(name);
     await workspace.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name, mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
@@ -40,4 +43,50 @@ test('assembles a custom letter and two PDFs and preserves their order on reload
     await packageSection(restored, 'Documents');
     for (const label of ['1. Naval letter', '2. Second.pdf', '3. First.pdf']) await expect(await packageHeading(restored, label)).toBeVisible();
   } finally { await fresh.close(); }
+});
+
+test('promotion requires confirmation and saves one main document at the start', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing', exact: true }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newPackage(workspace);
+  const custom = workspace.getByRole('group', { name: 'Custom package', exact: true });
+  await custom.getByLabel('Package name').fill('Main document selection');
+  await custom.getByRole('button', { name: 'Create package' }).click();
+  await workspace.getByRole('button', { name: 'Add letter', exact: true }).click();
+  await openAddDocuments(workspace);
+  const pdf = await PDFDocument.create();
+  pdf.addPage().drawText('New lead document');
+  await workspace.getByLabel('Add original PDF', { exact: true }).setInputFiles({
+    name: 'Lead.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()),
+  });
+  await expect(workspace.getByRole('heading', { name: '2. Lead.pdf' })).toBeVisible();
+  await workspace.getByText('Document details', { exact: true }).filter({ visible: true }).click();
+  await workspace.getByText('Make main document', { exact: true }).click();
+  await expect(workspace.getByLabel('Role for Lead.pdf')).toHaveValue('supporting-document');
+  await workspace.getByRole('button', { name: 'Confirm main document' }).click();
+  await expect(workspace.getByRole('heading', { name: '1. Lead.pdf' })).toBeVisible();
+  await page.reload();
+  const restored = await openPackageWorkspace(page);
+  await choosePackage(restored, 'Main document selection');
+  await expect(await packageHeading(restored, '2. Naval letter')).toBeVisible();
+  await expect(restored.getByLabel('Role for Naval letter')).toHaveValue('supporting-document');
+  await expect(await packageHeading(restored, '1. Lead.pdf')).toBeVisible();
+  await expect(restored.getByLabel('Role for Lead.pdf')).toHaveValue('basic-letter');
+});
+
+test('places the first main letter ahead of existing supporting material', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing', exact: true }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newPackage(workspace);
+  const custom = workspace.getByRole('group', { name: 'Custom package' });
+  await custom.getByLabel('Package name').fill('Supporting material first');
+  await custom.getByRole('button', { name: 'Create package' }).click();
+  await workspace.getByRole('button', { name: 'Add coordination page' }).click();
+  await expect(workspace.getByRole('heading', { name: '1. Coordination page' })).toBeVisible();
+  await openAddDocuments(workspace);
+  await workspace.getByRole('button', { name: 'Add letter', exact: true }).click();
+  await expect(workspace.getByRole('heading', { name: '1. Naval letter' })).toBeVisible();
+  await expect(await packageHeading(workspace, '2. Coordination page')).toBeVisible();
 });

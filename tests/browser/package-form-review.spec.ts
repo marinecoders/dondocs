@@ -1,4 +1,4 @@
-import { openPackagePreparation, packageSection, expandPackageTools, selectedPackageId, packageTool, prepareReviewTransfer, openPackageWorkspace, choosePackage, choosePackageById } from './_helpers/packageWorkspace';
+import { openAddDocuments, openPackagePreparation, packageSection, expandPackageTools, selectedPackageId, packageTool, prepareReviewTransfer, openPackageWorkspace, choosePackage, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator, type Download } from '@playwright/test';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { readFile } from 'node:fs/promises';
@@ -219,6 +219,7 @@ for (const width of [1440, 320]) {
     const cropped = pdf.addPage([400, 600]); cropped.setCropBox(-20, 30, 500, 500); cropped.setRotation(degrees(90)); cropped.drawText('Synthetic cropped rotated page.', { x: 40, y: 300, size: 12 });
     const original = Buffer.from(await pdf.save()), filename = 'Synthetic region original.pdf';
   await packageSection(dialog, 'Documents', true);
+    await openAddDocuments(dialog);
     await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
     await dialog.getByLabel('Uploaded original is signed (preserve unchanged)', { exact: true }).check();
   await packageSection(dialog, 'Documents', true);

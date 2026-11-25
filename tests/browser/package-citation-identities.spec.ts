@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, choosePackageById, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
+import { openAddDocuments, openPackagePreparation, importPackage, packageSection, choosePackageById, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
 import { test, expect, type Page, type BrowserContext } from "@playwright/test";
 import { capturePackageDocument } from "../_helpers/capturePackageDocument";
 import { PDFDocument, StandardFonts } from "pdf-lib";
@@ -53,12 +53,14 @@ for (const theme of ["light", "dark", "classic"]) {
     await expect((await packageHeading(modal, `1. ${subject}`))).toBeVisible();
     const signed = await originalPdf("SYNTHETIC SIGNED ORIGINAL - PRESERVE EXACT BYTES");
   await packageSection(modal, 'Documents', true);
+    await openAddDocuments(modal);
     await modal.getByLabel("New member role", { exact: true }).selectOption("enclosure");
     await modal.getByRole("checkbox", { name: "Uploaded original is signed (preserve unchanged)", exact: true }).check();
   await packageSection(modal, 'Documents', true);
     await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: "signed-training.pdf", mimeType: "application/pdf", buffer: signed });
     await expect((await packageHeading(modal, "2. signed-training.pdf"))).toBeVisible();
-    await modal.getByRole("checkbox", { name: "Uploaded original is signed (preserve unchanged)", exact: true }).uncheck();
+    await openAddDocuments(modal);
+    await expect(modal.getByRole("checkbox", { name: "Uploaded original is signed (preserve unchanged)", exact: true })).not.toBeChecked();
   await packageSection(modal, 'Documents', true);
     await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: "support-two.pdf", mimeType: "application/pdf", buffer: await originalPdf("SYNTHETIC SECOND SUPPORT") });
     await expect((await packageHeading(modal, "3. support-two.pdf"))).toBeVisible();

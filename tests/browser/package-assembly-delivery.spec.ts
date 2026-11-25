@@ -1,5 +1,5 @@
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
-import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, newBlankPackage, importPackage as importWorkspacePackage, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
+import { openAddDocuments, openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, newBlankPackage, importPackage as importWorkspacePackage, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -160,6 +160,7 @@ for (const docType of ['naval_letter', 'plain_paper_memorandum', 'letterhead_mem
     const dialog = await packages(page);
     await newBlankPackage(dialog, 'Tagged delivery training');
     await capturePackageDocument(dialog);
+    await openAddDocuments(dialog);
     await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
     await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'Original.pdf', mimeType: 'application/pdf', buffer: support });
     await expect(dialog.getByRole('heading', { name: /Original\.pdf/i }).first()).toBeVisible();

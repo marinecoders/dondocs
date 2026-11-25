@@ -1,4 +1,4 @@
-import { expectSelectedPackageMemberKind, openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport, openPackageWorkspace } from './_helpers/packageWorkspace';
+import { openAddDocuments, expectSelectedPackageMemberKind, openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport, openPackageWorkspace } from './_helpers/packageWorkspace';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { test, expect, type Page, type BrowserContext, type Locator } from "@playwright/test";
 import { PDFDocument, StandardFonts } from "pdf-lib";
@@ -153,6 +153,7 @@ for (const theme of ["light", "dark", "classic"]) {
       }),
     ).toBeVisible({ timeout: 15_000 });
     const original = await originalPdf();
+    await openAddDocuments(modal);
     await modal.getByLabel("New member role", { exact: true }).selectOption("enclosure");
     await modal.getByRole("checkbox", { name: "Uploaded original is signed (preserve unchanged)", exact: true }).check();
   await packageSection(modal, 'Documents', true);
@@ -558,6 +559,7 @@ test("publication PDF figures and long originals survive actual rendering and ed
   await capturePackageDocument(modal);
   const originalName = `${"supporting-original-".repeat(8)}.pdf`;
   await packageSection(modal, 'Documents', true);
+  await openAddDocuments(modal);
   await modal.getByLabel("New member role", { exact: true }).selectOption("supporting-document");
   await packageSection(modal, 'Documents', true);
   await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: originalName, mimeType: "application/pdf", buffer: figure });
