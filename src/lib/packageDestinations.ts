@@ -1,3 +1,7 @@
+export type PackageCorrection =
+  | { kind: 'edit'; label: string; sectionId?: string; fieldKey?: string }
+  | { kind: 'printable' | 'replace'; label: string };
+
 export interface PackageDestination {
   revisionId?: string;
   section?: 'overview' | 'documents' | 'review' | 'delivery';
@@ -9,10 +13,19 @@ export interface PackageDestination {
   requirementId?: string;
   intakeSlot?: string;
   signatureField?: string;
+  correction?: PackageCorrection;
   outputId?: string;
   reviewRoundId?: string;
   citationId?: string;
   signingId?: string;
+}
+
+/** Match a correction across saves, even when the package revision and displayed label change. */
+export function packageCorrectionKey({ memberId, correction }: PackageDestination): string | undefined {
+  if (!memberId || !correction) return undefined;
+  return JSON.stringify(correction.kind === 'edit'
+    ? [memberId, correction.kind, correction.sectionId, correction.fieldKey]
+    : [memberId, correction.kind]);
 }
 
 /** A destination belongs to one selected saved revision, including historical views. */

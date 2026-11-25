@@ -94,6 +94,7 @@ import { capturePackageRenderProvenance } from "./packageRenderProvenance";
 import type { PackageOutput, PackageRevision } from "./actionPackages";
 
 export interface PackageFinding {
+  correction?: import('./packageDestinations').PackageCorrection;
   memberId?: string;
   message: string;
   severity: "error" | "warning";
@@ -245,11 +246,11 @@ export async function preparePackageAssembly(
     try { reviews.push({ member: "Package requirements", review: reviewPackageRequirements(revision.requirements, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : "Package requirements could not be reviewed."); }
   }
-  const workflowFinding = (message: string, memberId?: string) =>
-    findings.push({ message, memberId, severity: options.draftPdf ? 'warning' : 'error' });
+  const workflowFinding = (message: string, memberId?: string, correction?: PackageFinding['correction']) =>
+    findings.push({ message, memberId, correction, severity: options.draftPdf ? 'warning' : 'error' });
   if (purpose === 'pdf') {
     for (const member of revision.members.filter(item => item.required)) {
-      for (const message of officialFormCompletionIssues(member)) workflowFinding(message, member.id);
+      officialFormCompletionIssues(member, undefined, (message, correction) => workflowFinding(message, member.id, correction));
     }
     for (const handoff of revision.signing?.handoffs ?? []) {
       const target = handoff.target;
@@ -267,7 +268,10 @@ export async function preparePackageAssembly(
   for (const finding of (await inspectPackageConsistency(revision, options.signal)).findings) if (['conflict', 'unresolved'].includes(finding.state))
     findings.push({ message: `${finding.label}: ${finding.message}`, memberId: finding.destinations.find(target => target.memberId)?.memberId,
       severity: purpose === 'portable' || !finding.required ? 'warning' : 'error' });
-  for (const item of requirements.items) if (["missing", "unknown", "invalid"].includes(item.state)) (item.state === 'invalid' ? error : workflowFinding)(`${item.label}: ${item.message}`, item.memberId);
+  for (const item of requirements.items) if (["missing", "unknown", "invalid"].includes(item.state)) {
+    if (item.state === 'invalid') error(`${item.label}: ${item.message}`, item.memberId);
+    else workflowFinding(`${item.label}: ${item.message}`, item.memberId, item.corrections?.[0]);
+  }
   findings.push(...(await packageBindingReadiness(revision)).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? "warning" as const : "error" as const })));
   const completeness = (message: string, memberId?: string) => findings.push({ message, memberId, severity: purpose === "portable" ? "warning" as const : "error" as const });
   if (!revision.members.length) completeness("Add a basic letter or main document before PDF assembly.");
@@ -372,7 +376,7 @@ export async function preparePackageAssembly(
             await checkPackagePrintablePdf(printable, options.signal);
           } catch (cause) {
             options.signal?.throwIfAborted();
-            error(`${member.label}: ${cause instanceof Error ? cause.message : 'This PDF cannot be assembled.'} Add a reviewed printable copy in Documents.`, member.id);
+            findings.push({ memberId: member.id, severity: 'error', message: `${cause instanceof Error ? cause.message : 'This PDF cannot be assembled.'} Add a reviewed printable copy in Documents.`, correction: { kind: 'printable', label: 'Review printable pages' } });
           }
         }
         if (member.role === "endorsement") {
@@ -498,7 +502,7 @@ export async function preparePackageAssembly(
           config,
           snapshot.endItems,
         ))
-          workflowFinding(`Complete required ${section} fields.`, member.id);
+          workflowFinding(`Complete required ${section} fields.`, member.id, { kind: 'edit', sectionId: section, label: 'Complete ' + section });
         if (canReviewReferenceOrder(snapshot))
           for (const message of planFirstCitationOrder(snapshot).blockers)
             error(message, member.id);
@@ -540,7 +544,7 @@ export async function preparePackageAssembly(
         if (!form) throw new Error("The saved built-in form is missing.");
         for (const section of FORM_ERROR_BEARING_IDS[snapshot.formType!] ?? [])
           if (getFormSectionError(snapshot.formType!, section, form))
-            workflowFinding(`Complete required ${section} fields.`, member.id);
+            workflowFinding(`Complete required ${section} fields.`, member.id, { kind: 'edit', sectionId: section, label: 'Complete ' + section });
       }
       let templates: FormExportTemplates | undefined;
       if (snapshot.documentCategory === "forms") {

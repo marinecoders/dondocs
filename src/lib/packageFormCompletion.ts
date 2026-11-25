@@ -16,27 +16,32 @@ export function missingPackageSignatures(member: PackageMember, rule?: FormCompl
     !hasInspectedSignature(member.original.sha256, field)) ?? [];
 }
 
-export function officialFormCompletionIssues(member: PackageMember, rule?: FormCompletion): string[] {
+export function officialFormCompletionIssues(member: PackageMember, rule?: FormCompletion, onIssue?: (message: string, correction?: import('./packageDestinations').PackageCorrection) => void): string[] {
   const issues: string[] = [];
+  const add = (message: string, correction?: import('./packageDestinations').PackageCorrection) => { issues.push(message); onIssue?.(message, correction); };
   if (member.kind === 'native' && member.session.genericForm) {
     const { definition, answers, rows } = member.session.genericForm;
+    const fieldTarget = (key: string) => {
+      const section = definition.sections.find(section => section.fields.includes(key));
+      return section ? { kind: 'edit' as const, sectionId: 'field/' + section.id, fieldKey: key, label: 'Fill ' + definition.fields[key].label } : undefined;
+    };
     if (definition.nativePdfEdition && !Object.values(answers).some(hasValue) &&
         !Object.values(rows).flat().some(row => Object.values(row.answers).some(hasValue)))
-      issues.push('The official form is still blank.');
+      add('The official form is still blank.', { kind: 'edit', label: 'Fill form' });
     for (const name of rule?.requiredPdfFields ?? []) {
       const match = Object.entries(definition.fields).find(([, field]) => field.sourceIds?.includes(name));
       if (!match || match[1].requiredAt !== 'export' && !hasValue(answers[match[0]]))
-        issues.push('Complete the required field: ' + (match?.[1].label ?? name) + '.');
+        add('Complete the required field: ' + (match?.[1].label ?? name) + '.', match ? fieldTarget(match[0]) : undefined);
     }
-    issues.push(...validateAnswers(definition, answers, rows).filter(issue => issue.severity === 'error').map(issue => issue.message));
+    for (const issue of validateAnswers(definition, answers, rows)) if (issue.severity === 'error') add(issue.message, fieldTarget(issue.path));
   } else if (member.kind !== 'native' && (rule?.blankSha256 === member.original.sha256 ||
       editions.some(edition => edition.sha256 === member.original.sha256))) {
-    issues.push('The saved PDF is the unchanged official blank.');
+    add('The saved PDF is the unchanged official blank.', member.kind === 'original' && !member.signedOriginal ? { kind: 'replace', label: 'Replace PDF' } : undefined);
   }
   if (rule?.reviewedScan && (member.kind !== 'original' || member.signatureReviewSha256 !== member.original.sha256))
-    issues.push('Review the visible signature on the received PDF in Documents.');
+    add('Review the visible signature on the received PDF in Documents.');
   if (rule?.writtenContent && member.kind === 'native' && !member.session.paragraphs?.some(p => p.text?.trim()))
-    issues.push('Write the body of this case record before delivery.');
+    add('Write the body of this case record before delivery.', { kind: 'edit', sectionId: 'body', label: 'Write body' });
   return issues;
 }
 

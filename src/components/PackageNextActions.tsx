@@ -39,7 +39,7 @@ export function PackageNextActions({ record, revision, disabled, quiet = false, 
     {blockers.slice(0, expanded ? undefined : 3).map(action => <div key={action.id} className="flex items-start justify-between gap-6 text-sm">
       <p className="min-w-0 break-words">{action.message}</p>
       {action.destination && <Button variant="link" size="sm" className="h-auto shrink-0 p-0" disabled={disabled}
-        onClick={() => onNavigate(action.destination!)}>Open {action.destination.section === 'documents' ? 'document' : 'details'}</Button>}
+        onClick={() => onNavigate(action.destination!)}>{!reviewBaseline && !record.archived && record.currentRevisionId === revision.id && action.destination.correction ? action.destination.correction.label : action.destination.section === 'documents' ? 'Open document' : 'Open details'}</Button>}
     </div>)}
     {blockers.length > 3 && <Button variant="link" className="h-auto p-0 text-xs" onClick={() => setExpanded(value => !value)}>{expanded ? 'Show fewer' : `Show ${blockers.length - 3} more`}</Button>}
   </section>;

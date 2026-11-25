@@ -28,10 +28,11 @@ interface Props extends PackageEditorSurface {
   navigationError: string;
   onFieldReview?(target: PackageDestination): void;
   onSave(next: ActionPackage): void;
+  onFinishFinding?(advance: boolean): Promise<void>;
   onNavigate(memberId?: string): void | Promise<void>;
 }
 
-export default function PackageNativeDocumentEditor({ record, member, onFieldReview, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate }: Props) {
+export default function PackageNativeDocumentEditor({ record, member, onFieldReview, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate, onFinishFinding }: Props) {
   const key = record.id + '/' + member.id;
   const latest = useRef({ record, member, onSave });
   useLayoutEffect(() => { latest.current.onSave = onSave; }, [onSave]);
@@ -118,7 +119,7 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
     return () => { unsubscribeDocument(); unsubscribeForm(); clearTimeout(timer.current); controller.abort(); window.removeEventListener('beforeunload', warn); };
   }, [documentId, key]);
 
-  async function navigate(id?: string) {
+  async function navigate(id?: string, finish?: boolean) {
     if (disabled || navigating) return;
     setNavigating(true);
     // Commit a buffered native input before comparing the active revision.
@@ -126,19 +127,21 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
     if (await flush()) {
       const section = useEditorOutlineStore.getState().activeId;
       if (section) rememberFormLocation(key + '/section', section);
-      await onNavigate(id);
+      if (finish !== undefined && onFinishFinding) await onFinishFinding(finish);
+      else await onNavigate(id);
     }
     setNavigating(false);
   }
   const activePreview = preview.documentId === documentId && preview.url;
-  return <Dialog open onOpenChange={open => { if (!open) void navigate(); }}>
+  return <Dialog open onOpenChange={open => { if (!open) void navigate(undefined, onFinishFinding ? false : undefined); }}>
     <DialogContent fullscreen showCloseButton={false} className="flex min-w-0 flex-col gap-0">
       <header className="flex flex-wrap items-center gap-3 border-b px-4 py-3">
-        <Button variant="ghost" size="sm" disabled={disabled || navigating} onClick={() => void navigate()}><ArrowLeft />Back to package</Button>
+        <Button variant="ghost" size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, onFinishFinding ? false : undefined)}><ArrowLeft />{onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
         <div><DialogTitle>{record.name}</DialogTitle><DialogDescription>{member.label}</DialogDescription></div>
         <label className="text-sm">Package document<select aria-label="Package document" className="ml-2 max-w-full rounded-md border bg-background px-2 py-1.5" value={member.id} disabled={disabled || navigating} onChange={event => void navigate(event.target.value)}>
           {getPackageRevision(record).members.map((item, index) => <option key={item.id} value={item.id}>{index + 1}. {item.label}</option>)}
         </select></label>
+        {onFinishFinding && <Button size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, true)}>Next item</Button>}
         <span className="ml-auto text-sm text-muted-foreground" role="status">{{ saved: 'Saved to package', pending: 'Editing draft', saving: 'Saving…', error: 'Save needs attention' }[status]}</span>
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setShowPreview(!showPreview)}>{showPreview ? 'Show fields' : 'Show preview'}</Button>
         {status === 'error' && <Button size="sm" disabled={disabled || navigating} onClick={() => void flush()}>Retry save</Button>}

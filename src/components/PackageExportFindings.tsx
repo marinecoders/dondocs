@@ -25,7 +25,8 @@ export function PackageContentFindings({ reviews }: { reviews: readonly { member
   </details>;
 }
 
-export function PackageExportFindings({ results, revision, onNavigate }: {
+export function PackageExportFindings({ results, revision, onNavigate, editable }: {
+  editable: boolean;
   results: readonly PreparedPackageAssembly[];
   revision: PackageRevision;
   onNavigate(destination: PackageDestination): void;
@@ -34,7 +35,7 @@ export function PackageExportFindings({ results, revision, onNavigate }: {
   return <div className="space-y-4">
     {findings.map((finding, index) => <div key={index} className="flex items-start justify-between gap-4 text-sm">
       <p role={finding.severity === 'error' ? 'alert' : undefined} className="break-words">{finding.memberId && `${revision.members.find(member => member.id === finding.memberId)?.label ?? 'Document'}: `}{finding.message}</p>
-      {finding.memberId && <Button variant="link" size="sm" className="h-auto shrink-0 p-0" onClick={() => onNavigate({ section: 'documents', memberId: finding.memberId })}>Open document</Button>}
+      {finding.memberId && <Button variant="link" size="sm" className="h-auto shrink-0 p-0" onClick={() => onNavigate({ section: 'documents', memberId: finding.memberId, revisionId: revision.id, correction: editable ? finding.correction : undefined })}>{editable && finding.correction ? finding.correction.label : 'Open document'}</Button>}
     </div>)}
     <PackageContentFindings reviews={results.flatMap(result => result.reviews)} />
   </div>;

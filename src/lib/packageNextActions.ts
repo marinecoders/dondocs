@@ -1,4 +1,5 @@
 import { actionPackageSchema, getPackageRevision, type ActionPackage } from './actionPackages';
+import { packageCorrectionKey } from './packageDestinations';
 import { inspectPackageRequirements } from './packageRequirements';
 import { conditionalMembershipFindings } from './packageConditionalSources';
 import { packageBindingReadiness } from './packageFieldBindings';
@@ -25,6 +26,19 @@ export interface PackageNextAction {
   taskId?: string;
   overdue?: boolean;
 }
+export function nextPackageCorrection(actions: PackageNextAction[], previous: string): PackageWorkDestination | undefined {
+  const destinations = new Map<string, PackageWorkDestination>();
+  for (const action of actions) {
+    if (!action.blocking || !action.destination) continue;
+    const key = packageCorrectionKey(action.destination);
+    if (key) destinations.set(key, action.destination);
+  }
+  const keys = [...destinations.keys()];
+  if (!keys.length) return undefined;
+  const next = keys[(keys.indexOf(previous) + 1) % keys.length];
+  return next === previous ? undefined : destinations.get(next);
+}
+
 export interface PackageNextActions {
   operation: PackageRequirementOperation;
   readyForOperation: boolean;
@@ -73,7 +87,7 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
     const requirements = await inspectPackageRequirements(revision, operation, { signal: options.signal });
     for (const finding of requirements.items) if (['missing', 'unknown', 'invalid'].includes(finding.state)) add({
       id: `requirement-${finding.id}`, kind: 'evidence', label: finding.label, message: `${finding.label}: ${finding.message}`, blocking: true,
-      destination: { section: 'overview', panel: 'requirements',
+      destination: finding.memberId && finding.corrections?.length ? { section: 'documents', memberId: finding.memberId, correction: finding.corrections[0] } : { section: 'overview', panel: 'requirements',
         ...(revision.requirements?.items.some(item => item.id === finding.id) ? { requirementId: finding.id } : {}),
         ...(finding.memberId ? { memberId: finding.memberId } : {}) },
     });
@@ -103,7 +117,7 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
       const assembly = await preparePackageAssembly(record, revision.id, policy, { signal: options.signal, includeRetainedDraftText: operation === 'portable' });
       for (const [index, finding] of assembly.readiness.findings.entries()) if (finding.severity === 'error') add({
         id: `readiness-${index}`, kind: 'inspection', label: 'Resolve a package check', message: finding.message, blocking: true,
-        destination: { section: finding.memberId ? 'documents' : 'delivery', ...(finding.memberId ? { memberId: finding.memberId } : {}) },
+        destination: { correction: finding.correction, section: finding.memberId ? 'documents' : 'delivery', ...(finding.memberId ? { memberId: finding.memberId } : {}) },
       });
     }
   } catch (cause) {

@@ -84,7 +84,7 @@ export function PackagePrintableCopyField({ member, editable, disabled, onChange
     {editable && <details onToggle={event => { if (!event.currentTarget.open) setCandidate(undefined); }}><summary className="cursor-pointer">{copy ? 'Manage printable copy' : 'Add printable copy'}</summary>
       <fieldset disabled={disabled} className="mt-2 space-y-2">
         <label className="block">Printable PDF for {member.original.name}
-          <input className="mt-1 block" type="file" accept=".pdf,application/pdf" onChange={event => {
+          <input data-printable-input className="mt-1 block" type="file" accept=".pdf,application/pdf" onChange={event => {
             const file = event.target.files?.[0]; event.target.value = '';
             if (file) setCandidate(prev => ({ id: (prev?.id ?? 0) + 1, file }));
           }} />
