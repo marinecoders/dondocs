@@ -1294,6 +1294,7 @@ function PackageDialog({
                       copy.memberId === member.id &&
                       copy.revisionId === record.currentRevisionId,
                   );
+                  const signingAction = editable && packageFormSigningAction(member);
                   const inPackageEditor = !!editorSurface && member.kind === 'native' && member.session.documentCategory !== 'forms';
                   return (
                     <li
@@ -1304,34 +1305,24 @@ function PackageDialog({
                       data-selected={selectedMember?.id === member.id || undefined}
                       className="package-workspace-member space-y-5 outline-none"
                     >
-                      <header className="flex flex-wrap items-start justify-between gap-4"><h3 className="break-words font-medium">
-                        {index + 1}. {member.label}
-                      </h3>
-                      {editable && packageFormSigningAction(member) && <Button size="sm" variant="outline" disabled={busy || pendingPackageEdits}
-                        onClick={() => void openMemberSigning(member)}>{packageFormSigningAction(member)}</Button>}
-                      {editable && isEditableOfficialForm(member) && !working ? (
-                        <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit form</Button>
-                      ) : inPackageEditor && editable ? (
-                        <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit document</Button>
-                      ) : member.kind === 'native' && editable && (<Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() =>
-                                void run(async () => {
-                                  rememberMember(member.id);
-                                  update(
-                                    await editPackageMember(
-                                      record,
-                                      member,
-                                      operation.current?.signal,
-                                    ),
-                                  );
-                                  onClose();
-                                })
-                              }
-                            >
-                              Edit document
-                            </Button>)}</header>
+                      <header className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                        <h3 className="min-w-0 flex-auto break-words font-medium">{index + 1}. {member.label}</h3>
+                        {editable && <div className="flex flex-wrap items-center gap-2 empty:hidden">
+                          {isEditableOfficialForm(member) && !working ? (
+                            <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit form</Button>
+                          ) : inPackageEditor ? (
+                            <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit document</Button>
+                          ) : member.kind === 'native' && (
+                            <Button size="sm" variant="outline" disabled={busy || pendingPackageEdits} onClick={() => void run(async () => {
+                              rememberMember(member.id);
+                              update(await editPackageMember(record, member, operation.current?.signal));
+                              onClose();
+                            })}>Edit document</Button>
+                          )}
+                          {signingAction && <Button size="sm" variant="outline" disabled={busy || pendingPackageEdits}
+                            onClick={() => void openMemberSigning(member)}>{signingAction}</Button>}
+                        </div>}
+                      </header>
 {editable && member.kind === 'original' && revision.requirements?.items.some(rule =>
                         rule.kind === 'document' && rule.memberId === member.id && rule.completion?.reviewedScan) &&
                         <label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={busy || pendingPackageEdits}
