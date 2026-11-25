@@ -91,7 +91,7 @@ it('keeps inactive answers out of the desktop summary and displays choice labels
   } } }, policy);
   render(<PackageIntakePanel workspace record={record} revision={getPackageRevision(record)} editable disabled={false} busy={false}
     run={async action => action()} onApply={vi.fn()} signal={() => undefined} isCurrent={() => true} />);
-  const done = await screen.findByRole('button', { name: 'Done editing' }); await waitFor(() => expect(done).toBeEnabled()); await userEvent.click(done);
+  const done = await screen.findByRole('button', { name: 'Collapse details' }); await waitFor(() => expect(done).toBeEnabled()); await userEvent.click(done);
   const summary = screen.getByRole('group', { name: 'Details summary' });
   expect(summary).toHaveTextContent('Remote'); expect(summary).not.toHaveTextContent('Inactive room'); expect(summary).not.toHaveTextContent('125.00');
   expect(getPackageRevision(record).templateState!.answers.groups.participants[0].answers.estimate).toBe('125.00');

@@ -328,7 +328,7 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
       </div>)}</div>}
       {mode === 'saved' && !editable && <p className="text-sm text-muted-foreground">This saved intake is read-only in a historical, archived or reviewer copy.</p>}
       <Button hidden={workspace && mode === 'new'} className={buttonClass} variant="outline" disabled={viewDisabled} aria-expanded={open} onClick={() => { setOpen(value => !value); setFocusQuestions(true); }}>
-        {workspace && mode === 'saved' ? open ? 'Done editing' : 'Edit details' : open ? 'Collapse intake questions' : editable || mode === 'new' ? 'Continue intake' : 'Inspect saved intake'}
+        {workspace && mode === 'saved' ? open ? 'Collapse details' : editable ? 'Edit details' : 'View details' : open ? 'Collapse intake questions' : editable || mode === 'new' ? 'Continue intake' : 'Inspect saved intake'}
       </Button>
       {open && <div className="min-w-0 space-y-4">
         <label className="block text-sm">{workspace ? 'Package name' : 'Action name'}<input className={inputClass} value={name} maxLength={120} disabled={locked} autoComplete="off" onChange={event => { invalidate(); setName(event.target.value); }} /></label>
