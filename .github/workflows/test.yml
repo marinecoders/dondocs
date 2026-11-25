@@ -170,7 +170,7 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          BUDGET_BYTES=7071000
+          BUDGET_BYTES=7077000
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then

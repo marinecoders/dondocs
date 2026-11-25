@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.299] — 2026-11-25
+
+### Added
+
+- Use an exact saved package document version as evidence or in an attachment slot. Check required fields and signatures and retain the original file.
+
 ## [1.3.298] — 2026-11-25
 
 ### Added

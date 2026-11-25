@@ -2,7 +2,8 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
 import { PDFDocument } from 'pdf-lib';
-import { createActionPackage, getPackageRevision, listActionPackages, packageAssets, reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
+import { actionPackageSchema, createActionPackage, getPackageRevision, listActionPackages, packageAssets, reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
+import { packageRevisionSources, resolvePackageRevisionSource } from '@/lib/packageRevisionSources';
 import { capturePackageMember, captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
 import { createBlankSession } from '@/stores/documentStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
@@ -270,4 +271,29 @@ it('assigns an older exact PDF to a manual evidence slot across portable transfe
   expect((await inspectPackageRequirements(saved, 'pdf')).ready).toBe(true);
   saved.members[2] = { ...replacement, id: saved.members[2].id };
   expect((await inspectPackageRequirements(saved, 'pdf')).ready).toBe(false);
+});
+
+
+it('only offers and resolves members of the selected package revision and its available ancestors', async () => {
+  const record = await fixture();
+  const original = getPackageRevision(record).members[1];
+  const root = { id: 'root', createdAt: 1, members: [original], outputs: [] };
+  const version = (id: string, parentId?: string) => ({ ...root, id, parentId, members: [{ ...original, revisionId: id }] });
+  const fork = actionPackageSchema.parse({ ...record, currentRevisionId: 'selected',
+    revisions: [root, version('sibling', 'root'), version('selected', 'root')] });
+  const versions = (input: ActionPackage, through = input.currentRevisionId) => packageRevisionSources(input, through).map(source => source.revisionId);
+  const source = (revisionId: string) => ({ memberId: original.id, revisionId });
+  expect(versions(fork)).toEqual(['selected', original.revisionId]);
+  expect(versions(fork, 'sibling')).toEqual(['sibling', original.revisionId]);
+  expect(resolvePackageRevisionSource(fork, source(original.revisionId))).toEqual(original);
+  expect(() => resolvePackageRevisionSource(fork, source('sibling'))).toThrow('unavailable');
+
+  const transferred = actionPackageSchema.parse({ ...fork, historyScope: 'selected-revision',
+    revisions: [version('selected', 'omitted-parent')] });
+  const separateRoot = actionPackageSchema.parse({ ...fork, revisions: [root, version('selected')] });
+  for (const partial of [transferred, separateRoot]) {
+    expect(versions(partial)).toEqual(['selected']);
+    expect(resolvePackageRevisionSource(partial, source('selected')).revisionId).toBe('selected');
+    expect(() => resolvePackageRevisionSource(partial, source(original.revisionId))).toThrow('unavailable');
+  }
 });
