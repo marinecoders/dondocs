@@ -188,7 +188,10 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
   useEffect(() => {
     if (!record || !revision || !template || loading || !matchesPackageDestination(destination, record.id, revision.id)
       || destination.panel !== 'intake' || focusedDeliveryRequest.current === destination.requestId) return;
-    if (!open) { setOpen(true); return; }
+    if (!open) {
+      const frame = requestAnimationFrame(() => setOpen(true));
+      return () => cancelAnimationFrame(frame);
+    }
     const input = Array.from(heading.current?.closest('section')?.querySelectorAll<HTMLInputElement>('input[data-intake-slot]') ?? [])
       .find(item => item.dataset.intakeSlot === destination.intakeSlot);
     (input ?? heading.current)?.focus();

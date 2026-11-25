@@ -37,6 +37,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
   const heading = useId();
   const { label, purpose, scope, taggedNativePdfs = false } = selection;
   const memberIds = revision.members.filter(member => scope === 'complete' || selection.memberIds.includes(member.id)).map(member => member.id);
+  const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
   const [findings, setFindings] = useState<PackageRequirementFinding[]>([]);
   useEffect(() => {
     if (!visible || !recheck || disabled || purpose !== 'recipient') return;
@@ -49,7 +50,6 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       } });
     return () => controller.abort();
   }, [visible, recheck, revision, selection.memberIds, scope, purpose, disabled]);
-  const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
   const [reviewCount, setReviewCount] = useState(10), [fileCount, setFileCount] = useState(25);
   const preparedPolicy = useRef<string | undefined>(undefined);
   const mounted = useRef(false), running = useRef(false), generation = useRef(0), callback = useRef(onPreparedChange);
