@@ -3,7 +3,7 @@ import { bindUnsignedFormPdf, checkPackageFormReturn, signingMemberKey } from '@
 import { officialEdition } from '@/services/forms/nativeCatalog';
 import { packageMemberHistory, reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
 import { isEditableOfficialForm } from '@/lib/packageFormEditing';
-import type { PackageEditorSurface } from './PackageCorrespondenceEditor';
+import type { PackageEditorSurface } from './PackageNativeDocumentEditor';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
 import { officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
@@ -128,7 +128,7 @@ type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
 };
 const PackageMemberReviewPanel = lazy(() => import("./PackageMemberReviewPanel").then(module => ({ default: module.PackageMemberReviewPanel })));
-const PackageCorrespondenceEditor = lazy(() => import('./PackageCorrespondenceEditor'));
+const PackageNativeDocumentEditor = lazy(() => import('./PackageNativeDocumentEditor'));
 const PackageFormEditor = lazy(() => import('./PackageFormEditor'));
 const PackageReviewApplicationPanel = lazy(() => import("./PackageReviewApplicationPanel").then(module => ({ default: module.PackageReviewApplicationPanel })));
 const PackageReviewTransfer = lazy(() => import("./PackageReviewTransfer").then(module => ({ default: module.PackageReviewTransfer })));
@@ -334,9 +334,10 @@ function PackageDialog({
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
   const editorMember = editable && revision?.members.find(m => formLocation === record.id + '/' + m.id);
-  const formMember = editorMember && isEditableOfficialForm(editorMember) ? editorMember : undefined;
-  const correspondence = editorMember && editorMember.kind === 'native' && editorMember.session.documentCategory !== 'forms' ? editorMember : undefined;
-  const copy = correspondence && record?.workingCopies?.find(item => item.memberId === correspondence.id && item.revisionId === revision?.id);
+  const nativeEditorMember = editorMember && editorMember.kind === 'native' ? editorMember : undefined;
+  const copy = nativeEditorMember && record?.workingCopies?.find(item =>
+    item.memberId === nativeEditorMember.id && item.revisionId === revision?.id);
+  const formMember = nativeEditorMember && !copy && isEditableOfficialForm(nativeEditorMember) ? nativeEditorMember : undefined;
   async function openMemberEditor(id?: string) {
     if (!record || !revision) return;
     const target = revision.members.find(item => item.id === id);
@@ -345,7 +346,8 @@ function PackageDialog({
       setFormLocation(location);
       rememberFormLocation('active', location);
     }
-    if (target?.kind === 'native' && target.session.documentCategory !== 'forms') {
+    const useFormEditor = target && isEditableOfficialForm(target) && !record.workingCopies?.some(item => item.memberId === target.id && item.revisionId === revision.id);
+    if (target?.kind === 'native' && !useFormEditor) {
       await run(async () => {
         const [latest] = await listActionPackages(record.id);
         const current = latest && getPackageRevision(latest).members.find(item => item.id === target.id);
@@ -372,7 +374,7 @@ function PackageDialog({
     if (standalone && currentId === copy?.documentId && docs[standalone] && !docs[standalone].meta.deletedAt)
       useDocumentsStore.getState().switchTo(standalone);
     rememberFormLocation('return-document', '');
-    enter(target && isEditableOfficialForm(target) && !record.workingCopies?.some(item => item.memberId === target.id && item.revisionId === revision.id) ? record.id + '/' + id : '');
+    enter(useFormEditor ? record.id + '/' + id : '');
   }
   function onEditorSave(next: ActionPackage) {
     setRecords(all => all.map(item => item.id === next.id ? next : item));
@@ -862,8 +864,8 @@ function PackageDialog({
     <Dialog open onOpenChange={value => { if (!value) close(); }}>
       <DialogContent fullscreen showCloseButton={false} ref={dialogRoot} className="package-workspace-dialog" aria-busy={busy} data-package-id={record?.id} data-revision-id={revision?.id}>
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
-        {editorSurface && record && correspondence && copy && copy.documentId === currentId && <Suspense fallback={<p role="status">Opening document…</p>}>
-          <PackageCorrespondenceEditor key={copy.documentId} record={record} member={correspondence} documentId={copy.documentId}
+        {editorSurface && record && nativeEditorMember && copy && copy.documentId === currentId && <Suspense fallback={<p role="status">Opening document…</p>}>
+          <PackageNativeDocumentEditor key={copy.documentId} record={record} member={nativeEditorMember} documentId={copy.documentId}
             {...editorSurface} navigationError={error} disabled={busy} onSave={onEditorSave} onNavigate={openMemberEditor} />
         </Suspense>}
         {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
@@ -1295,7 +1297,7 @@ function PackageDialog({
                       copy.revisionId === record.currentRevisionId,
                   );
                   const signingAction = editable && packageFormSigningAction(member);
-                  const inPackageEditor = !!editorSurface && member.kind === 'native' && member.session.documentCategory !== 'forms';
+                  const inPackageEditor = !!editorSurface && member.kind === 'native';
                   return (
                     <li
                       key={member.id}

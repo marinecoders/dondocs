@@ -5,6 +5,7 @@ import { getPackageRevision } from '@/lib/actionPackages';
 import { savePackageWorkingCopy } from '@/lib/actionPackageWorkingCopy';
 import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
 import { captureDocumentTarget, isCurrentDocumentScope, useDocumentsStore } from '@/stores/documentsStore';
+import { useFormStore } from '@/stores/formStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { Button } from './ui/button';
@@ -27,7 +28,7 @@ interface Props extends PackageEditorSurface {
   onNavigate(memberId?: string): void | Promise<void>;
 }
 
-export default function PackageCorrespondenceEditor({ record, member, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate }: Props) {
+export default function PackageNativeDocumentEditor({ record, member, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate }: Props) {
   const key = record.id + '/' + member.id;
   const latest = useRef({ record, member, onSave });
   useLayoutEffect(() => { latest.current.onSave = onSave; }, [onSave]);
@@ -99,17 +100,19 @@ export default function PackageCorrespondenceEditor({ record, member, documentId
       timer.current = setTimeout(() => void saveLatest.current(), 1500);
     };
     if (dirty.current) schedule();
-    const unsubscribe = useDocumentStore.subscribe(() => {
+    const onEdit = () => {
       const target = captureDocumentTarget();
       if (target?.scope.documentId !== documentId || target.editSequence === lastTarget.current?.editSequence) return;
       lastTarget.current = target;
       dirty.current = true;
       rememberFormLocation(key + '/unsaved', '1');
       setStatus('pending'); setError(''); schedule();
-    });
+    };
+    const unsubscribeDocument = useDocumentStore.subscribe(onEdit);
+    const unsubscribeForm = useFormStore.subscribe(onEdit);
     const warn = (event: BeforeUnloadEvent) => { if (dirty.current) event.preventDefault(); };
     window.addEventListener('beforeunload', warn);
-    return () => { unsubscribe(); clearTimeout(timer.current); controller.abort(); window.removeEventListener('beforeunload', warn); };
+    return () => { unsubscribeDocument(); unsubscribeForm(); clearTimeout(timer.current); controller.abort(); window.removeEventListener('beforeunload', warn); };
   }, [documentId, key]);
 
   async function navigate(id?: string) {

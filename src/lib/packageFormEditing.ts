@@ -3,7 +3,6 @@ import { validatePackageDraft } from './actionPackageDraft';
 import { getPackageRevision, listActionPackages, newPackageId, reviseActionPackage, type ActionPackage, type NativePackageMember, type PackageMember } from './actionPackages';
 import { newAttachmentId } from './attachments';
 import { portableResourceDigest } from './portableResources';
-import { packageFormSigningAction } from './packageOfficialForms';
 import type { FormInstance } from '@/services/forms/model';
 import type { Navmc11811Data } from '@/stores/formStore';
 
@@ -11,8 +10,11 @@ export type PackageFormValues = { kind: 'configured'; answers: FormInstance['ans
   | { kind: 'page11'; page11: Navmc11811Data };
 
 export function isEditableOfficialForm(member: PackageMember): member is NativePackageMember {
-  return member.kind === 'native' && !!packageFormSigningAction(member)
-    && !!(member.session.genericForm || member.session.forms?.navmc11811);
+  return member.kind === 'native' && member.session.documentCategory === 'forms'
+    // Legacy Page 11 signatures can carry uploaded images. The native working-copy
+    // editor captures their bytes before saving the portable package draft.
+    && !!(member.session.genericForm || (member.session.formType === 'navmc_118_11'
+      && member.session.forms?.officialPdfEdition && member.session.forms.navmc11811));
 }
 
 export function packageFormValues(member: NativePackageMember): PackageFormValues {
