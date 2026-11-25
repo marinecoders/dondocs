@@ -13,8 +13,13 @@ const common = {
   operations: z.array(packageRequirementOperationSchema).min(1).max(3).refine(values => new Set(values).size === values.length, 'Duplicate requirement operation.'),
   condition: z.enum(['active', 'inactive', 'unknown']),
 };
+export const formCompletionSchema = z.object({
+  blankSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+  signatureFields: z.array(z.string().trim().min(1).max(250)).min(1).max(32).optional(),
+}).strict();
+export type FormCompletion = z.infer<typeof formCompletionSchema>;
 export const packageRequirementSchema = z.discriminatedUnion('kind', [
-  z.object({ ...common, kind: z.literal('document'), memberId: identity.optional() }).strict(),
+  z.object({ ...common, kind: z.literal('document'), memberId: identity.optional(), completion: formCompletionSchema.optional() }).strict(),
   z.object({ ...common, kind: z.literal('confirmation'), confirmed: z.boolean().optional() }).strict(),
 ]);
 export type PackageRequirement = z.infer<typeof packageRequirementSchema>;
@@ -30,13 +35,27 @@ export const packageRequirementsSchema = z.object({ version: z.literal(1), items
 export type PackageRequirements = z.infer<typeof packageRequirementsSchema>;
 export const MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES = 8 * 1024 * 1024;
 
+export function hasPinnedCompletionMember(item: PackageRequirement, fromTemplate: boolean) {
+  return fromTemplate && item.kind === 'document' && item.completion !== undefined && item.definitionId === undefined;
+}
+
+export function requirementDeclaration(item: PackageRequirement, fromTemplate: boolean) {
+  if (item.kind === 'confirmation') {
+    const { confirmed: _confirmed, ...declaration } = item;
+    return declaration;
+  }
+  if (hasPinnedCompletionMember(item, fromTemplate)) return item;
+  const { memberId: _member, ...declaration } = item;
+  return declaration;
+}
+
 /** Requirements are declared slots; only inspection of captured resources derives document completion. */
 export function materializePackageRequirements(proposed: PackageRequirements, previous?: PackageRequirements): PackageRequirements {
   const next = packageRequirementsSchema.parse(proposed), retained = previous ? packageRequirementsSchema.parse(previous) : undefined;
   return packageRequirementsSchema.parse({ version: 1, items: next.items.map(item => {
     const prior = retained?.items.find(value => value.id === item.id && value.definitionId === item.definitionId
       && value.participantId === item.participantId && value.kind === item.kind);
-    if (!prior) return item;
+    if (!prior || hasPinnedCompletionMember(item, true)) return item;
     if (item.kind === 'document' && prior.kind === 'document')
       return { ...item, ...(prior.memberId === undefined ? {} : { memberId: prior.memberId }) };
     if (item.kind === 'confirmation' && prior.kind === 'confirmation')

@@ -27,10 +27,17 @@ export async function signingIdentities(code: string, signal: AbortSignal) {
   return z.array(identity).parse(await (await request('/identities', code, signal)).json());
 }
 
+// Transfer files cannot supply trust decisions. Re-inspect the exact bytes on this device.
+const inspectedFields = new Map<string, ReadonlySet<string>>();
+export function hasInspectedSignature(sha256: string, field: string) {
+  return inspectedFields.get(sha256)?.has(field) === true;
+}
 export async function inspectOfficialPdf(bytes: Uint8Array, code: string, signal: AbortSignal, base?: { length: number; sha256: string }) {
   const result = inspection.parse(await (await request(base ? '/return' : '/inspect', code, signal, bytes,
     base && { 'X-Base-Length': String(base.length), 'X-Base-SHA256': base.sha256 })).json());
   if (result.sha256 !== await portableResourceDigest(new Uint8Array(bytes).buffer)) throw new Error('The bridge inspected a different PDF revision.');
+  const signed = result.fields.filter(field => field.signed);
+  inspectedFields.set(result.sha256, new Set(signed.every(field => field.trusted) ? signed.map(field => field.name) : []));
   return result;
 }
 

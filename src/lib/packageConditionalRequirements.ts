@@ -4,7 +4,7 @@ import { readPackageAsset } from './actionPackageAssets';
 import { loadConditionalPackageSource } from './packageConditionalSources';
 import { packageConditionalStateSchema, type PackageConditionalState } from './packageConditionalState';
 import { conditionalRequirementSlots } from './packageConditional';
-import { packageRequirementsSchema, type PackageRequirement, type PackageRequirements } from './packageRequirementsModel';
+import { requirementDeclaration, packageRequirementsSchema, type PackageRequirement, type PackageRequirements } from './packageRequirementsModel';
 import { sameReviewStoredValue } from './documentsDb';
 
 /** Program declarations are derived from the exact captured template, never from a completion checkbox. */
@@ -16,9 +16,7 @@ export async function resolveConditionalPackageRequirements(revision: PackageRev
   // PR8 histories precede stored requirements. Derive them on inspection so omission cannot bypass checks.
   if (revision.requirements === undefined) return expected;
   const actual = packageRequirementsSchema.parse(revision.requirements);
-  const declaration = (item: PackageRequirement) => item.kind === 'document'
-    ? (({ memberId: _member, ...value }) => value)(item)
-    : (({ confirmed: _confirmed, ...value }) => value)(item);
+  const declaration = (item: PackageRequirement) => requirementDeclaration(item, true);
   if (!sameReviewStoredValue(actual.items.map(declaration), expected.items.map(declaration)))
     throw new Error('Saved evidence requirements do not match the captured template and intake answers.');
   return actual;
@@ -32,9 +30,10 @@ export async function captureLegacyConditionalRequirementIds(revision: PackageRe
   if (!source) return undefined;
   const submitted = packageRequirementsSchema.parse(next), reserved = new Map(source.state.requirementIds.map(item => [item.key, item.id]));
   const slots = conditionalRequirementSlots(source.template, source.state.answers, source.state);
-  const declaration = (item: PackageRequirement) => item.kind === 'document'
-    ? (({ id: _id, memberId: _member, ...value }) => value)(item)
-    : (({ id: _id, confirmed: _confirmed, ...value }) => value)(item);
+  const declaration = (item: PackageRequirement) => {
+    const { id: _id, ...value } = requirementDeclaration(item, true);
+    return value;
+  };
   const expected = packageRequirementsSchema.parse({ version: 1, items: slots.map(({ key: _key, ...item }) => item) });
   if (!sameReviewStoredValue(submitted.items.map(declaration), expected.items.map(declaration)))
     throw new Error('Saved evidence requirements do not match the captured template and intake answers.');

@@ -1,5 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
 import { PDFDocument } from 'pdf-lib';
 import { createActionPackage, getPackageRevision, listActionPackages, packageAssets, reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
 import { capturePackageMember, captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
@@ -179,4 +180,47 @@ it('reviews each raw requirement label before publishing a declaration under a s
   const initial = await fixture();
   await expect(updatePackageRequirements(initial, requirements(confirmation({ label: '(S) SYNTHETIC RESTRICTED REQUIREMENT' })), policy)).rejects.toThrow('configured levels');
   expect((await listActionPackages()).find(record => record.id === initial.id)).toEqual(initial);
+});
+
+it('allows a marked draft of a blank evidence form without creating a final output', async () => {
+  const { renderPackageDraft } = await import('@/lib/actionPackageAssembly');
+  const prior = await fixture();
+  const original = getPackageRevision(prior).members[1];
+  if (original.kind !== 'original') throw new Error('Expected original');
+  const record = await reviseActionPackage(await createActionPackage('Blank evidence'), [{ ...original, role: 'basic-letter' }]);
+  const action = await attach(record, requirements(slot({ memberId: original.id,
+    completion: { blankSha256: original.original.sha256, signatureFields: ['Acknowledgement'] } })));
+  const inspect = (draftPdf: boolean) => preparePackageAssembly(action, action.currentRevisionId, policy,
+    { draftPdf, reviewOriginal: async () => ({ notices: [], sensitiveFields: [] }) as never });
+  const final = await inspect(false);
+  expect(final.readiness.state).toBe('incomplete');
+  expect(final.readiness.findings.some(item => item.message.includes('Acknowledgement'))).toBe(true);
+  const draft = await inspect(true);
+  const ports = { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true };
+  await expect(assemblePackage(draft, ports)).rejects.toThrow('final PDF');
+  const bytes = await renderPackageDraft(draft, ports, new AbortController().signal);
+  expect((await PDFDocument.load(bytes)).getPageCount()).toBe(1);
+  expect(getPackageRevision((await listActionPackages(action.id))[0]).outputs).toHaveLength(0);
+});
+
+it('prints a draft of a configured form with a missing required answer and blocks final assembly', async () => {
+  const { renderPackageDraft } = await import('@/lib/actionPackageAssembly');
+  const template = await fixturePage();
+  const instance = fixtureInstance();
+  instance.definition.pages[0].sha256 = template.sha256;
+  delete instance.answers.name;
+  const fetch = vi.spyOn(globalThis, 'fetch').mockImplementation(async () => new Response(new Uint8Array(template.bytes)));
+  const session = { ...createBlankSession(), documentCategory: 'forms' as const, formType: instance.definition.formId, genericForm: instance };
+  const captured = captureDocumentRevision({ documentId: 'partial-form', epoch: 0, editSequence: 1, capturedAt: 1 },
+    { ...session, endItems: [], publicationTables: {} });
+  const member = await capturePackageMember(captured, 'Partial form', 'basic-letter');
+  fetch.mockRestore();
+  const record = await reviseActionPackage(await createActionPackage('Draft package'), [member]);
+  const final = await preparePackageAssembly(record, record.currentRevisionId, policy);
+  expect(final.readiness.state).toBe('incomplete');
+  const draft = await preparePackageAssembly(record, record.currentRevisionId, policy, { draftPdf: true });
+  const ports = { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true };
+  const bytes = await renderPackageDraft(draft, ports, new AbortController().signal);
+  expect((await PDFDocument.load(bytes)).getPageCount()).toBe(1);
+  await expect(assemblePackage(draft, ports)).rejects.toThrow('final PDF');
 });

@@ -1,3 +1,4 @@
+import { formCompletionSchema } from './packageRequirementsModel';
 import { z } from 'zod';
 import { packageRoles } from './packageRoles';
 import { packageBindingTargetKey, packageBindingTargetSchema } from './packageBindingTargets';
@@ -20,7 +21,7 @@ export const packageTemplateV1Schema = z.object({
   members: z.array(z.discriminatedUnion('kind', [native, attachment])).min(1).max(100),
 }).strict();
 const link = z.object({ questionId: identity, target: packageBindingTargetSchema, format: z.enum(['field', 'uppercase']) }).strict();
-const extensions = { key: identity, when: packageTemplateConditionSchema.optional(), repeatGroupId: identity.optional(), links: z.array(link).max(100).optional() };
+const extensions = { completion: formCompletionSchema.optional(), key: identity, when: packageTemplateConditionSchema.optional(), repeatGroupId: identity.optional(), links: z.array(link).max(100).optional() };
 export const packageTemplateV2Schema = packageTemplateV1Schema.omit({ version: true, members: true, id: true }).extend({
   id: identity, version: z.literal(2), program: packageTemplateProgramSchema,
   members: z.array(z.discriminatedUnion('kind', [native.extend({ ...extensions, pagesFrom: identity.optional() }), attachment.extend(extensions)])).min(1).max(100),

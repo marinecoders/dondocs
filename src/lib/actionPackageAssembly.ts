@@ -1,3 +1,4 @@
+import { officialFormCompletionIssues } from './packageFormCompletion';
 import { saveGeneratedPdf } from '@/services/pdf/generatedPdfMetadata';
 import { directiveIssues } from './directiveFormats';
 import { isStaffPaper, staffPaperIssues } from './staffPapers';
@@ -98,6 +99,7 @@ export interface PackageReadiness {
   findings: PackageFinding[];
 }
 interface MemberInput {
+  incompleteFormPreview?: true;
   member: PackageMember;
   snapshot?: DocumentSnapshot;
   templates?: FormExportTemplates;
@@ -111,6 +113,7 @@ export interface PreparedPackageAssembly {
   readonly reviews: Array<{ member: string; review: ExportReview }>;
 }
 interface AssemblyInput {
+  draftPdf: boolean;
   purpose: "pdf" | "portable";
   record: ActionPackage;
   revisionId: string;
@@ -158,6 +161,7 @@ function prepareMember(
     filename: "package-member.pdf",
     policy,
     formTemplates: input.templates,
+    incompleteFormPreview: input.incompleteFormPreview,
   });
 }
 export async function preparePackageAssembly(
@@ -170,6 +174,7 @@ export async function preparePackageAssembly(
     signal?: AbortSignal;
     /** Editable transfers preserve original JSON values omitted from normalized PDF input. */
     includeRetainedDraftText?: boolean;
+    draftPdf?: boolean;
   } = {},
 ): Promise<PreparedPackageAssembly> {
   options.signal?.throwIfAborted();
@@ -196,7 +201,8 @@ export async function preparePackageAssembly(
     reviews: PreparedPackageAssembly["reviews"] = [],
     inputs: MemberInput[] = [];
   const outputs = new Map<string, ArrayBuffer>();
-  if (purpose === 'pdf' && revision.assembly?.profile === 'forms-led' && !(revision.members[0]?.kind === 'native' && revision.members[0].session.documentCategory === 'forms'))
+  if (purpose === 'pdf' && revision.assembly?.profile === 'forms-led' && !(revision.members[0]?.kind === 'native' && revision.members[0].session.documentCategory === 'forms')
+      && !(revision.members[0]?.kind === 'original' && revision.members[0].signedOriginal && revision.members[0].officialFormId))
     findings.push({ severity: 'error', message: 'The forms-led assembly profile needs a captured native form as its first main document.' });
   const error = (message: string, memberId?: string) =>
     findings.push({ message, memberId, severity: "error" });
@@ -235,7 +241,21 @@ export async function preparePackageAssembly(
     try { reviews.push({ member: "Package requirements", review: reviewPackageRequirements(revision.requirements, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : "Package requirements could not be reviewed."); }
   }
-  const requirements = await inspectPackageRequirements(revision, options.includeRetainedDraftText ? "portable" : "pdf", { signal: options.signal });
+  const workflowFinding = (message: string, memberId?: string) =>
+    findings.push({ message, memberId, severity: options.draftPdf ? 'warning' : 'error' });
+  if (purpose === 'pdf') {
+    for (const member of revision.members.filter(item => item.required)) {
+      for (const message of officialFormCompletionIssues(member)) workflowFinding(message, member.id);
+    }
+    for (const handoff of revision.signing?.handoffs ?? []) {
+      const target = handoff.target;
+      if (target.kind !== 'member' || !revision.members.some(member => member.required && member.id === target.id && member.revisionId === target.revisionId)) continue;
+      if (!handoff.returns?.some(returned => returned.assessment === 'checks-agree' && revision.members.some(member =>
+        member.id === returned.memberId && member.kind === 'original' && member.original.sha256 === returned.returnedAsset.sha256)))
+        workflowFinding('The signing handoff still needs a matching returned PDF.', target.id);
+    }
+  }
+  const requirements = await inspectPackageRequirements(revision, options.includeRetainedDraftText ? "portable" : "pdf", { signal: options.signal, readAsset: read });
   if (revision.consistency) {
     try { reviews.push({ member: 'Package relationships', review: reviewPackageConsistency(revision.consistency, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : 'The package relationships could not be reviewed.'); }
@@ -243,7 +263,7 @@ export async function preparePackageAssembly(
   for (const finding of (await inspectPackageConsistency(revision, options.signal)).findings) if (['conflict', 'unresolved'].includes(finding.state))
     findings.push({ message: `${finding.label}: ${finding.message}`, memberId: finding.destinations.find(target => target.memberId)?.memberId,
       severity: purpose === 'portable' || !finding.required ? 'warning' : 'error' });
-  for (const item of requirements.items) if (["missing", "unknown", "invalid"].includes(item.state)) error(`${item.label}: ${item.message}`, item.memberId);
+  for (const item of requirements.items) if (["missing", "unknown", "invalid"].includes(item.state)) (item.state === 'invalid' ? error : workflowFinding)(`${item.label}: ${item.message}`, item.memberId);
   findings.push(...(await packageBindingReadiness(revision)).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? "warning" as const : "error" as const })));
   const completeness = (message: string, memberId?: string) => findings.push({ message, memberId, severity: purpose === "portable" ? "warning" as const : "error" as const });
   if (!revision.members.length) completeness("Add a basic letter or main document before PDF assembly.");
@@ -469,7 +489,7 @@ export async function preparePackageAssembly(
           config,
           snapshot.endItems,
         ))
-          error(`Complete required ${section} fields.`, member.id);
+          workflowFinding(`Complete required ${section} fields.`, member.id);
         if (canReviewReferenceOrder(snapshot))
           for (const message of planFirstCitationOrder(snapshot).blockers)
             error(message, member.id);
@@ -511,7 +531,7 @@ export async function preparePackageAssembly(
         if (!form) throw new Error("The saved built-in form is missing.");
         for (const section of FORM_ERROR_BEARING_IDS[snapshot.formType!] ?? [])
           if (getFormSectionError(snapshot.formType!, section, form))
-            error(`Complete required ${section} fields.`, member.id);
+            workflowFinding(`Complete required ${section} fields.`, member.id);
       }
       let templates: FormExportTemplates | undefined;
       if (snapshot.documentCategory === "forms") {
@@ -538,7 +558,8 @@ export async function preparePackageAssembly(
           options.includeRetainedDraftText ? draft as DocumentFieldSource : undefined,
         ),
       });
-      const input = { member, snapshot, templates, assets },
+      const input: MemberInput = { member, snapshot, templates, assets,
+        incompleteFormPreview: options.draftPdf && snapshot.genericForm ? true : undefined },
         preparation = prepareMember(input, revisionId, policy);
       inputs.push(input);
       if ("issues" in preparation)
@@ -579,6 +600,7 @@ export async function preparePackageAssembly(
   });
   preparedAssemblies.set(result, {
     purpose,
+    draftPdf: options.draftPdf === true,
     record: owned,
     revisionId,
     inputs,
@@ -701,6 +723,22 @@ export async function assemblePackage(
   signal = new AbortController().signal,
   controls: PackageAssemblyControls = {},
 ): Promise<ActionPackage> {
+  if (preparedAssemblies.get(prepared)?.draftPdf) throw new Error('Prepare a final PDF before retaining a package output.');
+  return renderPackageAssembly(prepared, ports, signal, controls);
+}
+
+export async function renderPackageDraft(prepared: PreparedPackageAssembly, ports: Parameters<typeof assemblePackage>[1], signal: AbortSignal) {
+  if (!preparedAssemblies.get(prepared)?.draftPdf) throw new Error('Prepare the draft PDF first.');
+  let bytes: ArrayBuffer | undefined;
+  await renderPackageAssembly(prepared, ports, signal, { commit: async (before, _after, _signal, assets) => {
+    bytes = assets[0].data; return before;
+  } });
+  if (!bytes) throw new Error('The draft PDF could not be rendered.');
+  return new Uint8Array(bytes);
+}
+
+async function renderPackageAssembly(prepared: PreparedPackageAssembly, ports: Parameters<typeof assemblePackage>[1],
+  signal: AbortSignal, controls: PackageAssemblyControls): Promise<ActionPackage> {
   const input = preparedAssemblies.get(prepared);
   if (!input || !input.eligible) throw new Error("Resolve package readiness findings before assembly.");
   if (input.purpose !== "pdf") throw new Error("Review PDF assembly requirements before assembling this package.");
@@ -807,6 +845,10 @@ export async function assemblePackage(
     if (controls.maximumPages && pdf.getPageCount() > controls.maximumPages)
       throw new Error(`This assembly including its front matter exceeds its ${controls.maximumPages}-page memory limit.`);
     const navigation = addPackageOutputNavigation(pdf, getPackageRevision(input.record, input.revisionId), boundaries);
+    if (input.draftPdf) {
+      const font = await embedPdfFont(pdf, 'helvetica');
+      for (const page of pdf.getPages()) page.drawText('DRAFT', { x: 12, y: 8, size: 10, font });
+    }
     const bytes = new Uint8Array(await saveGeneratedPdf(pdf)).buffer;
     await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
     const staged: StoredAttachment = { id: newAttachmentId(), name: `${input.record.name}.pdf`, type: 'application/pdf', size: bytes.byteLength, data: bytes };

@@ -63,7 +63,7 @@ import {
   readPackageAsset,
 } from "@/lib/actionPackageAssets";
 import {
-  assemblePackage,
+  assemblePackage, renderPackageDraft,
   copyPreparedPackageOutput,
   preparePackageAssembly,
   assertPreparedPackagePolicy,
@@ -202,7 +202,7 @@ function PackageDialog({
   const [creating, setCreating] = useState(() => !!unfinishedAction && !useUIStore.getState().actionPackageSelectionId);
   const [creatingAction, setCreatingAction] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [deliveryFormat, setDeliveryFormat] = useState<'pdf' | 'editable'>('pdf');
+  const [deliveryFormat, setDeliveryFormat] = useState<'pdf' | 'draft' | 'editable'>('pdf');
   const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>(unfinishedAction ? 'overview' : savedWorkspace?.section ?? "overview");
   const [activeMemberId, setActiveMemberId] = useState<string | null>(savedWorkspace?.memberId ?? null);
   const overviewRef = useRef<HTMLDivElement>(null);
@@ -294,7 +294,7 @@ function PackageDialog({
   const inventoryLoaded = useRef(false);
   const [prepared, setPrepared] = useState<PreparedPackageAssembly | null>(null);
   const [reviewMode, setReviewMode] = useState<
-    "assemble" | "portable" | "saved" | "preview" | "original" | "compare"
+    "assemble" | "draft" | "portable" | "saved" | "preview" | "original" | "compare"
   >("assemble");
   const [beforeOutputId, setBeforeOutputId] = useState(""),
     [afterOutputId, setAfterOutputId] = useState(""),
@@ -609,7 +609,7 @@ function PackageDialog({
   async function review(mode: typeof reviewMode) {
     if (!record || !revision) return;
     setWorkspaceSection('delivery');
-    setDeliveryFormat(mode === 'portable' ? 'editable' : 'pdf');
+    setDeliveryFormat(mode === 'portable' ? 'editable' : mode === 'draft' ? 'draft' : 'pdf');
     if (mode === "saved" || mode === "preview") requireRetainedOutput();
     if (mode === "compare") {
       if (!beforeComparisonId || !afterComparisonId || beforeComparisonId === afterComparisonId)
@@ -624,7 +624,7 @@ function PackageDialog({
       ? await (await import("@/lib/packageRenderComparison")).preparePackageRenderComparison(
           readRecord!, revision.id, policy, operation.current!.signal,
         )
-      : await preparePackageAssembly(readRecord!, revision.id, policy, { includeRetainedDraftText: mode === "portable" });
+      : await preparePackageAssembly(readRecord!, revision.id, policy, { includeRetainedDraftText: mode === "portable", draftPdf: mode === "draft" });
     assertOperationCurrent();
     setOtherReviews([]);
     setPdfUrl('');
@@ -739,6 +739,14 @@ function PackageDialog({
       let updated: ActionPackage;
       try {
         assertOperationCurrent();
+        if (reviewMode === 'draft') {
+          const bytes = await renderPackageDraft(prepared, ports, operation.current!.signal);
+          assertOperationCurrent();
+          assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
+          triggerDownload(bytes, record.name + '-draft.pdf', 'application/pdf');
+          setNotice('Draft PDF downloaded.');
+          return;
+        }
         updated = await assemblePackage(
           prepared,
           ports,
@@ -1490,7 +1498,7 @@ function PackageDialog({
                   </fieldset>
                   <fieldset hidden={workspaceSection !== 'delivery'} disabled={busy || pendingPackageEdits && !signingDirty && !assemblyDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Export</h2>
-                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { setDeliveryFormat(format); setPrepared(null); setOriginal(null); setPdfUrl(''); setError(''); setNotice(''); }} onPrepare={() => void run(() => review(deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
+                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "draft", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { setDeliveryFormat(format); setPrepared(null); setOriginal(null); setPdfUrl(''); setError(''); setNotice(''); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
                     <div ref={preparedResultRef} tabIndex={-1} className="outline-none">{prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
@@ -1510,7 +1518,7 @@ function PackageDialog({
                     }
                     onClick={() => void run(() => deliver(true))}
                   >
-                    {reviewMode === "assemble"
+                    {reviewMode === "draft" ? "Download draft PDF" : reviewMode === "assemble"
                       ? "Download PDF"
                       : reviewMode === "portable"
                         ? "Download editable package"

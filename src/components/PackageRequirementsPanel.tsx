@@ -1,3 +1,4 @@
+import { hasPinnedCompletionMember } from '@/lib/packageRequirementsModel';
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
@@ -115,7 +116,7 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
         return <article key={item.id} tabIndex={-1} data-package-requirement-id={item.id} className="min-w-0 space-y-2 rounded border p-3">
           <h4 className="break-words text-sm font-medium">{item.label}</h4>
           <p className="break-words text-xs text-muted-foreground">{personContext} · Required for {item.operations.map(value => operationLabels[value]).join(', ')} · {item.condition === 'active' ? 'Active' : item.condition === 'inactive' ? 'Inactive for saved answers' : 'Condition unresolved'}</p>
-          {item.kind === 'document' ? <label className="block text-sm">Captured evidence<select aria-label={`Evidence for ${controlLabel}`} className={inputClass} value={item.memberId ?? ''} onChange={event => {
+          {item.kind === 'document' ? <label className="block text-sm">Captured evidence<select disabled={hasPinnedCompletionMember(item, !!revision.templateState)} aria-label={`Evidence for ${controlLabel}`} className={inputClass} value={item.memberId ?? ''} onChange={event => {
             if (!draft) return;
             const next = { ...item }; if (event.target.value) next.memberId = event.target.value; else delete next.memberId;
             edit({ ...draft, items: draft.items.map(value => value.id === item.id ? next : value) });
