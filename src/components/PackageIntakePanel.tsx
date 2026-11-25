@@ -42,6 +42,7 @@ interface Props {
   onDirtyChange?(dirty: boolean): void;
   workspace?: boolean;
   onRecoveryChange?(ready: boolean): void;
+  onEditingChange?(active: boolean): void;
   onNewActionChange?(active: boolean): void;
   resume?: PackageNewActionContext;
 }
@@ -60,7 +61,7 @@ const recoveredIntake = z.object({
   fieldChoices: z.record(z.string().max(500), z.enum(['apply-package', 'keep-local', 'detach', 'reconnect'])),
 }).strict();
 
-export function PackageIntakePanel({ destination, record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, resume }: Props) {
+export function PackageIntakePanel({ destination, record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, onEditingChange, resume }: Props) {
   const ownerScope = scope(record, revision);
   const [template, setTemplate] = useState<PackageTemplateV2 | null>(null), [answers, setAnswers] = useState(emptyAnswers);
   const [mode, setMode] = useState<'none' | 'new' | 'saved'>('none'), [name, setName] = useState('');
@@ -96,6 +97,10 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
   const dirty = !!template && (!baseline || name !== baseline.name || !sameReviewStoredValue(answers, baseline.answers)
     || Object.keys(attachments).length > 0 || hasDecisions);
   useEffect(() => { onNewActionChange?.(workspace && mode === 'new' && !!template); }, [workspace, mode, template, onNewActionChange]);
+  useEffect(() => {
+    onEditingChange?.(workspace && open && mode === 'saved');
+    return () => onEditingChange?.(false);
+  }, [workspace, open, mode, onEditingChange]);
   const sources = useMemo(() => record && revision && mode === 'saved'
     ? packageRevisionSources(record, revision.id).filter(source => source.originalPdf) : [], [record, revision, mode]);
   const recoverableFiles = useMemo(() => Object.fromEntries(Object.entries(attachments).map(([key, file]) => [key, 'reuse' in file ? file : { ...file, data: new Blob([file.data]) }])), [attachments]);

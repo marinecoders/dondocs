@@ -250,6 +250,7 @@ function PackageDialog({
   const [informationDirty, setInformationDirty] = useState(false);
   const [informationRecoverable, setInformationRecoverable] = useState(false), [intakeRecoverable, setIntakeRecoverable] = useState(false);
   const [starterDirty, setStarterDirty] = useState(false);
+  const [editingIntake, setEditingIntake] = useState(false);
   const [intakeDirty, setIntakeDirty] = useState(false), [requirementsDirty, setRequirementsDirty] = useState(false);
   const [consistencyDirty, setConsistencyDirty] = useState(false);
   const [workDirty, setWorkDirty] = useState(false);
@@ -917,9 +918,9 @@ function PackageDialog({
                   {record && revision && revision.id !== record.currentRevisionId && !openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => changeRevision(record.currentRevisionId)}><ArrowLeft aria-hidden="true" className="size-4" />Back to current version</Button>}
                   {record && openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => { select(record); mainScroll.current?.scrollTo?.({ top: 0 }); }}><ArrowLeft aria-hidden="true" className="size-4" />Back to current package</Button>}
                 </header>
-                {pendingPackageEdits && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
+                {pendingPackageEdits && !(workspaceSection === 'overview' && editingIntake && intakeDirty) && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
                 <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
-                  {record && revision && <PackageNextActions record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
+                  {record && revision && <PackageNextActions quiet={editingIntake || informationDirty} record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
                   {creating && !creatingAction && <fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 space-y-3">
           <legend className="text-sm font-medium">Custom package</legend>
           <div className="flex flex-wrap items-end gap-2">
@@ -949,7 +950,7 @@ function PackageDialog({
                     </fieldset>}
                   {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
           <PackageIntakePanel workspace destination={destination} resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
-            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction}
+            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction} onEditingChange={setEditingIntake}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
                   <div hidden={!creating || creatingAction} className="space-y-7">
@@ -1759,7 +1760,7 @@ function PackageDialog({
 {record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
-            <PackageDeliveryPanel visible={workspaceSection === 'delivery' && !formSigning} onNavigate={target => {
+            <PackageDeliveryPanel canSign={editable} visible={workspaceSection === 'delivery' && !formSigning} onNavigate={target => {
                 setDeliveryReturnPackage(record.id);
                 const member = revision.members.find(item => item.id === target.memberId);
                 if (editable && target.signatureField && target.revisionId === revision.id && member && packageFormSigningAction(member)) {
