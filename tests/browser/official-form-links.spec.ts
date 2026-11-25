@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { newBlankPackage, openPackageWorkspace, packageSection } from './_helpers/packageWorkspace';
+import { choosePackage, newBlankPackage, openPackageWorkspace, packageSection } from './_helpers/packageWorkspace';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(120_000);
@@ -10,7 +10,6 @@ test('shares a Marine identity with selected forms and reviews subsequent local 
   const workspace = await openPackageWorkspace(page);
   await newBlankPackage(workspace, 'Identity sharing');
   await packageSection(workspace, 'Documents');
-  await workspace.getByText('Add documents', { exact: true }).click();
   for (const [index, label] of ['Page 11', 'Unit Punishment Book', 'Unit Punishment Book'].entries()) {
     await workspace.getByRole('button', { name: 'Add ' + label, exact: true }).click();
     await expect(workspace.locator('li[id^="package-member-"]')).toHaveCount(index + 1);
@@ -42,6 +41,7 @@ test('shares a Marine identity with selected forms and reviews subsequent local 
   await expect(details.getByText('Package changes saved as a new revision.')).toBeVisible();
   await page.reload();
   await openPackageWorkspace(page);
+  await choosePackage(workspace, 'Identity sharing');
   await packageSection(workspace, 'Documents');
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
   const editor = page.getByRole('dialog', { name: 'Identity sharing', exact: true });
