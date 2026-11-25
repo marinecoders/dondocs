@@ -14,11 +14,11 @@ export function PackageDeliveryFindings({ revision, findings, onNavigate, disabl
   return <ul aria-label="Items to resolve" className="space-y-2">{findings.map(item => {
     const member = revision.members.find(candidate => candidate.id === item.memberId);
     const slot = revision.templateState?.instances.find(instance => instance.memberId === item.memberId);
-    const target: PackageDestination = member ? { memberId: member.id } :
-      slot || item.id.startsWith('intake:') || item.state === 'unknown' && revision.templateState
-        ? { panel: 'intake', intakeSlot: slot?.key } : { panel: 'requirements', requirementId: item.id };
+    const needsIntake = item.fromIntake || (item.state === 'unknown' && revision.templateState) || (!member && slot);
+    const target: PackageDestination = needsIntake ? { panel: 'intake', intakeSlot: slot?.key }
+      : member ? { memberId: member.id } : { panel: 'requirements', requirementId: item.id };
     const fields = item.signatureFields ?? [];
-    const action = member ? 'Open document' : target.panel === 'requirements' ? 'Review requirement' : slot ? 'Open intake slot' : 'Review intake';
+    const action = target.memberId ? 'Open document' : target.panel === 'requirements' ? 'Review requirement' : slot && !member ? 'Open intake slot' : 'Review intake';
     return <li key={item.id} className="rounded border p-2">
       <p className="font-medium">{item.label}</p>
       <p className="break-words text-xs">{item.message}</p>

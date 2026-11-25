@@ -20,6 +20,7 @@ export interface PackageRequirementFinding {
   message: string;
   memberId?: string;
   signatureFields?: string[];
+  fromIntake?: boolean;
 }
 export interface PackageRequirementsInspection {
   operation: PackageRequirementOperation;
@@ -147,7 +148,7 @@ export async function assertDeliveryRequirements(revision: PackageRevision, sele
       if (selected && (!issue.memberId || !selected.has(issue.memberId))) continue;
       const slot = state.instances.find(instance => instance.memberId === issue.memberId);
       failures.push({ id: 'intake:' + failures.length, kind: 'document', state: 'missing', label: slot?.label ?? 'Package details',
-        message: issue.message, memberId: issue.memberId });
+        message: issue.message, memberId: issue.memberId, fromIntake: true });
     }
   }
   if (failures.length) throw new PackageDeliveryBlocked(failures);
