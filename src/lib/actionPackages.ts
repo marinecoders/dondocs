@@ -289,7 +289,8 @@ export const actionPackageSchema = z
     archived: z.boolean(),
     sequence: z.number().int().nonnegative(),
     currentRevisionId: id,
-    revisions: z.array(packageRevisionSchema).min(1).max(200),
+    // Local versions stay available to review rounds, signing returns and version history.
+    revisions: z.array(packageRevisionSchema).min(1),
     reviewRounds: z.array(packageReviewRoundSchema).max(100).optional(),
     reviewApplications: z.array(packageReviewApplicationSchema).max(500).optional(),
     fieldReviewApplications: z.array(packageFieldReviewApplicationSchema).max(500).optional(),
@@ -340,6 +341,7 @@ export const actionPackageSchema = z
         break;
       }
     }
+    const revisionsById = new Map(record.revisions.map(revision => [revision.id, revision]));
     const templateUpgradeIdentities = new Map<string, string>();
     for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) for (const upgrade of revision.templateState?.upgrades ?? []) {
       const value = JSON.stringify(upgrade), previous = templateUpgradeIdentities.get(upgrade.id);
@@ -353,7 +355,7 @@ export const actionPackageSchema = z
       informationParticipants = new Map<string, string>(), requirementIdentities = new Map<string, string>(), consistencyIdentities = new Map<string, string>(), signingIdentities = new Map<string, string>(), signingReturnIdentities = new Map<string, string>();
     for (const [index, revision] of record.revisions.entries()) {
       for (const handoff of revision.signing?.handoffs ?? []) {
-        const source = record.revisions.find(item => item.id === handoff.sourceRevisionId);
+        const source = revisionsById.get(handoff.sourceRevisionId);
         if (record.historyScope !== 'selected-revision' && !source) ctx.addIssue({ code: 'custom', message: 'The captured signing source revision is unavailable.' });
         if (source) {
           const target = handoff.target;
@@ -365,7 +367,7 @@ export const actionPackageSchema = z
           const prior = signingReturnIdentities.get(returned.id), value = JSON.stringify(returned);
           if (prior !== undefined && prior !== value) ctx.addIssue({ code: 'custom', message: 'An exact signing return changed under its saved identity.' });
           signingReturnIdentities.set(returned.id, value);
-          const applied = record.revisions.find(item => item.id === returned.appliedRevisionId);
+          const applied = revisionsById.get(returned.appliedRevisionId);
           if (record.historyScope !== 'selected-revision' && !applied) ctx.addIssue({ code: 'custom', message: 'The signing return application revision is unavailable.' });
           if (applied) {
             const member = applied.members.find(item => item.id === returned.memberId);
@@ -475,13 +477,8 @@ export const actionPackageSchema = z
     if (
       record.workingCopies?.some(
         (copy) =>
-          !record.revisions.some(
-            (revision) =>
-              revision.id === copy.revisionId &&
-              revision.members.some(
-                (member) =>
-                  member.id === copy.memberId && member.kind === "native",
-              ),
+          !revisionsById.get(copy.revisionId)?.members.some(
+            member => member.id === copy.memberId && member.kind === "native",
           ),
       )
     )
@@ -493,7 +490,7 @@ export const actionPackageSchema = z
     if (new Set(rounds.map(round => round.id)).size !== rounds.length)
       ctx.addIssue({ code: "custom", message: "Duplicate package review round." });
     for (const round of rounds) {
-      const revision = record.revisions.find(revision => revision.id === round.revisionId);
+      const revision = revisionsById.get(round.revisionId);
       if (round.packageId !== record.id || !revision
         || !sameReviewStoredValue(packageReviewRevision({ ...revision, outputs: revision.outputs.slice(0, round.baseline.outputs.length) }), round.baseline)
         || round.lifecycle?.events.some(event => event.replacementRoundId && !rounds.some(replacement =>
