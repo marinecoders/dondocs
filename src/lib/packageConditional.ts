@@ -589,6 +589,7 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
         await verifyRevisionForEvidence(source, rules, { signal, readAsset: async () => bytes });
         reviews.push(await reviewPackageOriginal(bytes, source.original.name, policy));
         member = { ...source, ...identity };
+        delete member.endorsementLink;
       } else {
         if (!/\.pdf$/i.test(file.name)) throw new Error('Action evidence slots currently accept PDF originals.');
         signal?.throwIfAborted(); await validatePackageOriginalPdf(file.data);

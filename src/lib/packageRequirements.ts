@@ -200,6 +200,7 @@ export async function captureRequirementVersions(record: ActionPackage, next: Pa
     let copy = copies.get(key);
     if (!copy) {
       copy = { ...source, id: newPackageId('member'), revisionId: newPackageId('member-revision'), role: 'supporting-document', required: false };
+      delete copy.endorsementLink;
       copies.set(key, copy);
       members.push(copy);
     }

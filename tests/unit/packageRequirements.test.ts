@@ -261,11 +261,16 @@ it('assigns an older exact PDF to a manual evidence slot across portable transfe
   if (original.kind !== 'original') throw new Error('Expected an original');
   const other = await PDFDocument.create(); other.addPage([300, 300]);
   const replacement = await captureOriginalPackageMember({ name: 'revised.pdf', data: new Uint8Array(await other.save()).buffer }, 'enclosure', false);
-  const changed = await reviseActionPackage(first, [revision.members[0], { ...replacement, id: original.id }]);
-  const assigned = await attach(changed, requirements(slot({ memberId: original.id, memberRevisionId: original.revisionId })));
+  const linked = { ...original, role: 'endorsement' as const, revisionId: 'signed-endorsement-version',
+    endorsementLink: { basicMemberId: revision.members[0].id, basicRevisionId: revision.members[0].revisionId,
+      ordinal: 'FIRST', firstReference: 'a', firstEnclosure: 1 } };
+  const routed = await reviseActionPackage(first, [revision.members[0], linked]);
+  const changed = await reviseActionPackage(routed, [revision.members[0], { ...replacement, id: original.id }]);
+  const assigned = await attach(changed, requirements(slot({ memberId: original.id, memberRevisionId: linked.revisionId })));
   const transferred = await parsePortableActionPackage(await buildPortableActionPackage(assigned));
   const saved = getPackageRevision(transferred.record);
   expect(saved.members[1]).toMatchObject({ id: original.id, revisionId: replacement.revisionId });
+  expect(saved.members[2].endorsementLink).toBeUndefined();
   expect(saved.members[2]).toMatchObject({ kind: 'original', original: original.original });
   expect(saved.requirements!.items[0]).toMatchObject({ memberId: saved.members[2].id, memberRevisionId: saved.members[2].revisionId });
   expect((await inspectPackageRequirements(saved, 'pdf')).ready).toBe(true);
