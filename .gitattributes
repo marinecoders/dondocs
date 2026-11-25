@@ -1,2 +1,3 @@
 tests/fixtures/permission-pdfs/*.pdf binary
 src/data/spelling/english-us.txt linguist-generated=true -diff
+"public/templates/DonDocs correspondence signature/*.pdf" binary

@@ -5,7 +5,7 @@ import { isEditableOfficialForm } from '@/lib/packageFormEditing';
 import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
 import { officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { packageOfficialForms, createOfficialFormMember, packageFormSigningAction, preparePackageFormSigning } from '@/lib/packageOfficialForms';
+import { memberSigningFormId, packageOfficialForms, createOfficialFormMember, packageFormSigningAction, preparePackageFormSigning } from '@/lib/packageOfficialForms';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
 import type { PackageSearchScope } from './PackageSearchPanel';
 import { configuredApprovalOrigin } from '@/lib/packageApprovalOrigin';
@@ -1215,11 +1215,13 @@ function PackageDialog({
                           const documentId = await signingMemberKey(record.id, member);
                           let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId);
                           if (!saved) {
-                            const source = await preparePackageFormSigning(member, await getExportDeploymentPolicy(), signal);
+                            const policy = await getExportDeploymentPolicy();
+                            const release = await exportGate.acquireWhenAvailable(signal);
+                            const source = await preparePackageFormSigning(member, policy, signal, ports).finally(release);
                             const current = () => active.current && !signal.aborted;
                             const { confirmSigningDisclosure } = await import('./signingDisclosure');
                             await confirmSigningDisclosure({ pdfs: [source], metadata: source.metadata }, current);
-                            const edition = member.kind === 'native' && officialEdition(member.session.formType ?? '');
+                            const edition = member.kind === 'native' && officialEdition(memberSigningFormId(member) ?? '');
                             const bytes = edition ? bindUnsignedFormPdf(source.bytes, edition.length, documentId) : source.bytes;
                             saved = await saveOfficialRevision(source.label, bytes, current, undefined,
                               { documentId, epoch: 0, editSequence: 0, capturedAt: Date.now() });
@@ -1656,18 +1658,7 @@ function PackageDialog({
 {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Package signing{signingDirty ? " · awaiting capture" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package signing…</p>}>
-            {formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id}
-              onOpenChange={open => { if (!open) setFormSigning(undefined); }}
-              onAttach={async (saved, inspection) => {
-                if (!editable || !record) throw new Error('The package changed. Reopen the current member before applying a signed revision.');
-                const source = revision.members.find(item => item.id === formSigning.memberId);
-                if (!source || source.revisionId !== formSigning.revisionId || source.kind === 'attachment' || await signingMemberKey(record.id, source) !== formSigning.documentId) throw new Error('The original member revision is unavailable.');
-                const bytes = await checkPackageFormReturn(record, source, saved, formSigning, inspection);
-                const original = await captureOriginalPackageMember({ name: saved.filename, data: bytes.buffer }, source.role, true);
-                await modify(revision.members.map(item => item.id === source.id
-                  ? { ...original, id: source.id, label: source.label, required: source.required } : item));
-                setFormSigning(undefined);
-              }} /></Suspense>}
+
             <PackageSigningPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
@@ -1717,7 +1708,19 @@ function PackageDialog({
         </Dialog>
       </DialogContent>
     </Dialog>
-    {record && revision && shareOpen && <Suspense fallback={<p role="status">Opening package sharing…</p>}><PackageShareDialog key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} onClose={() => setShareOpen(false)} /></Suspense>}
+    {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id}
+              onOpenChange={open => { if (!open) setFormSigning(undefined); }}
+              onAttach={async (saved, inspection) => {
+                if (!editable || !record) throw new Error('The package changed. Reopen the current member before applying a signed revision.');
+                const source = revision.members.find(item => item.id === formSigning.memberId);
+                if (!source || source.revisionId !== formSigning.revisionId || source.kind === 'attachment' || await signingMemberKey(record.id, source) !== formSigning.documentId) throw new Error('The original member revision is unavailable.');
+                const bytes = await checkPackageFormReturn(record, source, saved, formSigning, inspection);
+                const original = await captureOriginalPackageMember({ name: saved.filename, data: bytes.buffer }, source.role, true);
+                await modify(revision.members.map(item => item.id === source.id
+                  ? { ...original, id: source.id, label: source.label, required: source.required } : item));
+                setFormSigning(undefined);
+              }} /></Suspense>}
+      {record && revision && shareOpen && <Suspense fallback={<p role="status">Opening package sharing…</p>}><PackageShareDialog key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} onClose={() => setShareOpen(false)} /></Suspense>}
     {encryptedImport && <ShareModal open mode="import" initialPayload={encryptedImport} onOpenChange={open => { if (!open) setEncryptedImport(null); }} />}
   </>;
 

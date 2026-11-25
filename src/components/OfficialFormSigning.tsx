@@ -1,4 +1,4 @@
-import { SigningPdfPreview } from './SigningPdfPreview';
+import { OfficialSignatureLocation } from './OfficialSignatureLocation';
 import { officialEdition } from '@/services/forms/nativeCatalog';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -19,9 +19,6 @@ export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
   const [field, setField] = useState('');
   const [finalize, setFinalize] = useState(false);
   const [reviewed, setReviewed] = useState(false);
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [page, setPage] = useState(0);
-  const [previewReady, setPreviewReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -32,7 +29,9 @@ export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
   const profile = inspection && officialEdition(inspection.formId, inspection.edition);
   const inspected = Boolean(profile && inspection?.sha256 === latest.sha256);
   const selectInspection = (value: OfficialInspection) => {
-    setInspection(value); setPage(0); setField(value.fields.find(item => !item.locked && !item.signed)?.name ?? '');
+    const available = value.fields.filter(item => !item.locked && !item.signed);
+    setInspection(value);
+    setField(previous => available.some(item => item.name === previous) ? previous : available[0]?.name ?? '');
     setReviewed(false); setFinalize(false);
   };
 
@@ -80,25 +79,14 @@ export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {message && <p role="status" className="text-sm">{message}</p>}
     <fieldset disabled={busy} className="space-y-3">
+      <OfficialSignatureLocation key={latest.sha256} record={record} choice={field} onChoice={setField} paired={inspected} />
       <div className="flex flex-wrap items-end gap-2"><label className="grid gap-1 text-sm">Local bridge pairing code
         <input type="password" autoComplete="off" className="rounded border bg-background px-2 py-1" value={code}
           onChange={e => { setCode(e.target.value); setInspection(undefined); setIdentities([]); setReviewed(false); }} /></label>
         <Button variant="outline" disabled={!code.trim()} onClick={() => void run(pair)}>{inspected ? 'Reconnect' : 'Connect CAC'}</Button>
       </div>
       {inspected && inspection && profile && <div className="space-y-3">
-        {profile.format === 'acroform' ? <div>
-          <Button variant="outline" aria-expanded={previewOpen} onClick={() => setPreviewOpen(!previewOpen)}>{previewOpen ? 'Hide PDF' : 'Review PDF'}</Button>
-          {previewOpen && <div className="mt-2 space-y-2">
-            <div className="flex items-center gap-3 text-sm">
-              <Button size="sm" variant="outline" disabled={!page} onClick={() => setPage(page - 1)}>Previous page</Button>
-              <span>Page {page + 1} of {profile.pageSizes.length}</span>
-              {!previewReady && <span className="text-muted-foreground" role="status">Loading page…</span>}
-              <Button size="sm" variant="outline" disabled={page + 1 === profile.pageSizes.length} onClick={() => setPage(page + 1)}>Next page</Button>
-            </div>
-            <div className="max-h-[55dvh] overflow-auto rounded border"><SigningPdfPreview data={record.data} page={page}
-              width={profile.pageSizes[page][0]} height={profile.pageSizes[page][1]} onReadiness={setPreviewReady} /></div>
-          </div>}
-        </div> : <p className="text-sm text-muted-foreground">Download the official PDF and review its filled fields in Acrobat before signing.
+        {profile.format === 'xfa' && <p className="text-sm text-muted-foreground">Download the official PDF and review its filled fields in Acrobat before signing.
             {!inspection.fields.some(item => item.signed) && ' If someone will also sign in Acrobat, have them sign first, then open their signed PDF here.'}</p>}
         <ul className="divide-y rounded border px-3 text-sm">{inspection.fields.map(item => <li key={item.name} className="flex justify-between gap-3 py-2">
           <span>{item.label}</span><span>{item.signed ? item.trusted ? 'Signed · trusted chain' : 'Signed · trust unconfirmed' : item.locked ? 'Locked' : 'Available'}</span>

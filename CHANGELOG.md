@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.293] — 2026-11-25
+
+### Added
+
+- Review signature locations and sign the selected package form or correspondence revision.
+
 ## [1.3.292] — 2026-11-25
 
 ### Added

@@ -1,15 +1,59 @@
 [
   {
-    "formId": "navmc_118_11", "edition": "2014-05", "label": "Page 11", "format": "xfa",
-    "directory": "NAVMC11811 - Administrative Remarks/2014-05", "file": "original.pdf",
-    "length": 1816570, "sha256": "84f309e0e02eff1977d22875a9cf48574c64ee43e83499640848d5470c9a4bed",
-    "pageSizes": [[612, 792]]
+    "formId": "navmc_118_11",
+    "edition": "2014-05",
+    "label": "Page 11",
+    "format": "xfa",
+    "directory": "NAVMC11811 - Administrative Remarks/2014-05",
+    "file": "original.pdf",
+    "length": 1816570,
+    "sha256": "84f309e0e02eff1977d22875a9cf48574c64ee43e83499640848d5470c9a4bed",
+    "pageSizes": [
+      [
+        612,
+        792
+      ]
+    ]
   },
   {
-    "formId": "navmc10132", "edition": "2023-08", "label": "Unit Punishment Book", "format": "acroform",
-    "directory": "NAVMC10132 - Unit Punishment Book", "file": "original.pdf",
+    "formId": "navmc10132",
+    "edition": "2023-08",
+    "label": "Unit Punishment Book",
+    "format": "acroform",
+    "directory": "NAVMC10132 - Unit Punishment Book",
+    "file": "original.pdf",
     "definitionSha256": "6c0c58c93825c1313af478df444711a6fb4db0b0933fe8bfb55b759daa8677a5",
-    "length": 4916770, "sha256": "df55199752eb27368a3e98601cf0e1dbb471c5953fa78e0c825112dd904ffeff",
-    "pageSizes": [[612, 792], [612, 792], [612, 792]]
+    "length": 4916770,
+    "sha256": "df55199752eb27368a3e98601cf0e1dbb471c5953fa78e0c825112dd904ffeff",
+    "pageSizes": [
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ]
+    ]
+  },
+  {
+    "formId": "package_correspondence",
+    "edition": "1",
+    "label": "Correspondence signature",
+    "format": "acroform",
+    "directory": "DonDocs correspondence signature",
+    "file": "original.pdf",
+    "length": 1971,
+    "sha256": "489309516f291b6083237fab49e813f28d08e1c4886c20d0060784e138cfc6ea",
+    "pageSizes": [
+      [
+        612,
+        792
+      ]
+    ]
   }
 ]
