@@ -13,6 +13,7 @@ import { PackageReviewControls } from "./PackageReviewControls";
 import { PackageMemberNavigation, PackageWorkspaceNavigation } from "./PackageWorkspaceNavigation";
 import { PackageLibrary } from "./PackageLibrary";
 import { PackageNextActions } from "./PackageNextActions";
+import { PackageBlankPdfs } from "./PackageBlankPdfs";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
 import { PackageExportOptions } from "./PackageExportOptions";
 import { PackageExportFindings } from "./PackageExportFindings";
@@ -835,7 +836,7 @@ function PackageDialog({
                   {record && revision && <PackageNextActions record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
                   <div hidden={!!record && !revision?.templateState}><Suspense fallback={<p>Loading action intake…</p>}>
           <PackageIntakePanel workspace resume={creating ? unfinishedAction ?? undefined : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
-            busy={busy} run={run} onApply={update} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction}
+            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense></div>
                   <div hidden={!creating || creatingAction} className="space-y-7">
@@ -1087,6 +1088,8 @@ function PackageDialog({
                   </fieldset>
                   <fieldset hidden={workspaceSection !== 'documents'} disabled={busy || pendingPackageEdits && !evidenceDirty && !scanDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Documents</h2>
+                    {workspaceSection === 'documents' && record && revision?.templateState && !library &&
+                      <PackageBlankPdfs key={revision.id} record={record} revisionId={revision.id} />}
                     <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
               <details hidden={!editable}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
                 <div className="space-y-2 rounded border p-3">

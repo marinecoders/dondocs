@@ -6,7 +6,7 @@ import { PackageIntakePreview, type IntakeAnswerChoice, type IntakeMemberChoice 
 import { maintainedPackageAction, maintainedPackageActions, type MaintainedPackageActionId } from '@/lib/maintainedPackageActions';
 import { freshPackageTemplateAnswers, intakeAttachmentSlots, intakeQuestions } from '@/lib/conditionalIntakeView';
 import { applyPreparedConditionalPackage, conditionalPackageAnswers, prepareConditionalPackage, readConditionalPackageTemplate,
-  saveConditionalPackageDraft, undoConditionalPackage, type ConditionalPackageUndo, type PreparedConditionalPackage } from '@/lib/packageConditional';
+  saveConditionalPackageDraft, startConditionalPackage, undoConditionalPackage, type ConditionalPackageUndo, type PreparedConditionalPackage } from '@/lib/packageConditional';
 import { getPackageRevision, type ActionPackage, type PackageRevision } from '@/lib/actionPackages';
 import type { PackageTemplateAnswers } from '@/lib/packageTemplateProgram';
 import type { PackageTemplateV2 } from '@/lib/packageTemplateSchema';
@@ -31,6 +31,7 @@ interface Props {
   busy: boolean;
   run(action: () => Promise<void>): Promise<void>;
   onApply(record: ActionPackage): void;
+  onStartWithDocuments?(record: ActionPackage): void;
   signal(): AbortSignal | undefined;
   isCurrent(): boolean;
   onDirtyChange?(dirty: boolean): void;
@@ -53,7 +54,7 @@ const recoveredIntake = z.object({
   fieldChoices: z.record(z.string().max(500), z.enum(['apply-package', 'keep-local', 'detach', 'reconnect'])),
 }).strict();
 
-export function PackageIntakePanel({ record, revision, editable, disabled, busy, run, onApply, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, resume }: Props) {
+export function PackageIntakePanel({ record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, resume }: Props) {
   const ownerScope = scope(record, revision);
   const [template, setTemplate] = useState<PackageTemplateV2 | null>(null), [answers, setAnswers] = useState(emptyAnswers);
   const [mode, setMode] = useState<'none' | 'new' | 'saved'>('none'), [name, setName] = useState('');
@@ -254,14 +255,18 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
   const catalog = <div className="grid min-w-0 gap-3 md:grid-cols-3">{maintainedPackageActions.map(action => <article key={action.id} className="min-w-0 space-y-2 rounded border p-3">
     <p className="text-xs text-muted-foreground">{action.kind}</p><h4 className="font-medium">{action.name}</h4><p className="text-sm text-muted-foreground">{action.description}</p>
     <Button className={buttonClass} variant="outline" disabled={catalogLocked} onClick={() => void perform(async capture => {
-      const selected = await maintainedPackageAction(action.id as MaintainedPackageActionId); if (current(capture)) choose(selected, action.id);
-    })}>Start {action.name.toLocaleLowerCase()}</Button>
+      const selected = await maintainedPackageAction(action.id);
+      if (!current(capture)) return;
+      if (onStartWithDocuments && action.startWithDocuments) {
+        const next = await startConditionalPackage(selected, await getExportDeploymentPolicy(), capture.signal, () => current(capture));
+        if (current(capture)) onStartWithDocuments(next);
+      } else choose(selected, action.id);
+    })}>{action.startLabel ?? `Start ${action.name.toLocaleLowerCase()}`}</Button>
   </article>)}</div>;
   return <section tabIndex={-1} data-package-panel="intake" aria-label="Action intake" className={`min-w-0 space-y-4 ${workspace && mode !== 'saved' && !loading ? '' : 'rounded-lg border bg-background p-3 sm:p-4'}`} aria-busy={pending || loading}>
     <div className="space-y-1">
       {mode === 'new' && <Button className={buttonClass} variant="outline" disabled={viewDisabled} onClick={() => void backToActions()}>Back to actions</Button>}
       <h3 ref={heading} tabIndex={-1} className="break-words font-medium">{workspace && (mode === 'saved' || loading) ? 'Details' : loading ? 'Action intake' : template?.name ?? 'Start from an action'}</h3>
-      {!loading && (!workspace || mode !== 'saved') && <p className="text-sm text-muted-foreground">General-purpose starters use DonDocs worksheets. These are not official forms.</p>}
       {loading && <p role="status" className="text-sm">Loading the exact saved intake…</p>}
       {!loading && template && <p role="status" className="text-xs text-muted-foreground">{workspace && dirty ? recovery.status === 'saved' ? 'Draft saved locally · not applied' : recovery.status === 'saving' ? 'Saving draft…' : 'Unapplied edits' : workspace && mode === 'new' ? '' : workspace && mode === 'saved' && !needsReconciliation ? '' : dirty ? 'Unapplied intake changes · not saved.' : mode === 'new' ? 'No intake answers changed yet.' : revision?.templateState?.pending
         ? 'Intake saved; document changes not applied.' : "Showing this revision's saved intake and package values."}</p>}

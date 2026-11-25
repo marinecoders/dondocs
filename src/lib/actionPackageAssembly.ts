@@ -165,6 +165,11 @@ function prepareMember(
     incompleteFormPreview: input.incompleteFormPreview,
   });
 }
+function canLeadRecipeEndorsements(member: PackageMember) {
+  return member.kind === 'native' && (member.role === 'supporting-document' || member.role === 'basic-letter')
+    && member.session.documentCategory === 'correspondence' && !isEndorsement(member.session.docType ?? '');
+}
+
 export async function preparePackageAssembly(
   record: ActionPackage,
   revisionId: string,
@@ -269,14 +274,13 @@ export async function preparePackageAssembly(
   const completeness = (message: string, memberId?: string) => findings.push({ message, memberId, severity: purpose === "portable" ? "warning" as const : "error" as const });
   if (!revision.members.length) completeness("Add a basic letter or main document before PDF assembly.");
   findings.push(...(await packageCitationReadiness(revision)).map(item => ({ ...item, severity: purpose === "portable" ? "warning" as const : item.severity })));
-  if (
-    revision.members.filter((member) => member.role === "basic-letter")
-      .length !== 1 ||
-    revision.members[0]?.role !== "basic-letter"
-  )
-    completeness(
-      "The package must start with exactly one basic letter or main document.",
-    );
+  const primaryKey = revision.templateState?.primaryMemberKey;
+  const primary = primaryKey && revision.templateState?.instances.find(slot => slot.memberKey === primaryKey);
+  const first = revision.members[0];
+  const validPrimary = primaryKey ? primary && first && first.id === primary.memberId : first?.role === 'basic-letter';
+  if (!validPrimary || revision.members.slice(1).some(member => member.role === 'basic-letter')) {
+    completeness("The package must start with exactly one basic letter or main document.");
+  }
   try {
     reviews.push({
       member: "Package name and included filenames",
@@ -326,11 +330,16 @@ export async function preparePackageAssembly(
   let passedEndorsements = false,
     endorsementCount = 0;
   const basic = revision.members[0];
-  const basicSession = basic?.kind === "native" ? basic.session : null;
+  let basicSession = basic?.kind === "native" ? basic.session : null;
   let previousSnapshot: DocumentSnapshot | null = null;
   for (const member of revision.members) {
     options.signal?.throwIfAborted();
-    if (member.role !== "basic-letter" && member.role !== "endorsement")
+    const startsLetterChain = !!primaryKey && canLeadRecipeEndorsements(member);
+    if (startsLetterChain && member.kind === 'native') {
+      basicSession = member.session;
+      endorsementCount = 0;
+      passedEndorsements = false;
+    } else if (member.role !== "basic-letter" && member.role !== "endorsement")
       passedEndorsements = true;
     if (member.role === "endorsement" && passedEndorsements)
       completeness(
@@ -391,7 +400,7 @@ export async function preparePackageAssembly(
           documentId: member.revisionId, epoch: 0, editSequence: 0, capturedAt: member.session.timestamp,
         }, retainedSnapshot))).document
         : retainedSnapshot;
-      if (member.role === "basic-letter") previousSnapshot = snapshot;
+      if (member.role === "basic-letter" || startsLetterChain) previousSnapshot = snapshot;
       if (snapshot.documentCategory !== "forms" && snapshot.docType === "business_letter" && snapshot.paragraphs.some(paragraph => paragraph.figure?.type === "application/pdf"))
         error("Business-letter figures require PNG or JPEG images. Convert the PDF figure and save a new package revision.", member.id);
       if (member.role === "endorsement" && !isEndorsement(snapshot.docType))
@@ -765,9 +774,12 @@ async function renderPackageAssembly(prepared: PreparedPackageAssembly, ports: P
       await controls.saveGeneratedPdf?.(key, bytes);
       return bytes;
     };
-    for (const memberInput of input.inputs) {
+    const formsLed = !!getPackageRevision(input.record, input.revisionId).templateState?.primaryMemberKey;
+    for (const [index, memberInput] of input.inputs.entries()) {
       signal.throwIfAborted();
       const { member } = memberInput;
+      const leadsEndorsements = formsLed && canLeadRecipeEndorsements(member) && input.inputs[index + 1]?.member.role === 'endorsement';
+      if (formsLed && member.role !== 'endorsement') continuationPages = 0;
       let bytes: ArrayBuffer;
       if (memberInput.original) bytes = memberInput.original;
       else {
@@ -796,7 +808,7 @@ async function renderPackageAssembly(prepared: PreparedPackageAssembly, ports: P
       if (controls.maximumPages && pdf.getPageCount() + (shared ? 0 : count) > controls.maximumPages)
         throw new Error(`This assembly exceeds its ${controls.maximumPages}-page memory limit. Use a smaller delivery.`);
       const separate =
-        member.role !== "basic-letter" && member.role !== "endorsement";
+        member.role !== "basic-letter" && member.role !== "endorsement" && !leadsEndorsements;
       if (member.role === "enclosure") enclosureNumber++;
       const label =
         member.role === "enclosure"

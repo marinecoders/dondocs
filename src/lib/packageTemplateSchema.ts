@@ -21,15 +21,15 @@ export const packageTemplateV1Schema = z.object({
   members: z.array(z.discriminatedUnion('kind', [native, attachment])).min(1).max(100),
 }).strict();
 const link = z.object({ questionId: identity, target: packageBindingTargetSchema, format: z.enum(['field', 'uppercase']) }).strict();
-const extensions = { completion: formCompletionSchema.optional(), key: identity, when: packageTemplateConditionSchema.optional(), repeatGroupId: identity.optional(), links: z.array(link).max(100).optional() };
+const extensions = { blankPdf: packageTemplatePageSchema.optional(), completion: formCompletionSchema.optional(), key: identity, when: packageTemplateConditionSchema.optional(), repeatGroupId: identity.optional(), links: z.array(link).max(100).optional() };
 export const packageTemplateV2Schema = packageTemplateV1Schema.omit({ version: true, members: true, id: true }).extend({
-  id: identity, version: z.literal(2), program: packageTemplateProgramSchema,
+  id: identity, primaryMemberKey: identity.optional(), version: z.literal(2), program: packageTemplateProgramSchema,
   members: z.array(z.discriminatedUnion('kind', [native.extend({ ...extensions, pagesFrom: identity.optional() }), attachment.extend(extensions)])).min(1).max(100),
 }).strict().superRefine((template, context) => {
   const problem = (message: string) => context.addIssue({ code: 'custom', message });
   validatePackageTemplateProgramMembers(template.program, template.members).forEach(problem);
   const main = template.members[0];
-  if (main.role !== 'basic-letter' || !main.required || main.when || main.repeatGroupId || template.members.slice(1).some(member => member.role === 'basic-letter'))
+  if (!main || (template.primaryMemberKey ? main.key !== template.primaryMemberKey : main.role !== 'basic-letter') || !main.required || main.when || main.repeatGroupId || template.members.slice(1).some(member => member.role === 'basic-letter'))
     problem('Version 2 templates must start with exactly one required, unconditional, nonrepeating main document.');
   let nodes = [...template.program.questions, ...template.program.requirements].reduce((sum, item) => sum + (item.when ? packageTemplateConditionNodeCount(item.when) : 0), 0), links = 0;
   for (const member of template.members) {

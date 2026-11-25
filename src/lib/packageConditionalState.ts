@@ -9,8 +9,9 @@ const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const label = z.string().trim().min(1).max(160);
 const pdfResource = z.object({ id: identity, name: z.string().min(1).max(255), type: z.literal('application/pdf'),
   size: z.number().int().positive().max(25 * 1024 * 1024), sha256: digest }).strict();
+export const MAX_ACTION_TEMPLATE_BYTES = 20 * 1024 * 1024;
 const sourceSchema = z.object({ id: identity, name: z.string().min(1).max(255), type: z.literal('application/json'),
-  size: z.number().int().positive().max(12 * 1024 * 1024), sha256: digest,
+  size: z.number().int().positive().max(MAX_ACTION_TEMPLATE_BYTES), sha256: digest,
   // Older captures contain the full template inline.
   resources: z.object({ templateSha256: digest, pdfs: z.array(pdfResource).min(1).max(256) }).strict().optional(),
 }).strict();
@@ -35,6 +36,7 @@ export const packageConditionalStateSchema = z.object({
   source: sourceSchema,
   upgrades: z.array(packageTemplateUpgradeSchema).max(10).optional(),
   templateId: identity,
+  primaryMemberKey: identity.optional(),
   templateRevision: z.string().trim().min(1).max(100),
   pending: z.boolean(),
   answers: packageTemplateAnswersSchema,

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import type { ActionPackage } from '@/lib/actionPackages';
 import { getPackageRevision } from '@/lib/actionPackages';
 import { capturePackageTemplate, deletePackageTemplate, exportPackageTemplate, importPackageTemplate,
-  instantiatePackageTemplate, listPackageTemplates, MAX_PACKAGE_TEMPLATE_BYTES, MAX_TEMPLATE_ACTION_BYTES, packageTemplatePlaceholders, packageTemplateFileSlots,
+  instantiatePackageTemplate, listPackageTemplates, MAX_ACTION_TEMPLATE_BYTES, MAX_TEMPLATE_ACTION_BYTES, packageTemplatePlaceholders, packageTemplateFileSlots,
   renamePackageTemplate, type PackageTemplate, type TemplateAttachment } from '@/lib/packageTemplateLibrary';
 import { documentTextFields, type DocumentFieldSource } from '@/lib/documentFields';
 import { parseDraftFile } from '@/lib/draftFile';
@@ -125,7 +125,7 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
       <label className="block text-sm">Import package template<input aria-label="Import package template" type="file" accept=".json" className="mt-1 block max-w-full"
         onChange={event => { const file = event.target.files?.[0]; event.target.value = ''; if (file) void run(async () => {
           setTransfer(null); setTransferApproved(false);
-          if (file.size > MAX_PACKAGE_TEMPLATE_BYTES) throw new Error('Package templates are limited to 12 MB.');
+          if (file.size > MAX_ACTION_TEMPLATE_BYTES) throw new Error('Action templates are limited to 20 MB.');
           const json = await file.text(); if (!current()) return;
           const { validatePackageTemplate } = await import('@/lib/packageTemplateLibrary');
           const template = await validatePackageTemplate(JSON.parse(json));
