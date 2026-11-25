@@ -1,3 +1,4 @@
+import { formCompletionSchema } from './packageRequirementsModel';
 import { z } from 'zod';
 import { packageFactSchema } from './packageInformation';
 
@@ -48,7 +49,7 @@ const questionSchema = z.object({ id: identity, label, kind: z.enum(['text', 'id
 const groupSchema = z.object({ id: identity, label, role: z.enum(['subject', 'requester', 'approver', 'other']), min: z.number().int().min(0).max(20), max: z.number().int().min(1).max(20) }).strict();
 const requirementSchema = z.object({ id: identity, label, kind: z.enum(['document', 'confirmation']),
   operations: z.array(z.enum(['review', 'pdf', 'portable'])).min(1).max(3), when: packageTemplateConditionSchema.optional(),
-  memberKey: identity.optional(), repeatGroupId: identity.optional(),
+  memberKey: identity.optional(), completion: formCompletionSchema.optional(), repeatGroupId: identity.optional(),
 }).strict();
 export type PackageTemplateQuestion = z.infer<typeof questionSchema>;
 export type PackageTemplateParticipantGroup = z.infer<typeof groupSchema>;
@@ -100,6 +101,7 @@ export const packageTemplateProgramSchema = z.object({ revision: z.string().trim
   }
   for (const requirement of program.requirements) {
     if (requirement.repeatGroupId && !groups.has(requirement.repeatGroupId)) issue(`Requirement ${requirement.id} has an unknown participant group.`);
+    if (requirement.completion && (requirement.kind !== 'document' || !requirement.memberKey)) issue('Completion checks need a document slot.');
     if (requirement.kind === 'confirmation' && requirement.memberKey) issue('A confirmation cannot claim a document member.');
     if (new Set(requirement.operations).size !== requirement.operations.length) issue(`Requirement ${requirement.id} repeats an operation.`);
     templateConditionProblems(program, requirement.when, requirement.repeatGroupId).forEach(issue);

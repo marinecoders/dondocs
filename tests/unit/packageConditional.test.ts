@@ -68,6 +68,21 @@ describe('captured conditional package membership', () => {
     await expect(readConditionalPackageTemplate(record)).rejects.toThrow('declared kind');
   });
 
+  it('enforces recipient evidence rules in a copied recipe while keeping an editable draft available', async () => {
+    const source = template();
+    source.id = 'local_training_copy';
+    source.members[0].completion = { writtenContent: true };
+    if (source.members[0].kind !== 'native') throw new Error('Expected a native letter');
+    source.members[0].draft.paragraphs = [];
+    const plan = await prepareConditionalPackage({ template: source, answers: answers() }, policy);
+    const { record } = await applyPreparedConditionalPackage(plan, policy, true);
+    const revision = getPackageRevision(record);
+    const { preparePackageDelivery } = await import('@/lib/packageDelivery');
+    const selection = { label: 'Training', memberIds: [revision.members[0].id] };
+    await expect(preparePackageDelivery(record, revision.id, { ...selection, purpose: 'recipient' }, policy)).rejects.toThrow('Write the body');
+    await expect(preparePackageDelivery(record, revision.id, { ...selection, purpose: 'editable' }, policy)).resolves.toMatchObject({ purpose: 'editable' });
+  });
+
   it('prepares without writes and captures source, documents, facts and links in one initial transaction', async () => {
     const supplied = answers(true), plan = await prepareConditionalPackage({ template: template(), answers: supplied }, policy);
     supplied.values.subject = 'Caller changed';

@@ -49,7 +49,18 @@ export async function officialFormBlueprint(input: OfficialFormMembership): Prom
   const pages = Object.fromEntries(Object.entries(copyFormExportTemplates(templates)).map(([file, data]) =>
     [file, { name: file, type: 'application/pdf' as const, data: uint8ArrayToBase64(data) }]));
   const draft = { ...session, kind: 'dondocs-draft', version: 2, documentKind: captured.kind, timestamp: 0 };
-  return { ...membership, kind: 'native', label: form.label, draft, pages, links: await memberFactLinks(session, membership.links, facts) };
+  return { ...membership, completion: memberCompletion(session, membership.completion), kind: 'native', label: form.label, draft, pages, links: await memberFactLinks(session, membership.links, facts) };
+}
+
+export function memberCompletion(session: Parameters<typeof listSessionFields>[0], completion: NativeStarter['completion']) {
+  if (completion?.expectedForm && session.genericForm) {
+    const required = new Set(completion.requiredPdfFields);
+    for (const field of Object.values(session.genericForm.definition.fields)) {
+      if (field.requiredAt === 'export') field.sourceIds?.forEach(name => required.add(name));
+    }
+    if (required.size) return { ...completion, requiredPdfFields: [...required] };
+  }
+  return completion;
 }
 
 export async function memberFactLinks(session: Parameters<typeof listSessionFields>[0], existing: NativeStarter['links'], facts: OfficialFormMembership['facts']) {

@@ -83,10 +83,11 @@ export async function resolveMaintainedRecipe(recipe: MaintainedRecipe): Promise
     const { formId, facts, ...membership } = member;
     const original = originals.get(formId);
     if (original) {
-      const { memberFactLinks } = await import('./packageOfficialForms');
+      const { memberCompletion, memberFactLinks } = await import('./packageOfficialForms');
       const { validatePackageDraft } = await import('./actionPackageDraft');
-      const links = facts ? await memberFactLinks((await validatePackageDraft(original.draft)).session, membership.links, facts) : membership.links;
-      members.push({ ...membership, ...(links && { links }), kind: 'native', label: original.label, draft: structuredClone(original.draft),
+      const session = (await validatePackageDraft(original.draft)).session;
+      const links = facts ? await memberFactLinks(session, membership.links, facts) : membership.links;
+      members.push({ ...membership, completion: memberCompletion(session, membership.completion), ...(links && { links }), kind: 'native', label: original.label, draft: structuredClone(original.draft),
         pages: {}, pagesFrom: original.key });
     } else {
       const { officialFormBlueprint } = await import('./packageOfficialForms');

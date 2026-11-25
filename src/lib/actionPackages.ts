@@ -91,6 +91,7 @@ const originalSchema = z
     kind: z.literal("original"),
     original: packageAssetSchema,
     signedOriginal: z.boolean(),
+    signatureReviewSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     officialFormId: z.string().max(100).optional(),
   })
   .strict();

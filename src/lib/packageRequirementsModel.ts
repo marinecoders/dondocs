@@ -14,6 +14,10 @@ const common = {
   condition: z.enum(['active', 'inactive', 'unknown']),
 };
 export const formCompletionSchema = z.object({
+  expectedForm: z.object({ id: identity, edition: z.string().regex(/^[A-Za-z0-9_.-]{1,100}$/) }).strict().optional(),
+  requiredPdfFields: z.array(z.string().trim().min(1).max(250)).min(1).max(100).optional(),
+  reviewedScan: z.literal(true).optional(),
+  writtenContent: z.literal(true).optional(),
   blankSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
   signatureFields: z.array(z.string().trim().min(1).max(250)).min(1).max(32).optional(),
 }).strict();
@@ -36,7 +40,7 @@ export type PackageRequirements = z.infer<typeof packageRequirementsSchema>;
 export const MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES = 8 * 1024 * 1024;
 
 export function hasPinnedCompletionMember(item: PackageRequirement, fromTemplate: boolean) {
-  return fromTemplate && item.kind === 'document' && item.completion !== undefined && item.definitionId === undefined;
+  return fromTemplate && item.kind === 'document' && item.completion !== undefined && (item.definitionId === undefined || item.completion.expectedForm !== undefined);
 }
 
 export function requirementDeclaration(item: PackageRequirement, fromTemplate: boolean) {

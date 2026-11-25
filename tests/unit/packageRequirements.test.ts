@@ -224,3 +224,33 @@ it('prints a draft of a configured form with a missing required answer and block
   expect((await PDFDocument.load(bytes)).getPageCount()).toBe(1);
   await expect(assemblePackage(draft, ports)).rejects.toThrow('final PDF');
 });
+
+it('rejects a different PDF even if the uploader labels it as the signed official edition', async () => {
+  const revision = getPackageRevision(await fixture());
+  const original = revision.members[1];
+  if (original.kind !== 'original') throw new Error('Expected original');
+  original.officialFormId = 'package_correspondence';
+  original.signedOriginal = true;
+  revision.requirements = requirements(slot({ memberId: original.id, completion: {
+    expectedForm: { id: 'package_correspondence', edition: '1' }, signatureFields: ['Signing_authority'],
+  } }));
+  const result = await inspectPackageRequirements(revision, 'pdf');
+  expect(result.ready).toBe(false);
+  expect(result.items[0].message).toMatch(/Signing authority/);
+  expect(result.items[0].message).toMatch(/maintained form and edition/);
+  expect((await inspectPackageRequirements(revision, 'portable')).ready).toBe(true);
+});
+
+it('tracks manual scan review by exact PDF bytes independently of certificate trust', async () => {
+  const revision = getPackageRevision(await fixture());
+  const original = revision.members[1];
+  if (original.kind !== 'original') throw new Error('Expected original');
+  revision.requirements = requirements(slot({ memberId: original.id, completion: { reviewedScan: true } }));
+  expect((await inspectPackageRequirements(revision, 'pdf')).ready).toBe(false);
+  original.signatureReviewSha256 = original.original.sha256;
+  const checked = await inspectPackageRequirements(revision, 'pdf');
+  expect(checked.ready).toBe(true);
+  expect(checked.items[0].message).toContain('reviewed manually');
+  original.signatureReviewSha256 = '0'.repeat(64);
+  expect((await inspectPackageRequirements(revision, 'pdf')).ready).toBe(false);
+});

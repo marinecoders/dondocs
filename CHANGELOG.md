@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.294] — 2026-11-25
+
+### Added
+
+- Check required content and signatures for each declared member before recipient delivery.
+
 ## [1.3.293] — 2026-11-25
 
 ### Added

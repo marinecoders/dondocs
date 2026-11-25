@@ -1,4 +1,4 @@
-import { officialFormCompletionIssues } from './packageFormCompletion';
+import { matchesExpectedForm, officialFormCompletionIssues } from './packageFormCompletion';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
 import { requirementDeclaration, packageRequirementOperationSchema, packageRequirementsSchema, type PackageRequirement, type PackageRequirementOperation, type PackageRequirements } from './packageRequirementsModel';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, packageMemberSchema, type ActionPackage, type PackageAsset, type PackageMember, type PackageRevision } from './actionPackages';
@@ -27,7 +27,7 @@ export interface PackageRequirementsInspection {
 }
 interface InspectionOptions { readAsset?: (asset: PackageAsset) => Promise<ArrayBuffer>; signal?: AbortSignal }
 
-async function validateMember(input: PackageMember, read: (asset: PackageAsset) => Promise<ArrayBuffer>, signal?: AbortSignal) {
+async function validateMember(input: PackageMember, read: (asset: PackageAsset) => Promise<ArrayBuffer>, signal?: AbortSignal, keepOriginal = false) {
   const member = packageMemberSchema.parse(input);
   const verifiedRead = async (asset: PackageAsset) => {
     signal?.throwIfAborted();
@@ -37,7 +37,7 @@ async function validateMember(input: PackageMember, read: (asset: PackageAsset) 
     signal?.throwIfAborted(); return bytes;
   };
   if (member.kind === 'attachment') { await validatePackageAttachment(member.original, await verifiedRead(member.original), signal); return; }
-  if (member.kind === 'original') { await validatePackageOriginalPdf(await verifiedRead(member.original)); return; }
+  if (member.kind === 'original') { const bytes = await verifiedRead(member.original); await validatePackageOriginalPdf(bytes); return keepOriginal ? bytes : undefined; }
   const raw: unknown = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await verifiedRead(member.draft)));
   const parsed = await validatePackageDraft(raw);
   if (!sameReviewStoredValue(parsed.session, member.session)) throw new Error('The captured document does not match its saved draft.');
@@ -51,12 +51,20 @@ export async function inspectPackageRequirements(revision: PackageRevision, oper
   const requirements = revision.templateState
     ? await (await import('./packageConditionalRequirements')).resolveConditionalPackageRequirements(revision, options.readAsset ?? readPackageAsset)
     : revision.requirements ? packageRequirementsSchema.parse(revision.requirements) : undefined;
+  return inspectResolvedRequirements(revision, requirements, operation, options);
+}
+
+async function inspectResolvedRequirements(revision: PackageRevision, requirements: PackageRequirements | undefined, operation: PackageRequirementOperation, options: InspectionOptions): Promise<PackageRequirementsInspection> {
+  const originalsNeeded = new Set(requirements?.items.flatMap(item =>
+    operation === 'pdf' && item.kind === 'document' && item.condition === 'active' && item.operations.includes(operation)
+    && (item.completion?.expectedForm || item.completion?.requiredPdfFields?.length) && item.memberId ? [item.memberId] : []));
+  const answeredByMember = new Map<string, Promise<Set<string>>>();
   const knownPeople = new Set([...(revision.information?.participants.map(person => person.id) ?? []),
     ...Object.values(revision.templateState?.answers.groups ?? {}).flatMap(people => people.map(person => person.id)),
     ...Object.values(revision.templateState?.appliedAnswers?.groups ?? {}).flatMap(people => people.map(person => person.id))]);
   const members = new Map(revision.members.map(member => [member.id, member]));
   if (members.size !== revision.members.length) throw new Error("The package has duplicate captured member identities.");
-  const checked = new Map<string, Promise<void>>(), items: PackageRequirementFinding[] = [];
+  const checked = new Map<string, ReturnType<typeof validateMember>>(), items: PackageRequirementFinding[] = [];
   for (const requirement of requirements?.items ?? []) {
     options.signal?.throwIfAborted();
     const base = { id: requirement.id, label: requirement.label, kind: requirement.kind,
@@ -75,16 +83,32 @@ export async function inspectPackageRequirements(revision: PackageRevision, oper
     if (!member) { items.push({ ...base, state: 'missing', message: 'Assign an actual captured document or PDF to this evidence slot.' }); continue; }
     try {
       let validation = checked.get(member.id);
-      if (!validation) { validation = validateMember(member, options.readAsset ?? readPackageAsset, options.signal); checked.set(member.id, validation); }
-      await validation; options.signal?.throwIfAborted();
+      if (!validation) { validation = validateMember(member, options.readAsset ?? readPackageAsset, options.signal, originalsNeeded.has(member.id)); checked.set(member.id, validation); }
+      const originalBytes = await validation; options.signal?.throwIfAborted();
       if (operation === 'pdf') {
-        const issues = officialFormCompletionIssues(member, requirement.completion);
+        const rule = requirement.completion;
+        const issues = officialFormCompletionIssues(member, rule);
+        if (rule?.expectedForm && !await matchesExpectedForm(member, rule.expectedForm, originalBytes)) {
+          issues.push('This slot needs the maintained form and edition named in the recipe.');
+        } else if (rule?.requiredPdfFields?.length && originalBytes) {
+          let answered = answeredByMember.get(member.id);
+          if (!answered) {
+            const { readAnsweredPdfFields } = await import('@/services/forms/readRequiredPdfFields');
+            answered = readAnsweredPdfFields(originalBytes);
+            answeredByMember.set(member.id, answered);
+          }
+          const fields = await answered;
+          const missing = rule.requiredPdfFields.filter(field => !fields.has(field));
+          if (missing.length) issues.push('The saved PDF is missing required answers: ' + missing.join(', ') + '.');
+        } else if (rule?.requiredPdfFields?.length && !(member.kind === 'native' && member.session.genericForm)) {
+          issues.push('The required fields cannot be verified on this document.');
+        }
         if (issues.length) {
           items.push({ ...base, state: 'missing', message: issues.join(' ') });
           continue;
         }
       }
-      items.push({ ...base, state: 'satisfied', message: `Captured content is present and readable: ${member.label}. Content accuracy and approval are not established.` });
+      items.push({ ...base, state: 'satisfied', message: operation === 'pdf' && requirement.completion?.reviewedScan ? 'Signature on this exact scan reviewed manually. Certificate trust has not been established.' : `Captured content is present and readable: ${member.label}. Content accuracy and approval are not established.` });
     } catch (cause) {
       options.signal?.throwIfAborted();
       items.push({ ...base, state: 'invalid', message: cause instanceof Error ? cause.message : 'The captured evidence could not be verified.' });
@@ -95,6 +119,21 @@ export async function inspectPackageRequirements(revision: PackageRevision, oper
 export const packageRequirementReadiness = inspectPackageRequirements;
 export async function assertPackageRequirementsReady(revision: PackageRevision, operation: PackageRequirementOperation, options: InspectionOptions = {}): Promise<void> {
   const inspection = await inspectPackageRequirements(revision, operation, options);
+  requireSatisfied(inspection);
+}
+
+export async function assertRecipeDeliveryReady(revision: PackageRevision, signal: AbortSignal) {
+  if (!revision.templateState) return;
+  const { resolveConditionalPackageRequirements } = await import('./packageConditionalRequirements');
+  const requirements = await resolveConditionalPackageRequirements(revision);
+  if (!requirements?.items.some(item => item.kind === 'document' && item.completion)) return;
+  const { conditionalMembershipFindings } = await import('./packageConditionalSources');
+  const findings = conditionalMembershipFindings(revision);
+  if (findings.length) throw new Error(findings.map(item => item.message).join(' '));
+  requireSatisfied(await inspectResolvedRequirements(revision, requirements, 'pdf', { signal }));
+}
+
+function requireSatisfied(inspection: PackageRequirementsInspection) {
   if (!inspection.ready) throw new Error(inspection.items.filter(item => ['missing', 'unknown', 'invalid'].includes(item.state)).map(item => `${item.label}: ${item.message}`).join(' '));
 }
 
