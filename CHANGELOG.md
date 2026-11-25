@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.290] — 2026-11-25
+
+### Added
+
+- Start a recipe on its primary document and retain its verified reference PDFs.
+
 ## [1.3.289] — 2026-11-24
 
 ### Added

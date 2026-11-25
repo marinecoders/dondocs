@@ -38,7 +38,7 @@ const envelopeSchema = z
   .object({
     kind: z.literal("dondocs-action-package"),
     version: z.literal(1),
-    package: actionPackageSchema,
+    package: z.lazy(() => actionPackageSchema),
     portableResources: z.unknown(),
   })
   .strict();

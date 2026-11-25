@@ -22,11 +22,13 @@ export async function fillNativeAcroForm(instance: FormInstance, original: Uint8
     for (const [key, value] of Object.entries(answers)) {
       const field = definition.fields[key];
       const name = field?.sourceIds?.[0];
-      const widgets = name ? fields?.[name] : undefined;
+      const widgets = name ? fields?.[name]?.filter(widget => !('kidIds' in widget && 'page' in widget && widget.page === -1)) : undefined;
       if (!widgets?.length) throw new Error(`Missing native field: ${key}`);
       for (const widget of widgets) {
         if (!('id' in widget) || typeof widget.id !== 'string' || !('editable' in widget) || !widget.editable || !('type' in widget) || widget.type === 'signature') throw new Error(`This field cannot be edited: ${name}`);
-        pdf.annotationStorage.setValue(widget.id, { value: field.kind === 'boolean' ? value === true : value });
+        const widgetValue = widget.type === 'radiobutton' && 'exportValues' in widget
+          ? widget.exportValues === value : value;
+        pdf.annotationStorage.setValue(widget.id, { value: widgetValue });
       }
     }
     if (profile.formId === 'navmc10132') await syncUpbFields(pdf);

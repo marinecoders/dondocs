@@ -11,12 +11,18 @@ import type { PackageTemplateCondition, PackageTemplateProgram, PackageTemplateQ
 import { validatePackageTemplate } from './packageTemplateLibrary';
 import { uint8ArrayToBase64 } from './encoding';
 
-export const maintainedPackageActions = [
-  { id: 'administrative-request', name: 'Administrative request', description: 'A forwarding letter and request worksheet, with supporting evidence when needed.', kind: 'Letter-led' },
-  { id: 'training-participation', name: 'Training participation', description: 'Participant worksheets with attendance details and optional cost estimates.', kind: 'Forms-led' },
-  { id: 'evidence-submission', name: 'Evidence submission', description: 'A transmittal letter, submission index and original supporting PDF.', kind: 'Mixed evidence' },
-] as const;
-export type MaintainedPackageActionId = typeof maintainedPackageActions[number]['id'];
+interface ActionListing {
+  build: () => Promise<MaintainedRecipe>;
+  id: string; name: string; description: string; kind: string; startWithDocuments?: boolean; startLabel?: string;
+}
+
+const actions = [
+  { id: 'administrative-request', build: administrative, name: 'Administrative request', description: 'A forwarding letter and request worksheet, with supporting evidence when needed.', kind: 'Letter-led' },
+  { id: 'training-participation', build: training, name: 'Training participation', description: 'Participant worksheets with attendance details and optional cost estimates.', kind: 'Forms-led' },
+  { id: 'evidence-submission', build: evidence, name: 'Evidence submission', description: 'A transmittal letter, submission index and original supporting PDF.', kind: 'Mixed evidence' },
+] as const satisfies readonly ActionListing[];
+export const maintainedPackageActions: ReadonlyArray<ActionListing & { id: MaintainedPackageActionId }> = actions;
+export type MaintainedPackageActionId = typeof actions[number]['id'];
 type NativeBlueprint = Extract<PackageTemplateV2['members'][number], { kind: 'native' }>;
 const equals = (questionId: string, value: string | boolean): PackageTemplateCondition => ({ op: 'equals', questionId, value });
 const question = (id: string, label: string, kind: PackageTemplateQuestion['kind'] = 'text', extra: Partial<PackageTemplateQuestion> = {}): PackageTemplateQuestion => ({ id, label, kind, required: true, ...extra });
@@ -136,10 +142,11 @@ export async function resolveMaintainedRecipe(recipe: MaintainedRecipe): Promise
 const loaded = new Map<MaintainedPackageActionId, Promise<PackageTemplateV2>>();
 /** Catalog loading only constructs and qualifies owned clean starters. It never installs a template or saves a case. */
 export async function maintainedPackageAction(id: MaintainedPackageActionId): Promise<PackageTemplateV2> {
-  if (!maintainedPackageActions.some(action => action.id === id)) throw new Error('This maintained action is unavailable.');
+  const entry = maintainedPackageActions.find(action => action.id === id);
+  if (!entry) throw new Error('This maintained action is unavailable.');
   let promise = loaded.get(id);
   if (!promise) {
-    promise = (id === 'administrative-request' ? administrative() : id === 'training-participation' ? training() : evidence())
+    promise = entry.build()
       .then(resolveMaintainedRecipe);
     loaded.set(id, promise);
     void promise.catch(() => { if (loaded.get(id) === promise) loaded.delete(id); });

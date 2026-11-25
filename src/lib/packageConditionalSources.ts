@@ -19,7 +19,7 @@ async function sourceTemplate(state: Pick<PackageConditionalState, 'source'>, re
 }
 function stateMatches(template: PackageTemplateV2, value: PackageConditionalState, revision: PackageRevision): void {
   const state = packageConditionalStateSchema.parse(value);
-  if (template.id !== state.templateId || template.program.revision !== state.templateRevision)
+  if (template.primaryMemberKey !== state.primaryMemberKey || template.id !== state.templateId || template.program.revision !== state.templateRevision)
     throw new Error('The captured action template does not match its saved revision.');
   const evaluation = evaluatePackageTemplateProgram(template.program, state.answers);
   if (!state.pending && !evaluation.ready) throw new Error('Applied action answers are incomplete or invalid.');
@@ -108,7 +108,9 @@ export async function reviewConditionalTemplate(template: PackageTemplateV2, pol
     ...template.members.flatMap(member => [member.label, ...(member.kind === 'native' ? Object.values(member.pages).map(page => page.name) : [])])].join('\n'),
   'Captured action template and all branch declarations', policy)];
   const pages = new Set<string>();
-  for (const member of template.members) if (member.kind === 'native') {
+  for (const member of template.members) {
+    if (member.blankPdf) reviews.push(await reviewPackageOriginal(new Uint8Array(base64ToUint8Array(member.blankPdf.data)).buffer, member.blankPdf.name, policy));
+    if (member.kind === 'attachment') continue;
     const { session } = await validatePackageDraft(member.draft);
     reviews.push(reviewPackageNative(session, `Starter: ${member.label}`, policy, member.draft as unknown as DocumentFieldSource));
     for (const page of Object.values(member.pages)) {

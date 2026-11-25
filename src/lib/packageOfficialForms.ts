@@ -37,7 +37,7 @@ export async function createOfficialFormMember(formId: string, role: PackageMemb
 type NativeStarter = Extract<PackageTemplateV2['members'][number], { kind: 'native' }>;
 
 /** Maintained recipes declare membership. The registry supplies the editor, edition and exact original. */
-export type OfficialFormMembership = Pick<NativeStarter, 'key' | 'role' | 'required' | 'when' | 'repeatGroupId' | 'links'> & { formId: string };
+export type OfficialFormMembership = Pick<NativeStarter, 'key' | 'role' | 'required' | 'when' | 'repeatGroupId' | 'links' | 'blankPdf' | 'completion'> & { formId: string };
 export async function officialFormBlueprint(input: OfficialFormMembership): Promise<NativeStarter> {
   const { formId, ...membership } = input;
   const { form, session, captured } = await officialFormStarter(formId);

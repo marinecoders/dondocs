@@ -1,3 +1,4 @@
+import { MAX_ACTION_TEMPLATE_BYTES } from './packageConditionalState';
 import { templateMemberPages } from '@/lib/packageTemplateSchema';
 import { z } from 'zod';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -17,6 +18,7 @@ import { detectPlaceholders } from './placeholders';
 import { documentTextFields } from './documentFields';
 
 export const MAX_PACKAGE_TEMPLATE_BYTES = 12 * 1024 * 1024;
+export { MAX_ACTION_TEMPLATE_BYTES } from './packageConditionalState';
 export const MAX_PACKAGE_TEMPLATES = 20;
 export const MAX_TEMPLATE_ACTION_BYTES = 64 * 1024 * 1024;
 export const MAX_PACKAGE_TEMPLATE_LIBRARY_BYTES = 40 * 1024 * 1024;
@@ -79,7 +81,9 @@ function cleanStarter(input: Record<string, unknown>): Record<string, unknown> {
 }
 function jsonSize(value: unknown): number { return new TextEncoder().encode(JSON.stringify(value)).byteLength; }
 function boundedTemplate(value: unknown): PackageTemplate {
-  if (jsonSize(value) > MAX_PACKAGE_TEMPLATE_BYTES) throw new Error('Package templates are limited to 12 MB.');
+  const action = value && typeof value === 'object' && 'version' in value && value.version === 2;
+  if (jsonSize(value) > (action ? MAX_ACTION_TEMPLATE_BYTES : MAX_PACKAGE_TEMPLATE_BYTES))
+    throw new Error(action ? 'Action templates are limited to 20 MB.' : 'Package templates are limited to 12 MB.');
   return packageTemplateSchema.parse(structuredClone(value));
 }
 async function pageAsset(page: z.infer<typeof pageSchema>, id: string): Promise<{ asset: import('./actionPackages').PackageAsset; data: ArrayBuffer }> {
@@ -124,6 +128,10 @@ export async function validatePackageTemplate(value: unknown): Promise<PackageTe
   validateBackup({ packageTemplates: [template] });
   if (template.version === 2) assertNoTemplatePlaceholders(template);
   for (const member of template.members) {
+    if ('blankPdf' in member && member.blankPdf) {
+      const { readPackageBlank } = await import('./packageBlankForms');
+      await readPackageBlank(member.blankPdf);
+    }
     if (member.kind !== 'native') continue;
     const { session } = await validatePackageDraft(member.draft);
     if (template.version === 2) await qualifyConditionalMember(template, member, session);
@@ -234,7 +242,7 @@ export async function renamePackageTemplate(before: PackageTemplate, name: strin
 export async function deletePackageTemplate(template: PackageTemplate, signal?: AbortSignal): Promise<void> { await saveTemplate(template, null, signal); }
 export async function exportPackageTemplate(template: PackageTemplate): Promise<string> { return JSON.stringify(await validatePackageTemplate(template)); }
 export async function importPackageTemplate(json: string, signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<PackageTemplate> {
-  if (new TextEncoder().encode(json).byteLength > MAX_PACKAGE_TEMPLATE_BYTES) throw new Error('Package templates are limited to 12 MB.');
+  if (new TextEncoder().encode(json).byteLength > MAX_ACTION_TEMPLATE_BYTES) throw new Error('Action templates are limited to 20 MB.');
   const template = await validatePackageTemplate(JSON.parse(json));
   const imported = { ...template, id: newPackageId('template'), createdAt: Date.now() };
   await saveTemplate(null, imported, signal, isCurrent);

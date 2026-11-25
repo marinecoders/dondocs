@@ -3,17 +3,22 @@ import { portableResourceDigest } from './portableResources';
 import type { PackageAsset } from './actionPackages';
 import { templateSourceAssets, type CapturedTemplateSource } from './packageConditionalState';
 import { packageTemplateV2Schema, type PackageTemplateV2 } from './packageTemplateSchema';
-import { MAX_PACKAGE_TEMPLATE_BYTES, validatePackageTemplate } from './packageTemplateLibrary';
+import { MAX_ACTION_TEMPLATE_BYTES, validatePackageTemplate } from './packageTemplateLibrary';
 
 const encode = (value: unknown) => new TextEncoder().encode(JSON.stringify(value)).buffer;
+
+function templatePdfs(member: PackageTemplateV2['members'][number]) {
+  const pages = member.kind === 'native' ? Object.values(member.pages) : [];
+  if (member.blankPdf) pages.push(member.blankPdf);
+  return pages;
+}
 
 export async function captureTemplateSource(template: PackageTemplateV2,
   stage: (name: string, type: string, data: ArrayBuffer) => Promise<PackageAsset>): Promise<CapturedTemplateSource> {
   const compact = structuredClone(template);
   const pdfs = new Map<string, NonNullable<CapturedTemplateSource['resources']>['pdfs'][number]>();
   for (const member of compact.members) {
-    if (member.kind !== 'native') continue;
-    for (const page of Object.values(member.pages)) {
+    for (const page of templatePdfs(member)) {
       const bytes = new Uint8Array(base64ToUint8Array(page.data)).buffer;
       const digest = await portableResourceDigest(bytes);
       if (!pdfs.has(digest)) pdfs.set(digest, { ...await stage(page.name, page.type, bytes), type: 'application/pdf' });
@@ -37,12 +42,13 @@ export async function restoreTemplateSource(source: CapturedTemplateSource, read
     const encoded = new Map<string, string>();
     let size = bytes.byteLength;
     for (const member of compact.members) {
-      if (member.kind !== 'native') continue;
-      for (const page of Object.values(member.pages)) {
+      for (const page of templatePdfs(member)) {
+        // Earlier saved recipes kept attachment blanks inline in the verified descriptor.
+        if (member.kind === 'attachment' && !/^[a-f0-9]{64}$/.test(page.data)) continue;
         const asset = files.get(page.data);
         if (!asset) throw new Error('A captured template PDF is missing.');
         size += 4 * Math.ceil(asset.size / 3) - page.data.length;
-        if (size > MAX_PACKAGE_TEMPLATE_BYTES) throw new Error('The expanded template exceeds its supported size.');
+        if (size > MAX_ACTION_TEMPLATE_BYTES) throw new Error('The expanded template exceeds its supported size.');
         if (!encoded.has(asset.sha256)) {
           const data = await read(asset);
           if (data.byteLength !== asset.size || await portableResourceDigest(data) !== asset.sha256)

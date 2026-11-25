@@ -179,7 +179,7 @@ export function conditionalPackageAnswers(record: ActionPackage, revisionId = re
   return answers;
 }
 function stateFor(template: PackageTemplateV2, source: PackageConditionalState['source'], answers: PackageTemplateAnswers, prior?: PackageConditionalState): PackageConditionalState {
-  return { version: 1, source, templateId: template.id, templateRevision: template.program.revision, pending: true, answers: own(answers),
+  return { version: 1, source, ...(template.primaryMemberKey && { primaryMemberKey: template.primaryMemberKey }), templateId: template.id, templateRevision: template.program.revision, pending: true, answers: own(answers),
     appliedAnswers: own(prior?.appliedAnswers ?? prior?.answers ?? emptyAnswers()), facts: own(prior?.facts ?? []), instances: own(prior?.instances ?? []), requirementIds: own(prior?.requirementIds ?? []),
     ...(prior?.upgrades ? { upgrades: own(prior.upgrades) } : {}) };
 }
@@ -221,11 +221,38 @@ async function guardedCommit(before: ActionPackage | null, after: ActionPackage,
 /** Saving unfinished intake captures progress, while current documents and facts remain untouched. */
 export async function saveConditionalPackageDraft(input: Pick<ConditionalPackageInput, 'template' | 'answers' | 'record' | 'name'>,
   policy: PolicyResolution, signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<ActionPackage> {
+  return persistIntakeDraft(input, policy, signal, isCurrent, false);
+}
+
+/** Capture unconditional starter documents before the user supplies case details. */
+export function startConditionalPackage(template: PackageTemplateV2, policy: PolicyResolution, signal: AbortSignal | undefined, isCurrent: () => boolean) {
+  return persistIntakeDraft({ template, name: template.name, answers: emptyAnswers() }, policy, signal, isCurrent, true);
+}
+
+async function persistIntakeDraft(input: Pick<ConditionalPackageInput, 'template' | 'answers' | 'record' | 'name'>,
+  policy: PolicyResolution, signal: AbortSignal | undefined, isCurrent: () => boolean, start: boolean): Promise<ActionPackage> {
   input = capturedInput(input); signal?.throwIfAborted(); identity(policy);
   const attachments: StoredAttachment[] = [], { template, answers, before, current, source, name } = await context(input, attachments);
   if (current?.templateState?.pending && sameReviewStoredValue(current.templateState.answers, answers) && name === before?.name)
     throw new Error('This intake draft is already saved.');
   const state = stateFor(template, source, answers, current?.templateState);
+  const members = current ? own(current.members) : [];
+  if (start) {
+    const information = materializeInformation(template, answers, state);
+    for (const item of listConditionalPackageInstances(template, answers)) {
+      signal?.throwIfAborted();
+      const instance: PackageConditionalState['instances'][number] = { key: item.key, memberKey: item.memberKey,
+        memberId: newPackageId('member'), label: item.label, condition: item.condition, required: item.required,
+        ...(item.participantId ? { participantId: item.participantId } : {}) };
+      state.instances.push(instance);
+      const blueprint = template.members.find(member => member.key === item.memberKey)!;
+      if (blueprint.kind === 'native' && item.condition === true) {
+        const member = await nativeMember(blueprint, instance, template, answers, information, state, attachments, []);
+        instance.generatedDigest = await memberDigest(member);
+        members.push(member);
+      }
+    }
+  }
   const requirements = materializePackageRequirements({ version: 1, items: conditionalRequirementSlots(template, answers, state).map(({ key: _key, ...item }) => item) }, current?.requirements);
   reviewPackageRequirements(requirements, policy);
   if (current?.consistency) reviewPackageConsistency(current.consistency, policy);
@@ -234,7 +261,7 @@ export async function saveConditionalPackageDraft(input: Pick<ConditionalPackage
   if (current?.scans) reviewPackageScans(current.scans, policy);
   if (current?.templateState?.upgrades?.length) await reviewConditionalPackage(current, policy);
   await reviewConditionalTemplate(template, policy); reviewPackageText(conditionalStateText(state), 'Saved intake draft', policy); reviewPackageText(name, 'Package name', policy);
-  const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
+  const revision: PackageRevision = { ...(current ? own(current) : {}), members, id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), outputs: [], templateState: state, requirements };
   return guardedCommit(before, buildRecord(before, name, revision), attachments, policy, signal, isCurrent);
 }
@@ -708,6 +735,8 @@ export async function prepareConditionalTemplateUpgrade(input: ConditionalTempla
   prior.upgrades = [...prior.upgrades ?? [], { id: newPackageId('template-upgrade'), source: own(prior.source), templateId: prior.templateId,
     templateRevision: prior.templateRevision, answers: own(prior.answers), ...(prior.appliedAnswers ? { appliedAnswers: own(prior.appliedAnswers) } : {}),
     questionMappings, memberMappings, ...(original.requirements ? { requirements: own(original.requirements) } : {}), createdAt: Date.now() }];
+  if (template.primaryMemberKey) prior.primaryMemberKey = template.primaryMemberKey;
+  else delete prior.primaryMemberKey;
   prior.source = source as PackageConditionalState['source']; prior.templateId = template.id; prior.templateRevision = template.program.revision;
   prior.answers = mappedConditionalTemplateAnswers(previous, template, prior.answers, questionMappings);
   prior.appliedAnswers = mappedConditionalTemplateAnswers(previous, template, prior.appliedAnswers ?? original.templateState!.answers, questionMappings);
