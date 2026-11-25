@@ -407,6 +407,14 @@ function PackageDialog({
     });
   }
   const [deliveryReturnPackage, setDeliveryReturnPackage] = useState<string>();
+  function openDeliveryFinding(target: PackageDestination) {
+    if (!record || !revision) return;
+    setDeliveryReturnPackage(record.id);
+    const member = revision.members.find(item => item.id === target.memberId);
+    if (editable && target.signatureField && target.revisionId === revision.id && member && packageFormSigningAction(member)) {
+      void openMemberSigning(member, target.signatureField);
+    } else followDestination(target);
+  }
   function followDestination(target: PackageDestination) {
     if (!active.current || destinationOwner.current !== selectionOwner || !record || !revision) return;
     if (busy || pendingPackageEdits) { setError("Save or discard package edits before following a finding."); return; }
@@ -1597,7 +1605,7 @@ function PackageDialog({
                   </fieldset>
                   <fieldset hidden={workspaceSection !== 'delivery'} disabled={busy || pendingPackageEdits && !signingDirty && !assemblyDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Export</h2>
-                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "draft", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { setDeliveryFormat(format); setPrepared(null); setOriginal(null); setPdfUrl(''); setError(''); setNotice(''); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
+                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "draft", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions active={workspaceSection === 'delivery' && !formSigning} canSign={editable} onNavigate={openDeliveryFinding} revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { setDeliveryFormat(format); setPrepared(null); setOriginal(null); setPdfUrl(''); setError(''); setNotice(''); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
                     <div ref={preparedResultRef} tabIndex={-1} className="outline-none">{prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
@@ -1760,13 +1768,7 @@ function PackageDialog({
 {record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
-            <PackageDeliveryPanel canSign={editable} visible={workspaceSection === 'delivery' && !formSigning} onNavigate={target => {
-                setDeliveryReturnPackage(record.id);
-                const member = revision.members.find(item => item.id === target.memberId);
-                if (editable && target.signatureField && target.revisionId === revision.id && member && packageFormSigningAction(member)) {
-                  void openMemberSigning(member, target.signatureField);
-                } else followDestination(target);
-              }} directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
+            <PackageDeliveryPanel canSign={editable} visible={workspaceSection === 'delivery' && !formSigning} onNavigate={openDeliveryFinding} directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
               onPreparedChange={prepared => {
                 if (!active.current || destinationOwner.current !== selectionOwner) return;
                 const epoch = ++deliverySearchEpoch.current;

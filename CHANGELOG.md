@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.306] — 2026-11-25
+
+### Added
+
+- Show outstanding signatures and requirements next to their documents when preparing a package PDF.
+
 ## [1.3.305] — 2026-11-25
 
 ### Added
