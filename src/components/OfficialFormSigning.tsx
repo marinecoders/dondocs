@@ -9,7 +9,7 @@ import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
 import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 
 type Props = { record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
-  onAttach?(record: OfficialSigningRecord): Promise<void> };
+  onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> };
 
 export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
   const [code, setCode] = useState('');
@@ -132,7 +132,14 @@ export function OfficialFormSigning({ record, onSave, onAttach }: Props) {
               signal.throwIfAborted(); onSave(next); selectInspection(result); setMessage('Returned signature verified and saved.');
             });
           }} /></label>}
-        {onAttach && record.revisions.length > 1 && inspected && inspection?.fields.some(item => item.signed) && <Button onClick={() => void run(() => onAttach(record))}>Save signed original to package</Button>}
+        {onAttach && record.revisions.length > 1 && inspected && inspection?.fields.some(item => item.signed) && <Button onClick={() => void run(async signal => {
+          // Local signing checks the changes made by its own writer; imported returns
+          // pass the stricter /return comparison before they can enter this record.
+          const bytes = await officialRevisionBytes(record);
+          const checked = await inspectOfficialPdf(bytes, code.trim(), signal);
+          signal.throwIfAborted();
+          await onAttach(record, checked);
+        })}>Save signed original to package</Button>}
       </div>
       {record.revisions.length > 1 && <details className="text-sm"><summary>Previous revisions</summary>
         {record.revisions.slice(0,-1).map((rev, index) => <Button key={rev.sha256} variant="ghost" onClick={() => download(index)}>Download revision {index + 1}</Button>)}</details>}

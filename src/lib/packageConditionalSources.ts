@@ -52,7 +52,9 @@ function stateMatches(template: PackageTemplateV2, value: PackageConditionalStat
     if (!blueprint || !!blueprint.repeatGroupId !== !!instance.participantId || blueprint.required !== instance.required)
       throw new Error('A saved action document does not belong to this template.');
     const captured = revision.members.find(member => member.id === instance.memberId);
-    if (captured && (captured.kind === 'native') !== (blueprint.kind === 'native'))
+    const signedForm = captured?.kind === 'original' && captured.signedOriginal && !!captured.officialFormId
+      && blueprint.kind === 'native' && captured.officialFormId === blueprint.draft.formType;
+    if (captured && !signedForm && (captured.kind === 'native') !== (blueprint.kind === 'native'))
       throw new Error('A captured action document does not match its declared kind.');
     if ((instance.generatedDigest || captured?.kind === 'native') && blueprint.kind === 'native') {
       const targets = instance.targets ?? [];

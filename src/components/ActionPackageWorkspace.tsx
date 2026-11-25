@@ -1,7 +1,9 @@
+import { bindUnsignedFormPdf, checkPackageFormReturn, signingMemberKey } from '@/lib/packageFormReturn';
+import { officialEdition } from '@/services/forms/nativeCatalog';
 import { packageMemberHistory, reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
 import { isEditableOfficialForm } from '@/lib/packageFormEditing';
 import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
-import { officialRevisionBytes, officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
+import { officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { packageOfficialForms, createOfficialFormMember, packageFormSigningAction, preparePackageFormSigning } from '@/lib/packageOfficialForms';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
@@ -240,7 +242,7 @@ function PackageDialog({
   const [consistencyDirty, setConsistencyDirty] = useState(false);
   const [workDirty, setWorkDirty] = useState(false);
   const [formLocation, setFormLocation] = useState(() => readFormLocation('active'));
-  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; base: string }>();
+  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; documentId: string; base: string }>();
   const [signingDirty, setSigningDirty] = useState(false);
   const [assemblyDirty, setAssemblyDirty] = useState(false);
   useEffect(() => { if (!assemblyDirty) setError(previous => previous === "Save or discard assembly settings before closing this package." ? "" : previous); }, [assemblyDirty]);
@@ -1199,18 +1201,20 @@ function PackageDialog({
                       {editable && packageFormSigningAction(member) && <Button size="sm" variant="outline" disabled={busy || pendingPackageEdits}
                         onClick={() => void run(async () => {
                           const signal = operation.current!.signal;
-                          const documentId = revision.id + '/' + member.id;
+                          const documentId = await signingMemberKey(record.id, member);
                           let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId);
                           if (!saved) {
                             const source = await preparePackageFormSigning(member, await getExportDeploymentPolicy(), signal);
                             const current = () => active.current && !signal.aborted;
                             const { confirmSigningDisclosure } = await import('./signingDisclosure');
                             await confirmSigningDisclosure({ pdfs: [source], metadata: source.metadata }, current);
-                            saved = await saveOfficialRevision(source.label, source.bytes, current, undefined,
+                            const edition = member.kind === 'native' && officialEdition(member.session.formType ?? '');
+                            const bytes = edition ? bindUnsignedFormPdf(source.bytes, edition.length, documentId) : source.bytes;
+                            saved = await saveOfficialRevision(source.label, bytes, current, undefined,
                               { documentId, epoch: 0, editSequence: 0, capturedAt: Date.now() });
                           }
                           signal.throwIfAborted();
-                          setFormSigning({ id: saved.id, memberId: member.id, revisionId: revision.id, base: saved.revisions[0].sha256 });
+                          setFormSigning({ id: saved.id, memberId: member.id, revisionId: member.revisionId, documentId, base: saved.revisions[0].sha256 });
                         })}>{packageFormSigningAction(member)}</Button>}
                       {editable && isEditableOfficialForm(member) && !working ? (
                         <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit form</Button>
@@ -1643,12 +1647,11 @@ function PackageDialog({
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package signing…</p>}>
             {formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id}
               onOpenChange={open => { if (!open) setFormSigning(undefined); }}
-              onAttach={async saved => {
-                if (!editable || formSigning.revisionId !== revision.id || saved.id !== formSigning.id || saved.revisions.length < 2
-                  || saved.revisions[0].sha256 !== formSigning.base) throw new Error('The package changed. Reopen the current member before applying a signed revision.');
+              onAttach={async (saved, inspection) => {
+                if (!editable || !record) throw new Error('The package changed. Reopen the current member before applying a signed revision.');
                 const source = revision.members.find(item => item.id === formSigning.memberId);
-                if (!source || source.kind === 'attachment') throw new Error('The original member revision is unavailable.');
-                const bytes = await officialRevisionBytes(saved);
+                if (!source || source.revisionId !== formSigning.revisionId || source.kind === 'attachment' || await signingMemberKey(record.id, source) !== formSigning.documentId) throw new Error('The original member revision is unavailable.');
+                const bytes = await checkPackageFormReturn(record, source, saved, formSigning, inspection);
                 const original = await captureOriginalPackageMember({ name: saved.filename, data: bytes.buffer }, source.role, true);
                 await modify(revision.members.map(item => item.id === source.id
                   ? { ...original, id: source.id, label: source.label, required: source.required } : item));
