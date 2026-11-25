@@ -20,6 +20,7 @@ import { comparePackageChangeImpact, type PackageChangeImpact } from './packageC
 export type PackageUpdateChoice = 'apply-package' | 'keep-local' | 'detach' | 'reconnect';
 export type PackageUpdateChoices = Readonly<Record<string, PackageUpdateChoice>>;
 export interface PackageUpdatePreview {
+  memberLabel?: string;
   bindingId: string;
   memberId: string;
   label: string;
