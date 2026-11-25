@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.281] — 2026-11-24
+
+### Added
+
+- Add a maintainer tool to verify native PDF field filling.
+
 ## [1.3.280] — 2026-11-24
 
 ### Added
