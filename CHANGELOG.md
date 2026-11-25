@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.305] — 2026-11-25
+
+### Added
+
+- Keep initial fills of unanswered official-form fields collapsed in intake review.
+
 ## [1.3.304] — 2026-11-25
 
 ### Added
