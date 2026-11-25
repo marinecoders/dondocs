@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.303] — 2026-11-25
+
+### Added
+
+- Retry a slow document preview without leaving the package editor.
+
 ## [1.3.302] — 2026-11-25
 
 ### Added

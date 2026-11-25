@@ -18,7 +18,7 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
   packageId: string; revisionId: string; positionId?: string; formPreview?: PackageFormValues; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
 }) {
   const owner = `${packageId}:${revisionId}:${member.id}:${member.revisionId}`;
-  const [result, setResult] = useState<{ owner: string; url?: string; image?: boolean; text?: string; error?: string }>();
+  const [result, setResult] = useState<{ owner: string; slow?: boolean; url?: string; image?: boolean; text?: string; error?: string }>();
   const [attempt, setAttempt] = useState(0);
   const latestPorts = useRef(ports);
   useLayoutEffect(() => { latestPorts.current = ports; });
@@ -26,9 +26,14 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
     if (!active) return;
     const controller = new AbortController();
     let current = true, url: string | undefined;
+    const timer = window.setTimeout(() => {
+      if (current) setResult({ owner, slow: true });
+    }, 8000);
     void Promise.resolve().then(async () => {
+      controller.signal.throwIfAborted();
       setResult({ owner });
       const policy = await getExportDeploymentPolicy();
+      controller.signal.throwIfAborted();
       if (policy.status !== 'ready') throw new Error(policy.message);
       let bytes: ArrayBuffer, type: string, text: string | undefined;
       if (member.kind === 'native') {
@@ -39,7 +44,9 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
         finally { release(); }
         type = 'application/pdf';
       } else {
-        bytes = await readPackageAsset(member.original); type = member.original.type;
+        bytes = await readPackageAsset(member.original);
+        controller.signal.throwIfAborted();
+        type = member.original.type;
         if (member.kind === 'original') await reviewPackageOriginal(bytes, member.label, policy);
         else {
           const inspected = await reviewPackageAttachment(member.original, bytes, policy, controller.signal);
@@ -55,8 +62,8 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
       if (text !== undefined) { setResult({ owner, text }); return; }
       url = URL.createObjectURL(new Blob([bytes], { type }));
       setResult({ owner, url, image: type.startsWith('image/') });
-    }).catch(cause => { if (current && !controller.signal.aborted) setResult({ owner, error: cause instanceof Error ? cause.message : 'The document preview could not be prepared.' }); });
-    return () => { current = false; controller.abort(); if (url) URL.revokeObjectURL(url); setResult(value => value?.owner === owner ? undefined : value); };
+    }).catch(cause => { if (current && !controller.signal.aborted) setResult({ owner, error: cause instanceof Error && cause.message.trim() ? cause.message : 'The document preview could not be prepared.' }); }).finally(() => window.clearTimeout(timer));
+    return () => { current = false; window.clearTimeout(timer); controller.abort(); if (url) URL.revokeObjectURL(url); setResult(value => value?.owner === owner ? undefined : value); };
   }, [active, member, owner, attempt, exportGate, formPreview]);
   const shown = result?.owner === owner ? result : undefined;
   return <section aria-label={`Preview of ${member.label}`} className="min-w-0">
@@ -66,6 +73,10 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
         : shown?.url ? shown.image ? <img src={shown.url} alt={member.label} className="h-full w-full object-contain" />
           : <Suspense fallback={<p role="status" className="p-5 text-sm">Opening PDF…</p>}><PdfViewer pdfUrl={shown.url} documentId={`package-member:${positionId ?? owner}`} showFullscreen={false} toolbarLabel={formPreview ? "Form preview" : "Saved document preview"} /></Suspense>
           : shown?.text !== undefined ? <pre className="h-full overflow-auto whitespace-pre-wrap break-words bg-muted p-5 font-sans text-sm">{shown.text.slice(0,20000)}</pre>
+            : shown?.slow ? <div className="flex h-full flex-col items-center justify-center gap-3 p-5 text-center">
+              <p role="status" className="text-sm text-muted-foreground">Still preparing {member.label}…</p>
+              <Button type="button" size="sm" variant="outline" onClick={() => setAttempt(value => value + 1)}>Retry preview</Button>
+            </div>
             : <p role="status" className="flex h-full items-center justify-center p-5 text-center text-sm text-muted-foreground">Preparing document preview…</p>}
     </div>}
   </section>;
