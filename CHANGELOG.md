@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.284] — 2026-11-24
+
+### Added
+
+- Edit and preview official forms inside a package.
+
 ## [1.3.283] — 2026-11-24
 
 ### Added

@@ -1,3 +1,4 @@
+import type { PackageFormValues } from './packageFormEditing';
 import type { NativePackageMember, PackageAsset } from './actionPackages';
 import { preparePackageRenderInput } from './packageRenderInputs';
 import { captureDocumentRevision } from './capturedDocument';
@@ -10,9 +11,14 @@ import { renderPreparedBuiltinForm } from '@/services/exports/builtinForms';
 
 /** Recipient PDFs contain rendered content, excluding the editable draft and its review/source metadata. */
 export async function renderPackageRecipientMember(member: NativePackageMember, policy: PolicyResolution, ports: (CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> }) | undefined,
-  read: (asset: PackageAsset) => Promise<ArrayBuffer>, signal: AbortSignal, pdfAccessibility?: 'tagged', mode: 'printable' | 'editable' = 'printable'): Promise<{ bytes: ArrayBuffer; layoutReview?: ExportReview }> {
+  read: (asset: PackageAsset) => Promise<ArrayBuffer>, signal: AbortSignal, pdfAccessibility?: 'tagged', mode: 'printable' | 'editable' = 'printable', formPreview?: PackageFormValues): Promise<{ bytes: ArrayBuffer; layoutReview?: ExportReview }> {
   signal.throwIfAborted();
   const { snapshot, assets } = await preparePackageRenderInput(member, read);
+  if (formPreview?.kind === 'configured' && snapshot.genericForm) {
+    snapshot.genericForm = { ...snapshot.genericForm, answers: formPreview.answers, rows: formPreview.rows };
+  } else if (formPreview?.kind === 'page11' && snapshot.forms?.navmc11811) {
+    snapshot.forms = { ...snapshot.forms, navmc11811: formPreview.page11 };
+  } else if (formPreview) throw new Error('The preview answers do not match the selected form.');
   delete snapshot.reviewComments; delete snapshot.formData.wordSource;
   const captured = captureDocumentRevision({ documentId: member.id, epoch: 0, editSequence: 0, capturedAt: 0 }, snapshot);
   let templates;
@@ -22,7 +28,8 @@ export async function renderPackageRecipientMember(member: NativePackageMember, 
     for (const [file, asset] of Object.entries(member.templates ?? {})) pages[file] = new Uint8Array(await read(asset));
     templates = captureFormExportTemplates(captured.kind, snapshot.formType!, pages, snapshot.genericForm ? JSON.stringify(snapshot.genericForm.definition) : undefined);
   }
-  const prepared = prepareExport({ id: `delivery_${member.id}`, captured, target: 'pdf', filename: 'member.pdf', policy, formTemplates: templates, pdfAccessibility });
+  const prepared = prepareExport({ id: `delivery_${member.id}`, captured, target: 'pdf', filename: 'member.pdf', policy, formTemplates: templates, pdfAccessibility,
+    incompleteFormPreview: formPreview?.kind === 'configured' ? true : undefined });
   if ('issues' in prepared) throw new Error(`${member.label}: ${prepared.issues.join(' ')}`);
   const review = prepared.status === 'needs-review' ? copyExportReview(prepared.job) : undefined;
   // The internal derivative is needed to inspect the delivery before the user approves its download.

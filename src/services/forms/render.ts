@@ -4,7 +4,7 @@ import { compileFormDefinition, validateAnswers, diagnosticText, type FormInstan
 import { loadPackagePage } from './packages';
 
 export interface FormRenderResult { bytes: Uint8Array; diagnostics: FormDiagnostic[] }
-export async function renderForm(instance: FormInstance, mode: 'preview' | 'export', loader?: PageLoader): Promise<FormRenderResult> {
+export async function renderForm(instance: FormInstance, mode: 'preview' | 'export' | 'draft', loader?: PageLoader): Promise<FormRenderResult> {
   const d = compileFormDefinition(instance.definition);
   const diagnostics = validateAnswers(d, instance.answers, instance.rows, mode === 'export');
   if (d.nativePdfEdition) {
@@ -38,6 +38,6 @@ export async function renderForm(instance: FormInstance, mode: 'preview' | 'expo
   const renderIssues: FormDiagnostic[] = [];
   const bytes = await renderFormPdf(config, values, {}, loader ?? ((_directory, file) => loadPackagePage(d, file)), renderIssues, overflow);
   diagnostics.push(...renderIssues.map(i => ({ ...i, path: paths[i.path] ?? i.path })));
-  if (mode === 'export' && diagnostics.some(i => i.severity === 'error')) throw new Error(diagnostics.map(i => diagnosticText(d, i)).join('\n'));
+  if (mode !== 'preview' && diagnostics.some(i => i.severity === 'error')) throw new Error(diagnostics.map(i => diagnosticText(d, i)).join('\n'));
   return { bytes, diagnostics };
 }

@@ -45,6 +45,7 @@ export interface PreparedExportJob {
   readonly wordProofreadComments?: boolean;
   readonly filename: string;
   readonly officialForm?: true;
+  readonly incompleteFormPreview?: true;
   readonly policyIdentity: string;
 }
 export interface ReadyExportJob { readonly [readyBrand]: true; readonly job: PreparedExportJob }
@@ -113,12 +114,14 @@ export function prepareExport(input: {
   readonly filename: string;
   readonly policy: PolicyResolution;
   readonly placeholders?: PlaceholderValues;
+  readonly incompleteFormPreview?: true;
   readonly formTemplates?: FormExportTemplates;
 }): ExportPreparation {
   const error = (message: string): ExportPreparation => Object.freeze({ status: 'error', issues: Object.freeze([message]) });
   if (input.policy.status !== 'ready') return Object.freeze({ status: input.policy.status, issues: Object.freeze([input.policy.message]) });
   try {
     assertExportDeploymentPolicy(input.policy.policy);
+    if (input.incompleteFormPreview && (input.target !== 'pdf' || input.captured.kind !== 'configured-form')) return error('Incomplete preview requires a configured form PDF.');
     if (input.pdfAccessibility !== undefined && (input.target !== 'pdf' || input.pdfAccessibility !== 'tagged')) return error('Invalid tagged PDF export option.');
     if (input.wordEnclosurePages !== undefined && (typeof input.wordEnclosurePages !== 'boolean' || input.target !== 'docx')) return error('PDF enclosure page images are a Word export option.');
     if (input.wordProofreadComments !== undefined && (typeof input.wordProofreadComments !== 'boolean' || input.target !== 'docx')) return error('Proofread comments are a Word export option.');
@@ -252,7 +255,7 @@ export function prepareExport(input: {
     if (output.kind === 'configured-form') {
       const form = copyCapturedDocument(output);
       if (form.kind !== 'configured-form') throw new Error('Configured form projection lost its definition.');
-      const issues = validateAnswers(form.document.genericForm.definition, form.document.genericForm.answers, form.document.genericForm.rows)
+      const issues = validateAnswers(form.document.genericForm.definition, form.document.genericForm.answers, form.document.genericForm.rows, !input.incompleteFormPreview)
         .filter(issue => issue.severity === 'error').map(issue => diagnosticText(form.document.genericForm.definition, issue));
       if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
     }
@@ -261,6 +264,7 @@ export function prepareExport(input: {
     ]);
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
     const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target,
+      ...(input.incompleteFormPreview && { incompleteFormPreview: true as const }),
       ...(snapshot.forms?.officialPdfEdition || snapshot.genericForm?.definition.nativePdfEdition ? { officialForm: true as const } : {}), ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.wordProofreadComments ? { wordProofreadComments: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
     prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview, ...(layoutReview ? { layoutReview: true } : {}) } });
     return privacy.found || structure.length || markingReview || layoutReview

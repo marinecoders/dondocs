@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import type { PackageFormValues } from '@/lib/packageFormEditing';
 import type { PackageMember } from '@/lib/actionPackages';
 import { readPackageAsset } from '@/lib/actionPackageAssets';
 import { renderPackageRecipientMember } from '@/lib/packageNativeDelivery';
@@ -13,8 +14,8 @@ const PdfViewer = lazy(() => import('./pdf/PdfViewer'));
 type Ports = CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> };
 
 /** Read and render the selected captured member; never activate a library document. */
-export function PackageDocumentPreview({ packageId, revisionId, member, active, ports, exportGate }: {
-  packageId: string; revisionId: string; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
+export function PackageDocumentPreview({ packageId, revisionId, positionId, formPreview, member, active, ports, exportGate }: {
+  packageId: string; revisionId: string; positionId?: string; formPreview?: PackageFormValues; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
 }) {
   const owner = `${packageId}:${revisionId}:${member.id}:${member.revisionId}`;
   const [result, setResult] = useState<{ owner: string; url?: string; image?: boolean; text?: string; error?: string }>();
@@ -32,7 +33,9 @@ export function PackageDocumentPreview({ packageId, revisionId, member, active, 
       let bytes: ArrayBuffer, type: string, text: string | undefined;
       if (member.kind === 'native') {
         const release = await exportGate.acquireWhenAvailable(controller.signal);
-        try { ({ bytes } = await renderPackageRecipientMember(member, policy, latestPorts.current, readPackageAsset, controller.signal)); }
+        // The viewer paints native AcroForm appearances. XFA needs its printable rendition.
+        const mode = formPreview?.kind === 'configured' ? 'editable' : 'printable';
+        try { ({ bytes } = await renderPackageRecipientMember(member, policy, latestPorts.current, readPackageAsset, controller.signal, undefined, mode, formPreview)); }
         finally { release(); }
         type = 'application/pdf';
       } else {
@@ -54,14 +57,14 @@ export function PackageDocumentPreview({ packageId, revisionId, member, active, 
       setResult({ owner, url, image: type.startsWith('image/') });
     }).catch(cause => { if (current && !controller.signal.aborted) setResult({ owner, error: cause instanceof Error ? cause.message : 'The document preview could not be prepared.' }); });
     return () => { current = false; controller.abort(); if (url) URL.revokeObjectURL(url); setResult(value => value?.owner === owner ? undefined : value); };
-  }, [active, member, owner, attempt, exportGate]);
+  }, [active, member, owner, attempt, exportGate, formPreview]);
   const shown = result?.owner === owner ? result : undefined;
   return <section aria-label={`Preview of ${member.label}`} className="min-w-0">
     {/* Keep document controls in place when the asynchronous preview arrives. */}
     {active && <div className="h-[68dvh] min-h-80 overflow-hidden rounded-md border">
       {shown?.error ? <div className="h-full space-y-3 overflow-auto bg-muted p-5"><p role="alert" className="break-words text-sm">{shown.error}</p><Button variant="outline" size="sm" onClick={() => setAttempt(value => value + 1)}>Retry preview</Button></div>
         : shown?.url ? shown.image ? <img src={shown.url} alt={member.label} className="h-full w-full object-contain" />
-          : <Suspense fallback={<p role="status" className="p-5 text-sm">Opening PDF…</p>}><PdfViewer pdfUrl={shown.url} documentId={`package-member:${owner}`} showFullscreen={false} toolbarLabel="Saved document preview" /></Suspense>
+          : <Suspense fallback={<p role="status" className="p-5 text-sm">Opening PDF…</p>}><PdfViewer pdfUrl={shown.url} documentId={`package-member:${positionId ?? owner}`} showFullscreen={false} toolbarLabel={formPreview ? "Form preview" : "Saved document preview"} /></Suspense>
           : shown?.text !== undefined ? <pre className="h-full overflow-auto whitespace-pre-wrap break-words bg-muted p-5 font-sans text-sm">{shown.text.slice(0,20000)}</pre>
             : <p role="status" className="flex h-full items-center justify-center p-5 text-center text-sm text-muted-foreground">Preparing document preview…</p>}
     </div>}

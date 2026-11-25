@@ -8,7 +8,7 @@ export async function renderPreparedConfiguredForm(ready: ReadyExportJob, signal
   if (content.kind !== 'configured-form' || ready.job.target !== 'pdf') throw new Error('This renderer accepts configured form PDF jobs.');
   const pages = copyPreparedFormTemplates(ready);
   if (signal.aborted) throw new Error('Export cancelled.');
-  const result = await renderForm(content.document.genericForm, 'export', async (_directory, file) => {
+  const result = await renderForm(content.document.genericForm, ready.job.incompleteFormPreview ? 'draft' : 'export', async (_directory, file) => {
     if (signal.aborted) throw new Error('Export cancelled.');
     if (!Object.hasOwn(pages, file)) throw new Error(`Captured form template missing: ${file}`);
     return new Uint8Array(pages[file]);

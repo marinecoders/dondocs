@@ -1,3 +1,5 @@
+import { isEditableOfficialForm } from '@/lib/packageFormEditing';
+import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
 import { officialRevisionBytes, officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { packageOfficialForms, createOfficialFormMember, packageFormSigningAction, preparePackageFormSigning } from '@/lib/packageOfficialForms';
@@ -21,7 +23,7 @@ import type { ExportGate } from "@/lib/exportController";
 import { reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import type { PackageAsset } from "@/lib/actionPackages";
 import type { SerializedSession } from "@/stores/documentStore";
-import { useEffect, useId, useLayoutEffect, useState, useRef, lazy, Suspense } from "react";
+import { useEffect, useId, useMemo, useLayoutEffect, useState, useRef, lazy, Suspense } from "react";
 import { focusPackageDestination, type PackageDestination, type PackageDestinationRequest } from "@/lib/packageDestinations";
 import {
   Dialog,
@@ -117,6 +119,7 @@ type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
 };
 const PackageMemberReviewPanel = lazy(() => import("./PackageMemberReviewPanel").then(module => ({ default: module.PackageMemberReviewPanel })));
+const PackageFormEditor = lazy(() => import('./PackageFormEditor'));
 const PackageReviewApplicationPanel = lazy(() => import("./PackageReviewApplicationPanel").then(module => ({ default: module.PackageReviewApplicationPanel })));
 const PackageReviewTransfer = lazy(() => import("./PackageReviewTransfer").then(module => ({ default: module.PackageReviewTransfer })));
 const packageRoleLabels: Record<PackageMember['role'], string> = {
@@ -133,6 +136,9 @@ export function ActionPackageWorkspace({
 }) {
   const open = useUIStore(state => state.actionPackagesOpen);
   const setOpen = useUIStore(state => state.setActionPackagesOpen);
+  useEffect(() => {
+    if (readFormLocation('active')) setOpen(true);
+  }, [setOpen]);
   useEffect(() => {
     if (open) void loadRetainedPdfViewer().catch(() => {});
   }, [open]);
@@ -184,6 +190,7 @@ function PackageDialog({
     if (typedDirty) { setError("Save or cancel the unfinished feedback before closing this package review."); return; }
     operation.current?.abort();
     active.current = false;
+    rememberFormLocation('active', '');
     onClose();
   }
   const [savedWorkspace] = useState(readPackageWorkspaceContext);
@@ -231,6 +238,7 @@ function PackageDialog({
   const [intakeDirty, setIntakeDirty] = useState(false), [requirementsDirty, setRequirementsDirty] = useState(false);
   const [consistencyDirty, setConsistencyDirty] = useState(false);
   const [workDirty, setWorkDirty] = useState(false);
+  const [formLocation, setFormLocation] = useState(() => readFormLocation('active'));
   const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; base: string }>();
   const [signingDirty, setSigningDirty] = useState(false);
   const [assemblyDirty, setAssemblyDirty] = useState(false);
@@ -301,13 +309,21 @@ function PackageDialog({
   const docs = useDocumentsStore((state) => state.docs),
     currentId = useDocumentsStore((state) => state.currentId);
   const record = records.find((record) => record.id === selectedId),
-    revision = record
+    revision = useMemo(() => record
       ? openedReview?.baseline ?? getPackageRevision(record, revisionId || record.currentRevisionId)
-      : null;
+      : null, [record, openedReview, revisionId]);
   const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, reviewApplications: undefined, fieldReviewApplications: undefined, workingCopies: undefined } : record;
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
+  const formMember = editable && revision?.members.find(m =>
+    formLocation === record.id + '/' + m.id && isEditableOfficialForm(m));
+  function openMemberEditor(id?: string) {
+    const location = id && record ? record.id + '/' + id : '';
+    if (id) rememberMember(id);
+    setFormLocation(location);
+    rememberFormLocation('active', location);
+  }
   const library = libraryOpen || !record && !creating;
   const selectedRetainedOutput = selectedRetainedOutputId
     ? revision?.outputs.find(output => output.id === selectedRetainedOutputId) : revision?.outputs.at(-1);
@@ -434,7 +450,9 @@ function PackageDialog({
           setLoaded(true);
           inventoryLoaded.current = true;
           const explicit = records.find(record => record.id === requestedPackageId);
-          const requested = explicit ?? (!requestedPackageId && !creating ? records.find(record => record.id === savedWorkspace?.packageId) : undefined);
+          const restoredForm = readFormLocation('active');
+          const resumeForm = !requestedPackageId && records.find(r => restoredForm.startsWith(r.id + '/'));
+          const requested = explicit || resumeForm || (!requestedPackageId && !creating ? records.find(record => record.id === savedWorkspace?.packageId) : undefined);
           if (requested) {
             setCreating(false);
             setCreatingAction(false);
@@ -443,11 +461,15 @@ function PackageDialog({
             setSelectedId(requested.id);
             if (requestedRevisionId && !requested.revisions.some(revision => revision.id === requestedRevisionId))
               throw new Error("The reviewed package revision is no longer available. Reopen the share and review it again.");
-            const restoredRevision = !explicit && requested.revisions.some(revision => revision.id === savedWorkspace?.revisionId)
+            const restoredRevision = !resumeForm && !explicit && requested.revisions.some(revision => revision.id === savedWorkspace?.revisionId)
               ? savedWorkspace!.revisionId : requested.currentRevisionId;
             setRevisionId(requestedRevisionId ?? restoredRevision);
             const returningToDocument = explicit && savedWorkspace?.packageId === explicit.id && savedWorkspace.revisionId === requestedRevisionId && savedWorkspace.section === 'documents';
             if (explicit && !returningToDocument) { setWorkspaceSection("overview"); setActiveMemberId(null); }
+            if (resumeForm) {
+              setWorkspaceSection('documents');
+              setActiveMemberId(restoredForm.slice(requested.id.length + 1));
+            }
             setName(requested.name);
             setPrepared(null);
             setOriginal(null);
@@ -740,6 +762,11 @@ function PackageDialog({
     <Dialog open onOpenChange={value => { if (!value) close(); }}>
       <DialogContent fullscreen showCloseButton={false} ref={dialogRoot} className="package-workspace-dialog" aria-busy={busy} data-package-id={record?.id} data-revision-id={revision?.id}>
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
+        {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
+          <PackageFormEditor key={record.id + '/' + formMember.id} record={record} member={formMember} ports={ports} exportGate={exportGate}
+            onSave={next => { setRecords(all => all.map(item => item.id === next.id ? next : item)); setRevisionId(next.currentRevisionId); }}
+            onNavigate={openMemberEditor} />
+        </Suspense>}
         <div className="package-workspace-appbar">
           <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-9 object-contain brightness-0 dark:invert" />
           <span className="package-workspace-brand text-sm font-semibold">DonDocs</span><span className="text-muted-foreground">/</span>
@@ -1179,7 +1206,9 @@ function PackageDialog({
                           signal.throwIfAborted();
                           setFormSigning({ id: saved.id, memberId: member.id, revisionId: revision.id, base: saved.revisions[0].sha256 });
                         })}>{packageFormSigningAction(member)}</Button>}
-                      {member.kind === 'native' && editable && (<Button
+                      {editable && isEditableOfficialForm(member) && !working ? (
+                        <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit form</Button>
+                      ) : member.kind === 'native' && editable && (<Button
                               size="sm"
                               variant="outline"
                               onClick={() =>
@@ -1207,7 +1236,7 @@ function PackageDialog({
                           save a new revision.
                         </p>
                       )}
-<PackageDocumentPreview packageId={record.id} revisionId={revision.id} member={member} active={loaded && !library && workspaceSection === 'documents' && selectedMember?.id === member.id} ports={ports} exportGate={exportGate} />
+<PackageDocumentPreview packageId={record.id} revisionId={revision.id} member={member} active={loaded && !formMember && !library && workspaceSection === 'documents' && selectedMember?.id === member.id} ports={ports} exportGate={exportGate} />
 <details><summary className="cursor-pointer text-xs text-muted-foreground">Document details</summary><div className="mt-4 space-y-4"><p className="break-all text-xs text-muted-foreground">
                         {packageRoleLabels[member.role]} ·{" "}
                         {member.kind === "original"

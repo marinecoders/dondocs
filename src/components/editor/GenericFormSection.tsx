@@ -121,24 +121,37 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {definition.sections.map(section => <SectionShell key={section.id} id={section.id}>
       <h3 className="mb-2 font-medium">{section.title}</h3>
-      <div className={section.editor === 'checklist' ? 'flex flex-col gap-density-2' : 'flex flex-col gap-density-4'}>
-        {section.fields.map(key => <div key={key} className="space-y-1">
-          <label htmlFor={`answer-${key}`} className="text-sm">
-            {definition.fields[key].label}{definition.fields[key].requiredAt === 'export' ? ' *' : ''}
-          </label>
-          <FormAnswerControl
-            id={`answer-${key}`}
-            field={definition.fields[key]}
-            value={instance.answers[key]}
-            error={issues.filter(issue => issue.path === key).map(issue => issue.message).join('; ')}
-            onChange={value => editForm(form => { form.answers[key] = value; })}
-          />
-        </div>)}
-      </div>
+      <FormSectionFields instance={instance} section={section} issues={issues}
+        onChange={(key, value) => editForm(form => { form.answers[key] = value; })} />
     </SectionShell>)}
     {Object.entries(definition.rowGroups).map(([key, group]) => <SectionShell key={key} id={key}>
       <h3 className="mb-2 font-medium">{group.title}</h3>
       <RowGroupGrid groupKey={key} group={group} issues={issues} />
     </SectionShell>)}
   </div>;
+}
+
+
+export function FormSectionFields({ instance, section, issues, onChange, prefix = '' }: {
+  instance: FormInstance;
+  section: FormInstance['definition']['sections'][number];
+  issues: ReturnType<typeof validateAnswers>;
+  onChange(key: string, value: FormInstance['answers'][string]): void;
+  prefix?: string;
+}) {
+  const definition = instance.definition;
+  return (<div className={section.editor === 'checklist' ? 'flex flex-col gap-density-2' : 'flex flex-col gap-density-4'}>
+        {section.fields.map(key => <div key={key} className="space-y-1">
+          <label htmlFor={`${prefix}answer-${key}`} className="text-sm">
+            {definition.fields[key].label}{definition.fields[key].requiredAt === 'export' ? ' *' : ''}
+          </label>
+          <FormAnswerControl
+            id={`${prefix}answer-${key}`}
+            field={definition.fields[key]}
+            value={instance.answers[key]}
+            error={issues.filter(issue => issue.path === key).map(issue => issue.message).join('; ')}
+            onChange={value => onChange(key, value)}
+          />
+        </div>)}
+      </div>);
 }
