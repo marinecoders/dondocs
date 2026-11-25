@@ -18,6 +18,7 @@ interface Props {
   signal(): AbortSignal | undefined; isCurrent(): boolean;
   onPreparedChange?(prepared: PreparedPackageDelivery | null): void;
   directDownload?: boolean;
+  canSign?: boolean;
   onNavigate?(target: PackageDestination): void;
   visible?: boolean;
 }
@@ -33,7 +34,7 @@ function DeliverySelection(props: Props) {
 type ProfileProps = Props & { selection: PackageDeliverySelection; setSelection(selection: PackageDeliverySelection): void;
   recheck: boolean; setRecheck(value: boolean): void };
 function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal, isCurrent, onPreparedChange, directDownload = false,
-  onNavigate, visible = true, selection, setSelection, recheck, setRecheck }: ProfileProps) {
+  onNavigate, canSign, visible = true, selection, setSelection, recheck, setRecheck }: ProfileProps) {
   const heading = useId();
   const { label, purpose, scope, taggedNativePdfs = false } = selection;
   const memberIds = revision.members.filter(member => scope === 'complete' || selection.memberIds.includes(member.id)).map(member => member.id);
@@ -93,7 +94,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
     <p className="text-xs text-muted-foreground">Choose the exact captured members for an independent delivery copy. Review its actual files and content before downloading.</p>
     {error && <p role="alert" className="break-words text-destructive">{error}</p>}
     {findings.length > 0 && <><p role="alert">{findings.length} delivery {findings.length === 1 ? 'item needs' : 'items need'} attention.</p>
-      <PackageDeliveryFindings revision={revision} findings={findings} onNavigate={target => onNavigate?.(target)} disabled={locked || !onNavigate} /></>}
+      <PackageDeliveryFindings canSign={canSign} revision={revision} findings={findings} onNavigate={target => onNavigate?.(target)} disabled={locked || !onNavigate} /></>}
     <fieldset disabled={locked} className="min-w-0 space-y-3">
       <label className="block">Delivery name<input aria-label="Delivery name" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" maxLength={120} value={label} onChange={event => { invalidate(); setSelection({ ...selection, label: event.target.value }); }} /></label>
       <label className="block">Delivery purpose<select aria-label="Delivery purpose" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" value={purpose} onChange={event => { invalidate(); setSelection({ ...selection, purpose: event.target.value as typeof purpose }); }}><option value="recipient">Recipient files</option><option value="editable">Editable handoff</option></select></label>

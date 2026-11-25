@@ -157,3 +157,26 @@ it('opens intake for an unresolved condition even when its document already exis
   await userEvent.click(screen.getByRole('button', { name: 'Review intake' }));
   expect(navigate).toHaveBeenCalledWith(expect.objectContaining({ revisionId: revision.id, panel: 'intake' }));
 });
+
+it('groups issues on the same document and opens each exact signature field once', async () => {
+  const revision = getPackageRevision(await fixture()), member = revision.members[0], navigate = vi.fn();
+  if (member.kind !== 'original') throw new Error('Expected an original PDF');
+  const signed = { ...revision, members: [{ ...member, signedOriginal: true, officialFormId: 'navmc_118_11' }] };
+  const signature = 'page[0].Member_signature[0]';
+  const common = { kind: 'document', state: 'missing', memberId: member.id, signatureFields: [signature], message: 'Internal summary', label: member.label } as const;
+  const view = render(<PackageDeliveryFindings revision={signed} onNavigate={navigate} disabled={false} findings={[
+    { ...common, id: 'first', signatureFields: [signature], documentIssues: ['Complete the date.'] },
+    { ...common, id: 'second', signatureFields: [signature], documentIssues: [] },
+  ]} />);
+  expect(screen.getAllByRole('listitem')).toHaveLength(1);
+  expect(screen.getByText('Complete the date.')).toBeVisible();
+  expect(screen.queryByText('Internal summary')).toBeNull();
+  await userEvent.click(screen.getByRole('button', { name: 'Review Member signature' }));
+  expect(navigate).toHaveBeenCalledWith({ revisionId: revision.id, memberId: member.id, signatureField: signature });
+  view.rerender(<PackageDeliveryFindings revision={signed} canSign={false} onNavigate={navigate} disabled={false}
+    findings={[{ ...common, id: 'first', signatureFields: [signature], documentIssues: [] }]} />);
+  expect(screen.queryByRole('button', { name: 'Review Member signature' })).toBeNull();
+  expect(screen.getByText('Outstanding signatures: Member signature.')).toBeVisible();
+  await userEvent.click(screen.getByRole('button', { name: 'Open document' }));
+  expect(navigate).toHaveBeenLastCalledWith({ revisionId: revision.id, memberId: member.id });
+});

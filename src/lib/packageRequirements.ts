@@ -1,3 +1,4 @@
+import { packageSignatureFieldLabel } from './packageSignatureFieldLabel';
 import { matchesExpectedForm, missingPackageSignatures, officialFormCompletionIssues } from './packageFormCompletion';
 import { resolvePackageRevisionSource } from './packageRevisionSources';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
@@ -20,6 +21,7 @@ export interface PackageRequirementFinding {
   state: 'satisfied' | 'missing' | 'unknown' | 'inactive' | 'invalid' | 'not-required';
   message: string;
   memberId?: string;
+  documentIssues?: string[];
   signatureFields?: string[];
   fromIntake?: boolean;
 }
@@ -110,8 +112,12 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
         } else if (rule?.requiredPdfFields?.length && !(member.kind === 'native' && member.session.genericForm)) {
           issues.push('The required fields cannot be verified on this document.');
         }
-        if (issues.length) {
-          items.push({ ...base, state: 'missing', message: issues.join(' '), signatureFields: missingPackageSignatures(member, rule) });
+        const signatureFields = missingPackageSignatures(member, rule);
+        if (issues.length || signatureFields.length) {
+          const messages = signatureFields.length
+            ? [...issues, 'Sign or verify: ' + signatureFields.map(field => packageSignatureFieldLabel(member, field)).join(', ') + '.']
+            : issues;
+          items.push({ ...base, state: 'missing', message: messages.join(' '), documentIssues: issues, signatureFields });
           continue;
         }
       }

@@ -37,8 +37,6 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
     issues.push('Review the visible signature on the received PDF in Documents.');
   if (rule?.writtenContent && member.kind === 'native' && !member.session.paragraphs?.some(p => p.text?.trim()))
     issues.push('Write the body of this case record before delivery.');
-  const missing = missingPackageSignatures(member, rule);
-  if (missing?.length) issues.push('Sign or verify these fields in the official signing workspace: ' + missing.map(name => name.replaceAll('_', ' ')).join(', ') + '.');
   return issues;
 }
 

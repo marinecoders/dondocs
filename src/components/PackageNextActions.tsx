@@ -4,10 +4,11 @@ import { derivePackageNextActions, type PackageNextActions as Findings } from '@
 import type { PackageDestination } from '@/lib/packageDestinations';
 import { Button } from './ui/button';
 
-export function PackageNextActions({ record, revision, disabled, reviewBaseline, onNavigate, onPrepare }: {
+export function PackageNextActions({ record, revision, disabled, quiet = false, reviewBaseline, onNavigate, onPrepare }: {
   record: ActionPackage;
   revision: PackageRevision;
   disabled: boolean;
+  quiet?: boolean;
   reviewBaseline: boolean;
   onNavigate(destination: PackageDestination): void;
   onPrepare(): void;
@@ -28,7 +29,7 @@ export function PackageNextActions({ record, revision, disabled, reviewBaseline,
     return () => { current = false; controller.abort(); };
   }, [record, revision.id, reviewBaseline, owner]);
   const blockers = result?.actions.filter(action => action.blocking) ?? [];
-  return <section aria-label="Package checks" className="space-y-4 border-b pb-6">
+  const checks = <section aria-label="Package checks" className="space-y-4 border-b pb-6">
     <div className="flex items-center justify-between gap-4">
       <h2 className="text-base font-medium">{error ? 'Package checks unavailable' : result ? blockers.length ? `${blockers.length} item${blockers.length === 1 ? '' : 's'} before PDF` : 'PDF checks complete' : 'Checking package…'}</h2>
       {result?.readyForOperation && <Button disabled={disabled || reviewBaseline} onClick={onPrepare}>Review PDF</Button>}
@@ -42,4 +43,5 @@ export function PackageNextActions({ record, revision, disabled, reviewBaseline,
     </div>)}
     {blockers.length > 3 && <Button variant="link" className="h-auto p-0 text-xs" onClick={() => setExpanded(value => !value)}>{expanded ? 'Show fewer' : `Show ${blockers.length - 3} more`}</Button>}
   </section>;
+  return quiet ? <details><summary className="cursor-pointer text-sm text-muted-foreground">Saved package checks</summary><div className="mt-3">{checks}</div></details> : checks;
 }
