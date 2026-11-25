@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.287] — 2026-11-24
+
+### Fixed
+
+- Associate returned signatures with the exact package form revision.
+
 ## [1.3.286] — 2026-11-24
 
 ### Added

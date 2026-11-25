@@ -271,7 +271,13 @@ export async function validateActionPackageResources(
         continue;
       }
       if (member.kind === "original") {
-        await validatePackageOriginalPdf(await read(member.original));
+        const data = await read(member.original);
+        if (member.officialFormId) {
+          const { identifyOfficialOriginal } = await import('@/services/forms/nativeCatalog');
+          if (!member.signedOriginal || await identifyOfficialOriginal(data) !== member.officialFormId)
+            throw new Error('The retained PDF does not match its official form edition.');
+        }
+        await validatePackageOriginalPdf(data);
         continue;
       }
       const draft: unknown = JSON.parse(
