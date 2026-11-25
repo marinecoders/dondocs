@@ -40,6 +40,9 @@ export async function expandPackageTools(root: Locator) {
     if (!await summary.count()) break;
     await summary.click();
   }
+  // The package details toggle appears only after its lazy panel loads.
+  const loadingInformation = root.getByRole('status').filter({ hasText: /^Loading package information…$/ });
+  await expect(loadingInformation).toBeHidden();
   const links = root.getByRole('button', { name: 'Field links and other details', exact: true });
   if (await links.isVisible() && await links.getAttribute('aria-expanded') === 'false') await links.click();
 }

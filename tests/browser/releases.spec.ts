@@ -365,8 +365,9 @@ for (const source of ['legacy cache', 'unindexed request'] as const) test(`prese
     await page.reload(); // Establish control before a request for an as-yet unindexed runtime.
     await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
     const url = '/runtimes/unindexed/lib/pandoc/pandoc.wasm.part0';
-    server.faults.set(url, { status: 503 });
-    expect(await page.evaluate(async url => (await fetch(url)).status, url)).toBe(503);
+    // A successful engine response records Word use, even outside the current manifest.
+    server.faults.set(url, { status: 200, body: 'Synthetic engine part', contentType: 'application/octet-stream' });
+    expect(await page.evaluate(async url => (await fetch(url)).status, url)).toBe(200);
   }
   root = resolve(second!); await page.evaluate(() => window.dispatchEvent(new Event('focus')));
   const update = page.getByRole('button', { name: 'Update Available', exact: true });

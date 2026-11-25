@@ -10,6 +10,18 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('browser-test-visitor', 'returning');
     localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'scroll', previewVisible: false } }));
+    // Exercise the real print popup and PDF bytes without launching the browser's native PDF viewer.
+    const open = window.open;
+    window.open = (...args: Parameters<typeof open>) => {
+      const popup = open.apply(window, args);
+      if (popup && !args[0]) {
+        const policy = popup.document.createElement('meta');
+        policy.httpEquiv = 'Content-Security-Policy';
+        policy.content = "frame-src 'none'";
+        popup.document.head.append(policy);
+      }
+      return popup;
+    };
   });
   await page.goto('/');
 });

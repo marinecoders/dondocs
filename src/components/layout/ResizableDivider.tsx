@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type SetStateAction } from 'react';
 
 interface ResizableDividerProps {
-  onResize: (percentage: number) => void;
+  onResize: (percentage: SetStateAction<number>) => void;
   containerRef: React.RefObject<HTMLElement | null>;
   currentWidth: number;
 }
@@ -92,10 +92,10 @@ export function ResizableDivider({ onResize, containerRef, currentWidth }: Resiz
           // Allow keyboard resizing with arrow keys
           if (e.key === 'ArrowLeft') {
             e.preventDefault();
-            onResize(Math.min(80, currentWidth + 5));
+            onResize(width => Math.min(80, width + 5));
           } else if (e.key === 'ArrowRight') {
             e.preventDefault();
-            onResize(Math.max(20, currentWidth - 5));
+            onResize(width => Math.max(20, width - 5));
           }
         }}
       >

@@ -18,9 +18,10 @@ import {
 type Field = keyof FormalNavalEmailDraft;
 type Delivery = 'copy' | 'download';
 
-export default function FormalNavalEmailDialog({ open, onOpenChange }: {
+export default function FormalNavalEmailDialog({ open, onOpenChange, onCloseAutoFocus }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onCloseAutoFocus: (event: Event) => void;
 }) {
   const [draft, setDraft] = useState(EMPTY_FORMAL_EMAIL);
   const [reviewed, setReviewed] = useState(false);
@@ -98,7 +99,7 @@ export default function FormalNavalEmailDialog({ open, onOpenChange }: {
       }
       onOpenChange(next);
     }}>
-      <DialogContent className="sm:max-w-3xl" onOpenAutoFocus={event => {
+      <DialogContent className="sm:max-w-3xl" onCloseAutoFocus={onCloseAutoFocus} onOpenAutoFocus={event => {
         event.preventDefault();
         title.current?.focus();
       }}>

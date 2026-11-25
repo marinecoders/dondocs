@@ -23,8 +23,17 @@ async function reviews(page: Page) {
   await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Word tracked text: fictional-tracked.docx' });
   return modal;
 }
-for (const theme of ['light', 'dark', 'classic'] as const) test(`Word tracked text uses native decisions and deliberate newer-draft reconciliation in ${theme}`, async ({ page }, info) => {
-  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+for (const theme of ['light', 'dark', 'classic'] as const) test(`Word tracked text uses native decisions and deliberate newer-draft reconciliation in ${theme}`, async ({ page, browserName }, info) => {
+  const errors: string[] = [];
+  let resizeDeferrals = 0;
+  page.on('pageerror', error => {
+    // WebKit can report a resize notification deferred to a later rendering update.
+    if (browserName === 'webkit' && error.message === 'ResizeObserver loop completed with undelivered notifications.') {
+      resizeDeferrals++;
+    } else {
+      errors.push(error.message);
+    }
+  });
   await page.addInitScript(value => {
     localStorage.setItem('browser-test-visitor', 'returning');
     localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'scroll', previewVisible: false } }));
@@ -92,4 +101,5 @@ for (const theme of ['light', 'dark', 'classic'] as const) test(`Word tracked te
   await closeReviewRounds(modal, 'close-button');
   expect(await download(page, () => page.getByRole('button', { name: 'Download original Word file', exact: true }).click())).toEqual(Buffer.from(source));
   expect(errors).toEqual([]);
+  expect(resizeDeferrals, 'repeated WebKit ResizeObserver delivery errors').toBeLessThanOrEqual(1);
 });

@@ -14,8 +14,15 @@ if not root.is_dir():
     raise SystemExit(f"APT directory does not exist: {root}")
 
 ubuntu_url = re.compile(
-    r"https?://((?:[a-z0-9-]+\.)?archive\.ubuntu\.com|security\.ubuntu\.com|ports\.ubuntu\.com)(?=[:/\s]|$)"
+    r"https?://((?:[a-z0-9-]+\.)*archive\.ubuntu\.com|security\.ubuntu\.com|ports\.ubuntu\.com)(?=[:/\s]|$)"
 )
+
+def https_archive(match):
+    host = match[1]
+    if host == "azure.archive.ubuntu.com" or host.endswith(".ec2.archive.ubuntu.com"):
+        host = "archive.ubuntu.com"
+    return "https://" + host
+
 files = [root / "sources.list", *root.glob("apt-mirrors*.txt"),
          *root.glob("sources.list.d/*.list"), *root.glob("sources.list.d/*.sources")]
 changed = 0
@@ -23,9 +30,7 @@ for path in files:
     if not path.is_file():
         continue
     source = path.read_text()
-    updated = ubuntu_url.sub(
-        lambda match: "https://" + match[1].replace("azure.archive.ubuntu.com", "archive.ubuntu.com"), source
-    )
+    updated = ubuntu_url.sub(https_archive, source)
     if updated != source:
         path.write_text(updated)
         changed += 1

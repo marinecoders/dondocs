@@ -117,6 +117,7 @@ export function Header({
   const [taggedPdfOpen, setTaggedPdfOpen] = useState(false);
   const [amhsOpen, setAmhsOpen] = useState<boolean>();
   const [formalEmailOpen, setFormalEmailOpen] = useState<boolean>();
+  const toolsTrigger = useRef<HTMLButtonElement>(null);
   // One selector per field so Zustand only re-renders on that field's change,
   // not on every store update (this header is ~40 buttons + dropdowns). Setters
   // are stable, so selecting them is free. Same for the document + history stores.
@@ -312,6 +313,14 @@ export function Header({
     if (ds.currentId) useUIStore.getState().setHistoryDocId(ds.currentId);
   };
 
+  function restoreToolsFocus(event: Event) {
+    const trigger = toolsTrigger.current;
+    if (trigger?.isConnected) {
+      event.preventDefault();
+      trigger.focus({ preventScroll: true });
+    }
+  }
+
   return (
     <header className="workspace-header shrink-0 border-b border-border bg-background">
       <input type="file" aria-label="Import draft file" ref={fileInputRef} onChange={handleImportDraft} accept=".json" className="hidden" />
@@ -489,7 +498,7 @@ export function Header({
         <Button disabled={!(capabilityAvailable(output.batch) || output.batch.status === 'unsupported' && output.batch.reason === 'configured-form-batch')} title={output.batch.status === 'supported' ? undefined : output.batch.message} data-tour="batch" variant="ghost" size="sm" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" aria-label="Document tools" data-tour="tools" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5">
+              <Button ref={toolsTrigger} variant="ghost" size="sm" aria-label="Document tools" data-tour="tools" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5">
                 <Wrench className="h-3.5 w-3.5" aria-hidden="true" />Tools
               </Button>
             </DropdownMenuTrigger>
@@ -510,8 +519,8 @@ export function Header({
           </DropdownMenu>
       </div>
       {signingOpen && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><SigningWorkspace open initialRecordId={capturedSigningId} onOpenChange={setSigningOpen} /></Suspense>}
-      {amhsOpen !== undefined && <Suspense fallback={<p role="status">Opening message draft…</p>}><AmhsMessageDialog open={amhsOpen} onOpenChange={setAmhsOpen} /></Suspense>}
-      {formalEmailOpen !== undefined && <Suspense fallback={<p role="status">Opening email draft…</p>}><FormalNavalEmailDialog open={formalEmailOpen} onOpenChange={setFormalEmailOpen} /></Suspense>}
+      {amhsOpen !== undefined && <Suspense fallback={<p role="status">Opening message draft…</p>}><AmhsMessageDialog open={amhsOpen} onOpenChange={setAmhsOpen} onCloseAutoFocus={restoreToolsFocus} /></Suspense>}
+      {formalEmailOpen !== undefined && <Suspense fallback={<p role="status">Opening email draft…</p>}><FormalNavalEmailDialog open={formalEmailOpen} onOpenChange={setFormalEmailOpen} onCloseAutoFocus={restoreToolsFocus} /></Suspense>}
       <Dialog open={formattingOpen} onOpenChange={setFormattingOpen}>
         <DialogContent className="sm:max-w-md max-h-[85dvh] overflow-y-auto">
           <DialogHeader><DialogTitle>Document formatting</DialogTitle><DialogDescription>Formatting for this correspondence. Changes are applied to the current draft.</DialogDescription></DialogHeader>

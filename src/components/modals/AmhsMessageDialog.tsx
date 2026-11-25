@@ -31,9 +31,11 @@ interface FieldOptions {
 export default function AmhsMessageDialog({
   open,
   onOpenChange,
+  onCloseAutoFocus,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onCloseAutoFocus: (event: Event) => void;
 }) {
   const [saved, setSaved] = useState(readGenadminDraft);
   const [draft, setDraft] = useState(saved.draft);
@@ -178,6 +180,7 @@ export default function AmhsMessageDialog({
     <Dialog open={open} onOpenChange={changeOpen}>
       <DialogContent
         className="sm:max-w-3xl"
+        onCloseAutoFocus={onCloseAutoFocus}
         onOpenAutoFocus={event => {
           event.preventDefault();
           title.current?.focus();

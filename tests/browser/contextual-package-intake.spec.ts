@@ -171,7 +171,12 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     const card = dialog.locator(`[id="package-member-${inPerson.id}"]`);
     await card.getByRole('button', { name: 'Edit document', exact: true }).click();
     await expect(dialog).toBeHidden();
-    await page.getByRole('textbox', { name: 'In-person location', exact: true }).fill('Locally corrected room');
+    const location = page.getByRole('textbox', { name: 'In-person location', exact: true });
+    await expect(location).toHaveValue('Building 7');
+    await location.press('ControlOrMeta+a');
+    await location.pressSequentially('Locally corrected room');
+    await location.blur();
+    await expect(location).toHaveValue('Locally corrected room');
     dialog = await packages(page);
     const beforeLocalEdit = await selectedPackageRevision(dialog);
     await packageSection(dialog, 'Documents', true);

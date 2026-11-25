@@ -230,7 +230,7 @@ test('Word review blocks disallowed emitted native text before approval and pres
 for (const asset of ['figure', 'enclosure'] as const) test(`clean Word ZIP excludes retained inactive ${asset} sidecars`, async ({ page }, info) => {
   await page.addInitScript(() => { localStorage.setItem('browser-test-visitor', 'returning'); });await page.goto('/');
   const images = await docxImageFixture(), pdf = await PDFDocument.create();pdf.addPage().drawText('Inactive retained original');
-  const bytes = Buffer.from(await pdf.save()), baseline = buildBaseline(asset === 'figure' ? 'naval_letter' : 'business_letter');
+  const bytes = Buffer.from(await pdf.save()), baseline = buildBaseline(asset === 'figure' ? 'naval_letter' : 'executive_correspondence');
   const draft = { ...baseline, documentCategory: 'correspondence', documentMode: asset === 'figure' ? 'custom' : 'compliant',
     formData: { ...baseline.formData, subject: 'FICTIONAL INACTIVE WORD SIDECAR' },
     paragraphs: [{ text: 'Ordinary captured body text.', level: 0, ...(asset === 'figure' ? { figure: { name: 'SSN 123-45-6789.png', type: 'image/png', data: images.figure.toString('base64') } } : {}) }],

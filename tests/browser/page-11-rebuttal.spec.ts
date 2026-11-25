@@ -51,8 +51,14 @@ test('saves the Page 11 and opens a separate rebuttal with printable output', as
   const remarks = page.getByRole('textbox', { name: 'Administrative Remarks (Left)', exact: true });
   await expect(remarks).toHaveText(originalRemarks);
   await remarks.fill(savedRemarks);
-  await page.getByRole('button', { name: 'Save and start rebuttal', exact: true }).click();
-  await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(SUBJECT);
+  await expect(remarks).toHaveText(savedRemarks);
+  // Moving focus away from the editor can relayout its toolbar and hints.
+  // Activate the focused button after that transition, particularly on iPad.
+  const startRebuttal = page.getByRole('button', { name: 'Save and start rebuttal', exact: true });
+  await startRebuttal.focus();
+  await expect(startRebuttal).toBeFocused();
+  await startRebuttal.press('Enter');
+  await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(SUBJECT, { timeout: 30_000 });
   const body = page.getByRole('textbox', { name: 'Paragraph 1', exact: true });
   await expect(body).toHaveText(/Identify the dated entry/);
   await expect(page.locator('#sigLast')).toHaveValue('');
