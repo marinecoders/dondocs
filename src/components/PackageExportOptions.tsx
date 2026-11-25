@@ -1,3 +1,5 @@
+import type { usePackageChecks } from '@/components/usePackageChecks';
+import { DocumentPdfChecks } from './PackageNextActions';
 import { useEffect, useMemo, useState } from 'react';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import type { PackageRequirementFinding } from '@/lib/packageRequirements';
@@ -6,8 +8,9 @@ import { PackageDeliveryFindings } from './PackageDeliveryFindings';
 import type { PackageRevision } from '@/lib/actionPackages';
 import { Button } from './ui/button';
 
-export function PackageExportOptions({ revision, format, disabled, pdfDisabled, active, canSign, onNavigate, onFormat, onPrepare, onOpenDocument }: {
+export function PackageExportOptions({ revision, checks, format, disabled, pdfDisabled, active, canSign, onNavigate, onFormat, onPrepare, onOpenDocument }: {
   revision: PackageRevision;
+  checks?: ReturnType<typeof usePackageChecks>;
   active: boolean;
   canSign: boolean;
   onNavigate(target: PackageDestination): void;
@@ -40,6 +43,9 @@ export function PackageExportOptions({ revision, format, disabled, pdfDisabled, 
     return () => controller.abort();
   }, [inspect, revision]);
   const checked = inspect && inspection?.revision === revision ? inspection : undefined;
+  const additional = inspect ? checks?.result?.actions.filter(action => action.blocking
+    && !(checked?.findings.some(finding => finding.memberId === action.destination?.memberId
+      && (action.id === 'requirement-' + finding.id || action.message === finding.message)))) ?? [] : [];
   const documents = useMemo(() => indexDeliveryDocuments(revision), [revision]);
   const byDocument = new Map<string, PackageRequirementFinding[]>();
   const remaining: PackageRequirementFinding[] = [];
@@ -55,7 +61,8 @@ export function PackageExportOptions({ revision, format, disabled, pdfDisabled, 
       {(['pdf', 'draft', 'editable'] as const).map(value => <Button key={value} variant={value === format ? 'secondary' : 'outline'} aria-pressed={value === format} disabled={disabled} onClick={() => onFormat(value)}>{value === 'pdf' ? 'PDF' : value === 'draft' ? 'Draft PDF' : 'Editable package'}</Button>)}
     </div>
     <section><div className="mb-3 flex items-center justify-between gap-4"><h3 className="text-sm font-medium">Included documents</h3><span className="text-xs text-muted-foreground">{format === 'draft' ? 'Draft marked on every page' : format === 'pdf' ? 'Combined PDF · Unsigned' : 'Open in DonDocs'}</span></div>
-      {inspect && !checked && <p role="status" className="text-xs text-muted-foreground">Checking delivery requirements…</p>}
+      {inspect && (!checked || checks && !checks.result && !checks.error) && <p role="status" className="text-xs text-muted-foreground">Checking delivery requirements…</p>}
+      {inspect && checks?.error && <p role="alert" className="text-sm">{checks.error}</p>}
       {checked?.error && <p role="alert" className="text-sm">{checked.error}</p>}
       <ol className="divide-y">{revision.members.map((member, index) => {
         const items = byDocument.get(member.id) ?? [];
@@ -66,9 +73,11 @@ export function PackageExportOptions({ revision, format, disabled, pdfDisabled, 
           otherIssues && `${otherIssues} item${otherIssues === 1 ? '' : 's'} to resolve`].filter(Boolean).join(' · ');
         return <li key={member.id} className="py-3">
           <div className="flex items-center gap-4"><span className="text-xs text-muted-foreground">{index + 1}</span><span className="min-w-0 flex-1 break-words text-sm">{member.label}</span><Button variant="link" size="sm" disabled={disabled} onClick={() => onOpenDocument(member.id)}>Open</Button></div>
+          <DocumentPdfChecks editable={canSign} actions={additional.filter(action => action.destination?.memberId === member.id)} disabled={disabled} onNavigate={onNavigate} />
           {!!items.length && <details className="ml-5 text-sm"><summary className="cursor-pointer">{summary}</summary>{reviewItems(items)}</details>}
         </li>;
       })}</ol>
+      <DocumentPdfChecks editable={canSign} actions={additional.filter(action => !action.destination?.memberId || !documents.members.has(action.destination.memberId))} disabled={disabled} onNavigate={onNavigate} />
       {!!remaining.length && <section className="mt-3 border-t pt-3" aria-label="Package requirements"><h4 className="text-sm font-medium">Package requirements</h4>{reviewItems(remaining)}</section>}
       {!revision.members.length && format === 'editable' && <p className="text-sm text-muted-foreground">No documents have been generated yet. The editable package preserves this saved draft.</p>}
       {format === 'editable' && <>

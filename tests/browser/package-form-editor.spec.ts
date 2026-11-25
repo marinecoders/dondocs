@@ -331,6 +331,8 @@ test('delivery corrections preserve input after a failed save and advance to the
     await expect(workspace.locator('li[id^="package-member-"]')).toHaveCount(i + 1);
   }
   await packageSection(workspace, 'Delivery');
+  const included = workspace.getByText('Included documents', { exact: true }).locator('../..');
+  await expect(included.getByText('4 items before PDF', { exact: true })).toHaveCount(2);
   await workspace.getByRole('button', { name: 'Prepare PDF', exact: true }).click();
   const corrections = workspace.getByRole('button', { name: 'Complete addressing', exact: true });
   await expect(corrections).toHaveCount(2);
