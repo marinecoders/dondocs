@@ -2,6 +2,8 @@ import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 're
 import { z } from 'zod';
 import { usePackageEditDraft } from '@/hooks/usePackageEditDraft';
 import { packageEditDraftScope } from '@/lib/packageEditDrafts';
+import { OfficialFormLinks } from './OfficialFormLinks';
+import { linkOfficialFormDetail } from '@/lib/officialFormFieldLinks';
 import { Button } from './ui/button';
 import { PackageChangeImpactSummary } from './PackageChangeImpactSummary';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
@@ -192,6 +194,13 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
       });
     } finally { running.current = false; if (mounted.current) setPending(false); }
   }
+  function memberLabel(memberId: string) {
+    const index = revision.members.findIndex(member => member.id === memberId);
+    const member = revision.members[index];
+    if (!member) return 'Unavailable document';
+    return revision.members.some(other => other.id !== memberId && other.label === member.label)
+      ? `${index + 1}. ${member.label}` : member.label;
+  }
   function snapshots(): { information: PackageInformation | undefined; bindings: PackageFieldBindings | undefined } {
     const parsed = packageInformationSchema.safeParse({ version: 1, participants: draft.participants, facts: draft.facts });
     if (!parsed.success) {
@@ -245,6 +254,21 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
       {recovery.error && <div className="space-y-2"><p role="alert" className="break-words text-sm text-destructive">{recovery.error}</p><Button variant="outline" size="sm" disabled={pending} onClick={() => void reset()}>Discard local draft</Button></div>}
     </div>
     {workspace && (!editing ? <dl className="grid gap-x-8 gap-y-5 sm:grid-cols-2">{draft.facts.map(fact => <div key={fact.id}><dt className="text-xs text-muted-foreground">{fact.label}</dt><dd className="mt-1 break-words text-sm">{displayValue(fact.value)}</dd></div>)}</dl> : <fieldset disabled={locked} className="grid min-w-0 gap-4 sm:grid-cols-2">{draft.facts.map((fact, index) => <label key={fact.id} className="min-w-0 text-sm">{fact.label || `Value ${index + 1}`}{fact.kind === 'boolean' ? <select className={`${inputClass} mt-2`} value={String(fact.value)} onChange={event => editFact(fact.id, { value: event.target.value === 'true', source: { kind: 'entered' } })}><option value="false">No</option><option value="true">Yes</option></select> : <input className={`${inputClass} mt-2`} value={String(fact.value)} maxLength={fact.kind === 'identifier' ? 200 : fact.kind === 'text' ? 10000 : 100} onChange={event => editFact(fact.id, { value: event.target.value, source: { kind: 'entered' } })} />}</label>)}</fieldset>)}
+    {editable && <OfficialFormLinks key={owner} members={revision.members} facts={draft.facts} disabled={locked}
+      onLink={(ids, detail, existingFactId) => void perform(async current => {
+        if (!existingFactId && draft.facts.length >= 200) throw new Error('A package supports up to 200 shared values.');
+        const factId = existingFactId ?? newPackageId('fact');
+        const selected = revision.members.filter(member => ids.includes(member.id));
+        const bindings = await linkOfficialFormDetail(selected, detail, factId, draft.bindings);
+        if (!current()) return;
+        const label = detail === 'name' ? 'Marine name (last, first, optional middle)' : 'Marine EDIPI';
+        const facts: FactDraft[] = existingFactId ? draft.facts : [...draft.facts, {
+          id: factId, label, kind: detail === 'name' ? 'text' : 'identifier', value: '', source: { kind: 'entered' },
+        }];
+        edit({ ...draft, facts, bindings: [...draft.bindings, ...bindings] });
+        setEditing(true);
+        setNotice('Review the shared value and its destination fields before applying.');
+      })} />}
     {workspace && <Button variant="link" className="h-auto p-0 text-xs" aria-expanded={advanced} onClick={() => setAdvanced(value => !value)}>Field links and other details</Button>}
     <div hidden={workspace && !advanced} className="space-y-4">
     <fieldset disabled={locked} className="min-w-0 space-y-4">
@@ -291,9 +315,8 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
           {links.length > 0 && <ul aria-label={`Linked fields for value ${index + 1}`} className="space-y-2 text-sm">
             {links.map(binding => {
               const field = fields.find(value => value.memberId === binding.memberId && packageBindingTargetKey(value.field.target) === packageBindingTargetKey(binding.target));
-              const member = revision.members.find(value => value.id === binding.memberId);
               return <li key={binding.id} tabIndex={-1} data-package-binding-id={binding.id} className="space-y-1 rounded border p-2">
-                <p className="break-words">{member?.label ?? 'Unavailable document'} · {field?.field.label ?? ('field' in binding.target ? binding.target.field : binding.target.fieldId)} · {binding.mode === 'override' ? 'Local override' : 'Linked'}</p>
+                <p className="break-words">{memberLabel(binding.memberId)} · {field?.field.label ?? ('field' in binding.target ? binding.target.field : binding.target.fieldId)} · {binding.mode === 'override' ? 'Local override' : 'Linked'}</p>
                 <p className="text-xs text-muted-foreground">Last shared value: {displayValue(binding.expectedValue)}{field ? ` · Current field: ${displayValue(field.field.value)}` : ''}</p>
                 <label className="block text-xs">Link decision<select aria-label={`Link decision ${binding.id}`} className={inputClass} value={choices[binding.id] ?? ''} onChange={event => decision(binding.id, event.target.value)}>
                   <option value="">Keep existing link behavior</option><option value="keep-local">Keep document value as a local override</option><option value="reconnect">Reconnect and apply package value</option><option value="detach">Detach and preserve document value</option>
@@ -391,11 +414,11 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
       {!preview.impact && !preview.ready && <p className="text-xs text-muted-foreground">Resolve the field decisions and preview again to see complete package impact.</p>}
       {preview.changes.length === 0 && <p className="text-sm">Package information changes only; no linked document fields change.</p>}
       {preview.changes.map(change => <article key={change.bindingId} className="min-w-0 space-y-2 border-t pt-2 text-sm">
-        <p className="break-words font-medium">{revision.members.find(member => member.id === change.memberId)?.label ?? 'Unavailable document'} · {change.label}</p>
+        <p className="break-words font-medium">{memberLabel(change.memberId)} · {change.label}</p>
         <p>{change.state} · {change.message}</p>
-        <div className="grid min-w-0 gap-2 sm:grid-cols-2"><p className="whitespace-pre-wrap break-words">Current: {displayValue(change.before)}</p><p className="whitespace-pre-wrap break-words">Package value: {displayValue(change.after)}</p></div>
+        {change.state !== 'signed-original' && <div className="grid min-w-0 gap-2 sm:grid-cols-2"><p className="whitespace-pre-wrap break-words">Current: {displayValue(change.before)}</p><p className="whitespace-pre-wrap break-words">Package value: {displayValue(change.after)}</p></div>}
         {change.state !== 'detach' && <label className="block">Decision<select aria-label={`Preview decision ${change.bindingId}`} className={inputClass} disabled={locked} value={choices[change.bindingId] ?? ''} onChange={event => decision(change.bindingId, event.target.value)}>
-          <option value="">Keep planned behavior</option>{change.state !== 'unavailable' && <><option value="apply-package">Apply package value</option><option value="keep-local">Keep document value as a local override</option><option value="reconnect">Reconnect and apply package value</option></>}<option value="detach">Detach and preserve document value</option>
+          <option value="">Keep planned behavior</option>{change.state !== 'unavailable' && change.state !== 'signed-original' && <><option value="apply-package">Apply package value</option><option value="keep-local">Keep document value as a local override</option><option value="reconnect">Reconnect and apply package value</option></>}<option value="detach">Detach and preserve document value</option>
         </select></label>}
       </article>)}
       {preview.issues.map((issue, index) => <p key={index} className="break-words text-sm text-destructive">{issue}</p>)}

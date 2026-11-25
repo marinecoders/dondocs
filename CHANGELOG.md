@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.285] — 2026-11-24
+
+### Added
+
+- Reuse Marine identity fields across selected official forms.
+
 ## [1.3.284] — 2026-11-24
 
 ### Added

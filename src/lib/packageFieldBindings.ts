@@ -13,7 +13,7 @@ const identity = z.string().min(1).max(100).regex(/^[A-Za-z0-9_-]+$/)
 export const packageFieldBindingSchema = z.object({
   id: identity, factId: identity, memberId: identity, target: packageBindingTargetSchema,
   mode: z.enum(['linked', 'override']), expectedValue: packageBindingValueSchema,
-  format: z.enum(['field', 'uppercase']).default('field'),
+  format: z.enum(['field', 'uppercase', 'name-last', 'name-first', 'name-middle', 'name-full', 'edipi']).default('field'),
 }).strict();
 export type PackageFieldBinding = z.infer<typeof packageFieldBindingSchema>;
 export const packageFieldBindingsSchema = z.object({
@@ -64,6 +64,18 @@ export function formatPackageFactForField(fact: PackageFact, field: PackageBindi
       if (Number(year) < 2000 || Number(year) > 2099) throw new Error('This date falls outside the supported 2000–2099 abbreviated-year range.');
       value = `${Number(day)} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][Number(month) - 1]} ${year.slice(2)}`;
     }
+  }
+  if (format === 'edipi') {
+    if (fact.kind !== 'identifier' || !/^\d{10}$/.test(fact.value) || !['identifier', 'text'].includes(field.kind))
+      throw new Error('Enter a ten-digit EDIPI, including any leading zeros.');
+  } else if (format.startsWith('name-')) {
+    if (fact.kind !== 'text' || field.kind !== 'text') throw new Error('A Marine name requires a text value and a text field.');
+    const parts = fact.value.split(',').map(part => part.trim());
+    if (parts.length < 2 || parts.length > 3 || parts.some(part => !part) || /[\r\n\t]/.test(fact.value))
+      throw new Error('Enter the last name, first name, and optional middle name separated by commas.');
+    const [last, first, middle = ''] = parts;
+    if (format === 'name-full') value = last + ', ' + [first, middle].filter(Boolean).join(' ');
+    else value = format === 'name-last' ? last : format === 'name-first' ? first : middle;
   }
   if (format === 'uppercase') {
     if (typeof value !== 'string' || field.kind === 'date' || field.kind === 'decimal') throw new Error('Only text can use uppercase formatting.');
