@@ -1308,6 +1308,9 @@ function PackageDialog({
                   );
                   const signingAction = editable && packageFormSigningAction(member);
                   const inPackageEditor = !!editorSurface && member.kind === 'native';
+                  const showPreview = loaded && !editorMember && !library && workspaceSection === 'documents' && selectedMember?.id === member.id;
+                  const preview = (originalOnly = false) => <PackageDocumentPreview packageId={record.id} revisionId={revision.id}
+                    member={member} active={showPreview} originalOnly={originalOnly} ports={ports} exportGate={exportGate} />;
                   return (
                     <li
                       key={member.id}
@@ -1335,9 +1338,7 @@ function PackageDialog({
                             onClick={() => void openMemberSigning(member)}>{signingAction}</Button>}
                         </div>}
                       </header>
-                      {member.kind === 'original' && selectedMember?.id === member.id && workspaceSection === 'documents' && <PackagePrintableCopyField
-                        key={member.revisionId} member={member} editable={editable} disabled={busy || pendingPackageEdits}
-                        onChange={file => void run(async () => update(await setPackagePrintableCopy(record, member, file, operation.current?.signal)))} />}
+
                       {editable && member.kind === 'original' && revision.requirements?.items.some(rule =>
                         rule.kind === 'document' && rule.memberId === member.id && rule.completion?.reviewedScan) &&
                         <label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={busy || pendingPackageEdits}
@@ -1376,7 +1377,9 @@ function PackageDialog({
                           save a new revision.
                         </p>
                       )}
-<PackageDocumentPreview packageId={record.id} revisionId={revision.id} member={member} active={loaded && !editorMember && !library && workspaceSection === 'documents' && selectedMember?.id === member.id} ports={ports} exportGate={exportGate} />
+{member.kind === 'original' && showPreview ? <PackagePrintableCopyField key={member.revisionId} member={member}
+                        editable={editable} disabled={busy || pendingPackageEdits} savedPreview={preview}
+                        onChange={file => void run(async () => update(await setPackagePrintableCopy(record, member, file, operation.current?.signal)))} /> : preview()}
 <details><summary className="cursor-pointer text-xs text-muted-foreground">Document details</summary><div className="mt-4 space-y-4"><p className="break-all text-xs text-muted-foreground">
                         {packageRoleLabels[member.role]} ·{" "}
                         {member.kind === "original"

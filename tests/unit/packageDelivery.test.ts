@@ -148,7 +148,10 @@ for (const purpose of ['editable', 'recipient'] as const) it(`keeps pinned confi
 it('binds a printable copy to the source bytes and includes it only in editable delivery', async () => {
   const { record, excluded } = await fixture();
   const file = new File([await pdf('Printable pages')], 'printable.pdf');
-  const paired = await setPackagePrintableCopy(record, excluded, file);
+  if (policy.status !== 'ready') throw new Error('Expected a configured deployment.');
+  await expect(setPackagePrintableCopy(record, excluded, { file, policyIdentity: 'previous-deployment' })).rejects.toThrow('Preview policy changed');
+  expect((await listActionPackages(record.id))[0].currentRevisionId).toBe(record.currentRevisionId);
+  const paired = await setPackagePrintableCopy(record, excluded, { file, policyIdentity: policy.policy.identity });
   const member = getPackageRevision(paired).members.find(item => item.id === excluded.id);
   if (member?.kind !== 'original' || !member.printableCopy) throw new Error('Printable copy missing');
   expect(packageMemberSchema.safeParse({ ...member, printableCopy: { ...member.printableCopy, sourceSha256: 'f'.repeat(64) } }).success).toBe(false);

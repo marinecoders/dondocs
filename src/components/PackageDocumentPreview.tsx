@@ -14,10 +14,10 @@ const PdfViewer = lazy(() => import('./pdf/PdfViewer'));
 type Ports = CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> };
 
 /** Read and render the selected captured member; never activate a library document. */
-export function PackageDocumentPreview({ packageId, revisionId, positionId, formPreview, member, active, ports, exportGate }: {
-  packageId: string; revisionId: string; positionId?: string; formPreview?: PackageFormValues; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
+export function PackageDocumentPreview({ packageId, revisionId, positionId, formPreview, originalOnly, member, active, ports, exportGate }: {
+  packageId: string; revisionId: string; originalOnly?: boolean; positionId?: string; formPreview?: PackageFormValues; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
 }) {
-  const copy = member.kind === 'original' ? member.printableCopy?.asset : undefined;
+  const copy = member.kind === 'original' && !originalOnly ? member.printableCopy?.asset : undefined;
   const [showOriginalOf, setShowOriginalOf] = useState('');
   const printable = copy && showOriginalOf !== member.revisionId ? copy : undefined;
   const owner = `${packageId}:${revisionId}:${member.id}:${member.revisionId}:${printable?.sha256 ?? 'original'}`;

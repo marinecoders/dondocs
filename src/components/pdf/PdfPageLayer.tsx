@@ -104,6 +104,7 @@ interface PdfPageLayerProps {
   /** Hidden layer only: document parsed (numPages known). */
   onLoaded?: (gen: number) => void;
   /** Hidden layer only: restore-window pages painted. */
+  onPaint?: (success: boolean) => void;
   onReady?: (gen: number) => void;
   onFailed?: (gen: number) => void;
 }
@@ -115,7 +116,7 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { sourceToReveal, sources = EMPTY_SOURCES, sourceSubject = '', onSourceMatches, onSourcesInView, onNavigateHint, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { sourceToReveal, sources = EMPTY_SOURCES, sourceSubject = '', onSourceMatches, onSourcesInView, onNavigateHint, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed, onPaint },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -506,7 +507,9 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                         />
                       }
                       error={null}
+                      onRenderError={onPaint && (() => onPaint(false))}
                       onRenderSuccess={() => {
+                        onPaint?.(true);
                         const pending = pendingRenderRef.current;
                         if (!pending) return;
                         pending.delete(i);
