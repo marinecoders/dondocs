@@ -5,16 +5,28 @@
       "name": "NAVMC10274 - Administrative Action",
       "directory": "NAVMC10274 - Administrative Action",
       "description": "Administrative action form for personnel matters",
-      "pages": ["page1.pdf", "page2.pdf", "page3.pdf"],
-      "pageLabels": ["Privacy Act Statement", "Main Form", "Continuation"]
+      "pages": [
+        "page1.pdf",
+        "page2.pdf",
+        "page3.pdf"
+      ],
+      "pageLabels": [
+        "Privacy Act Statement",
+        "Main Form",
+        "Continuation"
+      ]
     },
     {
       "id": "navmc11811",
       "name": "NAVMC11811 - Administrative Remarks",
       "directory": "NAVMC11811 - Administrative Remarks",
       "description": "Page 11 / 6105 counseling entry form",
-      "pages": ["page1.pdf"],
-      "pageLabels": ["Main Form"]
+      "pages": [
+        "page1.pdf"
+      ],
+      "pageLabels": [
+        "Main Form"
+      ]
     },
     {
       "id": "navmc10132",
@@ -24,12 +36,82 @@
       "status": "published",
       "config": true,
       "category": "Legal & Discipline",
-      "keywords": ["UPB", "NJP", "nonjudicial punishment"],
-      "pages": ["original.pdf"]
+      "keywords": [
+        "UPB",
+        "NJP",
+        "nonjudicial punishment"
+      ],
+      "pages": [
+        "original.pdf"
+      ]
+    },
+    {
+      "id": "jagman_a1d",
+      "name": "JAGMAN A-1-d - Rights notice and election",
+      "directory": "jagman/a-1-d/5800.7G-CH2/1",
+      "definitionRevision": "5800.7G-CH2.1",
+      "status": "published",
+      "config": true,
+      "category": "Legal & Discipline",
+      "keywords": [
+        "NJP",
+        "JAGMAN"
+      ],
+      "pages": [
+        "fillable.pdf"
+      ]
+    },
+    {
+      "id": "jagman_a1g",
+      "name": "JAGMAN A-1-g - Acknowledgment of appeal rights",
+      "directory": "jagman/a-1-g/5800.7G-CH2/1",
+      "definitionRevision": "5800.7G-CH2.1",
+      "status": "published",
+      "config": true,
+      "category": "Legal & Discipline",
+      "keywords": [
+        "NJP",
+        "JAGMAN"
+      ],
+      "pages": [
+        "fillable.pdf"
+      ]
+    },
+    {
+      "id": "jagman_a1e",
+      "name": "JAGMAN A-1-e - Education assistance reimbursement notice",
+      "directory": "jagman/a-1-e/5800.7G-CH2/1",
+      "definitionRevision": "5800.7G-CH2.1",
+      "status": "published",
+      "config": true,
+      "category": "Legal & Discipline",
+      "keywords": [
+        "NJP",
+        "JAGMAN"
+      ],
+      "pages": [
+        "fillable.pdf"
+      ]
+    },
+    {
+      "id": "jagman_a1o",
+      "name": "JAGMAN A-1-o - Suspect rights acknowledgment and statement",
+      "directory": "jagman/a-1-o/5800.7G-CH2/1",
+      "definitionRevision": "5800.7G-CH2.1",
+      "status": "published",
+      "config": true,
+      "category": "Legal & Discipline",
+      "keywords": [
+        "NJP",
+        "JAGMAN"
+      ],
+      "pages": [
+        "fillable.pdf"
+      ]
     },
     {
       "id": "dd0368",
-      "name": "DD Form 368 – Request for Conditional Release",
+      "name": "DD Form 368 \u2013 Request for Conditional Release",
       "directory": "dd/0368/2024-11-26",
       "definitionRevision": "2011-08.upd20241126",
       "status": "published",

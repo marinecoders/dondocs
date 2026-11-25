@@ -21,6 +21,7 @@ export function missingPackageSignatures(member: PackageMember, rule?: FormCompl
 }
 
 export function officialFormCompletionIssues(member: PackageMember, rule?: FormCompletion, onIssue?: (message: string, correction?: import('./packageDestinations').PackageCorrection) => void): string[] {
+  if (rule?.deliveryBlockReason) return [rule.deliveryBlockReason];
   const issues: string[] = [];
   const add = (message: string, correction?: import('./packageDestinations').PackageCorrection) => { issues.push(message); onIssue?.(message, correction); };
   if (member.kind === 'native' && member.session.genericForm) {

@@ -1,1 +1,58 @@
-[]
+[
+  {
+    "id": "jagman_a1d",
+    "edition": "5800.7G-CH2",
+    "name": "JAGMAN A-1-d - Rights notice and election.pdf",
+    "directory": "jagman/a-1-d/5800.7G-CH2",
+    "file": "original.pdf",
+    "sha256": "0dcd642558abfff51dd62196415fc3dc15351d9b3d4c65a2d58e0fdbbe1cac0a"
+  },
+  {
+    "id": "jagman_a1f",
+    "edition": "5800.7G-CH2",
+    "name": "JAGMAN A-1-f - Proceedings guide.pdf",
+    "directory": "jagman/a-1-f/5800.7G-CH2",
+    "file": "original.pdf",
+    "sha256": "42fc57bd0cafbc212c117a366239534f7f769375b09b6e17294f4549682036b8"
+  },
+  {
+    "id": "jagman_a1g",
+    "edition": "5800.7G-CH2",
+    "name": "JAGMAN A-1-g - Appeal rights.pdf",
+    "directory": "jagman/a-1-g/5800.7G-CH2",
+    "file": "original.pdf",
+    "sha256": "e44de2be4ea00a2d6708ebb5624f135fedc11519d640a4310ad3fc7fab3ceeaa"
+  },
+  {
+    "id": "jagman_a1e",
+    "edition": "5800.7G-CH2",
+    "name": "JAGMAN A-1-e - Education assistance reimbursement notice.pdf",
+    "directory": "jagman/a-1-e/5800.7G-CH2",
+    "file": "original.pdf",
+    "sha256": "3328c4e3acfe6bd1f0b3184743b1e40fe3ca1ddc24425e3867b694d36abc23e9"
+  },
+  {
+    "id": "jagman_a1h",
+    "edition": "5800.7G-CH2",
+    "name": "JAGMAN A-1-h - Sample punitive letter of reprimand.pdf",
+    "directory": "jagman/a-1-h/5800.7G-CH2",
+    "file": "original.pdf",
+    "sha256": "04fe94a608f55210ec9adf14ce643d23077105ed61a794f48f53ca9893279439"
+  },
+  {
+    "id": "jagman_a1o",
+    "edition": "5800.7G-CH2",
+    "name": "JAGMAN A-1-o - Suspect rights acknowledgment and statement.pdf",
+    "directory": "jagman/a-1-o/5800.7G-CH2",
+    "file": "original.pdf",
+    "sha256": "622110041498078de3ca023f43df5fee213649447618b7a72c2f9c856b70b73d"
+  },
+  {
+    "id": "navmc_10274",
+    "edition": "2020-07",
+    "name": "NAVMC 10274 - Administrative Action.pdf",
+    "directory": "NAVMC10274 - Administrative Action/2020-07",
+    "file": "original.pdf",
+    "sha256": "ca93f0f8bcb0ba97442c3807f070ba752e48a8c0ea3d02bc0ffabbcc53ceeb4a"
+  }
+]

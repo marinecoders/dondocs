@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 2,
+  "formId": "jagman_a1g",
+  "label": "JAGMAN A-1-g - Acknowledgment of appeal rights",
+  "directory": "jagman/a-1-g/5800.7G-CH2/1",
+  "definitionRevision": "5800.7G-CH2.1",
+  "nativePdfEdition": "5800.7G-CH2.1",
+  "templateRevision": "256386c99b24f8af51367a61a2c192ffdca207885fe78afa6cd79e4552dd56e2",
+  "pages": [
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "256386c99b24f8af51367a61a2c192ffdca207885fe78afa6cd79e4552dd56e2"
+    }
+  ],
+  "fields": {
+    "marine": {
+      "kind": "text",
+      "label": "Marine name",
+      "sourceIds": [
+        "marine"
+      ],
+      "requiredAt": "export"
+    },
+    "unit": {
+      "kind": "text",
+      "label": "Assigned unit",
+      "sourceIds": [
+        "unit"
+      ],
+      "requiredAt": "export"
+    },
+    "hearing": {
+      "kind": "date",
+      "label": "Hearing date",
+      "sourceIds": [
+        "hearing"
+      ],
+      "requiredAt": "export"
+    },
+    "authority": {
+      "kind": "text",
+      "label": "Appeal authority",
+      "sourceIds": [
+        "authority"
+      ],
+      "requiredAt": "export"
+    },
+    "Appeal_Marine": {
+      "kind": "signature",
+      "label": "Marine acknowledgment",
+      "sourceIds": [
+        "Appeal_Marine"
+      ]
+    },
+    "Appeal_witness": {
+      "kind": "signature",
+      "label": "Witness acknowledgment",
+      "sourceIds": [
+        "Appeal_witness"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "notice",
+      "title": "Appeal rights",
+      "fields": [
+        "marine",
+        "unit",
+        "hearing",
+        "authority",
+        "Appeal_Marine",
+        "Appeal_witness"
+      ]
+    }
+  ],
+  "placements": [
+    {
+      "fieldId": "marine",
+      "page": 1,
+      "box": {
+        "left": 117,
+        "top": 645,
+        "width": 265,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "unit",
+      "page": 1,
+      "box": {
+        "left": 181,
+        "top": 633,
+        "width": 141,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "hearing",
+      "page": 1,
+      "box": {
+        "left": 317,
+        "top": 609,
+        "width": 153,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority",
+      "page": 1,
+      "box": {
+        "left": 122,
+        "top": 559,
+        "width": 413,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Appeal_Marine",
+      "page": 1,
+      "box": {
+        "left": 94,
+        "top": 149,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Appeal_witness",
+      "page": 1,
+      "box": {
+        "left": 329,
+        "top": 149,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    }
+  ],
+  "rowGroups": {}
+}

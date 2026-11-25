@@ -123,6 +123,20 @@ class OfficialSigning(unittest.TestCase):
         self.assertIn(b"Qualification example.", after)
         self.assertIn(b"Second column.", after)
 
+    def test_jagman_countersignatures(self):
+        for code, field_names in [("d", ["Election_Marine", "Election_witness"]),
+                                  ("g", ["Appeal_Marine", "Appeal_witness"]),
+                                  ("e", ["Education_Marine", "Education_witness"]),
+                                  ("o", ["Suspect_signature", "Statement_suspect"])]:
+            with self.subTest(appendix=code):
+                data = (self.templates / f"jagman/a-1-{code}/5800.7G-CH2/1/fillable.pdf").read_bytes()
+                before = sign_revision(data, field_names[0], self.signer, self.context)
+                inspect_return(before, len(data), sha256(data).hexdigest(), self.context)
+                after = sign_revision(before, field_names[1], self.signer, self.context)
+                self.assertTrue(after.startswith(before))
+                _, slots = inspect_return(after, len(before), sha256(before).hexdigest(), self.context)
+                self.assertEqual({s["name"] for s in slots if s["signed"] and s["trusted"]}, set(field_names))
+
     def test_unit_punishment_book_enforces_publisher_locks(self):
         data = (self.templates / "NAVMC10132 - Unit Punishment Book/original.pdf").read_bytes()
         _, slots = inspect_revision(data, self.context)

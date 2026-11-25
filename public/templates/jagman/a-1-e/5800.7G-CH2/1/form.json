@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 2,
+  "formId": "jagman_a1e",
+  "label": "JAGMAN A-1-e - Education assistance reimbursement notice",
+  "directory": "jagman/a-1-e/5800.7G-CH2/1",
+  "definitionRevision": "5800.7G-CH2.1",
+  "nativePdfEdition": "5800.7G-CH2.1",
+  "templateRevision": "2bcef17c46a2853aa667cdcfee06ff9e4ce6e61113e29a868589b451b396d7e0",
+  "pages": [
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "2bcef17c46a2853aa667cdcfee06ff9e4ce6e61113e29a868589b451b396d7e0"
+    }
+  ],
+  "fields": {
+    "Education_Marine": {
+      "kind": "signature",
+      "label": "Marine acknowledgment",
+      "sourceIds": [
+        "Education_Marine"
+      ]
+    },
+    "date": {
+      "kind": "date",
+      "label": "Acknowledgment date",
+      "sourceIds": [
+        "date"
+      ],
+      "requiredAt": "export"
+    },
+    "Education_witness": {
+      "kind": "signature",
+      "label": "Witness acknowledgment",
+      "sourceIds": [
+        "Education_witness"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "notice",
+      "title": "Acknowledgment",
+      "fields": [
+        "Education_Marine",
+        "date",
+        "Education_witness"
+      ]
+    }
+  ],
+  "placements": [
+    {
+      "fieldId": "Education_Marine",
+      "page": 1,
+      "box": {
+        "left": 94,
+        "top": 557,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "date",
+      "page": 1,
+      "box": {
+        "left": 94,
+        "top": 501,
+        "width": 196,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Education_witness",
+      "page": 1,
+      "box": {
+        "left": 94,
+        "top": 461,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    }
+  ],
+  "rowGroups": {}
+}

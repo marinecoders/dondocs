@@ -29,3 +29,22 @@ it('returns validation findings for an empty recipe and uses the import limit fo
   expect(packageConditionalStateSchema.safeParse(state).success).toBe(true);
   expect(packageConditionalStateSchema.safeParse({ ...state, source: { ...state.source, size: MAX_ACTION_TEMPLATE_BYTES + 1 } }).success).toBe(false);
 });
+
+it('keeps each JAGMAN original beside its editable editions and verifies their common source', async () => {
+  const { default: references } = await import('@/data/packageReferenceEditions.json');
+  const { default: forms } = await import('@/data/officialPdfEditions.json');
+  const { createHash } = await import('node:crypto');
+  const originals = references.filter(item => item.id.startsWith('jagman_'));
+  expect(originals).toHaveLength(6);
+  for (const item of originals) {
+    const root = 'public/templates/' + item.directory;
+    const bytes = await readFile(root + '/' + item.file);
+    expect(createHash('sha256').update(bytes).digest('hex')).toBe(item.sha256);
+    for (const edition of forms.filter(form => form.formId === item.id && form.edition.startsWith(item.edition + '.'))) {
+      expect(edition.directory.startsWith(item.directory + '/')).toBe(true);
+      const filled = await readFile('public/templates/' + edition.directory + '/' + edition.file);
+      expect(filled.subarray(0, bytes.length).equals(bytes)).toBe(true);
+      expect(createHash('sha256').update(filled).digest('hex')).toBe(edition.sha256);
+    }
+  }
+});

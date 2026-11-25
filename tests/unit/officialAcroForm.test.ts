@@ -131,3 +131,25 @@ it('updates the remaining linked form and preserves an already signed official m
     expect(Buffer.compare(Buffer.from(portable.resources.get('assets/' + signedMember.original.id)!.data), signed)).toBe(0);
   } finally { vi.restoreAllMocks(); vi.unstubAllGlobals(); }
 }, 45_000);
+
+it('reads required answers from the actual saved election rather than its package metadata', async () => {
+  const { missingRequiredPdfFields } = await import('@/services/forms/readRequiredPdfFields');
+  const directory = 'public/templates/jagman/a-1-d/5800.7G-CH2/1';
+  const definition = compileFormDefinition(JSON.parse(await readFile(directory + '/form.json', 'utf8')));
+  const original = new Uint8Array(await readFile(directory + '/fillable.pdf'));
+  const required = ['marine', 'unit', 'election'];
+  expect(await missingRequiredPdfFields(original.buffer, required)).toEqual(required);
+  const rendered = await renderForm({ definition, answers: { marine: 'TRAINING EXAMPLE', election: 'refuse' }, rows: {}, answerRevision: 1 },
+    'preview', async () => original);
+  expect(await missingRequiredPdfFields(new Uint8Array(rendered.bytes).buffer, required)).toEqual(['unit']);
+});
+
+
+it('rejects missing and mismatched official editions when starting a recipe slot', async () => {
+  const { officialFormBlueprint } = await import('@/lib/packageOfficialForms');
+  const member = { key: 'rights', role: 'supporting-document' as const, required: true, formId: 'jagman_a1d' };
+  await expect(officialFormBlueprint({ ...member, completion: { expectedForm: { id: member.formId, edition: 'unavailable' } } }))
+    .rejects.toThrow('official form is unavailable');
+  await expect(officialFormBlueprint({ ...member, completion: { expectedForm: { id: 'jagman_a1g', edition: '5800.7G-CH2.1' } } }))
+    .rejects.toThrow('different official form');
+});
