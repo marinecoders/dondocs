@@ -302,3 +302,34 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
   });
 
 });
+
+test('fills a new evidence slot from an original already in the package without uploading it twice', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing', exact: true }).click();
+  const workspace = await packages(page);
+  let panel = await start(workspace, 'administrative request');
+  await fill(panel, { Requester: 'Alex Example', Organization: 'Example Unit', Recipient: 'Training Office',
+    'Request subject': 'Training request', 'Request date': '2026-11-25', SSIC: '1500', 'Requested action and justification': 'Request local training.' });
+  await panel.getByLabel('Include a supporting PDF?').selectOption('false');
+  await apply(panel);
+  await packageSection(workspace, 'Documents', true);
+  const source = await PDFDocument.create();
+  source.addPage().drawText('Exact source retained for local training');
+  const bytes = Buffer.from(await source.save());
+  await workspace.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'training-source.pdf', mimeType: 'application/pdf', buffer: bytes });
+  await expect(workspace.getByRole('navigation', { name: 'Package documents' })).toContainText('training-source');
+  panel = await continueIntake(workspace);
+  await panel.getByLabel('Include a supporting PDF?').selectOption('true');
+  await panel.getByText('Use a document already in this package', { exact: true }).click();
+  const picker = panel.getByRole('combobox', { name: /^Saved version for / });
+  await picker.selectOption({ index: 1 });
+  await apply(panel);
+  const exported = await portable(page, workspace);
+  const revision = exported.data.package.revisions[0];
+  const originals = revision.members.filter((member: { kind: string }) => member.kind === 'original');
+  expect(originals).toHaveLength(2);
+  expect(originals[0].id).not.toBe(originals[1].id);
+  expect(originals[0].original).toEqual(originals[1].original);
+  const resource = exported.data.portableResources.entries.find((entry: { path: string }) => entry.path === 'assets/' + originals[0].original.id);
+  expect(Buffer.from(resource.data, 'base64')).toEqual(bytes);
+});

@@ -2,7 +2,8 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
 import { PDFDocument } from 'pdf-lib';
-import { createActionPackage, getPackageRevision, listActionPackages, packageAssets, reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
+import { actionPackageSchema, createActionPackage, getPackageRevision, listActionPackages, packageAssets, reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
+import { packageRevisionSources, resolvePackageRevisionSource } from '@/lib/packageRevisionSources';
 import { capturePackageMember, captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
 import { createBlankSession } from '@/stores/documentStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
@@ -253,4 +254,51 @@ it('tracks manual scan review by exact PDF bytes independently of certificate tr
   expect(checked.items[0].message).toContain('reviewed manually');
   original.signatureReviewSha256 = '0'.repeat(64);
   expect((await inspectPackageRequirements(revision, 'pdf')).ready).toBe(false);
+});
+
+it('assigns an older exact PDF to a manual evidence slot across portable transfer without replacing the current member', async () => {
+  const first = await fixture(), revision = getPackageRevision(first), original = revision.members[1];
+  if (original.kind !== 'original') throw new Error('Expected an original');
+  const other = await PDFDocument.create(); other.addPage([300, 300]);
+  const replacement = await captureOriginalPackageMember({ name: 'revised.pdf', data: new Uint8Array(await other.save()).buffer }, 'enclosure', false);
+  const linked = { ...original, role: 'endorsement' as const, revisionId: 'signed-endorsement-version',
+    endorsementLink: { basicMemberId: revision.members[0].id, basicRevisionId: revision.members[0].revisionId,
+      ordinal: 'FIRST', firstReference: 'a', firstEnclosure: 1 } };
+  const routed = await reviseActionPackage(first, [revision.members[0], linked]);
+  const changed = await reviseActionPackage(routed, [revision.members[0], { ...replacement, id: original.id }]);
+  const assigned = await attach(changed, requirements(slot({ memberId: original.id, memberRevisionId: linked.revisionId })));
+  const transferred = await parsePortableActionPackage(await buildPortableActionPackage(assigned));
+  const saved = getPackageRevision(transferred.record);
+  expect(saved.members[1]).toMatchObject({ id: original.id, revisionId: replacement.revisionId });
+  expect(saved.members[2].endorsementLink).toBeUndefined();
+  expect(saved.members[2]).toMatchObject({ kind: 'original', original: original.original });
+  expect(saved.requirements!.items[0]).toMatchObject({ memberId: saved.members[2].id, memberRevisionId: saved.members[2].revisionId });
+  expect((await inspectPackageRequirements(saved, 'pdf')).ready).toBe(true);
+  saved.members[2] = { ...replacement, id: saved.members[2].id };
+  expect((await inspectPackageRequirements(saved, 'pdf')).ready).toBe(false);
+});
+
+
+it('only offers and resolves members of the selected package revision and its available ancestors', async () => {
+  const record = await fixture();
+  const original = getPackageRevision(record).members[1];
+  const root = { id: 'root', createdAt: 1, members: [original], outputs: [] };
+  const version = (id: string, parentId?: string) => ({ ...root, id, parentId, members: [{ ...original, revisionId: id }] });
+  const fork = actionPackageSchema.parse({ ...record, currentRevisionId: 'selected',
+    revisions: [root, version('sibling', 'root'), version('selected', 'root')] });
+  const versions = (input: ActionPackage, through = input.currentRevisionId) => packageRevisionSources(input, through).map(source => source.revisionId);
+  const source = (revisionId: string) => ({ memberId: original.id, revisionId });
+  expect(versions(fork)).toEqual(['selected', original.revisionId]);
+  expect(versions(fork, 'sibling')).toEqual(['sibling', original.revisionId]);
+  expect(resolvePackageRevisionSource(fork, source(original.revisionId))).toEqual(original);
+  expect(() => resolvePackageRevisionSource(fork, source('sibling'))).toThrow('unavailable');
+
+  const transferred = actionPackageSchema.parse({ ...fork, historyScope: 'selected-revision',
+    revisions: [version('selected', 'omitted-parent')] });
+  const separateRoot = actionPackageSchema.parse({ ...fork, revisions: [root, version('selected')] });
+  for (const partial of [transferred, separateRoot]) {
+    expect(versions(partial)).toEqual(['selected']);
+    expect(resolvePackageRevisionSource(partial, source('selected')).revisionId).toBe('selected');
+    expect(() => resolvePackageRevisionSource(partial, source(original.revisionId))).toThrow('unavailable');
+  }
 });

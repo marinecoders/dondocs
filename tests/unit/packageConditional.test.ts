@@ -1,5 +1,5 @@
 import 'fake-indexeddb/auto';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, onTestFinished, vi } from 'vitest';
 import { createBlankSession } from '@/stores/documentStore';
 import { prepareConditionalPackage, applyPreparedConditionalPackage, saveConditionalPackageDraft, undoConditionalPackage,
   readConditionalPackageTemplate, conditionalPackageAnswers, packageTemplateInstanceKey } from '@/lib/packageConditional';
@@ -578,4 +578,38 @@ describe('PR8 independent adversarial regressions', () => {
     const undone = await undoConditionalPackage(applied.undo!, policy);
     expect(undone.name).toBe(record.name);
   });
+});
+
+it('uses an exact saved PDF in another recipe slot and checks its active completion rules before applying', async () => {
+  // Use the installed worker when reading real PDF fields outside the browser.
+  await import('@/components/pdf/pdfConfig');
+  const { pdfjs } = await import('react-pdf');
+  const worker = pdfjs.GlobalWorkerOptions.workerSrc;
+  pdfjs.GlobalWorkerOptions.workerSrc = import.meta.resolve('pdfjs-dist/build/pdf.worker.mjs');
+  onTestFinished(() => { pdfjs.GlobalWorkerOptions.workerSrc = worker; });
+  const { PDFDocument } = await import('pdf-lib');
+  const pdf = await PDFDocument.create(); pdf.addPage();
+  const file = { name: 'original.pdf', signedOriginal: true, data: new Uint8Array(await pdf.save()).buffer };
+  const recipe = template();
+  recipe.members.push({ key: 'a', kind: 'attachment', role: 'enclosure', required: true, label: 'Source' },
+    { key: 'b', kind: 'attachment', role: 'enclosure', required: true, label: 'Return' },
+    { key: 'c', kind: 'attachment', role: 'enclosure', required: true, label: 'Verified return', completion: { signatureFields: ['Official signature'] } },
+    { key: 'd', kind: 'attachment', role: 'enclosure', required: true, label: 'Completed return', completion: { requiredPdfFields: ['ApplicationDate'] } },
+    { key: 'e', kind: 'attachment', role: 'enclosure', required: true, label: 'Official return', completion: { expectedForm: { id: 'navmc_118_11', edition: 'test-edition' } } });
+  const run = { template: recipe, answers: answers() };
+  const first = await prepareConditionalPackage({ ...run, attachments: { [packageTemplateInstanceKey('a')]: file } }, policy);
+  const record = (await applyPreparedConditionalPackage(first, policy, true)).record;
+  const source = getPackageRevision(record).members.find(member => member.label === 'Source')!;
+  if (source.kind !== 'original') throw new Error('Expected original');
+  const reuse = { name: source.label, reuse: { memberId: source.id, revisionId: source.revisionId } };
+  await expect(prepareConditionalPackage({ ...run, record, attachments: { [packageTemplateInstanceKey('c')]: reuse } }, policy)).rejects.toThrow('Sign or verify');
+  await expect(prepareConditionalPackage({ ...run, record, attachments: { [packageTemplateInstanceKey('d')]: reuse } }, policy)).rejects.toThrow('ApplicationDate');
+  await expect(prepareConditionalPackage({ ...run, record, attachments: { [packageTemplateInstanceKey('e')]: reuse } }, policy)).rejects.toThrow('form and edition');
+  const preview = await prepareConditionalPackage({ ...run, record, attachments: { [packageTemplateInstanceKey('b')]: reuse } }, policy);
+  const updated = (await applyPreparedConditionalPackage(preview, policy, true)).record;
+  const restored = await parsePortableActionPackage(await buildPortableActionPackage(updated));
+  const received = getPackageRevision(restored.record).members.find(member => member.label === 'Return')!;
+  expect(received).toMatchObject({ kind: 'original', signedOriginal: true, original: source.original });
+  expect(received.id).not.toBe(source.id);
+  expect(restored.resources.get('assets/' + source.original.id)?.data).toEqual(file.data);
 });

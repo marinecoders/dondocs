@@ -1,4 +1,5 @@
 import { packageEndorsementRoutes } from './packageEndorsements';
+import { resolvePackageRevisionSource, type MemberRevisionSource } from './packageRevisionSources';
 import { captureTemplateSource } from './packageTemplateResources';
 import { templateMemberPages } from '@/lib/packageTemplateSchema';
 import { reviewPackageSigningMetadata } from './actionPackageDisclosure';
@@ -45,6 +46,7 @@ export interface ConditionalAnswerChange {
   key: string; label: string; before?: PackageTemplateAnswer; current?: PackageTemplateAnswer; requested?: PackageTemplateAnswer;
   state: 'update' | 'kept-current' | 'conflict';
 }
+export type ConditionalPdfChoice = TemplateAttachment | { name: string; reuse: MemberRevisionSource };
 export interface ConditionalPackageInput {
   template: PackageTemplateV2; answers: PackageTemplateAnswers; record?: ActionPackage; name?: string;
   /** A durable roster reserves a fresh owning ID; the final before=null insert still rejects collisions. */
@@ -52,7 +54,7 @@ export interface ConditionalPackageInput {
   memberChoices?: Readonly<Record<string, ConditionalMemberChoice>>;
   fieldChoices?: PackageUpdateChoices;
   answerChoices?: Readonly<Record<string, 'keep-current' | 'use-intake'>>;
-  attachments?: Readonly<Record<string, TemplateAttachment>>;
+  attachments?: Readonly<Record<string, ConditionalPdfChoice>>;
 }
 export interface PreparedConditionalPackage {
   readonly packageName: string; readonly ready: boolean; readonly changed: boolean;
@@ -80,7 +82,7 @@ function editable(record: ActionPackage | null): void {
   if (record?.reviewRounds?.some(round => round.ownerPackageId === undefined)) throw new Error('A reviewer copy cannot change its captured intake.');
 }
 function capturedInput<T extends Pick<ConditionalPackageInput, 'template' | 'answers' | 'record' | 'name'>>(input: T): T {
-  const files = Object.values((input as ConditionalPackageInput).attachments ?? {});
+  const files = Object.values((input as ConditionalPackageInput).attachments ?? {}).filter((file): file is TemplateAttachment => !('reuse' in file));
   if (files.some(file => !(file.data instanceof ArrayBuffer) || !file.data.byteLength || file.data.byteLength > 25 * 1024 * 1024)
     || files.reduce((sum, file) => sum + file.data.byteLength, 0) > MAX_TEMPLATE_ACTION_BYTES)
     throw new Error('Choose supported PDFs within the 25 MB file and 64 MB combined limits.');
@@ -498,6 +500,7 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
       memberId: newPackageId('member'), label: item.label, required: item.required, condition: item.condition }; state.instances.push(instance); }
     else instance.condition = item.condition;
   }
+  const requirementSlots = conditionalRequirementSlots(template, answers, state);
   for (const instance of state.instances) {
     signal?.throwIfAborted();
     const blueprint = template.members.find(member => member.key === instance.memberKey)!;
@@ -573,14 +576,29 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
     if (blueprint.kind === 'attachment') {
       const file = input.attachments?.[instance.key];
       if (!file) { changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'missing', message: 'No file has been supplied. This remains an evidence slot.' }); continue; }
-      if (!/\.pdf$/i.test(file.name)) throw new Error('Action evidence slots currently accept PDF originals.');
-      signal?.throwIfAborted(); await validatePackageOriginalPdf(file.data);
-      reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
-      member = { id: instance.memberId, revisionId: newPackageId('member-revision'), label: instance.label, role: blueprint.role, required: blueprint.required,
-        kind: 'original', signedOriginal: file.signedOriginal, original: await stage(attachments, file.name, 'application/pdf', file.data) };
+      const identity = { id: instance.memberId, revisionId: newPackageId('member-revision'), label: instance.label, role: blueprint.role, required: blueprint.required };
+      if ('reuse' in file) {
+        if (!before) throw new Error('Save the package before choosing an existing document version.');
+        const source = resolvePackageRevisionSource(before, file.reuse);
+        if (source.kind !== 'original') throw new Error('Choose a saved original PDF for this attachment slot.');
+        const bytes = await readPackageAsset(source.original);
+        const rules = requirementSlots.flatMap(item =>
+          item.memberId === instance.memberId && item.condition === 'active' && item.completion ? [item.completion] : []);
+        if (!instance.required && blueprint.completion) rules.push(blueprint.completion);
+        const { verifyRevisionForEvidence } = await import('./packageRequirements');
+        await verifyRevisionForEvidence(source, rules, { signal, readAsset: async () => bytes });
+        reviews.push(await reviewPackageOriginal(bytes, source.original.name, policy));
+        member = { ...source, ...identity };
+        delete member.endorsementLink;
+      } else {
+        if (!/\.pdf$/i.test(file.name)) throw new Error('Action evidence slots currently accept PDF originals.');
+        signal?.throwIfAborted(); await validatePackageOriginalPdf(file.data);
+        reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
+        member = { ...identity, kind: 'original', signedOriginal: file.signedOriginal, original: await stage(attachments, file.name, 'application/pdf', file.data) };
+      }
     } else member = await nativeMember(blueprint, instance, template, answers, information, state, attachments, bindings);
     instance.generatedDigest = await memberDigest(member); instance.suppressed = false; clean.set(member.id, true); selectedMembers.push(member);
-    changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'add', message: 'Add a fresh captured document from this exact template.' });
+    changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'add', message: 'reuse' in (input.attachments?.[instance.key] ?? {}) ? 'Use the selected saved PDF version, preserving its exact bytes.' : 'Add a fresh captured document from this exact template.' });
   }
   if (issues.length) return early();
   const managedIds = new Set(state.instances.map(instance => instance.memberId));
@@ -644,7 +662,7 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
     const fact = information.facts.find(fact => fact.id === mapping.factId);
     if (fact) mapping.appliedValue = fact.value;
   }
-  const requirements = materializePackageRequirements({ version: 1, items: conditionalRequirementSlots(template, answers, state).map(({ key: _key, ...item }) => item) }, current?.requirements);
+  const requirements = materializePackageRequirements({ version: 1, items: requirementSlots.map(({ key: _key, ...item }) => item) }, current?.requirements);
   reviews.push(reviewPackageRequirements(requirements, policy));
   const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), members: ordered, information, bindings: { version: 1, items: keptBindings },
