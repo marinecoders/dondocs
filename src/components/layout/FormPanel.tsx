@@ -27,7 +27,8 @@ export function FormPanel({ inPackage = false }: { inPackage?: boolean }) {
 function FocusedEditor({ documentId, inPackage }: { documentId: string | null; inPackage: boolean }) {
   const { sections, config, isFormsMode, formType } = useEditorSections();
   const pageScroll = usePageScrollLayout() && !inPackage;
-  const scrollMode = useUIStore((s) => s.editorLayout === 'scroll');
+  const layout = useUIStore(s => isFormsMode ? s.formEditorLayout : s.editorLayout);
+  const scrollMode = layout === 'scroll';
   const previousMode = useRef(scrollMode);
   const initialPlacement = useRef(true);
   const jumpPinned = useRef(false);
@@ -36,7 +37,7 @@ function FocusedEditor({ documentId, inPackage }: { documentId: string | null; i
   const [section, setSection] = useState(() => {
     const requested = useEditorOutlineStore.getState().pendingJump;
     const id = requested?.documentId === documentId ? requested?.sectionId : (documentId ? useUIStore.getState().documentPositions[documentId]?.section : undefined);
-    return sections.some((s) => s.id === id) ? id! : isFormsMode ? 'content' : 'body';
+    return sections.some((s) => s.id === id) ? id! : isFormsMode ? (scrollMode ? sections[0]?.id ?? 'content' : 'content') : 'body';
   });
   const active = sections.some((s) => s.id === section) ? section : sections[0]?.id ?? 'content';
   const scrollWrapRef = useRef<HTMLDivElement>(null);
@@ -107,7 +108,7 @@ function FocusedEditor({ documentId, inPackage }: { documentId: string | null; i
     const root = getScrollRoot();
     if (!root) return;
     const remember = () => {
-      if (documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, activeRef.current);
+      if (documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, activeRef.current, layout);
     };
     const onScroll = () => {
       if (scrollMode && !jumpPinned.current) {
@@ -138,12 +139,12 @@ function FocusedEditor({ documentId, inPackage }: { documentId: string | null; i
       root.removeEventListener('keydown', releasePin);
       window.removeEventListener('pagehide', remember);
     };
-  }, [scrollMode, sections, documentId, getScrollRoot]);
+  }, [scrollMode, layout, sections, documentId, getScrollRoot]);
 
   useEffect(() => {
     const root = getScrollRoot();
-    if (root && documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, active);
-  }, [active, documentId, getScrollRoot]);
+    if (root && documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, active, layout);
+  }, [active, layout, documentId, getScrollRoot]);
 
   useEffect(() => {
     useEditorOutlineStore.getState().registerJump(jumpTo);

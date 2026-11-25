@@ -151,6 +151,8 @@ test('two Unit Punishment Books retain independent answers, previews and recover
   const name = editor.getByLabel('18 Accused full name', { exact: true });
   const remarks = editor.getByLabel('21 Remarks', { exact: true });
   await picker.selectOption(first);
+  await expect(section).toHaveValue('all');
+  await expect(remarks).toBeVisible();
   await name.fill('ALPHA EXAMPLE');
   await picker.selectOption(second);
   await expect(name).toHaveValue('');
@@ -192,7 +194,8 @@ test('two Unit Punishment Books retain independent answers, previews and recover
   await workspace.getByRole('button', { name: 'Back to current version' }).click();
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
   await expect(remarks).toHaveValue('Recover this exact input');
-  await section.selectOption({ label: 'Unit punishment record' });
+  await section.selectOption({ label: 'Full document' });
+  await expect(remarks).toHaveValue('Recover this exact input');
   await expect(name).toHaveValue('BRAVO EXAMPLE');
   await picker.selectOption(first);
   await expect(name).toHaveValue('ALPHA EXAMPLE');

@@ -11,6 +11,7 @@ import { usePackageFormEditor } from './usePackageFormEditor';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dialog';
 
+import { useUIStore } from '@/stores/uiStore';
 import { showAppConfirm } from '@/stores/alertStore';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -46,8 +47,9 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
     return () => clearTimeout(timer);
   }, [editor.values]);
   const position = record.id + '/' + member.id;
+  const defaultLayout = useUIStore(s => s.formEditorLayout);
   const [sectionId, setSection] = useState(() => readFormLocation(position));
-  const [expanded, setExpanded] = useState(() => (readFormLocation(position + '/sections') || 'marine').split(','));
+  const [expanded, setExpanded] = useState(() => (readFormLocation(position + '/sections') || (defaultLayout === 'scroll' ? 'marine,content,signatures' : 'marine')).split(','));
   const switching = useRef(false);
   const [leaving, setLeaving] = useState(false);
   async function navigate(action: () => void | Promise<void>) {
@@ -71,9 +73,8 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
   const groups = Object.entries(definition?.rowGroups ?? {});
   const sections = [...(definition?.sections ?? []).map(s => ({ id: 'field/' + s.id, title: s.title })),
     ...groups.map(([key, group]) => ({ id: 'rows/' + key, title: group.title }))];
-  const selected = sections.find(s => s.id === sectionId) ?? sections[0];
-  const section = definition?.sections.find(s => 'field/' + s.id === selected?.id);
-  const rowGroup = groups.find(([key]) => 'rows/' + key === selected?.id);
+  const selected = sections.find(s => s.id === sectionId)?.id ??
+    (sectionId === 'all' || defaultLayout === 'scroll' ? 'all' : sections[0]?.id);
   const issues = instance ? validateAnswers(instance.definition, instance.answers, instance.rows, false) : [];
   const selectClass = 'block min-w-0 max-w-full rounded-md border bg-background px-2 py-1.5 text-sm';
   return <Dialog open onOpenChange={open => { if (!open) void navigate(() => onNavigate()); }}>
@@ -108,21 +109,29 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
           </div>
           <fieldset disabled={!editor.ready || leaving} className="min-w-0 space-y-4">
             {instance && <>
-              <label className="block space-y-1 text-sm font-medium">Form section<select className={selectClass} value={selected?.id ?? ''} onChange={event => {
+              <label className="block space-y-1 text-sm font-medium">Form section<select className={selectClass} value={selected ?? 'all'} onChange={event => {
                 setSection(event.target.value); rememberFormLocation(position, event.target.value);
-              }}>{sections.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}</select></label>
-              {section && <FormSectionFields instance={instance} section={section} issues={issues} prefix="pkg-" onChange={(key, value) => {
-                const current = editor.latest();
-                if (current.kind === 'configured') editor.change({ ...current, answers: { ...current.answers, [key]: value } });
-              }} />}
-              {rowGroup && <FormRows groupKey={rowGroup[0]} group={rowGroup[1]} rows={instance.rows[rowGroup[0]] ?? []} issues={issues}
-                editForm={update => {
-                  const current = editor.latest();
-                  if (current.kind !== 'configured') return;
-                  const next = structuredClone(current);
-                  next.rows[rowGroup[0]] ??= [];
-                  update(next); editor.change(next);
-                }} />}
+              }}><option value="all">Full document</option>{sections.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}</select></label>
+              {instance.definition.sections.filter(s => selected === 'all' || selected === 'field/' + s.id).map(section =>
+                <section key={section.id} className="space-y-2">
+                  {selected === 'all' && <h3 className="font-medium">{section.title}</h3>}
+                  <FormSectionFields instance={instance} section={section} issues={issues} prefix="pkg-" onChange={(key, value) => {
+                    const current = editor.latest();
+                    if (current.kind === 'configured') editor.change({ ...current, answers: { ...current.answers, [key]: value } });
+                  }} />
+                </section>)}
+              {groups.filter(([key]) => selected === 'all' || selected === 'rows/' + key).map(([key, group]) =>
+                <section key={key} className="space-y-2">
+                  {selected === 'all' && <h3 className="font-medium">{group.title}</h3>}
+                  <FormRows groupKey={key} group={group} rows={instance.rows[key] ?? []} issues={issues}
+                    editForm={update => {
+                      const current = editor.latest();
+                      if (current.kind !== 'configured') return;
+                      const next = structuredClone(current);
+                      next.rows[key] ??= [];
+                      update(next); editor.change(next);
+                    }} />
+                </section>)}
             </>}
             {values.kind === 'page11' && <Page11Fields prefix="pkg-" TextField={MemberTextField} RemarksField={MemberRemarksField} navmc11811={values.page11} officialPdfEdition={member.session.forms?.officialPdfEdition}
               expanded={expanded} onExpandedChange={next => { setExpanded(next); rememberFormLocation(position + '/sections', next.join(',') || ','); }}

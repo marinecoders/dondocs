@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.304] — 2026-11-25
+
+### Added
+
+- Open forms in Full document view, remember a focused choice, and show all sections on newly opened package forms.
+
 ## [1.3.303] — 2026-11-25
 
 ### Added

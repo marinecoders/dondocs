@@ -5,7 +5,7 @@ export const FAILED_RELEASE_KEY = 'dondocs-failed-release';
 const restorePoint = z.object({
   schema: z.literal(1), dataFormat: z.literal(1), target: releaseId, previous: releaseId,
   documentId: z.string().nullable(), formType: z.string().optional(), section: z.string().nullable(),
-  view: z.object({ editorLayout: z.enum(['focused', 'scroll']), previewVisible: z.boolean(), sidebarCollapsed: z.boolean(), sidebarOutlineVisible: z.boolean() }),
+  view: z.object({ formEditorLayout: z.enum(['focused', 'scroll']).optional(), editorLayout: z.enum(['focused', 'scroll']), previewVisible: z.boolean(), sidebarCollapsed: z.boolean(), sidebarOutlineVisible: z.boolean() }),
   scroll: z.number().nonnegative(), retried: z.boolean().optional(),
 });
 export type UpdateRestorePoint = z.infer<typeof restorePoint>;
