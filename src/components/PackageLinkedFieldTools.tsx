@@ -35,7 +35,7 @@ export function PackageLinkedFieldTools({ member, revision, disabled, onReview }
       if (!(el instanceof HTMLElement) || host.current?.contains(el)) return;
       const link = links.find(item => item.memberId === member.id && matchesField(el, item));
       if (link) setSelected(link.id);
-      else if (el.matches('input,textarea,[contenteditable="true"]')) setSelected('');
+      else if (el.matches('input,textarea,select,[role="combobox"],[contenteditable="true"]')) setSelected('');
     };
     root.addEventListener('focusin', focus);
     return () => root.removeEventListener('focusin', focus);

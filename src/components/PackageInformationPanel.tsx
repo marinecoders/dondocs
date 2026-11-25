@@ -151,7 +151,14 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
       }
       let active = true;
       void resolvePackageFieldBinding(revision, link).then(result => {
-        if (!active || !result.field) return;
+        if (!active) return;
+        if (!result.field || result.state === 'unsupported' || result.state === 'missing') {
+          handledDestination.current = destination.requestId;
+          setAdvanced(true);
+          setError(result.message);
+          requestAnimationFrame(() => focusPackageDestination(content.current, 'data-package-binding-id', link.id));
+          return;
+        }
         const local = destination.fieldDecision === 'keep-local';
         const fact = revision.information?.facts.find(item => item.id === link.factId);
         if (!fact) return;
@@ -159,7 +166,7 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
         setEditing(true);
         setChoices({ [link.id]: local ? 'keep-local' : 'reconnect' });
         // A last name, uppercase rendering or abbreviated date cannot recover the shared value.
-        if (!local && link.format === 'field' && result.field.value !== null
+        if (!local && link.format === 'field' && result.field.value !== null && result.field.value !== fact.value
           && result.desiredValue === fact.value && packageFactSchema.safeParse({ ...fact, value: result.field.value }).success) {
           const value = result.field.value;
           setDraft(previous => ({ ...previous, facts: previous.facts.map(item => item.id === fact.id
