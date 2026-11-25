@@ -88,7 +88,7 @@ export async function listPackageBindingFields(member: PackageMember): Promise<P
   if (member.kind !== 'native') return [];
   return listSessionFields(member.session);
 }
-async function listSessionFields(session: SerializedSession): Promise<PackageBindingField[]> {
+export async function listSessionFields(session: SerializedSession): Promise<PackageBindingField[]> {
   const result: PackageBindingField[] = [];
   const add = (value: PackageBindingField | null) => {
     if (value && packageBindingTargetSchema.safeParse(value.target).success) result.push(value);

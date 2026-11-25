@@ -1,8 +1,7 @@
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { createBlankSession, type SerializedSession } from '@/stores/documentStore';
 import type { PackageBindingTarget } from './packageBindingTargets';
-import { listPackageBindingFields } from './packageBindingTargets';
-import type { NativePackageMember } from './actionPackages';
+import { listSessionFields } from './packageBindingTargets';
 import type { PackageTemplateV2 } from './packageTemplateSchema';
 import type { PackageTemplateCondition, PackageTemplateProgram, PackageTemplateQuestion } from './packageTemplateProgram';
 import { uint8ArrayToBase64 } from './encoding';
@@ -29,9 +28,8 @@ export async function native(key: string, label: string, session: SerializedSess
   worksheet?: MaintainedWorksheet; when?: PackageTemplateCondition; repeatGroupId?: string; main?: boolean;
 } = {}): Promise<NativeBlueprint> {
   const draft = { ...session, kind: 'dondocs-draft', version: 2, documentKind: session.genericForm ? 'configured-form' : 'correspondence' };
-  const fieldView: NativePackageMember = { id: 'starter', revisionId: 'starter', kind: 'native', label, role: options.main || !session.genericForm ? 'basic-letter' : 'supporting-document',
-    required: true, session, draft: { id: 'starter-draft', name: 'starter.json', type: 'application/json', size: 1, sha256: '0'.repeat(64) } };
-  const qualified = await listPackageBindingFields(fieldView);
+  const role = options.main || !session.genericForm ? 'basic-letter' : 'supporting-document';
+  const qualified = Object.keys(links).length ? await listSessionFields(session) : [];
   const declared: NonNullable<NativeBlueprint['links']> = [];
   for (const [field, questionId] of Object.entries(links)) {
     const target: PackageBindingTarget | undefined = qualified.find(item => item.target.kind === 'configured-form' ? item.target.fieldId === field
@@ -39,7 +37,7 @@ export async function native(key: string, label: string, session: SerializedSess
     if (!target) throw new Error(`The maintained starter cannot qualify ${label}: ${field}.`);
     declared.push({ questionId, target, format: target.kind === 'correspondence' && target.field === 'subject' ? 'uppercase' : 'field' });
   }
-  return { key, kind: 'native', label, required: true, role: fieldView.role, draft,
+  return { key, kind: 'native', label, required: true, role, draft,
     pages: options.worksheet ? { 'page1.pdf': { name: 'page1.pdf', type: 'application/pdf', data: uint8ArrayToBase64(options.worksheet.bytes) } } : {},
     links: declared, ...(options.when ? { when: options.when } : {}), ...(options.repeatGroupId ? { repeatGroupId: options.repeatGroupId } : {}) };
 }

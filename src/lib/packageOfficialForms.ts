@@ -1,3 +1,4 @@
+import { FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
 import { identifyOfficialOriginal, officialEdition, officialFormChoices } from '@/services/forms/nativeCatalog';
 import { loadDefinition } from '@/services/forms/packages';
@@ -5,6 +6,7 @@ import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { captureDocumentRevision } from './capturedDocument';
 import { capturePackageMember, readPackageAsset } from './actionPackageAssets';
 import { copyFormExportTemplates } from './formExportTemplates';
+import { listSessionFields, type PackageBindingTarget } from './packageBindingTargets';
 import { uint8ArrayToBase64 } from './encoding';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import type { PackageMember } from './actionPackages';
@@ -13,7 +15,8 @@ import type { PackageTemplateV2 } from './packageTemplateSchema';
 export const packageOfficialForms = officialFormChoices;
 
 async function officialFormStarter(formId: string) {
-  const form = officialEdition(formId);
+  const form = officialEdition(formId) ?? (Object.hasOwn(FORM_TYPE_LABELS, formId)
+    ? { label: formTypeLabel(formId), format: 'builtin', directory: '', edition: '' } : undefined);
   if (!form) throw new Error('This official form is unavailable.');
   const session = createBlankSession(formId);
   if (form.format === 'acroform') {
@@ -37,16 +40,34 @@ export async function createOfficialFormMember(formId: string, role: PackageMemb
 type NativeStarter = Extract<PackageTemplateV2['members'][number], { kind: 'native' }>;
 
 /** Maintained recipes declare membership. The registry supplies the editor, edition and exact original. */
-export type OfficialFormMembership = Pick<NativeStarter, 'key' | 'role' | 'required' | 'when' | 'repeatGroupId' | 'links' | 'blankPdf' | 'completion'> & { formId: string };
+export type OfficialFormMembership = Pick<NativeStarter, 'key' | 'role' | 'required' | 'when' | 'repeatGroupId' | 'links' | 'blankPdf' | 'completion'> & { formId: string; facts?: Record<string, string> };
 export async function officialFormBlueprint(input: OfficialFormMembership): Promise<NativeStarter> {
-  const { formId, ...membership } = input;
+  const { formId, facts, ...membership } = input;
   const { form, session, captured } = await officialFormStarter(formId);
   const templates = await captureExportFormTemplates(captured);
   if (!templates) throw new Error('The official form templates are unavailable.');
   const pages = Object.fromEntries(Object.entries(copyFormExportTemplates(templates)).map(([file, data]) =>
     [file, { name: file, type: 'application/pdf' as const, data: uint8ArrayToBase64(data) }]));
   const draft = { ...session, kind: 'dondocs-draft', version: 2, documentKind: captured.kind, timestamp: 0 };
-  return { ...membership, kind: 'native', label: form.label, draft, pages };
+  return { ...membership, kind: 'native', label: form.label, draft, pages, links: await memberFactLinks(session, membership.links, facts) };
+}
+
+export async function memberFactLinks(session: Parameters<typeof listSessionFields>[0], existing: NativeStarter['links'], facts: OfficialFormMembership['facts']) {
+  const links = [...existing ?? []];
+  if (facts) {
+    const targets = new Map<string, PackageBindingTarget>();
+    for (const { target } of await listSessionFields(session)) {
+      if (target.kind === 'configured-form') {
+        if (!target.row) targets.set(target.fieldId, target);
+      } else targets.set(target.field, target);
+    }
+    for (const [fieldId, questionId] of Object.entries(facts)) {
+      const target = targets.get(fieldId);
+      if (!target) throw new Error('Unavailable package form field: ' + fieldId);
+      links.push({ questionId, target, format: 'field' });
+    }
+  }
+  return links;
 }
 
 export function packageFormSigningAction(member: PackageMember) {

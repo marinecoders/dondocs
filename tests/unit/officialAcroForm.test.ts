@@ -28,9 +28,10 @@ it('opens the same catalog edition independently and transfers one exact three-p
   });
   try {
     const membership = { key: 'upb', formId: definition.formId, role: 'basic-letter', required: true } as const;
-    const template = await resolveMaintainedRecipe({ id: 'test', createdAt: 0, version: 2, name: 'Training', kind: 'dondocs-package-template', members: [{ ...membership, kind: 'official-form' },
-        { ...membership, kind: 'official-form', key: 'second-upb', role: 'enclosure' }],
-      program: { revision: '1', questions: [], participantGroups: [], requirements: [] } });
+    const template = await resolveMaintainedRecipe({ id: 'test', createdAt: 0, version: 2, name: 'Training', kind: 'dondocs-package-template', members: [{ ...membership, kind: 'official-form', facts: { '18_accused_full_name': 'firstName' } },
+        { ...membership, kind: 'official-form', key: 'second-upb', role: 'enclosure', facts: { '18_accused_full_name': 'secondName' } }],
+      program: { revision: '1', questions: ['firstName', 'secondName'].map(id => ({ id, label: id, kind: 'text', required: true })), participantGroups: [], requirements: [] } });
+    expect(template.members.map(member => member.links?.map(link => link.questionId))).toEqual([['firstName'], ['secondName']]);
     expect(template.members[0]).toMatchObject({ key: 'upb', kind: 'native' });
     expect(template.members[1]).toMatchObject({ key: 'second-upb', pages: {}, pagesFrom: 'upb' });
     const a = await createOfficialFormMember(membership.formId, membership.role);

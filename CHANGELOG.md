@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.292] — 2026-11-25
+
+### Added
+
+- Map package answers to fields independently on each copy of a catalog form.
+
 ## [1.3.291] — 2026-11-25
 
 ### Added

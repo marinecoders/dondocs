@@ -80,10 +80,13 @@ export async function resolveMaintainedRecipe(recipe: MaintainedRecipe): Promise
       members.push(member);
       continue;
     }
-    const { formId, ...membership } = member;
+    const { formId, facts, ...membership } = member;
     const original = originals.get(formId);
     if (original) {
-      members.push({ ...membership, kind: 'native', label: original.label, draft: structuredClone(original.draft),
+      const { memberFactLinks } = await import('./packageOfficialForms');
+      const { validatePackageDraft } = await import('./actionPackageDraft');
+      const links = facts ? await memberFactLinks((await validatePackageDraft(original.draft)).session, membership.links, facts) : membership.links;
+      members.push({ ...membership, ...(links && { links }), kind: 'native', label: original.label, draft: structuredClone(original.draft),
         pages: {}, pagesFrom: original.key });
     } else {
       const { officialFormBlueprint } = await import('./packageOfficialForms');
