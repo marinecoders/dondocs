@@ -1,3 +1,4 @@
+import { indexDeliveryDocuments } from '@/lib/packageDeliveryDocuments';
 import { packageFormSigningAction } from '@/lib/packageOfficialForms';
 import { packageSignatureFieldLabel } from '@/lib/packageSignatureFieldLabel';
 import type { PackageRevision } from '@/lib/actionPackages';
@@ -7,15 +8,15 @@ import { Button } from './ui/button';
 
 interface Props {
   revision: PackageRevision;
+  documents?: ReturnType<typeof indexDeliveryDocuments>;
   findings: PackageRequirementFinding[];
   onNavigate(target: PackageDestination): void;
   disabled: boolean;
   canSign?: boolean;
 }
 
-export function PackageDeliveryFindings({ revision, findings, onNavigate, disabled, canSign = true }: Props) {
-  const members = new Map(revision.members.map(member => [member.id, member]));
-  const slots = new Map(revision.templateState?.instances.map(slot => [slot.memberId, slot]));
+export function PackageDeliveryFindings({ revision, documents, findings, onNavigate, disabled, canSign = true }: Props) {
+  const { members, slots } = documents ?? indexDeliveryDocuments(revision);
   const groups = new Map<string, PackageRequirementFinding[]>();
   for (const item of findings) {
     const byDocument = item.memberId && members.has(item.memberId) && !item.fromIntake && !(item.state === 'unknown' && revision.templateState);

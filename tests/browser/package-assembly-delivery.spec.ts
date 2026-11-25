@@ -201,6 +201,12 @@ test('complete delivery opens a manual confirmation and selected files remain in
   await importPackage(dialog, packet('delivery_scope', 'Training handoff', [
     { id: 'first', createdAt: 1, members: [member], requirements, outputs: [] },
   ], 'first', [resource(original, bytes)]));
+  const nav = dialog.getByRole('navigation', { name: 'Package workspace', exact: true });
+  await nav.getByRole('button', { name: 'Delivery', exact: true }).click();
+  const outstanding = dialog.getByRole('region', { name: 'Package requirements', exact: true });
+  await outstanding.getByRole('button', { name: 'Review requirement' }).click();
+  await expect(dialog.getByRole('checkbox', { name: /User declaration for Confirm receipt/ })).toBeVisible();
+  await dialog.getByRole('button', { name: 'Return to delivery' }).click();
   const delivery = await section(dialog, 'Recipient delivery');
   await delivery.getByLabel('Delivery name').fill('My selected files');
   await delivery.getByRole('button', { name: 'Prepare selected delivery' }).click();
