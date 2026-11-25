@@ -11,7 +11,10 @@ export type PackageFormValues = { kind: 'configured'; answers: FormInstance['ans
 
 export function isEditableOfficialForm(member: PackageMember): member is NativePackageMember {
   return member.kind === 'native' && member.session.documentCategory === 'forms'
-    && !!(member.session.genericForm || member.session.forms?.navmc11811);
+    // Legacy Page 11 signatures can carry uploaded images. The native working-copy
+    // editor captures their bytes before saving the portable package draft.
+    && !!(member.session.genericForm || (member.session.formType === 'navmc_118_11'
+      && member.session.forms?.officialPdfEdition && member.session.forms.navmc11811));
 }
 
 export function packageFormValues(member: NativePackageMember): PackageFormValues {

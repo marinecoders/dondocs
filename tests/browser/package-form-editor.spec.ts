@@ -288,3 +288,30 @@ test('administrative action forms edit and recover inside the package', async ({
   await picker.selectOption(first);
   await expect(action).toHaveValue('ALPHA-01');
 });
+
+test('legacy Page 11 saves uploaded signature bytes in its package working copy', async ({ page }) => {
+  await page.goto('/');
+  const draft = { documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType: 'navmc_118_11',
+    formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [],
+    forms: { navmc11811: { lastName: 'EXAMPLE', signatureBlocks: [{ name: 'Training signer', statement: '', style: 'typed' }] }, includeCoverPage: false } };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'legacy.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newBlankPackage(workspace, 'Legacy images');
+  await capturePackageDocument(workspace);
+  await workspace.getByRole('button', { name: 'Edit document', exact: true }).click();
+  const editor = page.getByRole('dialog', { name: 'Legacy images', exact: true });
+  await editor.getByRole('tab', { name: 'Signature block 1: upload or draw a signature' }).click();
+  const fileInput = editor.locator('input[type=file][accept="image/*"]').first();
+  const png = await page.evaluate(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 50; canvas.height = 20;
+    canvas.getContext('2d')!.fillRect(5, 5, 40, 3);
+    return canvas.toDataURL().split(',')[1];
+  });
+  await fileInput.setInputFiles({ name: 'training.png', mimeType: 'image/png', buffer: Buffer.from(png, 'base64') });
+  await expect(editor.getByRole('button', { name: 'Remove signature image' })).toBeVisible();
+  await editor.getByRole('button', { name: 'Back to package' }).click();
+  await workspace.getByRole('button', { name: 'Edit document' }).click();
+  await expect(editor.getByRole('button', { name: 'Remove signature image' })).toBeVisible();
+});
