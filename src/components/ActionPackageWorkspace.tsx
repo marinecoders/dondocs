@@ -1,3 +1,4 @@
+import { packageMemberHistory, reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
 import { isEditableOfficialForm } from '@/lib/packageFormEditing';
 import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
 import { officialRevisionBytes, officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
@@ -1232,6 +1233,23 @@ function PackageDialog({
                             >
                               Edit document
                             </Button>)}</header>
+{editable && member.kind === 'original' && !member.signedOriginal && <label className="inline-block cursor-pointer rounded border px-3 py-2 text-sm">
+                        Replace PDF in this slot
+                        <input className="sr-only" type="file" accept="application/pdf,.pdf" disabled={busy || pendingPackageEdits}
+                          onChange={event => {
+                            const file = event.target.files?.[0];
+                            event.target.value = '';
+                            if (file) void run(async () => update(await reviseUnsignedPackagePdf(record, member, file, operation.current?.signal)));
+                          }} />
+                      </label>}
+                      {selectedMember?.id === member.id && !openedReview && <details>
+                        <summary className="cursor-pointer text-sm">Document versions</summary>
+                        <ol className="mt-2 space-y-1">{packageMemberHistory(record, member.id, revision.id).map((entry, version) =>
+                          <li key={entry.packageRevisionId}><Button variant="link" size="sm" disabled={busy || pendingPackageEdits || entry.member.revisionId === member.revisionId}
+                            onClick={() => changeRevision(entry.packageRevisionId)}>
+                            Version {version + 1} · {entry.member.kind === 'native' ? 'Editable document' : entry.member.signedOriginal ? 'Signed original' : 'Original file'}
+                          </Button></li>)}</ol>
+                      </details>}
 {working && (
                         <p className="text-xs">
                           Working copy:{" "}

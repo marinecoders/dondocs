@@ -136,6 +136,12 @@ test('two Unit Punishment Books retain independent answers, previews and recover
   await expect(editor.getByText('Saved to package', { exact: true })).toBeVisible();
   await editor.getByRole('button', { name: 'Back to package' }).click();
   await expect(workspace.getByRole('heading', { name: '2. Unit Punishment Book' })).toBeVisible();
+  const history = workspace.locator('li[id^="package-member-"]:visible');
+  await history.getByText('Document versions', { exact: true }).click();
+  await expect(history.getByRole('button', { name: 'Version 3 · Editable document' })).toBeDisabled();
+  await history.getByRole('button', { name: 'Version 1 · Editable document' }).click();
+  await expect(history.getByRole('button', { name: 'Version 1 · Editable document' })).toBeDisabled();
+  await workspace.getByRole('button', { name: 'Back to current version' }).click();
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
   await expect(remarks).toHaveValue('Recover this exact input');
   await section.selectOption({ label: 'Unit punishment record' });
