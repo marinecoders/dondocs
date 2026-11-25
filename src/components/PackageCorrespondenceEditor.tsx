@@ -14,7 +14,7 @@ const PdfViewer = lazy(() => import('./pdf/PdfViewer'));
 
 export interface PackageEditorSurface {
   setEditorHost(host: HTMLDivElement | null): void;
-  preview: { documentId: string | null; url: string | null; error?: string | null };
+  preview: { documentId: string | null; url: string | null; busy?: boolean; error?: string | null };
 }
 
 interface Props extends PackageEditorSurface {
@@ -141,7 +141,8 @@ export default function PackageCorrespondenceEditor({ record, member, documentId
       <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-2">
         <div className={(showPreview ? 'hidden lg:block ' : '') + 'min-h-0 min-w-0'} inert={disabled || navigating || undefined} ref={owned ? setEditorHost : undefined} />
         <aside aria-label="Document preview" className={(showPreview ? '' : 'hidden lg:block ') + 'min-h-0 min-w-0 border-l'}>
-          {activePreview ? <Suspense fallback={<p role="status">Opening preview…</p>}><PdfViewer documentId={'package-member:' + key} pdfUrl={activePreview} showFullscreen={false} /></Suspense>
+          {activePreview && preview.busy && !preview.error && <p role="status" className="px-4 py-1 text-sm">Updating preview…</p>}
+          {activePreview && !preview.error ? <Suspense fallback={<p role="status">Opening preview…</p>}><PdfViewer documentId={'package-member:' + key} pdfUrl={activePreview} showFullscreen={false} /></Suspense>
             : <p role="status" className="p-4 text-sm">{preview.error || 'Preparing document preview…'}</p>}
         </aside>
       </div>

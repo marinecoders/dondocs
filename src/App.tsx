@@ -1318,7 +1318,7 @@ function App() {
       </div>
 
       {/* Modals */}
-      <ActionPackageWorkspace editorSurface={{ setEditorHost: setPackageEditorHost, preview: { documentId: pdfDocumentId, url: currentPreviewUrl, error: compileError || engineError } }} exportGate={exportGate} ports={{ compile, convertDocx: convertLatexToDocx, waitForReady }} />
+      <ActionPackageWorkspace editorSurface={{ setEditorHost: setPackageEditorHost, preview: { documentId: pdfDocumentId, url: currentPreviewUrl, busy: previewBusy, error: compileError || engineError } }} exportGate={exportGate} ports={{ compile, convertDocx: convertLatexToDocx, waitForReady }} />
       <ProfileManager />
       <ProfileModal />
       <ReferenceLibraryModal />
