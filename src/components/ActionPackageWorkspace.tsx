@@ -336,7 +336,7 @@ function PackageDialog({
   const formMember = editorMember && isEditableOfficialForm(editorMember) ? editorMember : undefined;
   const correspondence = editorMember && editorMember.kind === 'native' && editorMember.session.documentCategory !== 'forms' ? editorMember : undefined;
   const copy = correspondence && record?.workingCopies?.find(item => item.memberId === correspondence.id && item.revisionId === revision?.id);
-  function openMemberEditor(id?: string) {
+  async function openMemberEditor(id?: string) {
     if (!record || !revision) return;
     const target = revision.members.find(item => item.id === id);
     function enter(location: string) {
@@ -345,7 +345,7 @@ function PackageDialog({
       rememberFormLocation('active', location);
     }
     if (target?.kind === 'native' && target.session.documentCategory !== 'forms') {
-      void run(async () => {
+      await run(async () => {
         const [latest] = await listActionPackages(record.id);
         const current = latest && getPackageRevision(latest).members.find(item => item.id === target.id);
         if (!latest || latest.archived || !current || current.kind !== 'native' || current.revisionId !== target.revisionId)

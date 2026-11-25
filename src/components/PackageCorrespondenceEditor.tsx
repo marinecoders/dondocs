@@ -24,7 +24,7 @@ interface Props extends PackageEditorSurface {
   disabled: boolean;
   navigationError: string;
   onSave(next: ActionPackage): void;
-  onNavigate(memberId?: string): void;
+  onNavigate(memberId?: string): void | Promise<void>;
 }
 
 export default function PackageCorrespondenceEditor({ record, member, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate }: Props) {
@@ -120,7 +120,7 @@ export default function PackageCorrespondenceEditor({ record, member, documentId
     if (await flush()) {
       const section = useEditorOutlineStore.getState().activeId;
       if (section) rememberFormLocation(key + '/section', section);
-      onNavigate(id);
+      await onNavigate(id);
     }
     setNavigating(false);
   }

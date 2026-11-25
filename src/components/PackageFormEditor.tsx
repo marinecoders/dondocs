@@ -31,7 +31,7 @@ type Props = Pick<ComponentProps<typeof PackageDocumentPreview>, 'ports' | 'expo
   record: ActionPackage;
   member: NativePackageMember;
   onSave(next: ActionPackage): void;
-  onNavigate(memberId?: string): void;
+  onNavigate(memberId?: string): void | Promise<void>;
   onSharedDetails(): void;
   navigationError?: string;
 };
@@ -50,13 +50,16 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
   const [expanded, setExpanded] = useState(() => (readFormLocation(position + '/sections') || 'marine').split(','));
   const switching = useRef(false);
   const [leaving, setLeaving] = useState(false);
-  async function navigate(action: () => void) {
+  async function navigate(action: () => void | Promise<void>) {
     if (switching.current) return;
     switching.current = true;
     setLeaving(true);
-    if (await editor.flush()) action();
-    switching.current = false;
-    setLeaving(false);
+    try {
+      if (await editor.flush()) await action();
+    } finally {
+      switching.current = false;
+      setLeaving(false);
+    }
   }
   const revision = record.revisions.find(item => item.id === record.currentRevisionId)!;
   const factIds = new Set(revision.bindings?.items.filter(link => link.memberId === member.id).map(link => link.factId));
