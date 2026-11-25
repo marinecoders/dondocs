@@ -9,8 +9,8 @@ import { renderPreparedConfiguredForm } from '@/services/exports/configuredForms
 import { renderPreparedBuiltinForm } from '@/services/exports/builtinForms';
 
 /** Recipient PDFs contain rendered content, excluding the editable draft and its review/source metadata. */
-export async function renderPackageRecipientMember(member: NativePackageMember, policy: PolicyResolution, ports: CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> },
-  read: (asset: PackageAsset) => Promise<ArrayBuffer>, signal: AbortSignal, pdfAccessibility?: 'tagged'): Promise<{ bytes: ArrayBuffer; layoutReview?: ExportReview }> {
+export async function renderPackageRecipientMember(member: NativePackageMember, policy: PolicyResolution, ports: (CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> }) | undefined,
+  read: (asset: PackageAsset) => Promise<ArrayBuffer>, signal: AbortSignal, pdfAccessibility?: 'tagged', mode: 'printable' | 'editable' = 'printable'): Promise<{ bytes: ArrayBuffer; layoutReview?: ExportReview }> {
   signal.throwIfAborted();
   const { snapshot, assets } = await preparePackageRenderInput(member, read);
   delete snapshot.reviewComments; delete snapshot.formData.wordSource;
@@ -27,9 +27,9 @@ export async function renderPackageRecipientMember(member: NativePackageMember, 
   const review = prepared.status === 'needs-review' ? copyExportReview(prepared.job) : undefined;
   // The internal derivative is needed to inspect the delivery before the user approves its download.
   const ready = prepared.status === 'ready' ? prepared.job : acknowledgePreparedExport(prepared.job);
-  if (ready.job.kind === 'correspondence' && !await ports.waitForReady(30_000)) throw new Error('The PDF engine is still starting. Prepare this delivery again when it is ready.');
-  const artifact = ready.job.kind === 'configured-form' ? await renderPreparedConfiguredForm(ready, signal)
-    : ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal, 'printable') : await renderPreparedCorrespondence(ready, { ...ports, assets }, signal);
+  if (ready.job.kind === 'correspondence' && (!ports || !await ports.waitForReady(30_000))) throw new Error('The PDF engine is still starting. Prepare this delivery again when it is ready.');
+  const artifact = ready.job.kind === 'configured-form' ? await renderPreparedConfiguredForm(ready, signal, mode)
+    : ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal, mode) : await renderPreparedCorrespondence(ready, { ...ports!, assets }, signal);
   if (artifact.completeness !== 'complete') throw new Error(artifact.issues.map(issue => issue.message).join(' '));
   signal.throwIfAborted();
   return { bytes: await artifact.blob.arrayBuffer(), layoutReview: review?.layoutReview ? review : undefined };

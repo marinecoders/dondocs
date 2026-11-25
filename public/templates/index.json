@@ -15,6 +15,17 @@
       "description": "Page 11 / 6105 counseling entry form",
       "pages": ["page1.pdf"],
       "pageLabels": ["Main Form"]
+    },
+    {
+      "id": "navmc10132",
+      "definitionRevision": "2023-08.1",
+      "name": "NAVMC 10132 - Unit Punishment Book",
+      "directory": "NAVMC10132 - Unit Punishment Book",
+      "status": "published",
+      "config": true,
+      "category": "Legal & Discipline",
+      "keywords": ["UPB", "NJP", "nonjudicial punishment"],
+      "pages": ["original.pdf"]
     }
   ]
 }

@@ -13,7 +13,7 @@ const candidatePolicy = [
     + " 'sha256-UVwyHClinj/Z1DopEPfAbpI88Cj8spuvAQWPma/EzDQ='",
   "style-src 'self' 'unsafe-inline'",
   "worker-src 'self' blob:",
-  "connect-src 'self' blob:",
+  "connect-src 'self' blob: http://127.0.0.1:47993",
   "img-src 'self' blob: data:",
   "font-src 'self' blob: data:",
   "media-src 'self' blob: data:",

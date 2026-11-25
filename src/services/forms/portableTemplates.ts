@@ -1,3 +1,4 @@
+import { formTemplateFiles } from '@/services/forms/model';
 import { z } from 'zod';
 import { compileFormDefinition, type FormDefinition } from './model';
 import { loadPackagePage, retainPackagePages, validatePackagePage } from './packages';
@@ -33,12 +34,12 @@ export async function capturePortableFormTemplates(definitions: readonly FormDef
   let total = 0;
   for (const source of definitions) {
     const definition = compileFormDefinition(source);
-    if (definition.pages.length > MAX_PORTABLE_RESOURCE_COUNT) throw new Error('Too many portable form template pages.');
+    if (formTemplateFiles(definition).length > MAX_PORTABLE_RESOURCE_COUNT) throw new Error('Too many portable form template pages.');
     const definitionSha256 = await definitionDigest(definition);
     if (bindings.has(definitionSha256)) continue;
     if (bindings.size >= 256) throw new Error('Too many distinct portable form definitions.');
     const pages: Record<string, string> = {};
-    for (const page of definition.pages) {
+    for (const page of formTemplateFiles(definition)) {
       if (!page.sha256) throw new Error(`Template page has no checksum: ${page.file}`);
       const path = `forms/${page.sha256}.pdf`;
       if (!resources.has(path)) {
@@ -76,9 +77,9 @@ export async function validatePortableFormTemplates(definitions: readonly FormDe
     const definition = expected.get(binding.definitionSha256);
     if (!definition || found.has(binding.definitionSha256)) throw new Error('Portable templates do not match the saved form definition.');
     found.add(binding.definitionSha256);
-    if (Object.keys(binding.pages).length !== definition.pages.length) throw new Error('The portable form has missing or unexpected template pages.');
+    if (Object.keys(binding.pages).length !== formTemplateFiles(definition).length) throw new Error('The portable form has missing or unexpected template pages.');
     const pages: Record<string, Uint8Array> = {};
-    for (const page of definition.pages) {
+    for (const page of formTemplateFiles(definition)) {
       const path = binding.pages[page.file];
       const resource = resources.get(path);
       if (!page.sha256 || path !== `forms/${page.sha256}.pdf` || !resource || resource.mediaType !== 'application/pdf') throw new Error(`Portable form template missing or mismatched: ${page.file}`);

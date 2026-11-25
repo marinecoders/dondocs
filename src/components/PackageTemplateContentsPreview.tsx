@@ -1,3 +1,4 @@
+import { templateMemberPages } from '@/lib/packageTemplateSchema';
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { documentTextFields, type DocumentFieldSource } from '@/lib/documentFields';
@@ -37,7 +38,7 @@ export function PackageTemplateContentsPreview({ template, disabled = false }: {
     {template.members.slice(0, count).map(member => <div key={member.key} className="min-w-0 space-y-2 border-t pt-2"><h4 className="break-words font-medium">{member.label}</h4>
       {member.kind === 'native' ? <>
         <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words font-sans text-xs">{starterText(member.draft)}</pre>
-        <div className="flex flex-wrap gap-2">{Object.entries(member.pages).map(([key, page]) => <Button key={key} className={buttonClass} variant="outline" disabled={disabled || pending} onClick={() => void open(`${member.label}: ${key}`, 'application/pdf', page.data)}>Inspect {member.label} background {key}</Button>)}</div>
+        <div className="flex flex-wrap gap-2">{Object.entries(templateMemberPages(template, member)).map(([key, page]) => <Button key={key} className={buttonClass} variant="outline" disabled={disabled || pending} onClick={() => void open(`${member.label}: ${key}`, 'application/pdf', page.data)}>Inspect {member.label} background {key}</Button>)}</div>
         {Array.isArray(member.draft.paragraphs) && member.draft.paragraphs.map((paragraph: unknown, index) => {
           const figure = paragraph && typeof paragraph === 'object' && 'figure' in paragraph ? paragraph.figure : undefined;
           if (!figure || typeof figure !== 'object' || !('data' in figure) || typeof figure.data !== 'string' || !('type' in figure) || typeof figure.type !== 'string' || !['application/pdf', 'image/png', 'image/jpeg'].includes(figure.type)) return null;

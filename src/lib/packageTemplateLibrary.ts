@@ -1,3 +1,4 @@
+import { templateMemberPages } from '@/lib/packageTemplateSchema';
 import { z } from 'zod';
 import type { SerializedSession } from '@/stores/documentStore';
 import { scheduleBackup } from '@/stores/backupStore';
@@ -136,7 +137,7 @@ export async function validatePackageTemplate(value: unknown): Promise<PackageTe
     }
     if (JSON.stringify(cleanStarter(member.draft)) !== JSON.stringify(member.draft))
       throw new Error('Package templates cannot contain prior signatures, attached files or review comments.');
-    const pages = new Map(await Promise.all(Object.entries(member.pages).map(async ([file, page], index) => {
+    const pages = new Map(await Promise.all(Object.entries(templateMemberPages(template, member)).map(async ([file, page], index) => {
       const item = await pageAsset(page, `page_${index}`);
       return [file, item] as const;
     })));

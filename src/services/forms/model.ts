@@ -1,3 +1,4 @@
+import { officialEdition } from './nativeCatalog';
 import { z } from 'zod';
 import { assertFormConfig, type FormConfig, type FormValues, type FormRows } from '@/types/formConfig';
 
@@ -7,6 +8,7 @@ const box = z.object({ left: z.number().nonnegative(), top: z.number().positive(
 const option = z.object({ id: z.string().min(1), label: z.string().min(1), legacyKey: z.string().optional() }).strict();
 const field = z.object({
   kind: z.enum(['text', 'identifier', 'date', 'decimal', 'boolean', 'singleChoice', 'multipleChoice', 'signature']),
+  initialValue: z.string().optional(),
   label: z.string().min(1), requiredAt: z.enum(['export', 'sign']).optional(),
   options: z.array(option).optional(), multiline: z.boolean().optional(),
   sourceIds: z.array(z.string()).optional(), legacyKeys: z.array(z.string()).optional(),
@@ -24,6 +26,7 @@ const page = z.object({
 }).strict();
 export const formDefinitionSchema = z.object({
   schemaVersion: z.literal(2), formId: id, label: z.string().min(1),
+  nativePdfEdition: z.string().min(1).optional(),
   definitionRevision: z.string().min(1), templateRevision: z.string().min(1),
   directory: z.string().min(1).refine(v => !v.startsWith('/') && !v.split('/').some(s => !s || s === '..' || s === '.')),
   pages: z.array(page).min(1), fields: z.record(id, field),
@@ -38,6 +41,11 @@ export const formDefinitionSchema = z.object({
   }).strict()),
 }).strict();
 export type FormDefinition = z.infer<typeof formDefinitionSchema>;
+/** Each native page refers to the same, complete official file. Transfer it once. */
+export function formTemplateFiles(definition: FormDefinition) {
+  return definition.nativePdfEdition ? definition.pages.slice(0, 1) : definition.pages;
+}
+
 export type AnswerField = z.infer<typeof field>;
 export type Placement = z.infer<typeof placement>;
 export type Answer = string | boolean | string[];
@@ -57,11 +65,17 @@ export function compileFormDefinition(input: unknown): FormDefinition {
   const fail = (path: string, message: string): never => { throw new Error(`${path}: ${message}`); };
   if (d.formId === 'navmc_10274' || d.formId === 'navmc_118_11') fail('formId', 'reserved for a built-in form');
   if (!Object.keys(d.fields).length && !Object.keys(d.rowGroups).length) fail('fields', 'form has no answers');
-  if (new Set(d.pages.map(p => p.file)).size !== d.pages.length) fail('pages', 'duplicate page filename');
+  if (d.nativePdfEdition) {
+    const profile = officialEdition(d.formId, d.nativePdfEdition);
+    if (!profile || profile.format !== 'acroform' || d.directory !== profile.directory || d.templateRevision !== profile.sha256
+      || d.pages.length !== profile.pageSizes.length || d.pages.some((p, index) => p.file !== profile.file || p.sha256 !== profile.sha256
+        || p.width !== profile.pageSizes[index][0] || p.height !== profile.pageSizes[index][1])) fail('nativePdfEdition', 'unrecognized official PDF edition');
+  } else if (new Set(d.pages.map(p => p.file)).size !== d.pages.length) fail('pages', 'duplicate page filename');
   const checkFields = (fields: Record<string, AnswerField>, path: string) => {
     for (const [key, f] of Object.entries(fields)) {
       const choices = f.kind === 'singleChoice' || f.kind === 'multipleChoice';
       if (choices !== Boolean(f.options?.length)) fail(`${path}.${key}`, 'choices require options; other fields cannot have options');
+      if (f.initialValue !== undefined && !f.options?.some(option => option.id === f.initialValue)) fail(path, 'invalid initial choice');
       if (f.options && new Set(f.options.map(o => o.id)).size !== f.options.length) fail(`${path}.${key}`, 'duplicate option IDs');
       if (f.kind === 'signature' && f.requiredAt === 'export') fail(`${path}.${key}`, 'signatures are required at signing');
     }

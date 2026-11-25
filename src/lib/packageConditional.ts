@@ -1,3 +1,4 @@
+import { templateMemberPages } from '@/lib/packageTemplateSchema';
 import { reviewPackageSigningMetadata } from './actionPackageDisclosure';
 import { reviewPackageScans } from './actionPackageDisclosure';
 import { materializePackageRequirements } from './packageRequirementsModel';
@@ -86,6 +87,10 @@ function capturedInput<T extends Pick<ConditionalPackageInput, 'template' | 'ans
 async function stage(attachments: StoredAttachment[], name: string, type: string, input: ArrayBuffer): Promise<PackageAsset> {
   if (!input.byteLength || input.byteLength > 25 * 1024 * 1024) throw new Error('An action file exceeds the supported 25 MB limit.');
   const data = input.slice(0), asset = { id: newPackageId('asset'), name, type, size: data.byteLength, sha256: await portableResourceDigest(data) };
+  if (type === 'application/pdf') {
+    const existing = attachments.find(item => item.name === name && item.type === type && 'sha256' in item && item.sha256 === asset.sha256);
+    if (existing) return { ...asset, id: existing.id };
+  }
   attachments.push({ ...asset, data });
   if (attachments.reduce((sum, asset) => sum + asset.size, 0) > MAX_TEMPLATE_ACTION_BYTES) throw new Error('Prepared action files exceed the combined 64 MB limit.');
   return asset;
@@ -330,7 +335,7 @@ async function nativeMember(blueprint: Extract<PackageTemplateV2['members'][numb
   }
   if (updates.length) { const patched = await patchPackageBindingDraftFields(raw, updates); draft = patched.draft; reviewed = await validatePackageDraft(draft); }
   const pages: NonNullable<NativePackageMember['templates']> = {};
-  for (const [file, page] of Object.entries(blueprint.pages)) pages[file] = await stage(attachments, page.name, page.type, new Uint8Array(base64ToUint8Array(page.data)).buffer);
+  for (const [file, page] of Object.entries(templateMemberPages(template, blueprint))) pages[file] = await stage(attachments, page.name, page.type, new Uint8Array(base64ToUint8Array(page.data)).buffer);
   bindings.push(...links);
   return { id: instance.memberId, revisionId: newPackageId('member-revision'), label: instance.label, role: blueprint.role, required: blueprint.required,
     kind: 'native', session: reviewed.session, draft: await stage(attachments, `${instance.label}.dondocs.json`, 'application/json', new TextEncoder().encode(JSON.stringify(draft)).buffer),

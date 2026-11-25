@@ -90,6 +90,7 @@ const originalSchema = z
     kind: z.literal("original"),
     original: packageAssetSchema,
     signedOriginal: z.boolean(),
+    officialFormId: z.string().max(100).optional(),
   })
   .strict();
 const attachmentSchema = z.object({

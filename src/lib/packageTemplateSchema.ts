@@ -23,7 +23,7 @@ const link = z.object({ questionId: identity, target: packageBindingTargetSchema
 const extensions = { key: identity, when: packageTemplateConditionSchema.optional(), repeatGroupId: identity.optional(), links: z.array(link).max(100).optional() };
 export const packageTemplateV2Schema = packageTemplateV1Schema.omit({ version: true, members: true, id: true }).extend({
   id: identity, version: z.literal(2), program: packageTemplateProgramSchema,
-  members: z.array(z.discriminatedUnion('kind', [native.extend(extensions), attachment.extend(extensions)])).min(1).max(100),
+  members: z.array(z.discriminatedUnion('kind', [native.extend({ ...extensions, pagesFrom: identity.optional() }), attachment.extend(extensions)])).min(1).max(100),
 }).strict().superRefine((template, context) => {
   const problem = (message: string) => context.addIssue({ code: 'custom', message });
   validatePackageTemplateProgramMembers(template.program, template.members).forEach(problem);
@@ -54,6 +54,19 @@ export type PackageTemplateV1 = z.infer<typeof packageTemplateV1Schema>;
 export type PackageTemplateV2 = z.infer<typeof packageTemplateV2Schema>;
 export type PackageTemplateMember = PackageTemplate['members'][number];
 export type RequiredNativeFile = z.infer<typeof requiredTemplateFileSchema>;
+type NativeTemplateMember = Extract<PackageTemplateMember, { kind: 'native' }>;
+
+/** A repeated member owns its draft and borrows the first member's immutable PDF backgrounds. */
+export function templateMemberPages(template: PackageTemplate, member: NativeTemplateMember): NativeTemplateMember['pages'] {
+  if (!('pagesFrom' in member) || !member.pagesFrom) return member.pages;
+  const source = template.members.find(item => 'key' in item && item.key === member.pagesFrom);
+  if (!source || source.kind !== 'native' || source === member || ('pagesFrom' in source && source.pagesFrom)
+    || Object.keys(member.pages).length || !Object.keys(source.pages).length) {
+    throw new Error('A shared template background must reference a native member with its own retained pages.');
+  }
+  return source.pages;
+}
+
 /** Includes all declarations and branch literals, even when no current action would select them. */
 export function packageTemplateProgramText(template: PackageTemplate): string {
   if (template.version !== 2) return '';

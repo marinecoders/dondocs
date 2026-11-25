@@ -28,8 +28,8 @@ export function FormAnswerControl({ field, value, onChange, label = field.label,
       <option value="">Select</option><option value="true">Yes</option><option value="false">No</option>
     </select>;
   } else if (field.kind === 'singleChoice') {
-    control = <select {...attributes} className={inputClass} value={typeof value === 'string' ? value : ''} onChange={e => onChange(e.target.value)}>
-      <option value="">Select</option>{field.options?.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
+    control = <select {...attributes} className={inputClass} value={typeof value === 'string' ? value : field.initialValue ?? ''} onChange={e => onChange(e.target.value)}>
+      <option value="" disabled={field.initialValue !== undefined}>Select</option>{field.options?.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
     </select>;
   } else if (field.kind === 'multipleChoice') {
     control = <fieldset {...attributes} className="space-y-1">

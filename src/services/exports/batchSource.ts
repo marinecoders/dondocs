@@ -1,3 +1,4 @@
+import { formTemplateFiles } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
 import { withAttachmentStaging } from '@/lib/attachments';
 import { configuredBatchMapping } from '@/lib/configuredFormBatch';
@@ -15,7 +16,7 @@ export async function prepareBatchSource(source: SerializedSession, current: () 
     if (owned.documentCategory === 'forms' && owned.genericForm) {
       const mapping = configuredBatchMapping(owned.genericForm);
       if (mapping.issues.length) throw new Error(mapping.issues.join('\n'));
-      for (const page of owned.genericForm.definition.pages) {
+      for (const page of formTemplateFiles(owned.genericForm.definition)) {
         checkCurrent();
         // requireOffline retains the verified digest in the existing attachment store.
         await loadPackagePage(owned.genericForm.definition, page.file, true);

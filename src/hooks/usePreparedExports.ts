@@ -60,7 +60,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
           if (ready.job.kind === 'configured-form') return await renderPreparedConfiguredForm(ready, signal);
           if (ready.job.kind === 'builtin-form') {
             const printable = deliveryIntent?.id === ready.job.id
-              && (deliveryIntent.purpose === 'signing' || deliveryIntent.purpose === 'print');
+              && deliveryIntent.purpose === 'print';
             return await renderPreparedBuiltinForm(ready, signal, printable ? 'printable' : 'editable');
           }
           if (ready.job.target === 'pdf' && !engineReady.current) throw new Error(ENGINE_STARTING);

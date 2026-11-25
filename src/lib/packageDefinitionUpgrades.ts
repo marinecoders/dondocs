@@ -1,3 +1,4 @@
+import { templateMemberPages } from '@/lib/packageTemplateSchema';
 import { z } from 'zod';
 import { actionPackageSchema, getPackageRevision, commitActionPackage, listActionPackages, newPackageId, type ActionPackage, type PackageAsset } from './actionPackages';
 import { readPackageMemberDraft } from './actionPackageAssets';
@@ -67,7 +68,7 @@ export async function preparePackageDefinitionUpgrade(input: ActionPackage, memb
   const pages: Record<string, PackageAsset> = {};
   const reviews = [reviewPackageText(`${before.name}\n${member.label}\n${JSON.stringify(migration)}\n${JSON.stringify(choices)}`, 'Form upgrade mappings and decisions', policy),
     reviewPackageNative(member.session, member.label, policy, oldDraft as unknown as SerializedSession), reviewPackageNative(parsed.session, member.label, policy, draft as unknown as SerializedSession)];
-  for (const [file, page] of Object.entries(blueprint.pages)) {
+  for (const [file, page] of Object.entries(templateMemberPages(template, blueprint))) {
     const data = new Uint8Array(base64ToUint8Array(page.data)).buffer; reviews.push(await reviewPackageOriginal(data, page.name, policy)); pages[file] = await stage(page.name, page.type, data);
   }
   const replacement = { ...structuredClone(member), revisionId: newPackageId('member-revision'), session: parsed.session, templates: pages,

@@ -1,0 +1,5349 @@
+{
+  "schemaVersion": 2,
+  "formId": "navmc10132",
+  "label": "NAVMC 10132 - Unit Punishment Book",
+  "directory": "NAVMC10132 - Unit Punishment Book",
+  "definitionRevision": "2023-08.1",
+  "templateRevision": "df55199752eb27368a3e98601cf0e1dbb471c5953fa78e0c825112dd904ffeff",
+  "nativePdfEdition": "2023-08",
+  "pages": [
+    {
+      "file": "original.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "df55199752eb27368a3e98601cf0e1dbb471c5953fa78e0c825112dd904ffeff"
+    },
+    {
+      "file": "original.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "df55199752eb27368a3e98601cf0e1dbb471c5953fa78e0c825112dd904ffeff"
+    },
+    {
+      "file": "original.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "df55199752eb27368a3e98601cf0e1dbb471c5953fa78e0c825112dd904ffeff"
+    }
+  ],
+  "fields": {
+    "1a_article": {
+      "kind": "singleChoice",
+      "label": "1A Article",
+      "sourceIds": [
+        "1A ARTICLE"
+      ],
+      "options": [
+        {
+          "id": "Art. 80  Attempts",
+          "label": "Art. 80  Attempts"
+        },
+        {
+          "id": "Art. 81  Conspiracy",
+          "label": "Art. 81  Conspiracy"
+        },
+        {
+          "id": "Art. 82  Soliciting commission of offenses",
+          "label": "Art. 82  Soliciting commission of offenses"
+        },
+        {
+          "id": "Art. 83  Malingering",
+          "label": "Art. 83  Malingering"
+        },
+        {
+          "id": "Art. 83  Self-injury with intent to avoid service",
+          "label": "Art. 83  Self-injury with intent to avoid service"
+        },
+        {
+          "id": "Art. 84  Breach of medical quarantine",
+          "label": "Art. 84  Breach of medical quarantine"
+        },
+        {
+          "id": "Art. 85  Desertion",
+          "label": "Art. 85  Desertion"
+        },
+        {
+          "id": "Art. 86  Absence without leave",
+          "label": "Art. 86  Absence without leave"
+        },
+        {
+          "id": "Art. 86  Absence without leave >30 days",
+          "label": "Art. 86  Absence without leave >30 days"
+        },
+        {
+          "id": "Art. 86  Absence (intent to abandon guard or watch)",
+          "label": "Art. 86  Absence (intent to abandon guard or watch)"
+        },
+        {
+          "id": "Art. 86  Absence (intent to avoid maneuvers or exercise)",
+          "label": "Art. 86  Absence (intent to avoid maneuvers or exercise)"
+        },
+        {
+          "id": "Art. 87  Missing movement",
+          "label": "Art. 87  Missing movement"
+        },
+        {
+          "id": "Art. 87  Jumping from vessel",
+          "label": "Art. 87  Jumping from vessel"
+        },
+        {
+          "id": "Art. 87a  Resistance, flight, breach of arrest, and escape",
+          "label": "Art. 87a  Resistance, flight, breach of arrest, and escape"
+        },
+        {
+          "id": "Art. 87b  Escape/breach correctional custody",
+          "label": "Art. 87b  Escape/breach correctional custody"
+        },
+        {
+          "id": "Art. 87b  Breach of restriction",
+          "label": "Art. 87b  Breach of restriction"
+        },
+        {
+          "id": "Art. 88  Contempt toward officials",
+          "label": "Art. 88  Contempt toward officials"
+        },
+        {
+          "id": "Art. 89  Disrespect of sup. comm. officer",
+          "label": "Art. 89  Disrespect of sup. comm. officer"
+        },
+        {
+          "id": "Art. 89  Assault of sup. comm. officer",
+          "label": "Art. 89  Assault of sup. comm. officer"
+        },
+        {
+          "id": "Art. 90  Willfully disobeying sup. comm. officer",
+          "label": "Art. 90  Willfully disobeying sup. comm. officer"
+        },
+        {
+          "id": "Art. 91  Assault of WO/NCO",
+          "label": "Art. 91  Assault of WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disobeying WO/NCO",
+          "label": "Art. 91  Disobeying WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disrespect toward WO/NCO",
+          "label": "Art. 91  Disrespect toward WO/NCO"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1165 (Fraternization)",
+          "label": "Art. 92  Viol. USNR 1165 (Fraternization)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1166 (Sexual Harassment)",
+          "label": "Art. 92  Viol. USNR 1166 (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1167 (Supremacist Activities)",
+          "label": "Art. 92  Viol. USNR 1167 (Supremacist Activities)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1168 (Intimate Images)",
+          "label": "Art. 92  Viol. USNR 1168 (Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)",
+          "label": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)",
+          "label": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1344.10 (Political Activities)",
+          "label": "Art. 92  Viol. DoDI 1344.10 (Political Activities)"
+        },
+        {
+          "id": "Art. 92  Failure to obey general order or regulation",
+          "label": "Art. 92  Failure to obey general order or regulation"
+        },
+        {
+          "id": "Art. 92  Failure to obey other order or regulation",
+          "label": "Art. 92  Failure to obey other order or regulation"
+        },
+        {
+          "id": "Art. 92  Dereliction of duty by neglect",
+          "label": "Art. 92  Dereliction of duty by neglect"
+        },
+        {
+          "id": "Art. 92  Willful dereliction of duty",
+          "label": "Art. 92  Willful dereliction of duty"
+        },
+        {
+          "id": "Art. 93  Cruelty and maltreatment",
+          "label": "Art. 93  Cruelty and maltreatment"
+        },
+        {
+          "id": "Art. 93a  Prohibited activities with recruit or trainee",
+          "label": "Art. 93a  Prohibited activities with recruit or trainee"
+        },
+        {
+          "id": "Art. 94  Mutiny or sedition",
+          "label": "Art. 94  Mutiny or sedition"
+        },
+        {
+          "id": "Art. 95  Drunk on post",
+          "label": "Art. 95  Drunk on post"
+        },
+        {
+          "id": "Art. 95  Sleeping on post",
+          "label": "Art. 95  Sleeping on post"
+        },
+        {
+          "id": "Art. 95  Loitering by post",
+          "label": "Art. 95  Loitering by post"
+        },
+        {
+          "id": "Art. 95a  Disrespect towards sentinel or lookout",
+          "label": "Art. 95a  Disrespect towards sentinel or lookout"
+        },
+        {
+          "id": "Art. 96  Release of prisoner without authority",
+          "label": "Art. 96  Release of prisoner without authority"
+        },
+        {
+          "id": "Art. 96  Drinking with prisoner",
+          "label": "Art. 96  Drinking with prisoner"
+        },
+        {
+          "id": "Art. 97  Unlawful detention",
+          "label": "Art. 97  Unlawful detention"
+        },
+        {
+          "id": "Art. 98  Misconduct as prisoner",
+          "label": "Art. 98  Misconduct as prisoner"
+        },
+        {
+          "id": "Art. 99  Misbehavior before enemy",
+          "label": "Art. 99  Misbehavior before enemy"
+        },
+        {
+          "id": "Art. 100  Subordinate compelling surrender",
+          "label": "Art. 100  Subordinate compelling surrender"
+        },
+        {
+          "id": "Art. 101  Improper use of countersign",
+          "label": "Art. 101  Improper use of countersign"
+        },
+        {
+          "id": "Art. 102  Forcing a safeguard",
+          "label": "Art. 102  Forcing a safeguard"
+        },
+        {
+          "id": "Art. 103  Spies",
+          "label": "Art. 103  Spies"
+        },
+        {
+          "id": "Art. 103a  Espionage",
+          "label": "Art. 103a  Espionage"
+        },
+        {
+          "id": "Art. 103b  Aiding the enemy",
+          "label": "Art. 103b  Aiding the enemy"
+        },
+        {
+          "id": "Art. 104  Public records offenses",
+          "label": "Art. 104  Public records offenses"
+        },
+        {
+          "id": "Art. 104a  Fraudulent enlistment, appointment, or separation",
+          "label": "Art. 104a  Fraudulent enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 104b  Unlawful enlistment, appointment, or separation",
+          "label": "Art. 104b  Unlawful enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 105  Forgery",
+          "label": "Art. 105  Forgery"
+        },
+        {
+          "id": "Art. 105a  False or unauthorized pass offenses",
+          "label": "Art. 105a  False or unauthorized pass offenses"
+        },
+        {
+          "id": "Art. 106  Impersonation",
+          "label": "Art. 106  Impersonation"
+        },
+        {
+          "id": "Art. 106a  Wearing unauthorized insignia",
+          "label": "Art. 106a  Wearing unauthorized insignia"
+        },
+        {
+          "id": "Art. 107  False official statements",
+          "label": "Art. 107  False official statements"
+        },
+        {
+          "id": "Art. 107  False swearing",
+          "label": "Art. 107  False swearing"
+        },
+        {
+          "id": "Art. 107a  Parole violation",
+          "label": "Art. 107a  Parole violation"
+        },
+        {
+          "id": "Art. 108  Selling military property",
+          "label": "Art. 108  Selling military property"
+        },
+        {
+          "id": "Art. 108  Selling military property (firearm/explosive)",
+          "label": "Art. 108  Selling military property (firearm/explosive)"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect ≤ $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect ≤ $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect > $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect > $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property willfully",
+          "label": "Art. 108  Damaging, etc., military property willfully"
+        },
+        {
+          "id": "Art. 108a  Captured or abandoned property",
+          "label": "Art. 108a  Captured or abandoned property"
+        },
+        {
+          "id": "Art. 108a  Looting or pillaging",
+          "label": "Art. 108a  Looting or pillaging"
+        },
+        {
+          "id": "Art. 109  Waste, spoilage, destruction of other property",
+          "label": "Art. 109  Waste, spoilage, destruction of other property"
+        },
+        {
+          "id": "Art. 110  Improper hazarding of vessel or aircraft",
+          "label": "Art. 110  Improper hazarding of vessel or aircraft"
+        },
+        {
+          "id": "Art. 111  Leaving scene of vehicle accident",
+          "label": "Art. 111  Leaving scene of vehicle accident"
+        },
+        {
+          "id": "Art. 112  Drunk on duty",
+          "label": "Art. 112  Drunk on duty"
+        },
+        {
+          "id": "Art. 112  Drunkenness and other incapacitation",
+          "label": "Art. 112  Drunkenness and other incapacitation"
+        },
+        {
+          "id": "Art. 112a  Wrongful use, possession, etc. of controlled substances",
+          "label": "Art. 112a  Wrongful use, possession, etc. of controlled substances"
+        },
+        {
+          "id": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel",
+          "label": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel"
+        },
+        {
+          "id": "Art. 114  Endangerment offenses",
+          "label": "Art. 114  Endangerment offenses"
+        },
+        {
+          "id": "Art. 115  Communicating threats",
+          "label": "Art. 115  Communicating threats"
+        },
+        {
+          "id": "Art. 116  Riot",
+          "label": "Art. 116  Riot"
+        },
+        {
+          "id": "Art. 116  Breach of peace",
+          "label": "Art. 116  Breach of peace"
+        },
+        {
+          "id": "Art. 117  Provoking speeches or gestures",
+          "label": "Art. 117  Provoking speeches or gestures"
+        },
+        {
+          "id": "Art. 117a  Wrongful broadcast or distribution of intimate visual image",
+          "label": "Art. 117a  Wrongful broadcast or distribution of intimate visual image"
+        },
+        {
+          "id": "Art. 118  Murder",
+          "label": "Art. 118  Murder"
+        },
+        {
+          "id": "Art. 119  Manslaughter",
+          "label": "Art. 119  Manslaughter"
+        },
+        {
+          "id": "Art. 119a  Death of unborn child",
+          "label": "Art. 119a  Death of unborn child"
+        },
+        {
+          "id": "Art. 119a  Injury of unborn child",
+          "label": "Art. 119a  Injury of unborn child"
+        },
+        {
+          "id": "Art. 119b  Child endangerment",
+          "label": "Art. 119b  Child endangerment"
+        },
+        {
+          "id": "Art. 120  Rape and sexual assault",
+          "label": "Art. 120  Rape and sexual assault"
+        },
+        {
+          "id": "Art. 120  Sexual assault",
+          "label": "Art. 120  Sexual assault"
+        },
+        {
+          "id": "Art. 120  Aggravated sexual contact",
+          "label": "Art. 120  Aggravated sexual contact"
+        },
+        {
+          "id": "Art. 120  Abusive sexual contact",
+          "label": "Art. 120  Abusive sexual contact"
+        },
+        {
+          "id": "Art. 120a  Mail deposit of obscene matter",
+          "label": "Art. 120a  Mail deposit of obscene matter"
+        },
+        {
+          "id": "Art. 120b  Rape of a child",
+          "label": "Art. 120b  Rape of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual assault of a child",
+          "label": "Art. 120b  Sexual assault of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual abuse of a child",
+          "label": "Art. 120b  Sexual abuse of a child"
+        },
+        {
+          "id": "Art. 120c  Indecent viewing",
+          "label": "Art. 120c  Indecent viewing"
+        },
+        {
+          "id": "Art. 120c  Indecent recording",
+          "label": "Art. 120c  Indecent recording"
+        },
+        {
+          "id": "Art. 120c  Distribution of indecent recording",
+          "label": "Art. 120c  Distribution of indecent recording"
+        },
+        {
+          "id": "Art. 120c  Forcible pandering",
+          "label": "Art. 120c  Forcible pandering"
+        },
+        {
+          "id": "Art. 120c  Indecent exposure",
+          "label": "Art. 120c  Indecent exposure"
+        },
+        {
+          "id": "Art. 121  Larceny and wrongful appropriation",
+          "label": "Art. 121  Larceny and wrongful appropriation"
+        },
+        {
+          "id": "Art. 121a  Fraudulent use of credit cards, etc.",
+          "label": "Art. 121a  Fraudulent use of credit cards, etc."
+        },
+        {
+          "id": "Art. 121b  False pretenses to obtain services",
+          "label": "Art. 121b  False pretenses to obtain services"
+        },
+        {
+          "id": "Art. 122  Robbery",
+          "label": "Art. 122  Robbery"
+        },
+        {
+          "id": "Art. 122a  Receiving stolen property",
+          "label": "Art. 122a  Receiving stolen property"
+        },
+        {
+          "id": "Art. 123  Offenses concerning government computers",
+          "label": "Art. 123  Offenses concerning government computers"
+        },
+        {
+          "id": "Art. 123a  Check without sufficient funds (fraudulent intent)",
+          "label": "Art. 123a  Check without sufficient funds (fraudulent intent)"
+        },
+        {
+          "id": "Art. 124  Frauds against the United States",
+          "label": "Art. 124  Frauds against the United States"
+        },
+        {
+          "id": "Art. 124a  Bribery",
+          "label": "Art. 124a  Bribery"
+        },
+        {
+          "id": "Art. 124b  Graft",
+          "label": "Art. 124b  Graft"
+        },
+        {
+          "id": "Art. 125  Kidnapping",
+          "label": "Art. 125  Kidnapping"
+        },
+        {
+          "id": "Art. 126  Arson",
+          "label": "Art. 126  Arson"
+        },
+        {
+          "id": "Art. 126  Burning property with intent to defraud",
+          "label": "Art. 126  Burning property with intent to defraud"
+        },
+        {
+          "id": "Art. 127  Extortion",
+          "label": "Art. 127  Extortion"
+        },
+        {
+          "id": "Art. 128  Simple assault (no battery, no weapon)",
+          "label": "Art. 128  Simple assault (no battery, no weapon)"
+        },
+        {
+          "id": "Art. 128  Assault",
+          "label": "Art. 128  Assault"
+        },
+        {
+          "id": "Art. 128a  Maiming",
+          "label": "Art. 128a  Maiming"
+        },
+        {
+          "id": "Art. 128b  Domestic violence",
+          "label": "Art. 128b  Domestic violence"
+        },
+        {
+          "id": "Art. 129  Burglary",
+          "label": "Art. 129  Burglary"
+        },
+        {
+          "id": "Art. 129  Unlawful entry",
+          "label": "Art. 129  Unlawful entry"
+        },
+        {
+          "id": "Art. 130  Stalking",
+          "label": "Art. 130  Stalking"
+        },
+        {
+          "id": "Art. 131  Perjury",
+          "label": "Art. 131  Perjury"
+        },
+        {
+          "id": "Art. 131a  Subornation of perjury",
+          "label": "Art. 131a  Subornation of perjury"
+        },
+        {
+          "id": "Art. 131b  Obstruction of justice",
+          "label": "Art. 131b  Obstruction of justice"
+        },
+        {
+          "id": "Art. 131c  Misprision of serious offense",
+          "label": "Art. 131c  Misprision of serious offense"
+        },
+        {
+          "id": "Art. 131d  Wrongful refusal to testify",
+          "label": "Art. 131d  Wrongful refusal to testify"
+        },
+        {
+          "id": "Art. 131e  Prevention of authorized seizure of property",
+          "label": "Art. 131e  Prevention of authorized seizure of property"
+        },
+        {
+          "id": "Art. 131f  Noncompliance with procedural rules",
+          "label": "Art. 131f  Noncompliance with procedural rules"
+        },
+        {
+          "id": "Art. 131g  Wrongful interference with adverse administrative proceedings",
+          "label": "Art. 131g  Wrongful interference with adverse administrative proceedings"
+        },
+        {
+          "id": "Art. 132  Retaliation",
+          "label": "Art. 132  Retaliation"
+        },
+        {
+          "id": "Art. 133  Conduct unbecoming an officer",
+          "label": "Art. 133  Conduct unbecoming an officer"
+        },
+        {
+          "id": "Art. 134  General Article",
+          "label": "Art. 134  General Article"
+        },
+        {
+          "id": "Art. 134  General Article Clause 1",
+          "label": "Art. 134  General Article Clause 1"
+        },
+        {
+          "id": "Art. 134  General Article Clause 2",
+          "label": "Art. 134  General Article Clause 2"
+        },
+        {
+          "id": "Art. 134  General Article Clause 3",
+          "label": "Art. 134  General Article Clause 3"
+        },
+        {
+          "id": "Art. 134  Animal abuse",
+          "label": "Art. 134  Animal abuse"
+        },
+        {
+          "id": "Art. 134  Bigamy",
+          "label": "Art. 134  Bigamy"
+        },
+        {
+          "id": "Art. 134  Worthless check (bad faith in maintaining funds)",
+          "label": "Art. 134  Worthless check (bad faith in maintaining funds)"
+        },
+        {
+          "id": "Art. 134  Child pornography",
+          "label": "Art. 134  Child pornography"
+        },
+        {
+          "id": "Art. 134  Dishonorably failing to pay debt",
+          "label": "Art. 134  Dishonorably failing to pay debt"
+        },
+        {
+          "id": "Art. 134  Disloyal statements",
+          "label": "Art. 134  Disloyal statements"
+        },
+        {
+          "id": "Art. 134  Disorderly conduct",
+          "label": "Art. 134  Disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct",
+          "label": "Art. 134  Drunk and disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct aboard ship",
+          "label": "Art. 134  Drunk and disorderly conduct aboard ship"
+        },
+        {
+          "id": "Art. 134  Drunkenness",
+          "label": "Art. 134  Drunkenness"
+        },
+        {
+          "id": "Art. 134  Extramarital sexual conduct",
+          "label": "Art. 134  Extramarital sexual conduct"
+        },
+        {
+          "id": "Art. 134  Negligent discharge of firearm",
+          "label": "Art. 134  Negligent discharge of firearm"
+        },
+        {
+          "id": "Art. 134  Fraternization",
+          "label": "Art. 134  Fraternization"
+        },
+        {
+          "id": "Art. 134  Gambling with subordinate",
+          "label": "Art. 134  Gambling with subordinate"
+        },
+        {
+          "id": "Art. 134  Negligent homicide",
+          "label": "Art. 134  Negligent homicide"
+        },
+        {
+          "id": "Art. 134  Indecent conduct",
+          "label": "Art. 134  Indecent conduct"
+        },
+        {
+          "id": "Art. 134  Indecent language",
+          "label": "Art. 134  Indecent language"
+        },
+        {
+          "id": "Art. 134  Pandering and prostitution",
+          "label": "Art. 134  Pandering and prostitution"
+        },
+        {
+          "id": "Art. 134  Self-injury without intent to avoid service",
+          "label": "Art. 134  Self-injury without intent to avoid service"
+        },
+        {
+          "id": "Art. 134  Sexual harassment",
+          "label": "Art. 134  Sexual harassment"
+        },
+        {
+          "id": "Art. 134  Straggling",
+          "label": "Art. 134  Straggling"
+        }
+      ]
+    },
+    "1a_summary": {
+      "kind": "text",
+      "label": "1A Summary",
+      "sourceIds": [
+        "1A SUMMARY"
+      ]
+    },
+    "1b_article": {
+      "kind": "singleChoice",
+      "label": "1B Article",
+      "sourceIds": [
+        "1B ARTICLE"
+      ],
+      "options": [
+        {
+          "id": "Art. 80  Attempts",
+          "label": "Art. 80  Attempts"
+        },
+        {
+          "id": "Art. 81  Conspiracy",
+          "label": "Art. 81  Conspiracy"
+        },
+        {
+          "id": "Art. 82  Soliciting commission of offenses",
+          "label": "Art. 82  Soliciting commission of offenses"
+        },
+        {
+          "id": "Art. 83  Malingering",
+          "label": "Art. 83  Malingering"
+        },
+        {
+          "id": "Art. 83  Self-injury with intent to avoid service",
+          "label": "Art. 83  Self-injury with intent to avoid service"
+        },
+        {
+          "id": "Art. 84  Breach of medical quarantine",
+          "label": "Art. 84  Breach of medical quarantine"
+        },
+        {
+          "id": "Art. 85  Desertion",
+          "label": "Art. 85  Desertion"
+        },
+        {
+          "id": "Art. 86  Absence without leave",
+          "label": "Art. 86  Absence without leave"
+        },
+        {
+          "id": "Art. 86  Absence without leave >30 days",
+          "label": "Art. 86  Absence without leave >30 days"
+        },
+        {
+          "id": "Art. 86  Absence (intent to abandon guard or watch)",
+          "label": "Art. 86  Absence (intent to abandon guard or watch)"
+        },
+        {
+          "id": "Art. 86  Absence (intent to avoid maneuvers or exercise)",
+          "label": "Art. 86  Absence (intent to avoid maneuvers or exercise)"
+        },
+        {
+          "id": "Art. 87  Missing movement",
+          "label": "Art. 87  Missing movement"
+        },
+        {
+          "id": "Art. 87  Jumping from vessel",
+          "label": "Art. 87  Jumping from vessel"
+        },
+        {
+          "id": "Art. 87a  Resistance, flight, breach of arrest, and escape",
+          "label": "Art. 87a  Resistance, flight, breach of arrest, and escape"
+        },
+        {
+          "id": "Art. 87b  Escape/breach correctional custody",
+          "label": "Art. 87b  Escape/breach correctional custody"
+        },
+        {
+          "id": "Art. 87b  Breach of restriction",
+          "label": "Art. 87b  Breach of restriction"
+        },
+        {
+          "id": "Art. 88  Contempt toward officials",
+          "label": "Art. 88  Contempt toward officials"
+        },
+        {
+          "id": "Art. 89  Disrespect of sup. comm. officer",
+          "label": "Art. 89  Disrespect of sup. comm. officer"
+        },
+        {
+          "id": "Art. 89  Assault of sup. comm. officer",
+          "label": "Art. 89  Assault of sup. comm. officer"
+        },
+        {
+          "id": "Art. 90  Willfully disobeying sup. comm. officer",
+          "label": "Art. 90  Willfully disobeying sup. comm. officer"
+        },
+        {
+          "id": "Art. 91  Assault of WO/NCO",
+          "label": "Art. 91  Assault of WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disobeying WO/NCO",
+          "label": "Art. 91  Disobeying WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disrespect toward WO/NCO",
+          "label": "Art. 91  Disrespect toward WO/NCO"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1165 (Fraternization)",
+          "label": "Art. 92  Viol. USNR 1165 (Fraternization)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1166 (Sexual Harassment)",
+          "label": "Art. 92  Viol. USNR 1166 (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1167 (Supremacist Activities)",
+          "label": "Art. 92  Viol. USNR 1167 (Supremacist Activities)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1168 (Intimate Images)",
+          "label": "Art. 92  Viol. USNR 1168 (Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)",
+          "label": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)",
+          "label": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1344.10 (Political Activities)",
+          "label": "Art. 92  Viol. DoDI 1344.10 (Political Activities)"
+        },
+        {
+          "id": "Art. 92  Failure to obey general order or regulation",
+          "label": "Art. 92  Failure to obey general order or regulation"
+        },
+        {
+          "id": "Art. 92  Failure to obey other order or regulation",
+          "label": "Art. 92  Failure to obey other order or regulation"
+        },
+        {
+          "id": "Art. 92  Dereliction of duty by neglect",
+          "label": "Art. 92  Dereliction of duty by neglect"
+        },
+        {
+          "id": "Art. 92  Willful dereliction of duty",
+          "label": "Art. 92  Willful dereliction of duty"
+        },
+        {
+          "id": "Art. 93  Cruelty and maltreatment",
+          "label": "Art. 93  Cruelty and maltreatment"
+        },
+        {
+          "id": "Art. 93a  Prohibited activities with recruit or trainee",
+          "label": "Art. 93a  Prohibited activities with recruit or trainee"
+        },
+        {
+          "id": "Art. 94  Mutiny or sedition",
+          "label": "Art. 94  Mutiny or sedition"
+        },
+        {
+          "id": "Art. 95  Drunk on post",
+          "label": "Art. 95  Drunk on post"
+        },
+        {
+          "id": "Art. 95  Sleeping on post",
+          "label": "Art. 95  Sleeping on post"
+        },
+        {
+          "id": "Art. 95  Loitering by post",
+          "label": "Art. 95  Loitering by post"
+        },
+        {
+          "id": "Art. 95a  Disrespect towards sentinel or lookout",
+          "label": "Art. 95a  Disrespect towards sentinel or lookout"
+        },
+        {
+          "id": "Art. 96  Release of prisoner without authority",
+          "label": "Art. 96  Release of prisoner without authority"
+        },
+        {
+          "id": "Art. 96  Drinking with prisoner",
+          "label": "Art. 96  Drinking with prisoner"
+        },
+        {
+          "id": "Art. 97  Unlawful detention",
+          "label": "Art. 97  Unlawful detention"
+        },
+        {
+          "id": "Art. 98  Misconduct as prisoner",
+          "label": "Art. 98  Misconduct as prisoner"
+        },
+        {
+          "id": "Art. 99  Misbehavior before enemy",
+          "label": "Art. 99  Misbehavior before enemy"
+        },
+        {
+          "id": "Art. 100  Subordinate compelling surrender",
+          "label": "Art. 100  Subordinate compelling surrender"
+        },
+        {
+          "id": "Art. 101  Improper use of countersign",
+          "label": "Art. 101  Improper use of countersign"
+        },
+        {
+          "id": "Art. 102  Forcing a safeguard",
+          "label": "Art. 102  Forcing a safeguard"
+        },
+        {
+          "id": "Art. 103  Spies",
+          "label": "Art. 103  Spies"
+        },
+        {
+          "id": "Art. 103a  Espionage",
+          "label": "Art. 103a  Espionage"
+        },
+        {
+          "id": "Art. 103b  Aiding the enemy",
+          "label": "Art. 103b  Aiding the enemy"
+        },
+        {
+          "id": "Art. 104  Public records offenses",
+          "label": "Art. 104  Public records offenses"
+        },
+        {
+          "id": "Art. 104a  Fraudulent enlistment, appointment, or separation",
+          "label": "Art. 104a  Fraudulent enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 104b  Unlawful enlistment, appointment, or separation",
+          "label": "Art. 104b  Unlawful enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 105  Forgery",
+          "label": "Art. 105  Forgery"
+        },
+        {
+          "id": "Art. 105a  False or unauthorized pass offenses",
+          "label": "Art. 105a  False or unauthorized pass offenses"
+        },
+        {
+          "id": "Art. 106  Impersonation",
+          "label": "Art. 106  Impersonation"
+        },
+        {
+          "id": "Art. 106a  Wearing unauthorized insignia",
+          "label": "Art. 106a  Wearing unauthorized insignia"
+        },
+        {
+          "id": "Art. 107  False official statements",
+          "label": "Art. 107  False official statements"
+        },
+        {
+          "id": "Art. 107  False swearing",
+          "label": "Art. 107  False swearing"
+        },
+        {
+          "id": "Art. 107a  Parole violation",
+          "label": "Art. 107a  Parole violation"
+        },
+        {
+          "id": "Art. 108  Selling military property",
+          "label": "Art. 108  Selling military property"
+        },
+        {
+          "id": "Art. 108  Selling military property (firearm/explosive)",
+          "label": "Art. 108  Selling military property (firearm/explosive)"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect ≤ $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect ≤ $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect > $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect > $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property willfully",
+          "label": "Art. 108  Damaging, etc., military property willfully"
+        },
+        {
+          "id": "Art. 108a  Captured or abandoned property",
+          "label": "Art. 108a  Captured or abandoned property"
+        },
+        {
+          "id": "Art. 108a  Looting or pillaging",
+          "label": "Art. 108a  Looting or pillaging"
+        },
+        {
+          "id": "Art. 109  Waste, spoilage, destruction of other property",
+          "label": "Art. 109  Waste, spoilage, destruction of other property"
+        },
+        {
+          "id": "Art. 110  Improper hazarding of vessel or aircraft",
+          "label": "Art. 110  Improper hazarding of vessel or aircraft"
+        },
+        {
+          "id": "Art. 111  Leaving scene of vehicle accident",
+          "label": "Art. 111  Leaving scene of vehicle accident"
+        },
+        {
+          "id": "Art. 112  Drunk on duty",
+          "label": "Art. 112  Drunk on duty"
+        },
+        {
+          "id": "Art. 112  Drunkenness and other incapacitation",
+          "label": "Art. 112  Drunkenness and other incapacitation"
+        },
+        {
+          "id": "Art. 112a  Wrongful use, possession, etc. of controlled substances",
+          "label": "Art. 112a  Wrongful use, possession, etc. of controlled substances"
+        },
+        {
+          "id": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel",
+          "label": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel"
+        },
+        {
+          "id": "Art. 114  Endangerment offenses",
+          "label": "Art. 114  Endangerment offenses"
+        },
+        {
+          "id": "Art. 115  Communicating threats",
+          "label": "Art. 115  Communicating threats"
+        },
+        {
+          "id": "Art. 116  Riot",
+          "label": "Art. 116  Riot"
+        },
+        {
+          "id": "Art. 116  Breach of peace",
+          "label": "Art. 116  Breach of peace"
+        },
+        {
+          "id": "Art. 117  Provoking speeches or gestures",
+          "label": "Art. 117  Provoking speeches or gestures"
+        },
+        {
+          "id": "Art. 117a  Wrongful broadcast or distribution of intimate visual image",
+          "label": "Art. 117a  Wrongful broadcast or distribution of intimate visual image"
+        },
+        {
+          "id": "Art. 118  Murder",
+          "label": "Art. 118  Murder"
+        },
+        {
+          "id": "Art. 119  Manslaughter",
+          "label": "Art. 119  Manslaughter"
+        },
+        {
+          "id": "Art. 119a  Death of unborn child",
+          "label": "Art. 119a  Death of unborn child"
+        },
+        {
+          "id": "Art. 119a  Injury of unborn child",
+          "label": "Art. 119a  Injury of unborn child"
+        },
+        {
+          "id": "Art. 119b  Child endangerment",
+          "label": "Art. 119b  Child endangerment"
+        },
+        {
+          "id": "Art. 120  Rape and sexual assault",
+          "label": "Art. 120  Rape and sexual assault"
+        },
+        {
+          "id": "Art. 120  Sexual assault",
+          "label": "Art. 120  Sexual assault"
+        },
+        {
+          "id": "Art. 120  Aggravated sexual contact",
+          "label": "Art. 120  Aggravated sexual contact"
+        },
+        {
+          "id": "Art. 120  Abusive sexual contact",
+          "label": "Art. 120  Abusive sexual contact"
+        },
+        {
+          "id": "Art. 120a  Mail deposit of obscene matter",
+          "label": "Art. 120a  Mail deposit of obscene matter"
+        },
+        {
+          "id": "Art. 120b  Rape of a child",
+          "label": "Art. 120b  Rape of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual assault of a child",
+          "label": "Art. 120b  Sexual assault of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual abuse of a child",
+          "label": "Art. 120b  Sexual abuse of a child"
+        },
+        {
+          "id": "Art. 120c  Indecent viewing",
+          "label": "Art. 120c  Indecent viewing"
+        },
+        {
+          "id": "Art. 120c  Indecent recording",
+          "label": "Art. 120c  Indecent recording"
+        },
+        {
+          "id": "Art. 120c  Distribution of indecent recording",
+          "label": "Art. 120c  Distribution of indecent recording"
+        },
+        {
+          "id": "Art. 120c  Forcible pandering",
+          "label": "Art. 120c  Forcible pandering"
+        },
+        {
+          "id": "Art. 120c  Indecent exposure",
+          "label": "Art. 120c  Indecent exposure"
+        },
+        {
+          "id": "Art. 121  Larceny and wrongful appropriation",
+          "label": "Art. 121  Larceny and wrongful appropriation"
+        },
+        {
+          "id": "Art. 121a  Fraudulent use of credit cards, etc.",
+          "label": "Art. 121a  Fraudulent use of credit cards, etc."
+        },
+        {
+          "id": "Art. 121b  False pretenses to obtain services",
+          "label": "Art. 121b  False pretenses to obtain services"
+        },
+        {
+          "id": "Art. 122  Robbery",
+          "label": "Art. 122  Robbery"
+        },
+        {
+          "id": "Art. 122a  Receiving stolen property",
+          "label": "Art. 122a  Receiving stolen property"
+        },
+        {
+          "id": "Art. 123  Offenses concerning government computers",
+          "label": "Art. 123  Offenses concerning government computers"
+        },
+        {
+          "id": "Art. 123a  Check without sufficient funds (fraudulent intent)",
+          "label": "Art. 123a  Check without sufficient funds (fraudulent intent)"
+        },
+        {
+          "id": "Art. 124  Frauds against the United States",
+          "label": "Art. 124  Frauds against the United States"
+        },
+        {
+          "id": "Art. 124a  Bribery",
+          "label": "Art. 124a  Bribery"
+        },
+        {
+          "id": "Art. 124b  Graft",
+          "label": "Art. 124b  Graft"
+        },
+        {
+          "id": "Art. 125  Kidnapping",
+          "label": "Art. 125  Kidnapping"
+        },
+        {
+          "id": "Art. 126  Arson",
+          "label": "Art. 126  Arson"
+        },
+        {
+          "id": "Art. 126  Burning property with intent to defraud",
+          "label": "Art. 126  Burning property with intent to defraud"
+        },
+        {
+          "id": "Art. 127  Extortion",
+          "label": "Art. 127  Extortion"
+        },
+        {
+          "id": "Art. 128  Simple assault (no battery, no weapon)",
+          "label": "Art. 128  Simple assault (no battery, no weapon)"
+        },
+        {
+          "id": "Art. 128  Assault",
+          "label": "Art. 128  Assault"
+        },
+        {
+          "id": "Art. 128a  Maiming",
+          "label": "Art. 128a  Maiming"
+        },
+        {
+          "id": "Art. 128b  Domestic violence",
+          "label": "Art. 128b  Domestic violence"
+        },
+        {
+          "id": "Art. 129  Burglary",
+          "label": "Art. 129  Burglary"
+        },
+        {
+          "id": "Art. 129  Unlawful entry",
+          "label": "Art. 129  Unlawful entry"
+        },
+        {
+          "id": "Art. 130  Stalking",
+          "label": "Art. 130  Stalking"
+        },
+        {
+          "id": "Art. 131  Perjury",
+          "label": "Art. 131  Perjury"
+        },
+        {
+          "id": "Art. 131a  Subornation of perjury",
+          "label": "Art. 131a  Subornation of perjury"
+        },
+        {
+          "id": "Art. 131b  Obstruction of justice",
+          "label": "Art. 131b  Obstruction of justice"
+        },
+        {
+          "id": "Art. 131c  Misprision of serious offense",
+          "label": "Art. 131c  Misprision of serious offense"
+        },
+        {
+          "id": "Art. 131d  Wrongful refusal to testify",
+          "label": "Art. 131d  Wrongful refusal to testify"
+        },
+        {
+          "id": "Art. 131e  Prevention of authorized seizure of property",
+          "label": "Art. 131e  Prevention of authorized seizure of property"
+        },
+        {
+          "id": "Art. 131f  Noncompliance with procedural rules",
+          "label": "Art. 131f  Noncompliance with procedural rules"
+        },
+        {
+          "id": "Art. 131g  Wrongful interference with adverse administrative proceedings",
+          "label": "Art. 131g  Wrongful interference with adverse administrative proceedings"
+        },
+        {
+          "id": "Art. 132  Retaliation",
+          "label": "Art. 132  Retaliation"
+        },
+        {
+          "id": "Art. 133  Conduct unbecoming an officer",
+          "label": "Art. 133  Conduct unbecoming an officer"
+        },
+        {
+          "id": "Art. 134  General Article",
+          "label": "Art. 134  General Article"
+        },
+        {
+          "id": "Art. 134  General Article Clause 1",
+          "label": "Art. 134  General Article Clause 1"
+        },
+        {
+          "id": "Art. 134  General Article Clause 2",
+          "label": "Art. 134  General Article Clause 2"
+        },
+        {
+          "id": "Art. 134  General Article Clause 3",
+          "label": "Art. 134  General Article Clause 3"
+        },
+        {
+          "id": "Art. 134  Animal abuse",
+          "label": "Art. 134  Animal abuse"
+        },
+        {
+          "id": "Art. 134  Bigamy",
+          "label": "Art. 134  Bigamy"
+        },
+        {
+          "id": "Art. 134  Worthless check (bad faith in maintaining funds)",
+          "label": "Art. 134  Worthless check (bad faith in maintaining funds)"
+        },
+        {
+          "id": "Art. 134  Child pornography",
+          "label": "Art. 134  Child pornography"
+        },
+        {
+          "id": "Art. 134  Dishonorably failing to pay debt",
+          "label": "Art. 134  Dishonorably failing to pay debt"
+        },
+        {
+          "id": "Art. 134  Disloyal statements",
+          "label": "Art. 134  Disloyal statements"
+        },
+        {
+          "id": "Art. 134  Disorderly conduct",
+          "label": "Art. 134  Disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct",
+          "label": "Art. 134  Drunk and disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct aboard ship",
+          "label": "Art. 134  Drunk and disorderly conduct aboard ship"
+        },
+        {
+          "id": "Art. 134  Drunkenness",
+          "label": "Art. 134  Drunkenness"
+        },
+        {
+          "id": "Art. 134  Extramarital sexual conduct",
+          "label": "Art. 134  Extramarital sexual conduct"
+        },
+        {
+          "id": "Art. 134  Negligent discharge of firearm",
+          "label": "Art. 134  Negligent discharge of firearm"
+        },
+        {
+          "id": "Art. 134  Fraternization",
+          "label": "Art. 134  Fraternization"
+        },
+        {
+          "id": "Art. 134  Gambling with subordinate",
+          "label": "Art. 134  Gambling with subordinate"
+        },
+        {
+          "id": "Art. 134  Negligent homicide",
+          "label": "Art. 134  Negligent homicide"
+        },
+        {
+          "id": "Art. 134  Indecent conduct",
+          "label": "Art. 134  Indecent conduct"
+        },
+        {
+          "id": "Art. 134  Indecent language",
+          "label": "Art. 134  Indecent language"
+        },
+        {
+          "id": "Art. 134  Pandering and prostitution",
+          "label": "Art. 134  Pandering and prostitution"
+        },
+        {
+          "id": "Art. 134  Self-injury without intent to avoid service",
+          "label": "Art. 134  Self-injury without intent to avoid service"
+        },
+        {
+          "id": "Art. 134  Sexual harassment",
+          "label": "Art. 134  Sexual harassment"
+        },
+        {
+          "id": "Art. 134  Straggling",
+          "label": "Art. 134  Straggling"
+        }
+      ]
+    },
+    "1b_summary": {
+      "kind": "text",
+      "label": "1B Summary",
+      "sourceIds": [
+        "1B SUMMARY"
+      ]
+    },
+    "1c_article": {
+      "kind": "singleChoice",
+      "label": "1C Article",
+      "sourceIds": [
+        "1C ARTICLE"
+      ],
+      "options": [
+        {
+          "id": "Art. 80  Attempts",
+          "label": "Art. 80  Attempts"
+        },
+        {
+          "id": "Art. 81  Conspiracy",
+          "label": "Art. 81  Conspiracy"
+        },
+        {
+          "id": "Art. 82  Soliciting commission of offenses",
+          "label": "Art. 82  Soliciting commission of offenses"
+        },
+        {
+          "id": "Art. 83  Malingering",
+          "label": "Art. 83  Malingering"
+        },
+        {
+          "id": "Art. 83  Self-injury with intent to avoid service",
+          "label": "Art. 83  Self-injury with intent to avoid service"
+        },
+        {
+          "id": "Art. 84  Breach of medical quarantine",
+          "label": "Art. 84  Breach of medical quarantine"
+        },
+        {
+          "id": "Art. 85  Desertion",
+          "label": "Art. 85  Desertion"
+        },
+        {
+          "id": "Art. 86  Absence without leave",
+          "label": "Art. 86  Absence without leave"
+        },
+        {
+          "id": "Art. 86  Absence without leave >30 days",
+          "label": "Art. 86  Absence without leave >30 days"
+        },
+        {
+          "id": "Art. 86  Absence (intent to abandon guard or watch)",
+          "label": "Art. 86  Absence (intent to abandon guard or watch)"
+        },
+        {
+          "id": "Art. 86  Absence (intent to avoid maneuvers or exercise)",
+          "label": "Art. 86  Absence (intent to avoid maneuvers or exercise)"
+        },
+        {
+          "id": "Art. 87  Missing movement",
+          "label": "Art. 87  Missing movement"
+        },
+        {
+          "id": "Art. 87  Jumping from vessel",
+          "label": "Art. 87  Jumping from vessel"
+        },
+        {
+          "id": "Art. 87a  Resistance, flight, breach of arrest, and escape",
+          "label": "Art. 87a  Resistance, flight, breach of arrest, and escape"
+        },
+        {
+          "id": "Art. 87b  Escape/breach correctional custody",
+          "label": "Art. 87b  Escape/breach correctional custody"
+        },
+        {
+          "id": "Art. 87b  Breach of restriction",
+          "label": "Art. 87b  Breach of restriction"
+        },
+        {
+          "id": "Art. 88  Contempt toward officials",
+          "label": "Art. 88  Contempt toward officials"
+        },
+        {
+          "id": "Art. 89  Disrespect of sup. comm. officer",
+          "label": "Art. 89  Disrespect of sup. comm. officer"
+        },
+        {
+          "id": "Art. 89  Assault of sup. comm. officer",
+          "label": "Art. 89  Assault of sup. comm. officer"
+        },
+        {
+          "id": "Art. 90  Willfully disobeying sup. comm. officer",
+          "label": "Art. 90  Willfully disobeying sup. comm. officer"
+        },
+        {
+          "id": "Art. 91  Assault of WO/NCO",
+          "label": "Art. 91  Assault of WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disobeying WO/NCO",
+          "label": "Art. 91  Disobeying WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disrespect toward WO/NCO",
+          "label": "Art. 91  Disrespect toward WO/NCO"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1165 (Fraternization)",
+          "label": "Art. 92  Viol. USNR 1165 (Fraternization)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1166 (Sexual Harassment)",
+          "label": "Art. 92  Viol. USNR 1166 (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1167 (Supremacist Activities)",
+          "label": "Art. 92  Viol. USNR 1167 (Supremacist Activities)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1168 (Intimate Images)",
+          "label": "Art. 92  Viol. USNR 1168 (Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)",
+          "label": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)",
+          "label": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1344.10 (Political Activities)",
+          "label": "Art. 92  Viol. DoDI 1344.10 (Political Activities)"
+        },
+        {
+          "id": "Art. 92  Failure to obey general order or regulation",
+          "label": "Art. 92  Failure to obey general order or regulation"
+        },
+        {
+          "id": "Art. 92  Failure to obey other order or regulation",
+          "label": "Art. 92  Failure to obey other order or regulation"
+        },
+        {
+          "id": "Art. 92  Dereliction of duty by neglect",
+          "label": "Art. 92  Dereliction of duty by neglect"
+        },
+        {
+          "id": "Art. 92  Willful dereliction of duty",
+          "label": "Art. 92  Willful dereliction of duty"
+        },
+        {
+          "id": "Art. 93  Cruelty and maltreatment",
+          "label": "Art. 93  Cruelty and maltreatment"
+        },
+        {
+          "id": "Art. 93a  Prohibited activities with recruit or trainee",
+          "label": "Art. 93a  Prohibited activities with recruit or trainee"
+        },
+        {
+          "id": "Art. 94  Mutiny or sedition",
+          "label": "Art. 94  Mutiny or sedition"
+        },
+        {
+          "id": "Art. 95  Drunk on post",
+          "label": "Art. 95  Drunk on post"
+        },
+        {
+          "id": "Art. 95  Sleeping on post",
+          "label": "Art. 95  Sleeping on post"
+        },
+        {
+          "id": "Art. 95  Loitering by post",
+          "label": "Art. 95  Loitering by post"
+        },
+        {
+          "id": "Art. 95a  Disrespect towards sentinel or lookout",
+          "label": "Art. 95a  Disrespect towards sentinel or lookout"
+        },
+        {
+          "id": "Art. 96  Release of prisoner without authority",
+          "label": "Art. 96  Release of prisoner without authority"
+        },
+        {
+          "id": "Art. 96  Drinking with prisoner",
+          "label": "Art. 96  Drinking with prisoner"
+        },
+        {
+          "id": "Art. 97  Unlawful detention",
+          "label": "Art. 97  Unlawful detention"
+        },
+        {
+          "id": "Art. 98  Misconduct as prisoner",
+          "label": "Art. 98  Misconduct as prisoner"
+        },
+        {
+          "id": "Art. 99  Misbehavior before enemy",
+          "label": "Art. 99  Misbehavior before enemy"
+        },
+        {
+          "id": "Art. 100  Subordinate compelling surrender",
+          "label": "Art. 100  Subordinate compelling surrender"
+        },
+        {
+          "id": "Art. 101  Improper use of countersign",
+          "label": "Art. 101  Improper use of countersign"
+        },
+        {
+          "id": "Art. 102  Forcing a safeguard",
+          "label": "Art. 102  Forcing a safeguard"
+        },
+        {
+          "id": "Art. 103  Spies",
+          "label": "Art. 103  Spies"
+        },
+        {
+          "id": "Art. 103a  Espionage",
+          "label": "Art. 103a  Espionage"
+        },
+        {
+          "id": "Art. 103b  Aiding the enemy",
+          "label": "Art. 103b  Aiding the enemy"
+        },
+        {
+          "id": "Art. 104  Public records offenses",
+          "label": "Art. 104  Public records offenses"
+        },
+        {
+          "id": "Art. 104a  Fraudulent enlistment, appointment, or separation",
+          "label": "Art. 104a  Fraudulent enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 104b  Unlawful enlistment, appointment, or separation",
+          "label": "Art. 104b  Unlawful enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 105  Forgery",
+          "label": "Art. 105  Forgery"
+        },
+        {
+          "id": "Art. 105a  False or unauthorized pass offenses",
+          "label": "Art. 105a  False or unauthorized pass offenses"
+        },
+        {
+          "id": "Art. 106  Impersonation",
+          "label": "Art. 106  Impersonation"
+        },
+        {
+          "id": "Art. 106a  Wearing unauthorized insignia",
+          "label": "Art. 106a  Wearing unauthorized insignia"
+        },
+        {
+          "id": "Art. 107  False official statements",
+          "label": "Art. 107  False official statements"
+        },
+        {
+          "id": "Art. 107  False swearing",
+          "label": "Art. 107  False swearing"
+        },
+        {
+          "id": "Art. 107a  Parole violation",
+          "label": "Art. 107a  Parole violation"
+        },
+        {
+          "id": "Art. 108  Selling military property",
+          "label": "Art. 108  Selling military property"
+        },
+        {
+          "id": "Art. 108  Selling military property (firearm/explosive)",
+          "label": "Art. 108  Selling military property (firearm/explosive)"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect ≤ $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect ≤ $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect > $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect > $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property willfully",
+          "label": "Art. 108  Damaging, etc., military property willfully"
+        },
+        {
+          "id": "Art. 108a  Captured or abandoned property",
+          "label": "Art. 108a  Captured or abandoned property"
+        },
+        {
+          "id": "Art. 108a  Looting or pillaging",
+          "label": "Art. 108a  Looting or pillaging"
+        },
+        {
+          "id": "Art. 109  Waste, spoilage, destruction of other property",
+          "label": "Art. 109  Waste, spoilage, destruction of other property"
+        },
+        {
+          "id": "Art. 110  Improper hazarding of vessel or aircraft",
+          "label": "Art. 110  Improper hazarding of vessel or aircraft"
+        },
+        {
+          "id": "Art. 111  Leaving scene of vehicle accident",
+          "label": "Art. 111  Leaving scene of vehicle accident"
+        },
+        {
+          "id": "Art. 112  Drunk on duty",
+          "label": "Art. 112  Drunk on duty"
+        },
+        {
+          "id": "Art. 112  Drunkenness and other incapacitation",
+          "label": "Art. 112  Drunkenness and other incapacitation"
+        },
+        {
+          "id": "Art. 112a  Wrongful use, possession, etc. of controlled substances",
+          "label": "Art. 112a  Wrongful use, possession, etc. of controlled substances"
+        },
+        {
+          "id": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel",
+          "label": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel"
+        },
+        {
+          "id": "Art. 114  Endangerment offenses",
+          "label": "Art. 114  Endangerment offenses"
+        },
+        {
+          "id": "Art. 115  Communicating threats",
+          "label": "Art. 115  Communicating threats"
+        },
+        {
+          "id": "Art. 116  Riot",
+          "label": "Art. 116  Riot"
+        },
+        {
+          "id": "Art. 116  Breach of peace",
+          "label": "Art. 116  Breach of peace"
+        },
+        {
+          "id": "Art. 117  Provoking speeches or gestures",
+          "label": "Art. 117  Provoking speeches or gestures"
+        },
+        {
+          "id": "Art. 117a  Wrongful broadcast or distribution of intimate visual image",
+          "label": "Art. 117a  Wrongful broadcast or distribution of intimate visual image"
+        },
+        {
+          "id": "Art. 118  Murder",
+          "label": "Art. 118  Murder"
+        },
+        {
+          "id": "Art. 119  Manslaughter",
+          "label": "Art. 119  Manslaughter"
+        },
+        {
+          "id": "Art. 119a  Death of unborn child",
+          "label": "Art. 119a  Death of unborn child"
+        },
+        {
+          "id": "Art. 119a  Injury of unborn child",
+          "label": "Art. 119a  Injury of unborn child"
+        },
+        {
+          "id": "Art. 119b  Child endangerment",
+          "label": "Art. 119b  Child endangerment"
+        },
+        {
+          "id": "Art. 120  Rape and sexual assault",
+          "label": "Art. 120  Rape and sexual assault"
+        },
+        {
+          "id": "Art. 120  Sexual assault",
+          "label": "Art. 120  Sexual assault"
+        },
+        {
+          "id": "Art. 120  Aggravated sexual contact",
+          "label": "Art. 120  Aggravated sexual contact"
+        },
+        {
+          "id": "Art. 120  Abusive sexual contact",
+          "label": "Art. 120  Abusive sexual contact"
+        },
+        {
+          "id": "Art. 120a  Mail deposit of obscene matter",
+          "label": "Art. 120a  Mail deposit of obscene matter"
+        },
+        {
+          "id": "Art. 120b  Rape of a child",
+          "label": "Art. 120b  Rape of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual assault of a child",
+          "label": "Art. 120b  Sexual assault of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual abuse of a child",
+          "label": "Art. 120b  Sexual abuse of a child"
+        },
+        {
+          "id": "Art. 120c  Indecent viewing",
+          "label": "Art. 120c  Indecent viewing"
+        },
+        {
+          "id": "Art. 120c  Indecent recording",
+          "label": "Art. 120c  Indecent recording"
+        },
+        {
+          "id": "Art. 120c  Distribution of indecent recording",
+          "label": "Art. 120c  Distribution of indecent recording"
+        },
+        {
+          "id": "Art. 120c  Forcible pandering",
+          "label": "Art. 120c  Forcible pandering"
+        },
+        {
+          "id": "Art. 120c  Indecent exposure",
+          "label": "Art. 120c  Indecent exposure"
+        },
+        {
+          "id": "Art. 121  Larceny and wrongful appropriation",
+          "label": "Art. 121  Larceny and wrongful appropriation"
+        },
+        {
+          "id": "Art. 121a  Fraudulent use of credit cards, etc.",
+          "label": "Art. 121a  Fraudulent use of credit cards, etc."
+        },
+        {
+          "id": "Art. 121b  False pretenses to obtain services",
+          "label": "Art. 121b  False pretenses to obtain services"
+        },
+        {
+          "id": "Art. 122  Robbery",
+          "label": "Art. 122  Robbery"
+        },
+        {
+          "id": "Art. 122a  Receiving stolen property",
+          "label": "Art. 122a  Receiving stolen property"
+        },
+        {
+          "id": "Art. 123  Offenses concerning government computers",
+          "label": "Art. 123  Offenses concerning government computers"
+        },
+        {
+          "id": "Art. 123a  Check without sufficient funds (fraudulent intent)",
+          "label": "Art. 123a  Check without sufficient funds (fraudulent intent)"
+        },
+        {
+          "id": "Art. 124  Frauds against the United States",
+          "label": "Art. 124  Frauds against the United States"
+        },
+        {
+          "id": "Art. 124a  Bribery",
+          "label": "Art. 124a  Bribery"
+        },
+        {
+          "id": "Art. 124b  Graft",
+          "label": "Art. 124b  Graft"
+        },
+        {
+          "id": "Art. 125  Kidnapping",
+          "label": "Art. 125  Kidnapping"
+        },
+        {
+          "id": "Art. 126  Arson",
+          "label": "Art. 126  Arson"
+        },
+        {
+          "id": "Art. 126  Burning property with intent to defraud",
+          "label": "Art. 126  Burning property with intent to defraud"
+        },
+        {
+          "id": "Art. 127  Extortion",
+          "label": "Art. 127  Extortion"
+        },
+        {
+          "id": "Art. 128  Simple assault (no battery, no weapon)",
+          "label": "Art. 128  Simple assault (no battery, no weapon)"
+        },
+        {
+          "id": "Art. 128  Assault",
+          "label": "Art. 128  Assault"
+        },
+        {
+          "id": "Art. 128a  Maiming",
+          "label": "Art. 128a  Maiming"
+        },
+        {
+          "id": "Art. 128b  Domestic violence",
+          "label": "Art. 128b  Domestic violence"
+        },
+        {
+          "id": "Art. 129  Burglary",
+          "label": "Art. 129  Burglary"
+        },
+        {
+          "id": "Art. 129  Unlawful entry",
+          "label": "Art. 129  Unlawful entry"
+        },
+        {
+          "id": "Art. 130  Stalking",
+          "label": "Art. 130  Stalking"
+        },
+        {
+          "id": "Art. 131  Perjury",
+          "label": "Art. 131  Perjury"
+        },
+        {
+          "id": "Art. 131a  Subornation of perjury",
+          "label": "Art. 131a  Subornation of perjury"
+        },
+        {
+          "id": "Art. 131b  Obstruction of justice",
+          "label": "Art. 131b  Obstruction of justice"
+        },
+        {
+          "id": "Art. 131c  Misprision of serious offense",
+          "label": "Art. 131c  Misprision of serious offense"
+        },
+        {
+          "id": "Art. 131d  Wrongful refusal to testify",
+          "label": "Art. 131d  Wrongful refusal to testify"
+        },
+        {
+          "id": "Art. 131e  Prevention of authorized seizure of property",
+          "label": "Art. 131e  Prevention of authorized seizure of property"
+        },
+        {
+          "id": "Art. 131f  Noncompliance with procedural rules",
+          "label": "Art. 131f  Noncompliance with procedural rules"
+        },
+        {
+          "id": "Art. 131g  Wrongful interference with adverse administrative proceedings",
+          "label": "Art. 131g  Wrongful interference with adverse administrative proceedings"
+        },
+        {
+          "id": "Art. 132  Retaliation",
+          "label": "Art. 132  Retaliation"
+        },
+        {
+          "id": "Art. 133  Conduct unbecoming an officer",
+          "label": "Art. 133  Conduct unbecoming an officer"
+        },
+        {
+          "id": "Art. 134  General Article",
+          "label": "Art. 134  General Article"
+        },
+        {
+          "id": "Art. 134  General Article Clause 1",
+          "label": "Art. 134  General Article Clause 1"
+        },
+        {
+          "id": "Art. 134  General Article Clause 2",
+          "label": "Art. 134  General Article Clause 2"
+        },
+        {
+          "id": "Art. 134  General Article Clause 3",
+          "label": "Art. 134  General Article Clause 3"
+        },
+        {
+          "id": "Art. 134  Animal abuse",
+          "label": "Art. 134  Animal abuse"
+        },
+        {
+          "id": "Art. 134  Bigamy",
+          "label": "Art. 134  Bigamy"
+        },
+        {
+          "id": "Art. 134  Worthless check (bad faith in maintaining funds)",
+          "label": "Art. 134  Worthless check (bad faith in maintaining funds)"
+        },
+        {
+          "id": "Art. 134  Child pornography",
+          "label": "Art. 134  Child pornography"
+        },
+        {
+          "id": "Art. 134  Dishonorably failing to pay debt",
+          "label": "Art. 134  Dishonorably failing to pay debt"
+        },
+        {
+          "id": "Art. 134  Disloyal statements",
+          "label": "Art. 134  Disloyal statements"
+        },
+        {
+          "id": "Art. 134  Disorderly conduct",
+          "label": "Art. 134  Disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct",
+          "label": "Art. 134  Drunk and disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct aboard ship",
+          "label": "Art. 134  Drunk and disorderly conduct aboard ship"
+        },
+        {
+          "id": "Art. 134  Drunkenness",
+          "label": "Art. 134  Drunkenness"
+        },
+        {
+          "id": "Art. 134  Extramarital sexual conduct",
+          "label": "Art. 134  Extramarital sexual conduct"
+        },
+        {
+          "id": "Art. 134  Negligent discharge of firearm",
+          "label": "Art. 134  Negligent discharge of firearm"
+        },
+        {
+          "id": "Art. 134  Fraternization",
+          "label": "Art. 134  Fraternization"
+        },
+        {
+          "id": "Art. 134  Gambling with subordinate",
+          "label": "Art. 134  Gambling with subordinate"
+        },
+        {
+          "id": "Art. 134  Negligent homicide",
+          "label": "Art. 134  Negligent homicide"
+        },
+        {
+          "id": "Art. 134  Indecent conduct",
+          "label": "Art. 134  Indecent conduct"
+        },
+        {
+          "id": "Art. 134  Indecent language",
+          "label": "Art. 134  Indecent language"
+        },
+        {
+          "id": "Art. 134  Pandering and prostitution",
+          "label": "Art. 134  Pandering and prostitution"
+        },
+        {
+          "id": "Art. 134  Self-injury without intent to avoid service",
+          "label": "Art. 134  Self-injury without intent to avoid service"
+        },
+        {
+          "id": "Art. 134  Sexual harassment",
+          "label": "Art. 134  Sexual harassment"
+        },
+        {
+          "id": "Art. 134  Straggling",
+          "label": "Art. 134  Straggling"
+        }
+      ]
+    },
+    "1c_summary": {
+      "kind": "text",
+      "label": "1C Summary",
+      "sourceIds": [
+        "1C SUMMARY"
+      ]
+    },
+    "1d_article": {
+      "kind": "singleChoice",
+      "label": "1D Article",
+      "sourceIds": [
+        "1D ARTICLE"
+      ],
+      "options": [
+        {
+          "id": "Art. 80  Attempts",
+          "label": "Art. 80  Attempts"
+        },
+        {
+          "id": "Art. 81  Conspiracy",
+          "label": "Art. 81  Conspiracy"
+        },
+        {
+          "id": "Art. 82  Soliciting commission of offenses",
+          "label": "Art. 82  Soliciting commission of offenses"
+        },
+        {
+          "id": "Art. 83  Malingering",
+          "label": "Art. 83  Malingering"
+        },
+        {
+          "id": "Art. 83  Self-injury with intent to avoid service",
+          "label": "Art. 83  Self-injury with intent to avoid service"
+        },
+        {
+          "id": "Art. 84  Breach of medical quarantine",
+          "label": "Art. 84  Breach of medical quarantine"
+        },
+        {
+          "id": "Art. 85  Desertion",
+          "label": "Art. 85  Desertion"
+        },
+        {
+          "id": "Art. 86  Absence without leave",
+          "label": "Art. 86  Absence without leave"
+        },
+        {
+          "id": "Art. 86  Absence without leave >30 days",
+          "label": "Art. 86  Absence without leave >30 days"
+        },
+        {
+          "id": "Art. 86  Absence (intent to abandon guard or watch)",
+          "label": "Art. 86  Absence (intent to abandon guard or watch)"
+        },
+        {
+          "id": "Art. 86  Absence (intent to avoid maneuvers or exercise)",
+          "label": "Art. 86  Absence (intent to avoid maneuvers or exercise)"
+        },
+        {
+          "id": "Art. 87  Missing movement",
+          "label": "Art. 87  Missing movement"
+        },
+        {
+          "id": "Art. 87  Jumping from vessel",
+          "label": "Art. 87  Jumping from vessel"
+        },
+        {
+          "id": "Art. 87a  Resistance, flight, breach of arrest, and escape",
+          "label": "Art. 87a  Resistance, flight, breach of arrest, and escape"
+        },
+        {
+          "id": "Art. 87b  Escape/breach correctional custody",
+          "label": "Art. 87b  Escape/breach correctional custody"
+        },
+        {
+          "id": "Art. 87b  Breach of restriction",
+          "label": "Art. 87b  Breach of restriction"
+        },
+        {
+          "id": "Art. 88  Contempt toward officials",
+          "label": "Art. 88  Contempt toward officials"
+        },
+        {
+          "id": "Art. 89  Disrespect of sup. comm. officer",
+          "label": "Art. 89  Disrespect of sup. comm. officer"
+        },
+        {
+          "id": "Art. 89  Assault of sup. comm. officer",
+          "label": "Art. 89  Assault of sup. comm. officer"
+        },
+        {
+          "id": "Art. 90  Willfully disobeying sup. comm. officer",
+          "label": "Art. 90  Willfully disobeying sup. comm. officer"
+        },
+        {
+          "id": "Art. 91  Assault of WO/NCO",
+          "label": "Art. 91  Assault of WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disobeying WO/NCO",
+          "label": "Art. 91  Disobeying WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disrespect toward WO/NCO",
+          "label": "Art. 91  Disrespect toward WO/NCO"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1165 (Fraternization)",
+          "label": "Art. 92  Viol. USNR 1165 (Fraternization)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1166 (Sexual Harassment)",
+          "label": "Art. 92  Viol. USNR 1166 (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1167 (Supremacist Activities)",
+          "label": "Art. 92  Viol. USNR 1167 (Supremacist Activities)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1168 (Intimate Images)",
+          "label": "Art. 92  Viol. USNR 1168 (Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)",
+          "label": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)",
+          "label": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1344.10 (Political Activities)",
+          "label": "Art. 92  Viol. DoDI 1344.10 (Political Activities)"
+        },
+        {
+          "id": "Art. 92  Failure to obey general order or regulation",
+          "label": "Art. 92  Failure to obey general order or regulation"
+        },
+        {
+          "id": "Art. 92  Failure to obey other order or regulation",
+          "label": "Art. 92  Failure to obey other order or regulation"
+        },
+        {
+          "id": "Art. 92  Dereliction of duty by neglect",
+          "label": "Art. 92  Dereliction of duty by neglect"
+        },
+        {
+          "id": "Art. 92  Willful dereliction of duty",
+          "label": "Art. 92  Willful dereliction of duty"
+        },
+        {
+          "id": "Art. 93  Cruelty and maltreatment",
+          "label": "Art. 93  Cruelty and maltreatment"
+        },
+        {
+          "id": "Art. 93a  Prohibited activities with recruit or trainee",
+          "label": "Art. 93a  Prohibited activities with recruit or trainee"
+        },
+        {
+          "id": "Art. 94  Mutiny or sedition",
+          "label": "Art. 94  Mutiny or sedition"
+        },
+        {
+          "id": "Art. 95  Drunk on post",
+          "label": "Art. 95  Drunk on post"
+        },
+        {
+          "id": "Art. 95  Sleeping on post",
+          "label": "Art. 95  Sleeping on post"
+        },
+        {
+          "id": "Art. 95  Loitering by post",
+          "label": "Art. 95  Loitering by post"
+        },
+        {
+          "id": "Art. 95a  Disrespect towards sentinel or lookout",
+          "label": "Art. 95a  Disrespect towards sentinel or lookout"
+        },
+        {
+          "id": "Art. 96  Release of prisoner without authority",
+          "label": "Art. 96  Release of prisoner without authority"
+        },
+        {
+          "id": "Art. 96  Drinking with prisoner",
+          "label": "Art. 96  Drinking with prisoner"
+        },
+        {
+          "id": "Art. 97  Unlawful detention",
+          "label": "Art. 97  Unlawful detention"
+        },
+        {
+          "id": "Art. 98  Misconduct as prisoner",
+          "label": "Art. 98  Misconduct as prisoner"
+        },
+        {
+          "id": "Art. 99  Misbehavior before enemy",
+          "label": "Art. 99  Misbehavior before enemy"
+        },
+        {
+          "id": "Art. 100  Subordinate compelling surrender",
+          "label": "Art. 100  Subordinate compelling surrender"
+        },
+        {
+          "id": "Art. 101  Improper use of countersign",
+          "label": "Art. 101  Improper use of countersign"
+        },
+        {
+          "id": "Art. 102  Forcing a safeguard",
+          "label": "Art. 102  Forcing a safeguard"
+        },
+        {
+          "id": "Art. 103  Spies",
+          "label": "Art. 103  Spies"
+        },
+        {
+          "id": "Art. 103a  Espionage",
+          "label": "Art. 103a  Espionage"
+        },
+        {
+          "id": "Art. 103b  Aiding the enemy",
+          "label": "Art. 103b  Aiding the enemy"
+        },
+        {
+          "id": "Art. 104  Public records offenses",
+          "label": "Art. 104  Public records offenses"
+        },
+        {
+          "id": "Art. 104a  Fraudulent enlistment, appointment, or separation",
+          "label": "Art. 104a  Fraudulent enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 104b  Unlawful enlistment, appointment, or separation",
+          "label": "Art. 104b  Unlawful enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 105  Forgery",
+          "label": "Art. 105  Forgery"
+        },
+        {
+          "id": "Art. 105a  False or unauthorized pass offenses",
+          "label": "Art. 105a  False or unauthorized pass offenses"
+        },
+        {
+          "id": "Art. 106  Impersonation",
+          "label": "Art. 106  Impersonation"
+        },
+        {
+          "id": "Art. 106a  Wearing unauthorized insignia",
+          "label": "Art. 106a  Wearing unauthorized insignia"
+        },
+        {
+          "id": "Art. 107  False official statements",
+          "label": "Art. 107  False official statements"
+        },
+        {
+          "id": "Art. 107  False swearing",
+          "label": "Art. 107  False swearing"
+        },
+        {
+          "id": "Art. 107a  Parole violation",
+          "label": "Art. 107a  Parole violation"
+        },
+        {
+          "id": "Art. 108  Selling military property",
+          "label": "Art. 108  Selling military property"
+        },
+        {
+          "id": "Art. 108  Selling military property (firearm/explosive)",
+          "label": "Art. 108  Selling military property (firearm/explosive)"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect ≤ $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect ≤ $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect > $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect > $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property willfully",
+          "label": "Art. 108  Damaging, etc., military property willfully"
+        },
+        {
+          "id": "Art. 108a  Captured or abandoned property",
+          "label": "Art. 108a  Captured or abandoned property"
+        },
+        {
+          "id": "Art. 108a  Looting or pillaging",
+          "label": "Art. 108a  Looting or pillaging"
+        },
+        {
+          "id": "Art. 109  Waste, spoilage, destruction of other property",
+          "label": "Art. 109  Waste, spoilage, destruction of other property"
+        },
+        {
+          "id": "Art. 110  Improper hazarding of vessel or aircraft",
+          "label": "Art. 110  Improper hazarding of vessel or aircraft"
+        },
+        {
+          "id": "Art. 111  Leaving scene of vehicle accident",
+          "label": "Art. 111  Leaving scene of vehicle accident"
+        },
+        {
+          "id": "Art. 112  Drunk on duty",
+          "label": "Art. 112  Drunk on duty"
+        },
+        {
+          "id": "Art. 112  Drunkenness and other incapacitation",
+          "label": "Art. 112  Drunkenness and other incapacitation"
+        },
+        {
+          "id": "Art. 112a  Wrongful use, possession, etc. of controlled substances",
+          "label": "Art. 112a  Wrongful use, possession, etc. of controlled substances"
+        },
+        {
+          "id": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel",
+          "label": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel"
+        },
+        {
+          "id": "Art. 114  Endangerment offenses",
+          "label": "Art. 114  Endangerment offenses"
+        },
+        {
+          "id": "Art. 115  Communicating threats",
+          "label": "Art. 115  Communicating threats"
+        },
+        {
+          "id": "Art. 116  Riot",
+          "label": "Art. 116  Riot"
+        },
+        {
+          "id": "Art. 116  Breach of peace",
+          "label": "Art. 116  Breach of peace"
+        },
+        {
+          "id": "Art. 117  Provoking speeches or gestures",
+          "label": "Art. 117  Provoking speeches or gestures"
+        },
+        {
+          "id": "Art. 117a  Wrongful broadcast or distribution of intimate visual image",
+          "label": "Art. 117a  Wrongful broadcast or distribution of intimate visual image"
+        },
+        {
+          "id": "Art. 118  Murder",
+          "label": "Art. 118  Murder"
+        },
+        {
+          "id": "Art. 119  Manslaughter",
+          "label": "Art. 119  Manslaughter"
+        },
+        {
+          "id": "Art. 119a  Death of unborn child",
+          "label": "Art. 119a  Death of unborn child"
+        },
+        {
+          "id": "Art. 119a  Injury of unborn child",
+          "label": "Art. 119a  Injury of unborn child"
+        },
+        {
+          "id": "Art. 119b  Child endangerment",
+          "label": "Art. 119b  Child endangerment"
+        },
+        {
+          "id": "Art. 120  Rape and sexual assault",
+          "label": "Art. 120  Rape and sexual assault"
+        },
+        {
+          "id": "Art. 120  Sexual assault",
+          "label": "Art. 120  Sexual assault"
+        },
+        {
+          "id": "Art. 120  Aggravated sexual contact",
+          "label": "Art. 120  Aggravated sexual contact"
+        },
+        {
+          "id": "Art. 120  Abusive sexual contact",
+          "label": "Art. 120  Abusive sexual contact"
+        },
+        {
+          "id": "Art. 120a  Mail deposit of obscene matter",
+          "label": "Art. 120a  Mail deposit of obscene matter"
+        },
+        {
+          "id": "Art. 120b  Rape of a child",
+          "label": "Art. 120b  Rape of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual assault of a child",
+          "label": "Art. 120b  Sexual assault of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual abuse of a child",
+          "label": "Art. 120b  Sexual abuse of a child"
+        },
+        {
+          "id": "Art. 120c  Indecent viewing",
+          "label": "Art. 120c  Indecent viewing"
+        },
+        {
+          "id": "Art. 120c  Indecent recording",
+          "label": "Art. 120c  Indecent recording"
+        },
+        {
+          "id": "Art. 120c  Distribution of indecent recording",
+          "label": "Art. 120c  Distribution of indecent recording"
+        },
+        {
+          "id": "Art. 120c  Forcible pandering",
+          "label": "Art. 120c  Forcible pandering"
+        },
+        {
+          "id": "Art. 120c  Indecent exposure",
+          "label": "Art. 120c  Indecent exposure"
+        },
+        {
+          "id": "Art. 121  Larceny and wrongful appropriation",
+          "label": "Art. 121  Larceny and wrongful appropriation"
+        },
+        {
+          "id": "Art. 121a  Fraudulent use of credit cards, etc.",
+          "label": "Art. 121a  Fraudulent use of credit cards, etc."
+        },
+        {
+          "id": "Art. 121b  False pretenses to obtain services",
+          "label": "Art. 121b  False pretenses to obtain services"
+        },
+        {
+          "id": "Art. 122  Robbery",
+          "label": "Art. 122  Robbery"
+        },
+        {
+          "id": "Art. 122a  Receiving stolen property",
+          "label": "Art. 122a  Receiving stolen property"
+        },
+        {
+          "id": "Art. 123  Offenses concerning government computers",
+          "label": "Art. 123  Offenses concerning government computers"
+        },
+        {
+          "id": "Art. 123a  Check without sufficient funds (fraudulent intent)",
+          "label": "Art. 123a  Check without sufficient funds (fraudulent intent)"
+        },
+        {
+          "id": "Art. 124  Frauds against the United States",
+          "label": "Art. 124  Frauds against the United States"
+        },
+        {
+          "id": "Art. 124a  Bribery",
+          "label": "Art. 124a  Bribery"
+        },
+        {
+          "id": "Art. 124b  Graft",
+          "label": "Art. 124b  Graft"
+        },
+        {
+          "id": "Art. 125  Kidnapping",
+          "label": "Art. 125  Kidnapping"
+        },
+        {
+          "id": "Art. 126  Arson",
+          "label": "Art. 126  Arson"
+        },
+        {
+          "id": "Art. 126  Burning property with intent to defraud",
+          "label": "Art. 126  Burning property with intent to defraud"
+        },
+        {
+          "id": "Art. 127  Extortion",
+          "label": "Art. 127  Extortion"
+        },
+        {
+          "id": "Art. 128  Simple assault (no battery, no weapon)",
+          "label": "Art. 128  Simple assault (no battery, no weapon)"
+        },
+        {
+          "id": "Art. 128  Assault",
+          "label": "Art. 128  Assault"
+        },
+        {
+          "id": "Art. 128a  Maiming",
+          "label": "Art. 128a  Maiming"
+        },
+        {
+          "id": "Art. 128b  Domestic violence",
+          "label": "Art. 128b  Domestic violence"
+        },
+        {
+          "id": "Art. 129  Burglary",
+          "label": "Art. 129  Burglary"
+        },
+        {
+          "id": "Art. 129  Unlawful entry",
+          "label": "Art. 129  Unlawful entry"
+        },
+        {
+          "id": "Art. 130  Stalking",
+          "label": "Art. 130  Stalking"
+        },
+        {
+          "id": "Art. 131  Perjury",
+          "label": "Art. 131  Perjury"
+        },
+        {
+          "id": "Art. 131a  Subornation of perjury",
+          "label": "Art. 131a  Subornation of perjury"
+        },
+        {
+          "id": "Art. 131b  Obstruction of justice",
+          "label": "Art. 131b  Obstruction of justice"
+        },
+        {
+          "id": "Art. 131c  Misprision of serious offense",
+          "label": "Art. 131c  Misprision of serious offense"
+        },
+        {
+          "id": "Art. 131d  Wrongful refusal to testify",
+          "label": "Art. 131d  Wrongful refusal to testify"
+        },
+        {
+          "id": "Art. 131e  Prevention of authorized seizure of property",
+          "label": "Art. 131e  Prevention of authorized seizure of property"
+        },
+        {
+          "id": "Art. 131f  Noncompliance with procedural rules",
+          "label": "Art. 131f  Noncompliance with procedural rules"
+        },
+        {
+          "id": "Art. 131g  Wrongful interference with adverse administrative proceedings",
+          "label": "Art. 131g  Wrongful interference with adverse administrative proceedings"
+        },
+        {
+          "id": "Art. 132  Retaliation",
+          "label": "Art. 132  Retaliation"
+        },
+        {
+          "id": "Art. 133  Conduct unbecoming an officer",
+          "label": "Art. 133  Conduct unbecoming an officer"
+        },
+        {
+          "id": "Art. 134  General Article",
+          "label": "Art. 134  General Article"
+        },
+        {
+          "id": "Art. 134  General Article Clause 1",
+          "label": "Art. 134  General Article Clause 1"
+        },
+        {
+          "id": "Art. 134  General Article Clause 2",
+          "label": "Art. 134  General Article Clause 2"
+        },
+        {
+          "id": "Art. 134  General Article Clause 3",
+          "label": "Art. 134  General Article Clause 3"
+        },
+        {
+          "id": "Art. 134  Animal abuse",
+          "label": "Art. 134  Animal abuse"
+        },
+        {
+          "id": "Art. 134  Bigamy",
+          "label": "Art. 134  Bigamy"
+        },
+        {
+          "id": "Art. 134  Worthless check (bad faith in maintaining funds)",
+          "label": "Art. 134  Worthless check (bad faith in maintaining funds)"
+        },
+        {
+          "id": "Art. 134  Child pornography",
+          "label": "Art. 134  Child pornography"
+        },
+        {
+          "id": "Art. 134  Dishonorably failing to pay debt",
+          "label": "Art. 134  Dishonorably failing to pay debt"
+        },
+        {
+          "id": "Art. 134  Disloyal statements",
+          "label": "Art. 134  Disloyal statements"
+        },
+        {
+          "id": "Art. 134  Disorderly conduct",
+          "label": "Art. 134  Disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct",
+          "label": "Art. 134  Drunk and disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct aboard ship",
+          "label": "Art. 134  Drunk and disorderly conduct aboard ship"
+        },
+        {
+          "id": "Art. 134  Drunkenness",
+          "label": "Art. 134  Drunkenness"
+        },
+        {
+          "id": "Art. 134  Extramarital sexual conduct",
+          "label": "Art. 134  Extramarital sexual conduct"
+        },
+        {
+          "id": "Art. 134  Negligent discharge of firearm",
+          "label": "Art. 134  Negligent discharge of firearm"
+        },
+        {
+          "id": "Art. 134  Fraternization",
+          "label": "Art. 134  Fraternization"
+        },
+        {
+          "id": "Art. 134  Gambling with subordinate",
+          "label": "Art. 134  Gambling with subordinate"
+        },
+        {
+          "id": "Art. 134  Negligent homicide",
+          "label": "Art. 134  Negligent homicide"
+        },
+        {
+          "id": "Art. 134  Indecent conduct",
+          "label": "Art. 134  Indecent conduct"
+        },
+        {
+          "id": "Art. 134  Indecent language",
+          "label": "Art. 134  Indecent language"
+        },
+        {
+          "id": "Art. 134  Pandering and prostitution",
+          "label": "Art. 134  Pandering and prostitution"
+        },
+        {
+          "id": "Art. 134  Self-injury without intent to avoid service",
+          "label": "Art. 134  Self-injury without intent to avoid service"
+        },
+        {
+          "id": "Art. 134  Sexual harassment",
+          "label": "Art. 134  Sexual harassment"
+        },
+        {
+          "id": "Art. 134  Straggling",
+          "label": "Art. 134  Straggling"
+        }
+      ]
+    },
+    "1d_summary": {
+      "kind": "text",
+      "label": "1D Summary",
+      "sourceIds": [
+        "1D SUMMARY"
+      ]
+    },
+    "1e_article": {
+      "kind": "singleChoice",
+      "label": "1E Article",
+      "sourceIds": [
+        "1E ARTICLE"
+      ],
+      "options": [
+        {
+          "id": "Art. 80  Attempts",
+          "label": "Art. 80  Attempts"
+        },
+        {
+          "id": "Art. 81  Conspiracy",
+          "label": "Art. 81  Conspiracy"
+        },
+        {
+          "id": "Art. 82  Soliciting commission of offenses",
+          "label": "Art. 82  Soliciting commission of offenses"
+        },
+        {
+          "id": "Art. 83  Malingering",
+          "label": "Art. 83  Malingering"
+        },
+        {
+          "id": "Art. 83  Self-injury with intent to avoid service",
+          "label": "Art. 83  Self-injury with intent to avoid service"
+        },
+        {
+          "id": "Art. 84  Breach of medical quarantine",
+          "label": "Art. 84  Breach of medical quarantine"
+        },
+        {
+          "id": "Art. 85  Desertion",
+          "label": "Art. 85  Desertion"
+        },
+        {
+          "id": "Art. 86  Absence without leave",
+          "label": "Art. 86  Absence without leave"
+        },
+        {
+          "id": "Art. 86  Absence without leave >30 days",
+          "label": "Art. 86  Absence without leave >30 days"
+        },
+        {
+          "id": "Art. 86  Absence (intent to abandon guard or watch)",
+          "label": "Art. 86  Absence (intent to abandon guard or watch)"
+        },
+        {
+          "id": "Art. 86  Absence (intent to avoid maneuvers or exercise)",
+          "label": "Art. 86  Absence (intent to avoid maneuvers or exercise)"
+        },
+        {
+          "id": "Art. 87  Missing movement",
+          "label": "Art. 87  Missing movement"
+        },
+        {
+          "id": "Art. 87  Jumping from vessel",
+          "label": "Art. 87  Jumping from vessel"
+        },
+        {
+          "id": "Art. 87a  Resistance, flight, breach of arrest, and escape",
+          "label": "Art. 87a  Resistance, flight, breach of arrest, and escape"
+        },
+        {
+          "id": "Art. 87b  Escape/breach correctional custody",
+          "label": "Art. 87b  Escape/breach correctional custody"
+        },
+        {
+          "id": "Art. 87b  Breach of restriction",
+          "label": "Art. 87b  Breach of restriction"
+        },
+        {
+          "id": "Art. 88  Contempt toward officials",
+          "label": "Art. 88  Contempt toward officials"
+        },
+        {
+          "id": "Art. 89  Disrespect of sup. comm. officer",
+          "label": "Art. 89  Disrespect of sup. comm. officer"
+        },
+        {
+          "id": "Art. 89  Assault of sup. comm. officer",
+          "label": "Art. 89  Assault of sup. comm. officer"
+        },
+        {
+          "id": "Art. 90  Willfully disobeying sup. comm. officer",
+          "label": "Art. 90  Willfully disobeying sup. comm. officer"
+        },
+        {
+          "id": "Art. 91  Assault of WO/NCO",
+          "label": "Art. 91  Assault of WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disobeying WO/NCO",
+          "label": "Art. 91  Disobeying WO/NCO"
+        },
+        {
+          "id": "Art. 91  Disrespect toward WO/NCO",
+          "label": "Art. 91  Disrespect toward WO/NCO"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Bullying)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Hazing)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Unlawful Discrimination)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Dissident Activity)"
+        },
+        {
+          "id": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)",
+          "label": "Art. 92  Viol. MCO 5354.1 (series) (Wrongful Distribution of Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Controlled Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (OTC Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Natural Substance)"
+        },
+        {
+          "id": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)",
+          "label": "Art. 92  Viol. SECNAVINST 5300.28 (series) (Paraphernalia)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1165 (Fraternization)",
+          "label": "Art. 92  Viol. USNR 1165 (Fraternization)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1166 (Sexual Harassment)",
+          "label": "Art. 92  Viol. USNR 1166 (Sexual Harassment)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1167 (Supremacist Activities)",
+          "label": "Art. 92  Viol. USNR 1167 (Supremacist Activities)"
+        },
+        {
+          "id": "Art. 92  Viol. USNR 1168 (Intimate Images)",
+          "label": "Art. 92  Viol. USNR 1168 (Intimate Images)"
+        },
+        {
+          "id": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)",
+          "label": "Art. 92  Viol. ALNAV 074/20 (Hemp Use)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)",
+          "label": "Art. 92  Viol. DoDI 1325.06 (Extremism/Protest)"
+        },
+        {
+          "id": "Art. 92  Viol. DoDI 1344.10 (Political Activities)",
+          "label": "Art. 92  Viol. DoDI 1344.10 (Political Activities)"
+        },
+        {
+          "id": "Art. 92  Failure to obey general order or regulation",
+          "label": "Art. 92  Failure to obey general order or regulation"
+        },
+        {
+          "id": "Art. 92  Failure to obey other order or regulation",
+          "label": "Art. 92  Failure to obey other order or regulation"
+        },
+        {
+          "id": "Art. 92  Dereliction of duty by neglect",
+          "label": "Art. 92  Dereliction of duty by neglect"
+        },
+        {
+          "id": "Art. 92  Willful dereliction of duty",
+          "label": "Art. 92  Willful dereliction of duty"
+        },
+        {
+          "id": "Art. 93  Cruelty and maltreatment",
+          "label": "Art. 93  Cruelty and maltreatment"
+        },
+        {
+          "id": "Art. 93a  Prohibited activities with recruit or trainee",
+          "label": "Art. 93a  Prohibited activities with recruit or trainee"
+        },
+        {
+          "id": "Art. 94  Mutiny or sedition",
+          "label": "Art. 94  Mutiny or sedition"
+        },
+        {
+          "id": "Art. 95  Drunk on post",
+          "label": "Art. 95  Drunk on post"
+        },
+        {
+          "id": "Art. 95  Sleeping on post",
+          "label": "Art. 95  Sleeping on post"
+        },
+        {
+          "id": "Art. 95  Loitering by post",
+          "label": "Art. 95  Loitering by post"
+        },
+        {
+          "id": "Art. 95a  Disrespect towards sentinel or lookout",
+          "label": "Art. 95a  Disrespect towards sentinel or lookout"
+        },
+        {
+          "id": "Art. 96  Release of prisoner without authority",
+          "label": "Art. 96  Release of prisoner without authority"
+        },
+        {
+          "id": "Art. 96  Drinking with prisoner",
+          "label": "Art. 96  Drinking with prisoner"
+        },
+        {
+          "id": "Art. 97  Unlawful detention",
+          "label": "Art. 97  Unlawful detention"
+        },
+        {
+          "id": "Art. 98  Misconduct as prisoner",
+          "label": "Art. 98  Misconduct as prisoner"
+        },
+        {
+          "id": "Art. 99  Misbehavior before enemy",
+          "label": "Art. 99  Misbehavior before enemy"
+        },
+        {
+          "id": "Art. 100  Subordinate compelling surrender",
+          "label": "Art. 100  Subordinate compelling surrender"
+        },
+        {
+          "id": "Art. 101  Improper use of countersign",
+          "label": "Art. 101  Improper use of countersign"
+        },
+        {
+          "id": "Art. 102  Forcing a safeguard",
+          "label": "Art. 102  Forcing a safeguard"
+        },
+        {
+          "id": "Art. 103  Spies",
+          "label": "Art. 103  Spies"
+        },
+        {
+          "id": "Art. 103a  Espionage",
+          "label": "Art. 103a  Espionage"
+        },
+        {
+          "id": "Art. 103b  Aiding the enemy",
+          "label": "Art. 103b  Aiding the enemy"
+        },
+        {
+          "id": "Art. 104  Public records offenses",
+          "label": "Art. 104  Public records offenses"
+        },
+        {
+          "id": "Art. 104a  Fraudulent enlistment, appointment, or separation",
+          "label": "Art. 104a  Fraudulent enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 104b  Unlawful enlistment, appointment, or separation",
+          "label": "Art. 104b  Unlawful enlistment, appointment, or separation"
+        },
+        {
+          "id": "Art. 105  Forgery",
+          "label": "Art. 105  Forgery"
+        },
+        {
+          "id": "Art. 105a  False or unauthorized pass offenses",
+          "label": "Art. 105a  False or unauthorized pass offenses"
+        },
+        {
+          "id": "Art. 106  Impersonation",
+          "label": "Art. 106  Impersonation"
+        },
+        {
+          "id": "Art. 106a  Wearing unauthorized insignia",
+          "label": "Art. 106a  Wearing unauthorized insignia"
+        },
+        {
+          "id": "Art. 107  False official statements",
+          "label": "Art. 107  False official statements"
+        },
+        {
+          "id": "Art. 107  False swearing",
+          "label": "Art. 107  False swearing"
+        },
+        {
+          "id": "Art. 107a  Parole violation",
+          "label": "Art. 107a  Parole violation"
+        },
+        {
+          "id": "Art. 108  Selling military property",
+          "label": "Art. 108  Selling military property"
+        },
+        {
+          "id": "Art. 108  Selling military property (firearm/explosive)",
+          "label": "Art. 108  Selling military property (firearm/explosive)"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect ≤ $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect ≤ $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property by neglect > $1000",
+          "label": "Art. 108  Damaging, etc., military property by neglect > $1000"
+        },
+        {
+          "id": "Art. 108  Damaging, etc., military property willfully",
+          "label": "Art. 108  Damaging, etc., military property willfully"
+        },
+        {
+          "id": "Art. 108a  Captured or abandoned property",
+          "label": "Art. 108a  Captured or abandoned property"
+        },
+        {
+          "id": "Art. 108a  Looting or pillaging",
+          "label": "Art. 108a  Looting or pillaging"
+        },
+        {
+          "id": "Art. 109  Waste, spoilage, destruction of other property",
+          "label": "Art. 109  Waste, spoilage, destruction of other property"
+        },
+        {
+          "id": "Art. 110  Improper hazarding of vessel or aircraft",
+          "label": "Art. 110  Improper hazarding of vessel or aircraft"
+        },
+        {
+          "id": "Art. 111  Leaving scene of vehicle accident",
+          "label": "Art. 111  Leaving scene of vehicle accident"
+        },
+        {
+          "id": "Art. 112  Drunk on duty",
+          "label": "Art. 112  Drunk on duty"
+        },
+        {
+          "id": "Art. 112  Drunkenness and other incapacitation",
+          "label": "Art. 112  Drunkenness and other incapacitation"
+        },
+        {
+          "id": "Art. 112a  Wrongful use, possession, etc. of controlled substances",
+          "label": "Art. 112a  Wrongful use, possession, etc. of controlled substances"
+        },
+        {
+          "id": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel",
+          "label": "Art. 113  Drunken or reckless operation of vehicle, aircraft, or vessel"
+        },
+        {
+          "id": "Art. 114  Endangerment offenses",
+          "label": "Art. 114  Endangerment offenses"
+        },
+        {
+          "id": "Art. 115  Communicating threats",
+          "label": "Art. 115  Communicating threats"
+        },
+        {
+          "id": "Art. 116  Riot",
+          "label": "Art. 116  Riot"
+        },
+        {
+          "id": "Art. 116  Breach of peace",
+          "label": "Art. 116  Breach of peace"
+        },
+        {
+          "id": "Art. 117  Provoking speeches or gestures",
+          "label": "Art. 117  Provoking speeches or gestures"
+        },
+        {
+          "id": "Art. 117a  Wrongful broadcast or distribution of intimate visual image",
+          "label": "Art. 117a  Wrongful broadcast or distribution of intimate visual image"
+        },
+        {
+          "id": "Art. 118  Murder",
+          "label": "Art. 118  Murder"
+        },
+        {
+          "id": "Art. 119  Manslaughter",
+          "label": "Art. 119  Manslaughter"
+        },
+        {
+          "id": "Art. 119a  Death of unborn child",
+          "label": "Art. 119a  Death of unborn child"
+        },
+        {
+          "id": "Art. 119a  Injury of unborn child",
+          "label": "Art. 119a  Injury of unborn child"
+        },
+        {
+          "id": "Art. 119b  Child endangerment",
+          "label": "Art. 119b  Child endangerment"
+        },
+        {
+          "id": "Art. 120  Rape and sexual assault",
+          "label": "Art. 120  Rape and sexual assault"
+        },
+        {
+          "id": "Art. 120  Sexual assault",
+          "label": "Art. 120  Sexual assault"
+        },
+        {
+          "id": "Art. 120  Aggravated sexual contact",
+          "label": "Art. 120  Aggravated sexual contact"
+        },
+        {
+          "id": "Art. 120  Abusive sexual contact",
+          "label": "Art. 120  Abusive sexual contact"
+        },
+        {
+          "id": "Art. 120a  Mail deposit of obscene matter",
+          "label": "Art. 120a  Mail deposit of obscene matter"
+        },
+        {
+          "id": "Art. 120b  Rape of a child",
+          "label": "Art. 120b  Rape of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual assault of a child",
+          "label": "Art. 120b  Sexual assault of a child"
+        },
+        {
+          "id": "Art. 120b  Sexual abuse of a child",
+          "label": "Art. 120b  Sexual abuse of a child"
+        },
+        {
+          "id": "Art. 120c  Indecent viewing",
+          "label": "Art. 120c  Indecent viewing"
+        },
+        {
+          "id": "Art. 120c  Indecent recording",
+          "label": "Art. 120c  Indecent recording"
+        },
+        {
+          "id": "Art. 120c  Distribution of indecent recording",
+          "label": "Art. 120c  Distribution of indecent recording"
+        },
+        {
+          "id": "Art. 120c  Forcible pandering",
+          "label": "Art. 120c  Forcible pandering"
+        },
+        {
+          "id": "Art. 120c  Indecent exposure",
+          "label": "Art. 120c  Indecent exposure"
+        },
+        {
+          "id": "Art. 121  Larceny and wrongful appropriation",
+          "label": "Art. 121  Larceny and wrongful appropriation"
+        },
+        {
+          "id": "Art. 121a  Fraudulent use of credit cards, etc.",
+          "label": "Art. 121a  Fraudulent use of credit cards, etc."
+        },
+        {
+          "id": "Art. 121b  False pretenses to obtain services",
+          "label": "Art. 121b  False pretenses to obtain services"
+        },
+        {
+          "id": "Art. 122  Robbery",
+          "label": "Art. 122  Robbery"
+        },
+        {
+          "id": "Art. 122a  Receiving stolen property",
+          "label": "Art. 122a  Receiving stolen property"
+        },
+        {
+          "id": "Art. 123  Offenses concerning government computers",
+          "label": "Art. 123  Offenses concerning government computers"
+        },
+        {
+          "id": "Art. 123a  Check without sufficient funds (fraudulent intent)",
+          "label": "Art. 123a  Check without sufficient funds (fraudulent intent)"
+        },
+        {
+          "id": "Art. 124  Frauds against the United States",
+          "label": "Art. 124  Frauds against the United States"
+        },
+        {
+          "id": "Art. 124a  Bribery",
+          "label": "Art. 124a  Bribery"
+        },
+        {
+          "id": "Art. 124b  Graft",
+          "label": "Art. 124b  Graft"
+        },
+        {
+          "id": "Art. 125  Kidnapping",
+          "label": "Art. 125  Kidnapping"
+        },
+        {
+          "id": "Art. 126  Arson",
+          "label": "Art. 126  Arson"
+        },
+        {
+          "id": "Art. 126  Burning property with intent to defraud",
+          "label": "Art. 126  Burning property with intent to defraud"
+        },
+        {
+          "id": "Art. 127  Extortion",
+          "label": "Art. 127  Extortion"
+        },
+        {
+          "id": "Art. 128  Simple assault (no battery, no weapon)",
+          "label": "Art. 128  Simple assault (no battery, no weapon)"
+        },
+        {
+          "id": "Art. 128  Assault",
+          "label": "Art. 128  Assault"
+        },
+        {
+          "id": "Art. 128a  Maiming",
+          "label": "Art. 128a  Maiming"
+        },
+        {
+          "id": "Art. 128b  Domestic violence",
+          "label": "Art. 128b  Domestic violence"
+        },
+        {
+          "id": "Art. 129  Burglary",
+          "label": "Art. 129  Burglary"
+        },
+        {
+          "id": "Art. 129  Unlawful entry",
+          "label": "Art. 129  Unlawful entry"
+        },
+        {
+          "id": "Art. 130  Stalking",
+          "label": "Art. 130  Stalking"
+        },
+        {
+          "id": "Art. 131  Perjury",
+          "label": "Art. 131  Perjury"
+        },
+        {
+          "id": "Art. 131a  Subornation of perjury",
+          "label": "Art. 131a  Subornation of perjury"
+        },
+        {
+          "id": "Art. 131b  Obstruction of justice",
+          "label": "Art. 131b  Obstruction of justice"
+        },
+        {
+          "id": "Art. 131c  Misprision of serious offense",
+          "label": "Art. 131c  Misprision of serious offense"
+        },
+        {
+          "id": "Art. 131d  Wrongful refusal to testify",
+          "label": "Art. 131d  Wrongful refusal to testify"
+        },
+        {
+          "id": "Art. 131e  Prevention of authorized seizure of property",
+          "label": "Art. 131e  Prevention of authorized seizure of property"
+        },
+        {
+          "id": "Art. 131f  Noncompliance with procedural rules",
+          "label": "Art. 131f  Noncompliance with procedural rules"
+        },
+        {
+          "id": "Art. 131g  Wrongful interference with adverse administrative proceedings",
+          "label": "Art. 131g  Wrongful interference with adverse administrative proceedings"
+        },
+        {
+          "id": "Art. 132  Retaliation",
+          "label": "Art. 132  Retaliation"
+        },
+        {
+          "id": "Art. 133  Conduct unbecoming an officer",
+          "label": "Art. 133  Conduct unbecoming an officer"
+        },
+        {
+          "id": "Art. 134  General Article",
+          "label": "Art. 134  General Article"
+        },
+        {
+          "id": "Art. 134  General Article Clause 1",
+          "label": "Art. 134  General Article Clause 1"
+        },
+        {
+          "id": "Art. 134  General Article Clause 2",
+          "label": "Art. 134  General Article Clause 2"
+        },
+        {
+          "id": "Art. 134  General Article Clause 3",
+          "label": "Art. 134  General Article Clause 3"
+        },
+        {
+          "id": "Art. 134  Animal abuse",
+          "label": "Art. 134  Animal abuse"
+        },
+        {
+          "id": "Art. 134  Bigamy",
+          "label": "Art. 134  Bigamy"
+        },
+        {
+          "id": "Art. 134  Worthless check (bad faith in maintaining funds)",
+          "label": "Art. 134  Worthless check (bad faith in maintaining funds)"
+        },
+        {
+          "id": "Art. 134  Child pornography",
+          "label": "Art. 134  Child pornography"
+        },
+        {
+          "id": "Art. 134  Dishonorably failing to pay debt",
+          "label": "Art. 134  Dishonorably failing to pay debt"
+        },
+        {
+          "id": "Art. 134  Disloyal statements",
+          "label": "Art. 134  Disloyal statements"
+        },
+        {
+          "id": "Art. 134  Disorderly conduct",
+          "label": "Art. 134  Disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct",
+          "label": "Art. 134  Drunk and disorderly conduct"
+        },
+        {
+          "id": "Art. 134  Drunk and disorderly conduct aboard ship",
+          "label": "Art. 134  Drunk and disorderly conduct aboard ship"
+        },
+        {
+          "id": "Art. 134  Drunkenness",
+          "label": "Art. 134  Drunkenness"
+        },
+        {
+          "id": "Art. 134  Extramarital sexual conduct",
+          "label": "Art. 134  Extramarital sexual conduct"
+        },
+        {
+          "id": "Art. 134  Negligent discharge of firearm",
+          "label": "Art. 134  Negligent discharge of firearm"
+        },
+        {
+          "id": "Art. 134  Fraternization",
+          "label": "Art. 134  Fraternization"
+        },
+        {
+          "id": "Art. 134  Gambling with subordinate",
+          "label": "Art. 134  Gambling with subordinate"
+        },
+        {
+          "id": "Art. 134  Negligent homicide",
+          "label": "Art. 134  Negligent homicide"
+        },
+        {
+          "id": "Art. 134  Indecent conduct",
+          "label": "Art. 134  Indecent conduct"
+        },
+        {
+          "id": "Art. 134  Indecent language",
+          "label": "Art. 134  Indecent language"
+        },
+        {
+          "id": "Art. 134  Pandering and prostitution",
+          "label": "Art. 134  Pandering and prostitution"
+        },
+        {
+          "id": "Art. 134  Self-injury without intent to avoid service",
+          "label": "Art. 134  Self-injury without intent to avoid service"
+        },
+        {
+          "id": "Art. 134  Sexual harassment",
+          "label": "Art. 134  Sexual harassment"
+        },
+        {
+          "id": "Art. 134  Straggling",
+          "label": "Art. 134  Straggling"
+        }
+      ]
+    },
+    "1e_summary": {
+      "kind": "text",
+      "label": "1E Summary",
+      "sourceIds": [
+        "1E SUMMARY"
+      ]
+    },
+    "2_demand": {
+      "kind": "singleChoice",
+      "label": "2 Demand",
+      "sourceIds": [
+        "2 DEMAND"
+      ],
+      "options": [
+        {
+          "id": "I do not demand trial and will accept non-judicial punishment, subject to my right of appeal.",
+          "label": "I do not demand trial and will accept non-judicial punishment, subject to my right of appeal."
+        },
+        {
+          "id": "I demand trial and refuse non-judicial punishment.",
+          "label": "I demand trial and refuse non-judicial punishment."
+        },
+        {
+          "id": "I cannot demand trial because I am attached to or embarked upon a vessel.",
+          "label": "I cannot demand trial because I am attached to or embarked upon a vessel."
+        }
+      ],
+      "initialValue": "I do not demand trial and will accept non-judicial punishment, subject to my right of appeal."
+    },
+    "2_counselopp": {
+      "kind": "singleChoice",
+      "label": "2 Counselopp",
+      "sourceIds": [
+        "2 COUNSELOPP"
+      ],
+      "options": [
+        {
+          "id": "have not",
+          "label": "have not"
+        },
+        {
+          "id": "have",
+          "label": "have"
+        }
+      ],
+      "initialValue": "have"
+    },
+    "2_acc_refuse_to_sign": {
+      "kind": "boolean",
+      "label": "2 Acc refuse to sign",
+      "sourceIds": [
+        "2 ACC REFUSE TO SIGN"
+      ]
+    },
+    "2_acc_election_and_rights_date": {
+      "kind": "text",
+      "label": "2 Acc election and rights date",
+      "sourceIds": [
+        "2 ACC ELECTION AND RIGHTS DATE_af_date"
+      ]
+    },
+    "2_acc_election_and_rights_signature": {
+      "kind": "signature",
+      "label": "2 Acc election and rights signature",
+      "sourceIds": [
+        "2 ACC ELECTION AND RIGHTS SIGNATURE"
+      ]
+    },
+    "3_rights_attest_signature": {
+      "kind": "signature",
+      "label": "3 Rights attest signature",
+      "sourceIds": [
+        "3 RIGHTS ATTEST SIGNATURE"
+      ]
+    },
+    "3_rights_attest_date": {
+      "kind": "text",
+      "label": "3 Rights attest date",
+      "sourceIds": [
+        "3 RIGHTS ATTEST DATE_af_date"
+      ]
+    },
+    "4_current_uas_over_24_hrs_and_marks_of_desertion": {
+      "kind": "text",
+      "label": "4 Current UAS over 24 hrs and marks of desertion",
+      "sourceIds": [
+        "4 CURRENT UAS OVER 24 HRS AND MARKS OF DESERTION"
+      ]
+    },
+    "1a_finding": {
+      "kind": "singleChoice",
+      "label": "1A Finding",
+      "sourceIds": [
+        "1A FINDING"
+      ],
+      "options": [
+        {
+          "id": "Guilty",
+          "label": "G"
+        },
+        {
+          "id": "Not Guilty",
+          "label": "NG"
+        }
+      ]
+    },
+    "1c_finding": {
+      "kind": "singleChoice",
+      "label": "1C Finding",
+      "sourceIds": [
+        "1C FINDING"
+      ],
+      "options": [
+        {
+          "id": "Guilty",
+          "label": "G"
+        },
+        {
+          "id": "Not Guilty",
+          "label": "NG"
+        }
+      ]
+    },
+    "1d_finding": {
+      "kind": "singleChoice",
+      "label": "1D Finding",
+      "sourceIds": [
+        "1D FINDING"
+      ],
+      "options": [
+        {
+          "id": "Guilty",
+          "label": "G"
+        },
+        {
+          "id": "Not Guilty",
+          "label": "NG"
+        }
+      ]
+    },
+    "1e_finding": {
+      "kind": "singleChoice",
+      "label": "1E Finding",
+      "sourceIds": [
+        "1E FINDING"
+      ],
+      "options": [
+        {
+          "id": "Guilty",
+          "label": "G"
+        },
+        {
+          "id": "Not Guilty",
+          "label": "NG"
+        }
+      ]
+    },
+    "1b_finding": {
+      "kind": "singleChoice",
+      "label": "1B Finding",
+      "sourceIds": [
+        "1B FINDING"
+      ],
+      "options": [
+        {
+          "id": "Guilty",
+          "label": "G"
+        },
+        {
+          "id": "Not Guilty",
+          "label": "NG"
+        }
+      ]
+    },
+    "6_punishment_imposed": {
+      "kind": "text",
+      "label": "6 Punishment imposed",
+      "sourceIds": [
+        "6 PUNISHMENT IMPOSED"
+      ]
+    },
+    "6_punishment_imposition_date": {
+      "kind": "text",
+      "label": "6 Punishment imposition date",
+      "sourceIds": [
+        "6 PUNISHMENT IMPOSITION DATE"
+      ]
+    },
+    "7_suspension_if_any": {
+      "kind": "text",
+      "label": "7 Suspension if any",
+      "sourceIds": [
+        "7 SUSPENSION IF ANY"
+      ]
+    },
+    "8_njp_authority_name_title_service": {
+      "kind": "text",
+      "label": "8 NJP authority name title service",
+      "sourceIds": [
+        "8 NJP AUTHORITY NAME TITLE SERVICE"
+      ]
+    },
+    "8a_njp_authority_grade": {
+      "kind": "text",
+      "label": "8A NJP authority grade",
+      "sourceIds": [
+        "8A NJP AUTHORITY GRADE"
+      ]
+    },
+    "8b_njp_authority_edipi": {
+      "kind": "text",
+      "label": "8B NJP authority EDIPI",
+      "sourceIds": [
+        "8B NJP AUTHORITY EDIPI"
+      ]
+    },
+    "9_njp_authority_signature": {
+      "kind": "signature",
+      "label": "9 NJP authority signature",
+      "sourceIds": [
+        "9 NJP AUTHORITY SIGNATURE"
+      ]
+    },
+    "10_date_of_disposition_notice": {
+      "kind": "text",
+      "label": "10 Date of disposition notice",
+      "sourceIds": [
+        "10 DATE OF DISPOSITION NOTICE"
+      ]
+    },
+    "12_intend_appeal": {
+      "kind": "singleChoice",
+      "label": "12 Intend appeal",
+      "sourceIds": [
+        "12 INTEND APPEAL"
+      ],
+      "options": [
+        {
+          "id": "I do not intend to appeal.",
+          "label": "I do not intend to appeal."
+        },
+        {
+          "id": "I do intend to appeal.",
+          "label": "I do intend to appeal."
+        },
+        {
+          "id": "the accused refuses to sign.",
+          "label": "the accused refuses to sign."
+        }
+      ]
+    },
+    "13_not_appealed": {
+      "kind": "boolean",
+      "label": "13 Not appealed",
+      "sourceIds": [
+        "13 NOT APPEALED"
+      ]
+    },
+    "12_appeal_intent_date": {
+      "kind": "text",
+      "label": "12 Appeal intent date",
+      "sourceIds": [
+        "12 APPEAL INTENT DATE_af_date"
+      ]
+    },
+    "11_appeal_advisement_date": {
+      "kind": "text",
+      "label": "11 Appeal advisement date",
+      "sourceIds": [
+        "11 APPEAL ADVISEMENT DATE_af_date"
+      ]
+    },
+    "11_appeal_advisement_signature": {
+      "kind": "signature",
+      "label": "11 Appeal advisement signature",
+      "sourceIds": [
+        "11 APPEAL ADVISEMENT SIGNATURE"
+      ]
+    },
+    "12_appeal_intent_signature": {
+      "kind": "signature",
+      "label": "12 Appeal intent signature",
+      "sourceIds": [
+        "12 APPEAL INTENT SIGNATURE"
+      ]
+    },
+    "13_date_of_appeal_if_any": {
+      "kind": "text",
+      "label": "13 Date of appeal if any",
+      "sourceIds": [
+        "13 DATE OF APPEAL IF ANY_af_date"
+      ]
+    },
+    "14_appeal_decision": {
+      "kind": "text",
+      "label": "14 Appeal decision",
+      "sourceIds": [
+        "14 APPEAL DECISION"
+      ]
+    },
+    "14_appeal_decision_date": {
+      "kind": "text",
+      "label": "14 Appeal decision date",
+      "sourceIds": [
+        "14 APPEAL DECISION DATE_af_date"
+      ]
+    },
+    "14_appeal_decision_signature": {
+      "kind": "signature",
+      "label": "14 Appeal decision signature",
+      "sourceIds": [
+        "14 APPEAL DECISION SIGNATURE"
+      ]
+    },
+    "15_date_of_notice_of_appeal_decision": {
+      "kind": "text",
+      "label": "15 Date of notice of appeal decision",
+      "sourceIds": [
+        "15 DATE OF NOTICE OF APPEAL DECISION_af_date"
+      ]
+    },
+    "16_final_admin_ud": {
+      "kind": "text",
+      "label": "16 Final admin UD",
+      "sourceIds": [
+        "16 FINAL ADMIN UD"
+      ]
+    },
+    "16_final_admin_dtd": {
+      "kind": "text",
+      "label": "16 Final admin dtd",
+      "sourceIds": [
+        "16 FINAL ADMIN DTD"
+      ]
+    },
+    "16_final_admin_init": {
+      "kind": "signature",
+      "label": "16 Final admin init",
+      "sourceIds": [
+        "16 FINAL ADMIN INIT"
+      ]
+    },
+    "17_unit": {
+      "kind": "text",
+      "label": "17 Unit",
+      "sourceIds": [
+        "17 UNIT"
+      ]
+    },
+    "18_accused_full_name": {
+      "kind": "text",
+      "label": "18 Accused full name",
+      "sourceIds": [
+        "18 ACCUSED FULL NAME"
+      ]
+    },
+    "19_accused_rank_grade": {
+      "kind": "text",
+      "label": "19 Accused rank/grade",
+      "sourceIds": [
+        "19 ACCUSED RANK/GRADE"
+      ]
+    },
+    "20_accused_edipi": {
+      "kind": "text",
+      "label": "20 Accused EDIPI",
+      "sourceIds": [
+        "20 ACCUSED EDIPI"
+      ]
+    },
+    "21_remarks": {
+      "kind": "text",
+      "label": "21 Remarks",
+      "sourceIds": [
+        "21 REMARKS"
+      ],
+      "multiline": true
+    },
+    "22a_victim_status": {
+      "kind": "singleChoice",
+      "label": "22A Victim status",
+      "sourceIds": [
+        "22A VICTIM STATUS"
+      ],
+      "options": [
+        {
+          "id": "Military",
+          "label": "Military"
+        },
+        {
+          "id": "Military (spouse)",
+          "label": "Military (spouse)"
+        },
+        {
+          "id": "Civilian (spouse)",
+          "label": "Civilian (spouse)"
+        },
+        {
+          "id": "Civilian (dependent)",
+          "label": "Civilian (dependent)"
+        },
+        {
+          "id": "Civilian (DON employee)",
+          "label": "Civilian (DON employee)"
+        },
+        {
+          "id": "Civilian (other)",
+          "label": "Civilian (other)"
+        },
+        {
+          "id": "Other",
+          "label": "Other"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22a_victim_sex": {
+      "kind": "singleChoice",
+      "label": "22A Victim sex",
+      "sourceIds": [
+        "22A VICTIM SEX"
+      ],
+      "options": [
+        {
+          "id": "Male",
+          "label": "Male"
+        },
+        {
+          "id": "Female",
+          "label": "Female"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22a_victim_ethnicity": {
+      "kind": "singleChoice",
+      "label": "22A Victim ethnicity",
+      "sourceIds": [
+        "22A VICTIM ETHNICITY"
+      ],
+      "options": [
+        {
+          "id": "Hispanic or Latino",
+          "label": "Hispanic or Latino"
+        },
+        {
+          "id": "Not Hispanic or Latino",
+          "label": "Not Hispanic or Latino"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22a_victim_race": {
+      "kind": "singleChoice",
+      "label": "22A Victim race",
+      "sourceIds": [
+        "22A VICTIM RACE"
+      ],
+      "options": [
+        {
+          "id": "American Indian or Alaskan Native",
+          "label": "American Indian or Alaskan Native"
+        },
+        {
+          "id": "Asian",
+          "label": "Asian"
+        },
+        {
+          "id": "Black or African American",
+          "label": "Black or African American"
+        },
+        {
+          "id": "Native Hawaiian or Other Pacific Islander",
+          "label": "Native Hawaiian or Other Pacific Islander"
+        },
+        {
+          "id": "White",
+          "label": "White"
+        },
+        {
+          "id": "Other",
+          "label": "Other"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22b_victim_status": {
+      "kind": "singleChoice",
+      "label": "22B Victim status",
+      "sourceIds": [
+        "22B VICTIM STATUS"
+      ],
+      "options": [
+        {
+          "id": "U.S. Marine",
+          "label": "U.S. Marine"
+        },
+        {
+          "id": "U.S. Marine Reservist",
+          "label": "U.S. Marine Reservist"
+        },
+        {
+          "id": "U.S. Military",
+          "label": "U.S. Military"
+        },
+        {
+          "id": "U.S. Military Reservist",
+          "label": "U.S. Military Reservist"
+        },
+        {
+          "id": "U.S. Military Dependent",
+          "label": "U.S. Military Dependent"
+        },
+        {
+          "id": "U.S. Civilian",
+          "label": "U.S. Civilian"
+        },
+        {
+          "id": "Foreign National",
+          "label": "Foreign National"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22b_victim_race": {
+      "kind": "singleChoice",
+      "label": "22B Victim race",
+      "sourceIds": [
+        "22B VICTIM RACE"
+      ],
+      "options": [
+        {
+          "id": "American Indian or Alaskan Native",
+          "label": "American Indian or Alaskan Native"
+        },
+        {
+          "id": "Asian",
+          "label": "Asian"
+        },
+        {
+          "id": "Black or African American",
+          "label": "Black or African American"
+        },
+        {
+          "id": "Native Hawaiian or Other Pacific Islander",
+          "label": "Native Hawaiian or Other Pacific Islander"
+        },
+        {
+          "id": "White",
+          "label": "White"
+        },
+        {
+          "id": "Other",
+          "label": "Other"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22b_victim_ethnicity": {
+      "kind": "singleChoice",
+      "label": "22B Victim ethnicity",
+      "sourceIds": [
+        "22B VICTIM ETHNICITY"
+      ],
+      "options": [
+        {
+          "id": "Hispanic or Latino",
+          "label": "Hispanic or Latino"
+        },
+        {
+          "id": "Not Hispanic or Latino",
+          "label": "Not Hispanic or Latino"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22b_victim_sex": {
+      "kind": "singleChoice",
+      "label": "22B Victim sex",
+      "sourceIds": [
+        "22B VICTIM SEX"
+      ],
+      "options": [
+        {
+          "id": "Male",
+          "label": "Male"
+        },
+        {
+          "id": "Female",
+          "label": "Female"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22c_victim_status": {
+      "kind": "singleChoice",
+      "label": "22C Victim status",
+      "sourceIds": [
+        "22C VICTIM STATUS"
+      ],
+      "options": [
+        {
+          "id": "U.S. Marine",
+          "label": "U.S. Marine"
+        },
+        {
+          "id": "U.S. Marine Reservist",
+          "label": "U.S. Marine Reservist"
+        },
+        {
+          "id": "U.S. Military",
+          "label": "U.S. Military"
+        },
+        {
+          "id": "U.S. Military Reservist",
+          "label": "U.S. Military Reservist"
+        },
+        {
+          "id": "U.S. Military Dependent",
+          "label": "U.S. Military Dependent"
+        },
+        {
+          "id": "U.S. Civilian",
+          "label": "U.S. Civilian"
+        },
+        {
+          "id": "Foreign National",
+          "label": "Foreign National"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22c_victim_sex": {
+      "kind": "singleChoice",
+      "label": "22C Victim sex",
+      "sourceIds": [
+        "22C VICTIM SEX"
+      ],
+      "options": [
+        {
+          "id": "Male",
+          "label": "Male"
+        },
+        {
+          "id": "Female",
+          "label": "Female"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22c_victim_ethnicity": {
+      "kind": "singleChoice",
+      "label": "22C Victim ethnicity",
+      "sourceIds": [
+        "22C VICTIM ETHNICITY"
+      ],
+      "options": [
+        {
+          "id": "Hispanic or Latino",
+          "label": "Hispanic or Latino"
+        },
+        {
+          "id": "Not Hispanic or Latino",
+          "label": "Not Hispanic or Latino"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22c_victim_race": {
+      "kind": "singleChoice",
+      "label": "22C Victim race",
+      "sourceIds": [
+        "22C VICTIM RACE"
+      ],
+      "options": [
+        {
+          "id": "American Indian or Alaskan Native",
+          "label": "American Indian or Alaskan Native"
+        },
+        {
+          "id": "Asian",
+          "label": "Asian"
+        },
+        {
+          "id": "Black or African American",
+          "label": "Black or African American"
+        },
+        {
+          "id": "Native Hawaiian or Other Pacific Islander",
+          "label": "Native Hawaiian or Other Pacific Islander"
+        },
+        {
+          "id": "White",
+          "label": "White"
+        },
+        {
+          "id": "Other",
+          "label": "Other"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22d_victim_race": {
+      "kind": "singleChoice",
+      "label": "22D Victim race",
+      "sourceIds": [
+        "22D VICTIM RACE"
+      ],
+      "options": [
+        {
+          "id": "American Indian or Alaskan Native",
+          "label": "American Indian or Alaskan Native"
+        },
+        {
+          "id": "Asian",
+          "label": "Asian"
+        },
+        {
+          "id": "Black or African American",
+          "label": "Black or African American"
+        },
+        {
+          "id": "Native Hawaiian or Other Pacific Islander",
+          "label": "Native Hawaiian or Other Pacific Islander"
+        },
+        {
+          "id": "White",
+          "label": "White"
+        },
+        {
+          "id": "Other",
+          "label": "Other"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22d_victim_status": {
+      "kind": "singleChoice",
+      "label": "22D Victim status",
+      "sourceIds": [
+        "22D VICTIM STATUS"
+      ],
+      "options": [
+        {
+          "id": "U.S. Marine",
+          "label": "U.S. Marine"
+        },
+        {
+          "id": "U.S. Marine Reservist",
+          "label": "U.S. Marine Reservist"
+        },
+        {
+          "id": "U.S. Military",
+          "label": "U.S. Military"
+        },
+        {
+          "id": "U.S. Military Reservist",
+          "label": "U.S. Military Reservist"
+        },
+        {
+          "id": "U.S. Military Dependent",
+          "label": "U.S. Military Dependent"
+        },
+        {
+          "id": "U.S. Civilian",
+          "label": "U.S. Civilian"
+        },
+        {
+          "id": "Foreign National",
+          "label": "Foreign National"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22d_victim_sex": {
+      "kind": "singleChoice",
+      "label": "22D Victim sex",
+      "sourceIds": [
+        "22D VICTIM SEX"
+      ],
+      "options": [
+        {
+          "id": "Male",
+          "label": "Male"
+        },
+        {
+          "id": "Female",
+          "label": "Female"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22d_victim_ethnicity": {
+      "kind": "singleChoice",
+      "label": "22D Victim ethnicity",
+      "sourceIds": [
+        "22D VICTIM ETHNICITY"
+      ],
+      "options": [
+        {
+          "id": "Hispanic or Latino",
+          "label": "Hispanic or Latino"
+        },
+        {
+          "id": "Not Hispanic or Latino",
+          "label": "Not Hispanic or Latino"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22e_victim_race": {
+      "kind": "singleChoice",
+      "label": "22E Victim race",
+      "sourceIds": [
+        "22E VICTIM RACE"
+      ],
+      "options": [
+        {
+          "id": "American Indian or Alaskan Native",
+          "label": "American Indian or Alaskan Native"
+        },
+        {
+          "id": "Asian",
+          "label": "Asian"
+        },
+        {
+          "id": "Black or African American",
+          "label": "Black or African American"
+        },
+        {
+          "id": "Native Hawaiian or Other Pacific Islander",
+          "label": "Native Hawaiian or Other Pacific Islander"
+        },
+        {
+          "id": "White",
+          "label": "White"
+        },
+        {
+          "id": "Other",
+          "label": "Other"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22e_victim_status": {
+      "kind": "singleChoice",
+      "label": "22E Victim status",
+      "sourceIds": [
+        "22E VICTIM STATUS"
+      ],
+      "options": [
+        {
+          "id": "U.S. Marine",
+          "label": "U.S. Marine"
+        },
+        {
+          "id": "U.S. Marine Reservist",
+          "label": "U.S. Marine Reservist"
+        },
+        {
+          "id": "U.S. Military",
+          "label": "U.S. Military"
+        },
+        {
+          "id": "U.S. Military Reservist",
+          "label": "U.S. Military Reservist"
+        },
+        {
+          "id": "U.S. Military Dependent",
+          "label": "U.S. Military Dependent"
+        },
+        {
+          "id": "U.S. Civilian",
+          "label": "U.S. Civilian"
+        },
+        {
+          "id": "Foreign National",
+          "label": "Foreign National"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22e_victim_sex": {
+      "kind": "singleChoice",
+      "label": "22E Victim sex",
+      "sourceIds": [
+        "22E VICTIM SEX"
+      ],
+      "options": [
+        {
+          "id": "Male",
+          "label": "Male"
+        },
+        {
+          "id": "Female",
+          "label": "Female"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    "22e_victim_ethnicity": {
+      "kind": "singleChoice",
+      "label": "22E Victim ethnicity",
+      "sourceIds": [
+        "22E VICTIM ETHNICITY"
+      ],
+      "options": [
+        {
+          "id": "Hispanic or Latino",
+          "label": "Hispanic or Latino"
+        },
+        {
+          "id": "Not Hispanic or Latino",
+          "label": "Not Hispanic or Latino"
+        },
+        {
+          "id": "Unknown",
+          "label": "Unknown"
+        }
+      ]
+    }
+  },
+  "placements": [
+    {
+      "fieldId": "1a_article",
+      "page": 1,
+      "box": {
+        "left": 50.6334,
+        "top": 652.085,
+        "width": 212.39960000000002,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1a_summary",
+      "page": 1,
+      "box": {
+        "left": 266.169,
+        "top": 652.085,
+        "width": 302.4,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1b_article",
+      "page": 1,
+      "box": {
+        "left": 50.6334,
+        "top": 640.063,
+        "width": 212.39960000000002,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1b_summary",
+      "page": 1,
+      "box": {
+        "left": 266.169,
+        "top": 640.063,
+        "width": 302.4,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1c_article",
+      "page": 1,
+      "box": {
+        "left": 50.6334,
+        "top": 628.04,
+        "width": 212.39960000000002,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1c_summary",
+      "page": 1,
+      "box": {
+        "left": 266.169,
+        "top": 628.04,
+        "width": 302.4,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1d_article",
+      "page": 1,
+      "box": {
+        "left": 50.6334,
+        "top": 616.017,
+        "width": 212.39960000000002,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1d_summary",
+      "page": 1,
+      "box": {
+        "left": 266.169,
+        "top": 616.017,
+        "width": 302.4,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1e_article",
+      "page": 1,
+      "box": {
+        "left": 50.6334,
+        "top": 603.995,
+        "width": 212.39960000000002,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1e_summary",
+      "page": 1,
+      "box": {
+        "left": 266.169,
+        "top": 603.995,
+        "width": 302.4,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "2_demand",
+      "page": 1,
+      "box": {
+        "left": 229.454,
+        "top": 580.299,
+        "width": 337.863,
+        "height": 10.574999999999932
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "2_counselopp",
+      "page": 1,
+      "box": {
+        "left": 109.998,
+        "top": 564.424,
+        "width": 48.864999999999995,
+        "height": 10.574999999999932
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "2_acc_refuse_to_sign",
+      "page": 1,
+      "box": {
+        "left": 188.433,
+        "top": 513.055,
+        "width": 12.655000000000001,
+        "height": 11.454999999999927
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "2_acc_election_and_rights_date",
+      "page": 1,
+      "box": {
+        "left": 34.8527,
+        "top": 499.976,
+        "width": 94.56030000000001,
+        "height": 13.442999999999984
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "2_acc_election_and_rights_signature",
+      "page": 1,
+      "box": {
+        "left": 188.433,
+        "top": 499.976,
+        "width": 374.727,
+        "height": 13.442999999999984
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "3_rights_attest_signature",
+      "page": 1,
+      "box": {
+        "left": 188.433,
+        "top": 453.588,
+        "width": 374.727,
+        "height": 13.44300000000004
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "3_rights_attest_date",
+      "page": 1,
+      "box": {
+        "left": 34.8527,
+        "top": 453.545,
+        "width": 94.56030000000001,
+        "height": 13.44300000000004
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "4_current_uas_over_24_hrs_and_marks_of_desertion",
+      "page": 1,
+      "box": {
+        "left": 34.0895,
+        "top": 419.099,
+        "width": 538.1985,
+        "height": 14.385999999999967
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1a_finding",
+      "page": 1,
+      "box": {
+        "left": 245.212,
+        "top": 391.576,
+        "width": 23.75999999999999,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1c_finding",
+      "page": 1,
+      "box": {
+        "left": 349.15,
+        "top": 391.576,
+        "width": 23.760000000000048,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1d_finding",
+      "page": 1,
+      "box": {
+        "left": 401.793,
+        "top": 391.576,
+        "width": 23.75999999999999,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1e_finding",
+      "page": 1,
+      "box": {
+        "left": 454.215,
+        "top": 391.576,
+        "width": 23.760000000000048,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "1b_finding",
+      "page": 1,
+      "box": {
+        "left": 296.855,
+        "top": 391.575,
+        "width": 23.75999999999999,
+        "height": 10.810999999999979
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "6_punishment_imposed",
+      "page": 1,
+      "box": {
+        "left": 34.0895,
+        "top": 366.202,
+        "width": 436.5165,
+        "height": 15.927000000000021
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "6_punishment_imposition_date",
+      "page": 1,
+      "box": {
+        "left": 475.742,
+        "top": 366.202,
+        "width": 96.29599999999999,
+        "height": 15.927000000000021
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "7_suspension_if_any",
+      "page": 1,
+      "box": {
+        "left": 34.0896,
+        "top": 338.64,
+        "width": 538.1984,
+        "height": 15.926999999999964
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "8_njp_authority_name_title_service",
+      "page": 1,
+      "box": {
+        "left": 34.0868,
+        "top": 311.651,
+        "width": 358.5642,
+        "height": 15.927000000000021
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "8a_njp_authority_grade",
+      "page": 1,
+      "box": {
+        "left": 394.543,
+        "top": 311.651,
+        "width": 87.868,
+        "height": 15.927000000000021
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "8b_njp_authority_edipi",
+      "page": 1,
+      "box": {
+        "left": 483.847,
+        "top": 311.651,
+        "width": 88.44400000000007,
+        "height": 15.927000000000021
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "9_njp_authority_signature",
+      "page": 1,
+      "box": {
+        "left": 34.68,
+        "top": 271.33,
+        "width": 415.92,
+        "height": 13.442999999999984
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "10_date_of_disposition_notice",
+      "page": 1,
+      "box": {
+        "left": 475.985,
+        "top": 261.607,
+        "width": 96.29599999999994,
+        "height": 14.400000000000034
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "12_intend_appeal",
+      "page": 1,
+      "box": {
+        "left": 328.435,
+        "top": 234.784,
+        "width": 124.029,
+        "height": 9.359999999999985
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "13_not_appealed",
+      "page": 1,
+      "box": {
+        "left": 479.563,
+        "top": 222.71,
+        "width": 12,
+        "height": 11.455000000000013
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "12_appeal_intent_date",
+      "page": 1,
+      "box": {
+        "left": 255.99,
+        "top": 218.293,
+        "width": 66.44400000000002,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "11_appeal_advisement_date",
+      "page": 1,
+      "box": {
+        "left": 35.5649,
+        "top": 218.12,
+        "width": 66.44409999999999,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "11_appeal_advisement_signature",
+      "page": 1,
+      "box": {
+        "left": 105.96,
+        "top": 218.12,
+        "width": 141.95999999999998,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "12_appeal_intent_signature",
+      "page": 1,
+      "box": {
+        "left": 331.48,
+        "top": 218.12,
+        "width": 141.95999999999998,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "13_date_of_appeal_if_any",
+      "page": 1,
+      "box": {
+        "left": 475.985,
+        "top": 207.581,
+        "width": 96.29599999999994,
+        "height": 14.399999999999977
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "14_appeal_decision",
+      "page": 1,
+      "box": {
+        "left": 35.5649,
+        "top": 180.9,
+        "width": 433.7021,
+        "height": 13.442000000000007
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "14_appeal_decision_date",
+      "page": 1,
+      "box": {
+        "left": 35.5649,
+        "top": 166.32,
+        "width": 66.44409999999999,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "14_appeal_decision_signature",
+      "page": 1,
+      "box": {
+        "left": 106.92,
+        "top": 166.32,
+        "width": 362.52,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "15_date_of_notice_of_appeal_decision",
+      "page": 1,
+      "box": {
+        "left": 475.985,
+        "top": 153.609,
+        "width": 96.29599999999994,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "16_final_admin_ud",
+      "page": 1,
+      "box": {
+        "left": 310.055,
+        "top": 136.764,
+        "width": 59.103999999999985,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "16_final_admin_dtd",
+      "page": 1,
+      "box": {
+        "left": 388.84,
+        "top": 136.764,
+        "width": 59.10400000000004,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "16_final_admin_init",
+      "page": 1,
+      "box": {
+        "left": 468,
+        "top": 136.764,
+        "width": 102.62599999999998,
+        "height": 14.400000000000006
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "17_unit",
+      "page": 1,
+      "box": {
+        "left": 34.0868,
+        "top": 108.6,
+        "width": 538.1772,
+        "height": 14.399999999999991
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "18_accused_full_name",
+      "page": 1,
+      "box": {
+        "left": 34.0766,
+        "top": 81.6,
+        "width": 358.56440000000003,
+        "height": 14.399999999999991
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "19_accused_rank_grade",
+      "page": 1,
+      "box": {
+        "left": 394.107,
+        "top": 81.6,
+        "width": 88.30399999999997,
+        "height": 14.399999999999991
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "20_accused_edipi",
+      "page": 1,
+      "box": {
+        "left": 483.847,
+        "top": 81.6,
+        "width": 88.44400000000007,
+        "height": 14.399999999999991
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "21_remarks",
+      "page": 2,
+      "box": {
+        "left": 39.3327,
+        "top": 722.542,
+        "width": 538.5983,
+        "height": 518.916
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22a_victim_status",
+      "page": 2,
+      "box": {
+        "left": 64.3773,
+        "top": 190.253,
+        "width": 100.7497,
+        "height": 10.811999999999983
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22a_victim_sex",
+      "page": 2,
+      "box": {
+        "left": 183.342,
+        "top": 190.198,
+        "width": 79.95199999999997,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22a_victim_ethnicity",
+      "page": 2,
+      "box": {
+        "left": 447.585,
+        "top": 190.144,
+        "width": 93.43200000000007,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22a_victim_race",
+      "page": 2,
+      "box": {
+        "left": 280.478,
+        "top": 190.117,
+        "width": 150.04899999999998,
+        "height": 10.811999999999983
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22b_victim_status",
+      "page": 2,
+      "box": {
+        "left": 64.3773,
+        "top": 176.745,
+        "width": 100.7497,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22b_victim_race",
+      "page": 2,
+      "box": {
+        "left": 280.478,
+        "top": 176.732,
+        "width": 150.04899999999998,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22b_victim_ethnicity",
+      "page": 2,
+      "box": {
+        "left": 447.585,
+        "top": 176.732,
+        "width": 93.43200000000007,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22b_victim_sex",
+      "page": 2,
+      "box": {
+        "left": 183.342,
+        "top": 176.704,
+        "width": 79.95199999999997,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22c_victim_status",
+      "page": 2,
+      "box": {
+        "left": 64.3773,
+        "top": 162.888,
+        "width": 100.7497,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22c_victim_sex",
+      "page": 2,
+      "box": {
+        "left": 183.342,
+        "top": 162.888,
+        "width": 79.95199999999997,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22c_victim_ethnicity",
+      "page": 2,
+      "box": {
+        "left": 447.585,
+        "top": 162.834,
+        "width": 93.43200000000007,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22c_victim_race",
+      "page": 2,
+      "box": {
+        "left": 280.478,
+        "top": 162.807,
+        "width": 150.04899999999998,
+        "height": 10.811999999999983
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22d_victim_race",
+      "page": 2,
+      "box": {
+        "left": 280.478,
+        "top": 149.059,
+        "width": 150.04899999999998,
+        "height": 10.811999999999983
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22d_victim_status",
+      "page": 2,
+      "box": {
+        "left": 64.3773,
+        "top": 148.616,
+        "width": 100.7497,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22d_victim_sex",
+      "page": 2,
+      "box": {
+        "left": 183.342,
+        "top": 148.616,
+        "width": 79.95199999999997,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22d_victim_ethnicity",
+      "page": 2,
+      "box": {
+        "left": 447.585,
+        "top": 148.562,
+        "width": 93.43200000000007,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22e_victim_race",
+      "page": 2,
+      "box": {
+        "left": 280.478,
+        "top": 135.153,
+        "width": 150.04899999999998,
+        "height": 10.811999999999998
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22e_victim_status",
+      "page": 2,
+      "box": {
+        "left": 64.3773,
+        "top": 134.711,
+        "width": 100.7497,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22e_victim_sex",
+      "page": 2,
+      "box": {
+        "left": 183.342,
+        "top": 134.711,
+        "width": 79.95199999999997,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "22e_victim_ethnicity",
+      "page": 2,
+      "box": {
+        "left": 447.585,
+        "top": 134.657,
+        "width": 93.43200000000007,
+        "height": 10.812000000000012
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    }
+  ],
+  "sections": [
+    {
+      "id": "page_1",
+      "title": "Unit punishment record",
+      "fields": [
+        "1a_article",
+        "1a_summary",
+        "1b_article",
+        "1b_summary",
+        "1c_article",
+        "1c_summary",
+        "1d_article",
+        "1d_summary",
+        "1e_article",
+        "1e_summary",
+        "2_demand",
+        "2_counselopp",
+        "2_acc_refuse_to_sign",
+        "2_acc_election_and_rights_date",
+        "2_acc_election_and_rights_signature",
+        "3_rights_attest_signature",
+        "3_rights_attest_date",
+        "4_current_uas_over_24_hrs_and_marks_of_desertion",
+        "1a_finding",
+        "1c_finding",
+        "1d_finding",
+        "1e_finding",
+        "1b_finding",
+        "6_punishment_imposed",
+        "6_punishment_imposition_date",
+        "7_suspension_if_any",
+        "8_njp_authority_name_title_service",
+        "8a_njp_authority_grade",
+        "8b_njp_authority_edipi",
+        "9_njp_authority_signature",
+        "10_date_of_disposition_notice",
+        "12_intend_appeal",
+        "13_not_appealed",
+        "12_appeal_intent_date",
+        "11_appeal_advisement_date",
+        "11_appeal_advisement_signature",
+        "12_appeal_intent_signature",
+        "13_date_of_appeal_if_any",
+        "14_appeal_decision",
+        "14_appeal_decision_date",
+        "14_appeal_decision_signature",
+        "15_date_of_notice_of_appeal_decision",
+        "16_final_admin_ud",
+        "16_final_admin_dtd",
+        "16_final_admin_init",
+        "17_unit",
+        "18_accused_full_name",
+        "19_accused_rank_grade",
+        "20_accused_edipi"
+      ]
+    },
+    {
+      "id": "page_2",
+      "title": "Remarks and victim information",
+      "fields": [
+        "21_remarks",
+        "22a_victim_status",
+        "22a_victim_sex",
+        "22a_victim_ethnicity",
+        "22a_victim_race",
+        "22b_victim_status",
+        "22b_victim_race",
+        "22b_victim_ethnicity",
+        "22b_victim_sex",
+        "22c_victim_status",
+        "22c_victim_sex",
+        "22c_victim_ethnicity",
+        "22c_victim_race",
+        "22d_victim_race",
+        "22d_victim_status",
+        "22d_victim_sex",
+        "22d_victim_ethnicity",
+        "22e_victim_race",
+        "22e_victim_status",
+        "22e_victim_sex",
+        "22e_victim_ethnicity"
+      ]
+    }
+  ],
+  "rowGroups": {}
+}

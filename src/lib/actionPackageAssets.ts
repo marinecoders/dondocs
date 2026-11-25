@@ -1,3 +1,4 @@
+import { identifyOfficialOriginal } from '@/services/forms/nativeCatalog';
 import { supportsReviewComments } from "./reviewCommentTargets";
 import { validatePackageDraft } from "./actionPackageDraft";
 import { formTemplateAttachmentId } from "./formTemplateAssets";
@@ -63,6 +64,16 @@ export async function readPackageAsset(
 }
 /** Inspect originals without rewriting their preserved bytes or signatures. */
 export async function validatePackageOriginalPdf(data: ArrayBuffer): Promise<void> {
+  if (await identifyOfficialOriginal(data)) {
+    // Restricted official forms may be readable and signable in Acrobat. Inspect with PDF.js
+    // using its normal empty-password handling, retaining the original bytes for transfer.
+    const [{ pdfjs }, { HARDENED_PDF_OPTIONS }] = await Promise.all([import('react-pdf'), import('@/components/pdf/pdfConfig')]);
+    const task = pdfjs.getDocument({ data: new Uint8Array(data.slice(0)), password: '', ...HARDENED_PDF_OPTIONS });
+    try {
+      if ((await task.promise).numPages < 1) throw new Error('The official PDF has no pages.');
+    } finally { await task.destroy(); }
+    return;
+  }
   if ((await PDFDocument.load(data)).getPageCount() < 1)
     throw new Error(
       "An original PDF must contain at least one page. Choose a PDF with pages before adding or restoring this package.",
@@ -196,6 +207,7 @@ export async function captureOriginalPackageMember(
       "Original package members currently support PDF files. Add other editable formats through their native DonDocs draft.",
     );
   await validatePackageOriginalPdf(file.data);
+  const officialFormId = signedOriginal ? await identifyOfficialOriginal(file.data) : undefined;
   return {
     id: newPackageId("member"),
     revisionId: newPackageId("member-revision"),
@@ -204,6 +216,7 @@ export async function captureOriginalPackageMember(
     role,
     required: true,
     signedOriginal,
+    ...(officialFormId && { officialFormId }),
     original: await retainPackageAsset(file.name, "application/pdf", file.data),
   };
 }

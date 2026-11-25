@@ -1,5 +1,6 @@
+import { officialRevisionBytes, officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { officialPdfForms } from '@/services/forms/officialPdfProfiles';
+import { packageOfficialForms, createOfficialFormMember, packageFormSigningAction, preparePackageFormSigning } from '@/lib/packageOfficialForms';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
 import type { PackageSearchScope } from './PackageSearchPanel';
 import { configuredApprovalOrigin } from '@/lib/packageApprovalOrigin';
@@ -92,6 +93,7 @@ const PackageJobsPanel = lazy(() => import("./PackageJobsPanel").then(module => 
 const PackageDeliveryPanel = lazy(() => import("./PackageDeliveryPanel").then(module => ({ default: module.PackageDeliveryPanel })));
 const PackageAssemblyPanel = lazy(() => import("./PackageAssemblyPanel").then(module => ({ default: module.PackageAssemblyPanel })));
 const PackageOutputNavigation = lazy(() => import("./PackageOutputNavigation").then(module => ({ default: module.PackageOutputNavigation })));
+const OfficialSigningWorkspace = lazy(() => import('./modals/SigningWorkspace'));
 const PackageSigningPanel = lazy(() => import("./PackageSigningPanel").then(module => ({ default: module.PackageSigningPanel })));
 const PackageScanPanel = lazy(() => import("./PackageScanPanel").then(module => ({ default: module.PackageScanPanel })));
 const PackageSearchPanel = lazy(() => import("./PackageSearchPanel").then(module => ({ default: module.PackageSearchPanel })));
@@ -229,6 +231,7 @@ function PackageDialog({
   const [intakeDirty, setIntakeDirty] = useState(false), [requirementsDirty, setRequirementsDirty] = useState(false);
   const [consistencyDirty, setConsistencyDirty] = useState(false);
   const [workDirty, setWorkDirty] = useState(false);
+  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; base: string }>();
   const [signingDirty, setSigningDirty] = useState(false);
   const [assemblyDirty, setAssemblyDirty] = useState(false);
   useEffect(() => { if (!assemblyDirty) setError(previous => previous === "Save or discard assembly settings before closing this package." ? "" : previous); }, [assemblyDirty]);
@@ -1086,12 +1089,8 @@ function PackageDialog({
                     })}>
                       Add coordination page
                     </Button>
-                    {officialPdfForms.map(form => <Button key={form.id} variant="outline" onClick={() => void run(async () => {
-                      const session = createBlankSession(form.id);
-                      const captured = captureDocumentRevision({
-                        documentId: crypto.randomUUID(), epoch: 0, editSequence: 0, capturedAt: session.timestamp,
-                      }, prepareSessionState(session));
-                      const member = await capturePackageMember(captured, form.label, role);
+                    {packageOfficialForms.map(form => <Button key={form.id} variant="outline" onClick={() => void run(async () => {
+                      const member = await createOfficialFormMember(form.id, role);
                       await modify([...revision.members, member]);
                     })}>Add {form.label}</Button>)}
                     <label className="cursor-pointer rounded border p-2 text-sm">
@@ -1161,9 +1160,26 @@ function PackageDialog({
                       data-selected={selectedMember?.id === member.id || undefined}
                       className="package-workspace-member space-y-5 outline-none"
                     >
-<header className="flex items-start justify-between gap-4"><h3 className="break-words font-medium">
+                      <header className="flex flex-wrap items-start justify-between gap-4"><h3 className="break-words font-medium">
                         {index + 1}. {member.label}
-                      </h3>{member.kind === 'native' && editable && (<Button
+                      </h3>
+                      {editable && packageFormSigningAction(member) && <Button size="sm" variant="outline" disabled={busy || pendingPackageEdits}
+                        onClick={() => void run(async () => {
+                          const signal = operation.current!.signal;
+                          const documentId = revision.id + '/' + member.id;
+                          let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId);
+                          if (!saved) {
+                            const source = await preparePackageFormSigning(member, await getExportDeploymentPolicy(), signal);
+                            const current = () => active.current && !signal.aborted;
+                            const { confirmSigningDisclosure } = await import('./signingDisclosure');
+                            await confirmSigningDisclosure({ pdfs: [source], metadata: source.metadata }, current);
+                            saved = await saveOfficialRevision(source.label, source.bytes, current, undefined,
+                              { documentId, epoch: 0, editSequence: 0, capturedAt: Date.now() });
+                          }
+                          signal.throwIfAborted();
+                          setFormSigning({ id: saved.id, memberId: member.id, revisionId: revision.id, base: saved.revisions[0].sha256 });
+                        })}>{packageFormSigningAction(member)}</Button>}
+                      {member.kind === 'native' && editable && (<Button
                               size="sm"
                               variant="outline"
                               onClick={() =>
@@ -1573,6 +1589,19 @@ function PackageDialog({
 {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Package signing{signingDirty ? " · awaiting capture" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package signing…</p>}>
+            {formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id}
+              onOpenChange={open => { if (!open) setFormSigning(undefined); }}
+              onAttach={async saved => {
+                if (!editable || formSigning.revisionId !== revision.id || saved.id !== formSigning.id || saved.revisions.length < 2
+                  || saved.revisions[0].sha256 !== formSigning.base) throw new Error('The package changed. Reopen the current member before applying a signed revision.');
+                const source = revision.members.find(item => item.id === formSigning.memberId);
+                if (!source || source.kind === 'attachment') throw new Error('The original member revision is unavailable.');
+                const bytes = await officialRevisionBytes(saved);
+                const original = await captureOriginalPackageMember({ name: saved.filename, data: bytes.buffer }, source.role, true);
+                await modify(revision.members.map(item => item.id === source.id
+                  ? { ...original, id: source.id, label: source.label, required: source.required } : item));
+                setFormSigning(undefined);
+              }} /></Suspense>}
             <PackageSigningPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>

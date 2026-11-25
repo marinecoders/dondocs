@@ -244,6 +244,10 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
     if ('IsXFAPresent' in metadata.info && metadata.info.IsXFAPresent) throw new Error(XFA_ERROR);
     controller.signal.throwIfAborted();
     if (documentPdf.numPages < 1 || documentPdf.numPages > PROTECTED_PDF_LIMITS.pages) throw new Error('PDF image copies support 1–50 pages. Split this PDF and try again.');
+    // pdf-lib cannot inspect an encrypted object stream. The vendored PDF.js
+    // worker reads the same flag from its decrypted catalog in that case.
+    const savedAppearanceFlag = 'DonDocsNeedsAppearances' in metadata.info
+      && typeof metadata.info.DonDocsNeedsAppearances === 'boolean' ? metadata.info.DonDocsNeedsAppearances : undefined;
     const output = await PDFDocument.create();
     const imageKinds = new Set([pdfjs.OPS.paintImageXObject, pdfjs.OPS.paintImageXObjectRepeat]);
     let pixels = 0, pngBytes = 0;
@@ -251,7 +255,7 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
       controller.signal.throwIfAborted();
       const page = await documentPdf.getPage(number);
       try {
-        await checkRenderedFormFields(page, needsAppearances, pdfjs.AnnotationType.WIDGET);
+        await checkRenderedFormFields(page, needsAppearances ?? savedAppearanceFlag, pdfjs.AnnotationType.WIDGET);
         controller.signal.throwIfAborted();
         const base = page.getViewport({ scale: 1 });
         if (![base.width, base.height].every(value => Number.isFinite(value) && value > 0 && value <= 14_400)) throw new Error('This PDF has unsupported page dimensions.');

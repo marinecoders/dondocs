@@ -1,3 +1,4 @@
+import { formTemplateFiles } from '@/services/forms/model';
 import { listPackageTemplates, validatePackageTemplateLibrary, restorePackageTemplates, type PackageTemplate } from './packageTemplateLibrary';
 import { hasRichBody } from './bodyTable';
 import { requiresCurrentDocumentReader, correspondenceReaderRequirement } from './documentReaderRequirements';
@@ -640,7 +641,7 @@ async function prepareBackupRestore(json: string) {
   const formTemplates = hasFormTemplates
     ? await validatePortableFormTemplates(formDefinitions, parsed.portableFormTemplates, parsed.portableResources) : [];
   const packageDecoded = new Map(decoded);
-  for (const form of formTemplates) for (const page of form.definition.pages) packageDecoded.set(formTemplateAttachmentId(page.sha256!), new Uint8Array(form.pages[page.file]).buffer);
+  for (const form of formTemplates) for (const page of formTemplateFiles(form.definition)) packageDecoded.set(formTemplateAttachmentId(page.sha256!), new Uint8Array(form.pages[page.file]).buffer);
   const actionPackages = await validatePackageBackup(packageRecords, packageDecoded);
   return { parsed, decoded, formTemplates, actionPackages, packageTemplates, incomingTemplates,
     reviewRounds, reviewCopies, reviewReturns, reviewSuggestions, reviewSuggestionWrites };

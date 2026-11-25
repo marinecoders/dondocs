@@ -1,3 +1,4 @@
+import type { OfficialFormMembership } from './packageOfficialForms';
 import type { SerializedSession } from '@/stores/documentStore';
 import type { PackageBindingTarget } from './packageBindingTargets';
 import { listPackageBindingFields } from './packageBindingTargets';
@@ -105,6 +106,33 @@ async function evidence(): Promise<PackageTemplateV2> {
       { key: 'supporting-record', kind: 'attachment', label: 'Original supporting PDF', role: 'supporting-document', required: true }],
   };
 }
+type MaintainedRecipe = Omit<PackageTemplateV2, 'members'> & {
+  members: Array<PackageTemplateV2['members'][number] | (OfficialFormMembership & { kind: 'official-form' })>;
+};
+
+export async function resolveMaintainedRecipe(recipe: MaintainedRecipe): Promise<PackageTemplateV2> {
+  const members: PackageTemplateV2['members'] = [];
+  const originals = new Map<string, NativeBlueprint>();
+  for (const member of recipe.members) {
+    if (member.kind !== 'official-form') {
+      members.push(member);
+      continue;
+    }
+    const { formId, ...membership } = member;
+    const original = originals.get(formId);
+    if (original) {
+      members.push({ ...membership, kind: 'native', label: original.label, draft: structuredClone(original.draft),
+        pages: {}, pagesFrom: original.key });
+    } else {
+      const { officialFormBlueprint } = await import('./packageOfficialForms');
+      const blueprint = await officialFormBlueprint(member);
+      originals.set(formId, blueprint);
+      members.push(blueprint);
+    }
+  }
+  return validatePackageTemplate({ ...recipe, members });
+}
+
 const loaded = new Map<MaintainedPackageActionId, Promise<PackageTemplateV2>>();
 /** Catalog loading only constructs and qualifies owned clean starters. It never installs a template or saves a case. */
 export async function maintainedPackageAction(id: MaintainedPackageActionId): Promise<PackageTemplateV2> {
@@ -112,7 +140,7 @@ export async function maintainedPackageAction(id: MaintainedPackageActionId): Pr
   let promise = loaded.get(id);
   if (!promise) {
     promise = (id === 'administrative-request' ? administrative() : id === 'training-participation' ? training() : evidence())
-      .then(async input => { const template = await validatePackageTemplate(input); if (template.version !== 2) throw new Error('The maintained action has an unsupported version.'); return template; });
+      .then(resolveMaintainedRecipe);
     loaded.set(id, promise);
     void promise.catch(() => { if (loaded.get(id) === promise) loaded.delete(id); });
   }

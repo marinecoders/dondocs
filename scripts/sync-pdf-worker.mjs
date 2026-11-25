@@ -16,7 +16,7 @@
  * Usage: npm run sync:pdf-worker
  */
 import { createRequire } from 'node:module';
-import { copyFileSync, readFileSync } from 'node:fs';
+import { writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -32,5 +32,15 @@ const { version } = JSON.parse(readFileSync(pdfjsPkgPath, 'utf8'));
 const workerSrc = join(pdfjsDir, 'build', 'pdf.worker.min.mjs');
 const workerDest = join(repoRoot, 'public', 'lib', 'pdf.worker.min.mjs');
 
-copyFileSync(workerSrc, workerDest);
+// Expose the decrypted form dictionary's actual flag for printed copies. The
+// public annotation API folds NeedAppearances into hasAppearance, so it cannot
+// distinguish a saved appearance from one a viewer still needs to generate.
+// Require this exact upstream location to be reviewed on dependency upgrades.
+const anchor = 'IsAcroFormPresent:t.hasAcroForm,';
+const worker = readFileSync(workerSrc, 'utf8');
+if (worker.split(anchor).length !== 2) {
+  throw new Error('Review the PDF.js form metadata adapter for this worker version.');
+}
+const formFlag = 'DonDocsNeedsAppearances:e.acroForm?e.acroForm.has("NeedAppearances")&&e.acroForm.get("NeedAppearances")!==false:null,';
+writeFileSync(workerDest, worker.replace(anchor, anchor + formFlag));
 console.log(`pdf.worker.min.mjs vendored from pdfjs-dist@${version} (via react-pdf)`);

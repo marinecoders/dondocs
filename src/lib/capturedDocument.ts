@@ -1,7 +1,11 @@
+import { z } from 'zod';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { FormSession } from '@/stores/formStore';
 import { parseFormInstance, type FormInstance } from '@/services/forms/model';
 import { serializeDocumentSnapshot } from './documentSerialization';
+
+export const capturedSigningSourceSchema = z.object({ documentId: z.string().min(1).max(200), epoch: z.number().int().nonnegative(),
+  editSequence: z.number().int().nonnegative(), capturedAt: z.number().finite() }).strict();
 
 export interface CapturedSource {
   readonly documentId: string;

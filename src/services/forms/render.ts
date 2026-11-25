@@ -7,6 +7,13 @@ export interface FormRenderResult { bytes: Uint8Array; diagnostics: FormDiagnost
 export async function renderForm(instance: FormInstance, mode: 'preview' | 'export', loader?: PageLoader): Promise<FormRenderResult> {
   const d = compileFormDefinition(instance.definition);
   const diagnostics = validateAnswers(d, instance.answers, instance.rows, mode === 'export');
+  if (d.nativePdfEdition) {
+    if (diagnostics.some(issue => issue.severity === 'error')) throw new Error(diagnostics.map(issue => diagnosticText(d, issue)).join('\n'));
+    const file = d.pages[0].file;
+    const original = loader ? await loader(d.directory, file) : await loadPackagePage(d, file);
+    const { fillNativeAcroForm } = await import('./fillNativeAcroForm');
+    return { bytes: await fillNativeAcroForm(instance, new Uint8Array(original)), diagnostics };
+  }
   const config: FormConfig = { id: d.formId, label: d.label, directory: d.directory, pages: d.pages.map(p => p.file), sections: [], fields: {} };
   const values: FormValues = {};
   const paths: Record<string, string> = {};

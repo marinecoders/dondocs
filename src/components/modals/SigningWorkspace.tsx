@@ -1,3 +1,7 @@
+import { identifyOfficialOriginal } from '@/services/forms/nativeCatalog';
+import { idbDeleteSigningRecord } from '@/lib/documentsDb';
+import { OfficialFormSigning } from '@/components/OfficialFormSigning';
+import { saveOfficialRevision, officialSigningRecords, type OfficialSigningRecord } from '@/lib/officialSigning';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { SigningPdfPreview } from '@/components/SigningPdfPreview';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -11,11 +15,56 @@ import { SigningReturnReview } from '@/components/SigningReturnReview';
 import { confirmSigningDisclosure } from '@/components/signingDisclosure';
 import { signingRecordDisclosure } from '@/lib/signingDisclosure';
 
-export default function SigningWorkspace({ open, onOpenChange, initialRecordId }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string }) {
+export default function SigningWorkspace({ open, onOpenChange, initialRecordId, onAttach }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string; onAttach?(record: OfficialSigningRecord): Promise<void> }) {
   return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="flex max-h-[95dvh] max-w-5xl flex-col overflow-hidden sm:max-w-5xl">
-    <DialogHeader><DialogTitle>Signing workspace</DialogTitle><DialogDescription>Place signature fields on an exact unsigned PDF. Existing fields remain in the file. Sign the prepared PDF in your signing application.</DialogDescription></DialogHeader>
-    {open && <SigningEditor initialRecordId={initialRecordId} />}
+    <DialogHeader><DialogTitle>Signing workspace</DialogTitle><DialogDescription>Review the PDF revision, select a signature field, and save the signed original.</DialogDescription></DialogHeader>
+    {open && <SigningRecords key={initialRecordId} initialRecordId={initialRecordId} onAttach={onAttach} />}
   </DialogContent></Dialog>;
+}
+
+function SigningRecords({ initialRecordId, onAttach }: { initialRecordId?: string; onAttach?(record: OfficialSigningRecord): Promise<void> }) {
+  const [records, setRecords] = useState<OfficialSigningRecord[]>([]);
+  const [selected, setSelected] = useState(initialRecordId ?? '');
+  const [error, setError] = useState('');
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void officialSigningRecords().then(rows => { if (active) setRecords(rows); })
+      .catch(cause => { if (active) setError(signingErrorMessage(cause)); })
+      .finally(() => { if (active) setLoaded(true); });
+    return () => { active = false; };
+  }, []);
+  const record = records.find(item => item.id === selected);
+  return <div className="min-h-0 space-y-3 overflow-y-auto">
+    {error && <p role="alert">{error}</p>}
+    {!onAttach && <label className="block text-sm">Open an official form PDF
+      <input type="file" accept="application/pdf,.pdf" className="mt-1 block" onChange={async event => {
+        const file = event.target.files?.[0]; event.target.value = '';
+        if (!file) return;
+        try {
+          if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF up to 20 MB.');
+          const data = await file.arrayBuffer();
+          if (!await identifyOfficialOriginal(data)) throw new Error('Choose an original PDF from a supported official edition.');
+          const next = await saveOfficialRevision(file.name, new Uint8Array(data), () => true);
+          setRecords(rows => [next, ...rows]); setSelected(next.id); setError('');
+        } catch (cause) { setError(signingErrorMessage(cause)); }
+      }} /></label>}
+    {records.length > 0 && !onAttach && <label className="block text-sm">Signing file
+      <select className="ml-2 rounded border bg-background p-2" value={record?.id ?? ''} onChange={e => setSelected(e.target.value)}>
+        <option value="">PDF handoffs and placement</option>
+        {records.map(item => <option key={item.id} value={item.id}>{item.filename} · Revision {item.revisions.length}</option>)}
+      </select></label>}
+    {record ? <OfficialFormSigning key={record.id} record={record} onAttach={onAttach}
+      onSave={saved => setRecords(rows => rows.map(item => item.id === saved.id ? saved : item))} />
+      : loaded && !onAttach ? <SigningEditor initialRecordId={selected || undefined} /> : <p role="status">{loaded ? 'This signing file is unavailable.' : 'Opening signing records…'}</p>}
+    {record && !onAttach && <Button variant="ghost" size="sm" onClick={async () => {
+      if (!await showAppConfirm({ title: 'Remove this signing file?', message: 'Download any revisions you need before removing the local signing file.', confirmLabel: 'Remove file' })) return;
+      try {
+        if (!await idbDeleteSigningRecord(record)) throw new Error('The file changed. Reopen the workspace and try again.');
+        setRecords(rows => rows.filter(item => item.id !== record.id)); setSelected('');
+      } catch (cause) { setError(signingErrorMessage(cause)); }
+    }}>Remove signing file</Button>}
+  </div>;
 }
 
 function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
