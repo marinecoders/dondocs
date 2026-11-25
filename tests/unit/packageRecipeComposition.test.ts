@@ -65,3 +65,26 @@ it('runs a forms-led training recipe with independent edits, conditional corresp
   expect(getPackageRevision(transferred.record).members).toEqual(revision.members);
   expect((await readConditionalPackageTemplate(record)).primaryMemberKey).toBe('first');
 }, 60_000);
+
+it('binds a declared endorsement on creation and after applying an intake change', async () => {
+  const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: null, runtime: { status: 'absent' } });
+  vi.spyOn(classification, 'getExportDeploymentPolicy').mockResolvedValue(policy);
+  vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue(policy);
+  const letter = await correspondenceMember({ key: 'request', label: 'Request letter', role: 'basic-letter',
+    docType: 'standard_letter', facts: { from: 'office' } });
+  const endorsement = await correspondenceMember({ key: 'forward', label: 'Endorsement', role: 'endorsement',
+    docType: 'new_page_endorsement', endorses: 'request' });
+  const template = await resolveMaintainedRecipe({ kind: 'dondocs-package-template', version: 2, id: 'training-request',
+    createdAt: 0, name: 'Training request', primaryMemberKey: 'request', program: program([question('office', 'Originating office')]),
+    members: [letter, endorsement] });
+  let record = await startConditionalPackage(template, policy, undefined, () => true);
+  const [original, end] = getPackageRevision(record).members;
+  expect(end.endorsementLink).toMatchObject({ basicMemberId: original.id, ordinal: 'FIRST' });
+  const answers = { version: 1 as const, groups: {}, values: { office: 'TRAINING OFFICE' } };
+  const prepared = await prepareConditionalPackage({ template, record, answers }, policy);
+  record = (await applyPreparedConditionalPackage(prepared, policy, true)).record;
+  const [updated, linked] = getPackageRevision(record).members;
+  expect(linked.endorsementLink).toMatchObject({ basicMemberId: original.id, basicRevisionId: updated.revisionId });
+  if (linked.kind !== 'native') throw new Error('Expected native endorsement');
+  expect(linked.session.formData.basicLetterId).toContain('TRAINING OFFICE');
+});

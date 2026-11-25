@@ -151,6 +151,15 @@ export async function assertDeliveryRequirements(revision: PackageRevision, sele
         message: issue.message, memberId: issue.memberId, fromIntake: true });
     }
   }
+  const linked = revision.members.filter(member => member.endorsementLink && (!selected || selected.has(member.id)));
+  if (linked.length) {
+    const { endorsementLinkIssue, packageEndorsementRoutes } = await import('./packageEndorsements');
+    const routes = packageEndorsementRoutes(revision);
+    for (const member of linked) {
+      const message = endorsementLinkIssue(member, routes.get(member.id));
+      if (message) failures.push({ id: 'endorsement:' + member.id, kind: 'document', state: 'invalid', label: member.label, memberId: member.id, message });
+    }
+  }
   if (failures.length) throw new PackageDeliveryBlocked(failures);
 }
 

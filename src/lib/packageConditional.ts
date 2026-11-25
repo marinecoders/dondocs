@@ -1,3 +1,4 @@
+import { packageEndorsementRoutes } from './packageEndorsements';
 import { captureTemplateSource } from './packageTemplateResources';
 import { templateMemberPages } from '@/lib/packageTemplateSchema';
 import { reviewPackageSigningMetadata } from './actionPackageDisclosure';
@@ -263,6 +264,14 @@ async function persistIntakeDraft(input: Pick<ConditionalPackageInput, 'template
   await reviewConditionalTemplate(template, policy); reviewPackageText(conditionalStateText(state), 'Saved intake draft', policy); reviewPackageText(name, 'Package name', policy);
   const revision: PackageRevision = { ...(current ? own(current) : {}), members, id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), outputs: [], templateState: state, requirements };
+  if (start && members.some(member => member.role === 'endorsement')) {
+    validateRecipeEndorsements(template, revision);
+    await (await import('./packageEndorsementDrafts')).stagePackageEndorsements(revision, attachments);
+    for (const instance of state.instances) {
+      const member = members.find(item => item.id === instance.memberId && item.endorsementLink);
+      if (member) instance.generatedDigest = await memberDigest(member);
+    }
+  }
   return guardedCommit(before, buildRecord(before, name, revision), attachments, policy, signal, isCurrent);
 }
 
@@ -274,6 +283,21 @@ async function memberDigest(member: PackageMember): Promise<string> {
 function contexts(answers: PackageTemplateAnswers, groupId?: string): Array<{ scope?: PackageTemplateScope; label?: string }> {
   return groupId ? (answers.groups[groupId] ?? []).map(person => ({ scope: { groupId, participantId: person.id }, label: person.label })) : [{}];
 }
+/** An explicit recipe relationship must identify the same letter that the printed routing order uses. */
+function validateRecipeEndorsements(template: PackageTemplateV2, revision: PackageRevision) {
+  if (!template.members.some(member => member.kind === 'native' && member.endorses)) return;
+  const state = revision.templateState!;
+  const routes = packageEndorsementRoutes(revision);
+  for (const instance of state.instances) {
+    const member = template.members.find(candidate => candidate.key === instance.memberKey);
+    if (member?.kind !== 'native' || !member.endorses || !revision.members.some(item => item.id === instance.memberId)) continue;
+    const route = routes.get(instance.memberId);
+    const source = state.instances.find(candidate => candidate.memberId === route?.basicMemberId);
+    if (source?.memberKey !== member.endorses || source.participantId && source.participantId !== instance.participantId)
+      throw new Error(instance.label + ': place this endorsement in the routing chain for its declared basic letter.');
+  }
+}
+
 export function listConditionalPackageInstances(template: PackageTemplateV2, answers: PackageTemplateAnswers) {
   const expanded: Array<{ blueprint: PackageTemplateV2['members'][number]; scope?: PackageTemplateScope; label?: string }> = [];
   for (let index = 0; index < template.members.length;) {
@@ -625,6 +649,7 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
   const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), members: ordered, information, bindings: { version: 1, items: keptBindings },
     templateState: packageConditionalStateSchema.parse(state), requirements, outputs: [] };
+  validateRecipeEndorsements(template, revision);
   const staged = new Map(attachments.map(asset => [asset.id, asset]));
   const planned = await captureLinkedPackageChanges(current ?? { id: 'initial', createdAt: 0, members: [], outputs: [] }, revision,
     input.fieldChoices ?? {}, policy, signal, async member => {

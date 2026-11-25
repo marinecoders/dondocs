@@ -154,6 +154,41 @@ beforeEach(async () => {
   });
 });
 
+it("keeps endorsements linked to the same letter through reorder, revision and portable transfer", async () => {
+  const { record, member, source } = await fixture();
+  const endorsement = { ...snapshot(), docType: "new_page_endorsement" };
+  const make = (documentId: string) => capturePackageMember(
+    captureDocumentRevision({ documentId, epoch: 0, editSequence: 1, capturedAt: 200 }, endorsement),
+    "Endorsement", "endorsement");
+  const first = await make("endorsement-one"), second = await make("endorsement-two");
+  const routed = await reviseActionPackage(record, [member, first, second]);
+  const members = getPackageRevision(routed).members;
+  expect(members.slice(1).map(item => item.endorsementLink?.ordinal)).toEqual(["FIRST", "SECOND"]);
+  const changed = { ...source, formData: { ...source.formData, from: "Different Office", date: "20 Nov 26" } };
+  const updated = await capturePackageMember(captureDocumentRevision(
+    { documentId: "source-example", epoch: 0, editSequence: 2, capturedAt: 300 }, changed), member.label, member.role, member);
+  const reordered = await reviseActionPackage(routed, [updated, members[2], members[1]]);
+  const revision = getPackageRevision(reordered);
+  for (const [i, item] of revision.members.slice(1).entries()) {
+    if (item.kind !== "native") throw new Error("Expected editable endorsement");
+    const { reviewed } = await readPackageMemberDraft(item);
+    expect(reviewed.session.formData).toMatchObject({ endorsementOrdinal: ["FIRST", "SECOND"][i], basicLetterId: composeBasicLetterId(changed) });
+    expect(item.endorsementLink?.basicMemberId).toBe(member.id);
+  }
+  const portable = await parsePortableActionPackage(await buildPortableActionPackage(reordered));
+  expect(getPackageRevision(portable.record).members[1].endorsementLink).toEqual(revision.members[1].endorsementLink);
+  const previous = members[1];
+  if (previous.kind !== "native") throw new Error("Expected historical endorsement");
+  expect((await readPackageMemberDraft(previous)).reviewed.session.formData.basicLetterId).toBe(composeBasicLetterId(source));
+
+  const original = await captureOriginalPackageMember({ name: "received.pdf", data: await pdfBytes() }, "endorsement", true);
+  const protectedMember = { ...original, id: members[2].id, endorsementLink: members[2].endorsementLink };
+  const stale = await reviseActionPackage(reordered, [updated, protectedMember]);
+  const preparation = await preparePackageAssembly(stale, stale.currentRevisionId, policy);
+  expect(preparation.readiness.findings.some(item => item.message.includes("obtain an updated endorsement"))).toBe(true);
+  expect(getPackageRevision(stale).members[1]).toEqual(protectedMember);
+});
+
 it("binds comparison copies to two reviewed outputs of the same immutable revision and current policy", async () => {
   const { record } = await fixture();
   const ports = { compile: async () => new Uint8Array(await pdfBytes()), convertDocx: vi.fn(), waitForReady: async () => true };

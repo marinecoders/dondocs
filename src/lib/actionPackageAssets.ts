@@ -181,6 +181,7 @@ export async function capturePackageMember(
       label,
       role,
       required: previous?.required ?? true,
+      ...(previous?.endorsementLink && { endorsementLink: previous.endorsementLink }),
       source: {
         documentId: captured.source.documentId,
         capturedAt: captured.source.capturedAt,

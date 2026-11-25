@@ -24,7 +24,7 @@ const link = z.object({ questionId: identity, target: packageBindingTargetSchema
 const extensions = { blankPdf: packageTemplatePageSchema.optional(), completion: formCompletionSchema.optional(), key: identity, when: packageTemplateConditionSchema.optional(), repeatGroupId: identity.optional(), links: z.array(link).max(100).optional() };
 export const packageTemplateV2Schema = packageTemplateV1Schema.omit({ version: true, members: true, id: true }).extend({
   id: identity, primaryMemberKey: identity.optional(), version: z.literal(2), program: packageTemplateProgramSchema,
-  members: z.array(z.discriminatedUnion('kind', [native.extend({ ...extensions, pagesFrom: identity.optional() }), attachment.extend(extensions)])).min(1).max(100),
+  members: z.array(z.discriminatedUnion('kind', [native.extend({ ...extensions, pagesFrom: identity.optional(), endorses: identity.optional() }), attachment.extend(extensions)])).min(1).max(100),
 }).strict().superRefine((template, context) => {
   const problem = (message: string) => context.addIssue({ code: 'custom', message });
   validatePackageTemplateProgramMembers(template.program, template.members).forEach(problem);
@@ -33,6 +33,13 @@ export const packageTemplateV2Schema = packageTemplateV1Schema.omit({ version: t
     problem('Version 2 templates must start with exactly one required, unconditional, nonrepeating main document.');
   let nodes = [...template.program.questions, ...template.program.requirements].reduce((sum, item) => sum + (item.when ? packageTemplateConditionNodeCount(item.when) : 0), 0), links = 0;
   for (const member of template.members) {
+    if (member.kind === 'native' && member.endorses) {
+      const letter = template.members.slice(0, template.members.indexOf(member)).find(item => item.key === member.endorses);
+      if (member.role !== 'endorsement' || letter?.kind !== 'native' ||
+          !['basic-letter', 'supporting-document'].includes(letter.role) || letter.draft.documentCategory === 'forms' ||
+          letter.repeatGroupId && letter.repeatGroupId !== member.repeatGroupId)
+        problem('An endorsement must reference an earlier correspondence member in its participant scope.');
+    }
     if (member.when) nodes += packageTemplateConditionNodeCount(member.when);
     links += member.links?.length ?? 0;
     if (member.kind === 'attachment' && member.links?.length) problem('Original attachment slots cannot declare native field links.');
