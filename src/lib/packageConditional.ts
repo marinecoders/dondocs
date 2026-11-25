@@ -344,7 +344,7 @@ async function nativeMember(blueprint: Extract<PackageTemplateV2['members'][numb
 
 export interface ConditionalRequirementSlot {
   key: string; id: string; definitionId?: string; participantId?: string; label: string; kind: 'document' | 'confirmation';
-  operations: Array<'review' | 'pdf' | 'portable'>; condition: 'active' | 'inactive' | 'unknown'; memberId?: string;
+  operations: Array<'review' | 'pdf' | 'portable'>; condition: 'active' | 'inactive' | 'unknown'; memberId?: string; completion?: import('./packageRequirementsModel').FormCompletion;
 }
 /** PR9 materializes these declared slots without inventing a file or a completion flag. */
 export function conditionalRequirementSlots(template: PackageTemplateV2, answers: PackageTemplateAnswers, state: PackageConditionalState): ConditionalRequirementSlot[] {
@@ -355,7 +355,8 @@ export function conditionalRequirementSlots(template: PackageTemplateV2, answers
   };
   for (const instance of state.instances) if (instance.required) {
     const key = JSON.stringify(['member', instance.memberKey, instance.participantId ?? null]);
-    slots.push({ key, id: idFor(key), ...(instance.participantId ? { participantId: instance.participantId } : {}), label: instance.label,
+    const completion = template.members.find(member => member.key === instance.memberKey)?.completion;
+    slots.push({ key, id: idFor(key), ...(completion && { completion }), ...(instance.participantId ? { participantId: instance.participantId } : {}), label: instance.label,
       kind: 'document', operations: ['review', 'pdf'], condition: instance.condition === 'unknown' ? 'unknown' : instance.condition ? 'active' : 'inactive', memberId: instance.memberId });
   }
   for (const requirement of template.program.requirements) for (const { scope, label } of contexts(answers, requirement.repeatGroupId)) {

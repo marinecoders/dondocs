@@ -1,5 +1,6 @@
+import { officialFormCompletionIssues } from './packageFormCompletion';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
-import { packageRequirementOperationSchema, packageRequirementsSchema, type PackageRequirement, type PackageRequirementOperation, type PackageRequirements } from './packageRequirementsModel';
+import { requirementDeclaration, packageRequirementOperationSchema, packageRequirementsSchema, type PackageRequirement, type PackageRequirementOperation, type PackageRequirements } from './packageRequirementsModel';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, packageMemberSchema, type ActionPackage, type PackageAsset, type PackageMember, type PackageRevision } from './actionPackages';
 import { readPackageAsset, validatePackageOriginalPdf } from './actionPackageAssets';
 import { validatePackageDraft } from './actionPackageDraft';
@@ -76,6 +77,13 @@ export async function inspectPackageRequirements(revision: PackageRevision, oper
       let validation = checked.get(member.id);
       if (!validation) { validation = validateMember(member, options.readAsset ?? readPackageAsset, options.signal); checked.set(member.id, validation); }
       await validation; options.signal?.throwIfAborted();
+      if (operation === 'pdf') {
+        const issues = officialFormCompletionIssues(member, requirement.completion);
+        if (issues.length) {
+          items.push({ ...base, state: 'missing', message: issues.join(' ') });
+          continue;
+        }
+      }
       items.push({ ...base, state: 'satisfied', message: `Captured content is present and readable: ${member.label}. Content accuracy and approval are not established.` });
     } catch (cause) {
       options.signal?.throwIfAborted();
@@ -104,9 +112,7 @@ export async function updatePackageRequirements(input: ActionPackage, next: Pack
   const previous = current.requirements ?? legacy?.requirements;
   if (sameReviewStoredValue(current.requirements, requirements)) throw new Error('Package requirements already match this revision.');
   if (current.requirements) {
-    const declaration = (item: PackageRequirement) => item.kind === 'document'
-      ? (({ memberId: _member, ...value }) => value)(item)
-      : (({ confirmed: _confirmed, ...value }) => value)(item);
+    const declaration = (item: PackageRequirement) => requirementDeclaration(item, !!current.templateState);
     if (!requirements || !sameReviewStoredValue(current.requirements.items.map(declaration), requirements.items.map(declaration)))
       throw new Error('Only evidence assignments and user confirmations may change here. Reapply the package template to update declared requirements.');
   }

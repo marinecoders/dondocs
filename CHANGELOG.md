@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.288] — 2026-11-24
+
+### Added
+
+- Check form completion for final output and support marked draft PDFs.
+
 ## [1.3.287] — 2026-11-24
 
 ### Fixed

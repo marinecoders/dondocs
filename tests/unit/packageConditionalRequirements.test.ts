@@ -103,3 +103,21 @@ it('keeps already reserved identities when first saving legacy requirement metad
   const changed = structuredClone(effective); changed.items[0].id = 'changed-existing-requirement';
   await expect(captureLegacyConditionalRequirementIds(legacy, changed)).rejects.toThrow('identity changed');
 });
+
+it('keeps a recipe completion check attached to its own member across edits and transfer', async () => {
+  const source = template();
+  source.members[0].completion = { signatureFields: ['Acknowledgement'] };
+  const plan = await prepareConditionalPackage({ template: source, answers: answers(false) }, policy);
+  const initial = (await applyPreparedConditionalPackage(plan, policy, true)).record;
+  const pdf = await PDFDocument.create();
+  pdf.addPage();
+  const other = await captureOriginalPackageMember({ name: 'other.pdf', data: new Uint8Array(await pdf.save()).buffer }, 'supporting-document', false);
+  const record = await reviseActionPackage(initial, [...getPackageRevision(initial).members, other]);
+  const revision = getPackageRevision(record);
+  const changed = structuredClone(revision.requirements!);
+  for (const item of changed.items) if (item.kind === 'document' && item.completion) item.memberId = other.id;
+
+  await expect(updatePackageRequirements(record, changed, policy)).rejects.toThrow(/assignment|match|member/i);
+  await expect(resolveConditionalPackageRequirements({ ...revision, requirements: changed })).rejects.toThrow(/match/);
+  await expect(captureLegacyConditionalRequirementIds({ ...revision, requirements: undefined }, changed)).rejects.toThrow(/match/);
+});
