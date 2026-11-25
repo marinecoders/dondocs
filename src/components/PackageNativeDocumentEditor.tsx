@@ -1,3 +1,5 @@
+import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
+import type { PackageDestination } from '@/lib/packageDestinations';
 import { lazy, Suspense, useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import type { ActionPackage, NativePackageMember } from '@/lib/actionPackages';
@@ -24,11 +26,12 @@ interface Props extends PackageEditorSurface {
   documentId: string;
   disabled: boolean;
   navigationError: string;
+  onFieldReview?(target: PackageDestination): void;
   onSave(next: ActionPackage): void;
   onNavigate(memberId?: string): void | Promise<void>;
 }
 
-export default function PackageNativeDocumentEditor({ record, member, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate }: Props) {
+export default function PackageNativeDocumentEditor({ record, member, onFieldReview, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate }: Props) {
   const key = record.id + '/' + member.id;
   const latest = useRef({ record, member, onSave });
   useLayoutEffect(() => { latest.current.onSave = onSave; }, [onSave]);
@@ -140,6 +143,7 @@ export default function PackageNativeDocumentEditor({ record, member, documentId
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setShowPreview(!showPreview)}>{showPreview ? 'Show fields' : 'Show preview'}</Button>
         {status === 'error' && <Button size="sm" disabled={disabled || navigating} onClick={() => void flush()}>Retry save</Button>}
       </header>
+      {onFieldReview && <PackageLinkedFieldTools member={member} revision={getPackageRevision(record)} disabled={disabled || navigating || status !== 'saved'} onReview={target => { if (!dirty.current) onFieldReview(target); }} />}
       {(error || navigationError) && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{error || navigationError}</p>}
       <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-2">
         <div className={(showPreview ? 'hidden lg:block ' : '') + 'min-h-0 min-w-0'} inert={disabled || navigating || undefined} ref={owned ? setEditorHost : undefined} />

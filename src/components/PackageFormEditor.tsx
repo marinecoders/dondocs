@@ -1,3 +1,5 @@
+import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
+import type { PackageDestination } from '@/lib/packageDestinations';
 import { useEffect, useId, useRef, useState, type ComponentProps } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import type { ActionPackage, NativePackageMember } from '@/lib/actionPackages';
@@ -31,13 +33,14 @@ function MemberRemarksField({ value, onChange, ariaLabel, rows }: ComponentProps
 type Props = Pick<ComponentProps<typeof PackageDocumentPreview>, 'ports' | 'exportGate'> & {
   record: ActionPackage;
   member: NativePackageMember;
+  onFieldReview?(target: PackageDestination): void;
   onSave(next: ActionPackage): void;
   onNavigate(memberId?: string): void | Promise<void>;
   onSharedDetails(): void;
   navigationError?: string;
 };
 
-export default function PackageFormEditor({ record, member, onSave, onNavigate, onSharedDetails, ports, exportGate, navigationError }: Props) {
+export default function PackageFormEditor({ record, member, onFieldReview, onSave, onNavigate, onSharedDetails, ports, exportGate, navigationError }: Props) {
   const editor = usePackageFormEditor(record, member, onSave);
   const titleId = useId();
   const [mobilePreview, setMobilePreview] = useState(false);
@@ -86,6 +89,7 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
         <Button size="sm" disabled={leaving || editor.phase !== 'pending'} onClick={() => void editor.flush()}>Save changes</Button>
       </header>
+      {onFieldReview && <PackageLinkedFieldTools member={member} revision={revision} disabled={leaving || editor.phase !== 'saved'} onReview={onFieldReview} />}
       {navigationError && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{navigationError}</p>}
       {editor.error && <div role="alert" className="flex flex-wrap items-center gap-3 border-b bg-muted px-4 py-2 text-sm">
         {editor.error}

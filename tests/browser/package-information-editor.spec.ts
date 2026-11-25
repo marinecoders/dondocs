@@ -67,3 +67,45 @@ for (const theme of ['light', 'dark', 'classic']) test(`edits, links, reviews an
   await dialog.evaluate(element => { element.scrollTop = 0; });
   await page.screenshot({ path: info.outputPath(`package-information-${theme}.png`) });
 });
+
+test('review a local exception and a shared change from the document being edited', async ({ page, context }) => {
+  await context.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused' } }));
+  });
+  await page.goto('/');
+  const dialog = await openPackageWorkspace(page);
+  const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
+  await importPackage(dialog, { name: 'sample.json', mimeType: 'application/json', buffer: bytes });
+  const panel = await packageTool(dialog, 'Details');
+  const advanced = panel.getByRole('button', { name: 'Field links and other details' });
+  if (await advanced.getAttribute('aria-expanded') === 'false') await advanced.click();
+  await panel.getByRole('button', { name: 'Add shared value' }).click();
+  await panel.getByLabel('Value label 1', { exact: true }).fill('Shared subject');
+  await panel.getByLabel('Value 1', { exact: true }).fill('ORIGINAL SUBJECT');
+  await panel.getByRole('button', { name: 'Load document fields' }).click();
+  const target = panel.getByLabel('Link field for value 1');
+  await target.selectOption(await target.getByRole('option').filter({ hasText: ' · Subject · ' }).getAttribute('value') ?? '');
+  await panel.getByRole('button', { name: 'Link value 1' }).click();
+  async function apply() {
+    await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
+    const preview = panel.getByRole('region', { name: 'Package changes preview' });
+    await expect(preview).toContainText('Subject');
+    await preview.getByRole('button', { name: 'Apply package changes' }).click();
+    await expect(panel.getByText('Package changes saved as a new revision.')).toBeVisible();
+  }
+  await apply();
+  for (const [action, value] of [['Keep for this document', 'DOCUMENT EXCEPTION'], ['Update package details', 'NEW SHARED SUBJECT']]) {
+    await dialog.getByRole('navigation', { name: 'Package workspace' }).getByRole('button', { name: 'Documents' }).click();
+    await dialog.getByRole('button', { name: 'Edit document', exact: true }).click();
+    const editor = page.getByRole('dialog').filter({ has: page.getByRole('combobox', { name: 'Package document', exact: true }) });
+    await editor.getByLabel('Document section', { exact: true }).selectOption('addressing');
+    const subject = editor.getByRole('textbox', { name: 'Subject', exact: true });
+    await subject.fill(value); await subject.blur();
+    await expect(editor.getByRole('button', { name: action })).toBeEnabled();
+    await editor.getByRole('button', { name: action }).click();
+    await expect(panel.getByText(action.startsWith('Keep') ? 'Review the change to keep this value on this document.' : 'Review the shared value and the documents it will update.')).toBeVisible();
+    await apply();
+    await expect(panel.getByText(action.startsWith('Keep') ? 'ORIGINAL SUBJECT' : value, { exact: true }).first()).toBeVisible();
+  }
+});

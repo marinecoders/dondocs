@@ -222,6 +222,7 @@ function PackageDialog({
   const mainScroll = useRef<HTMLDivElement>(null);
   const preparedResultRef = useRef<HTMLDivElement>(null);
   const dialogRoot = useRef<HTMLDivElement>(null), destinationOwner = useRef(''), destinationSequence = useRef(0);
+  const [fieldReviewPackage, setFieldReviewPackage] = useState('');
   const [destination, setDestination] = useState<PackageDestinationRequest>();
   const documentsRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
@@ -376,6 +377,12 @@ function PackageDialog({
     rememberFormLocation('return-document', '');
     enter(useFormEditor ? record.id + '/' + id : '');
   }
+  function reviewEditorField(target: PackageDestination) {
+    if (!editable || !revision || target.revisionId !== revision.id || busy || pendingPackageEdits) return;
+    void openMemberEditor();
+    setFieldReviewPackage(record!.id);
+    followDestination(target);
+  }
   function onEditorSave(next: ActionPackage) {
     setRecords(all => all.map(item => item.id === next.id ? next : item));
     setRevisionId(next.currentRevisionId);
@@ -481,6 +488,7 @@ function PackageDialog({
       memberId: selectedMember?.id ?? null, section: workspaceSection });
   }, [record, revision, selectedMember?.id, workspaceSection]);
   function navigate(section: PackageWorkspaceSection) {
+    if (section !== 'overview') setFieldReviewPackage('');
     setLibraryOpen(false);
     setWorkspaceSection(section);
   }
@@ -866,11 +874,11 @@ function PackageDialog({
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
         {editorSurface && record && nativeEditorMember && copy && copy.documentId === currentId && <Suspense fallback={<p role="status">Opening document…</p>}>
           <PackageNativeDocumentEditor key={copy.documentId} record={record} member={nativeEditorMember} documentId={copy.documentId}
-            {...editorSurface} navigationError={error} disabled={busy} onSave={onEditorSave} onNavigate={openMemberEditor} />
+            {...editorSurface} navigationError={error} disabled={busy} onFieldReview={reviewEditorField} onSave={onEditorSave} onNavigate={openMemberEditor} />
         </Suspense>}
         {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
           <PackageFormEditor key={record.id + '/' + formMember.id} record={record} member={formMember} ports={ports} exportGate={exportGate}
-            onSave={onEditorSave} navigationError={error}
+            onFieldReview={reviewEditorField} onSave={onEditorSave} navigationError={error}
             onSharedDetails={() => {
               openMemberEditor();
               navigate('overview');
@@ -1033,7 +1041,7 @@ function PackageDialog({
             onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
         </Suspense></div></details>
                   </div>
-                  {record && revision && <details open={!revision.templateState || informationDirty}><summary hidden={!revision.templateState} className="cursor-pointer text-sm">Field links</summary><Suspense fallback={<p role="status">Loading package information…</p>}>
+                  {record && revision && <details open={!revision.templateState || informationDirty || fieldReviewPackage === record.id}><summary hidden={!revision.templateState} className="cursor-pointer text-sm">Field links</summary><Suspense fallback={<p role="status">Loading package information…</p>}>
           <PackageInformationPanel workspace={!revision.templateState} recoverEdits record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} busy={busy} run={run} onApply={update}
             destination={destination}
             onDirtyChange={setInformationDirty} onRecoveryChange={setInformationRecoverable} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />

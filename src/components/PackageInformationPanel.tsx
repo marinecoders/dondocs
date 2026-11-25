@@ -10,7 +10,7 @@ import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/conf
 import { newPackageId, type ActionPackage, type PackageRevision } from '@/lib/actionPackages';
 import { packageFactSchema, packageFactSourceSchema, packageParticipantSchema, packageInformationSchema, type PackageFact, type PackageFactSource, type PackageInformation, type PackageParticipant } from '@/lib/packageInformation';
 import { listPackageBindingFields, packageBindingTargetKey, type PackageBindingField } from '@/lib/packageBindingTargets';
-import { packageFieldBindingSchema, formatPackageFactForField, suggestPackageFieldValues, type PackageFieldBinding, type PackageFieldBindings, type PackageFieldSuggestion } from '@/lib/packageFieldBindings';
+import { packageFieldBindingSchema, formatPackageFactForField, resolvePackageFieldBinding, suggestPackageFieldValues, type PackageFieldBinding, type PackageFieldBindings, type PackageFieldSuggestion } from '@/lib/packageFieldBindings';
 import { applyPreparedPackageUpdate, preparePackageUpdate, undoPackageUpdate, type PackageUpdateChoice, type PackageUpdateChoices, type PackageUpdateUndo, type PreparedPackageUpdate } from '@/lib/packageUpdates';
 import { focusPackageDestination, matchesPackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
 
@@ -140,12 +140,50 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
   }, [onRecoveryChange, recoverEdits, dirty, recovery.status]);
   useEffect(() => {
     if (!matchesPackageDestination(destination, record.id, revision.id) || handledDestination.current === destination.requestId) return;
+    if (destination.fieldDecision && destination.bindingId) {
+      if (locked) return;
+      const link = revision.bindings?.items.find(item => item.id === destination.bindingId && item.factId === destination.factId);
+      if (!link) return;
+      if (dirty) {
+        handledDestination.current = destination.requestId;
+        queueMicrotask(() => setNotice('Review your unfinished package details before starting this field decision.'));
+        return;
+      }
+      let active = true;
+      void resolvePackageFieldBinding(revision, link).then(result => {
+        if (!active) return;
+        if (!result.field || result.state === 'unsupported' || result.state === 'missing') {
+          handledDestination.current = destination.requestId;
+          setAdvanced(true);
+          setError(result.message);
+          requestAnimationFrame(() => focusPackageDestination(content.current, 'data-package-binding-id', link.id));
+          return;
+        }
+        const local = destination.fieldDecision === 'keep-local';
+        const fact = revision.information?.facts.find(item => item.id === link.factId);
+        if (!fact) return;
+        handledDestination.current = destination.requestId;
+        setEditing(true);
+        setChoices({ [link.id]: local ? 'keep-local' : 'reconnect' });
+        // A last name, uppercase rendering or abbreviated date cannot recover the shared value.
+        if (!local && link.format === 'field' && result.field.value !== null && result.field.value !== fact.value
+          && result.desiredValue === fact.value && packageFactSchema.safeParse({ ...fact, value: result.field.value }).success) {
+          const value = result.field.value;
+          setDraft(previous => ({ ...previous, facts: previous.facts.map(item => item.id === fact.id
+            ? { ...item, value, source: { kind: 'entered' } } : item) }));
+        }
+        setNotice(local ? 'Review the change to keep this value on this document.'
+          : 'Review the shared value and the documents it will update.');
+        requestAnimationFrame(() => { content.current?.scrollIntoView({ block: 'start' }); content.current?.focus({ preventScroll: true }); });
+      }).catch(cause => { if (active) setError(cause instanceof Error ? cause.message : 'Could not read the linked field.'); });
+      return () => { active = false; };
+    }
     const attribute = destination.bindingId ? 'data-package-binding-id' : 'data-package-fact-id';
     const identity = destination.bindingId ?? destination.factId;
     if (!identity) return;
     if (workspace && !advanced) { queueMicrotask(() => setAdvanced(true)); return; }
     if (focusPackageDestination(content.current, attribute, identity)) handledDestination.current = destination.requestId;
-  }, [destination, record.id, revision.id, draft, workspace, advanced]);
+  }, [destination, record.id, revision, draft, workspace, advanced, locked, dirty]);
   useLayoutEffect(() => {
     mounted.current = true;
     return () => { mounted.current = false; dirtyCallback.current?.(false); };
