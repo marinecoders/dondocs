@@ -80,6 +80,7 @@ export function PackageIntakePreview({ preview, fresh, disabled, reviewed, membe
     {onBack && <Button variant="ghost" className="h-auto p-0 text-sm" disabled={disabled} onClick={onBack}><ArrowLeft aria-hidden="true" className="size-4" />Back to details</Button>}
     <div className="space-y-1">
       <h4 className="break-words font-medium">Review changes to {preview.packageName}</h4>
+      {directApply && fresh && preview.ready && preview.changed && <p className="text-sm text-muted-foreground">These are proposed updates. Apply them to save a package version.</p>}
       {!directApply && <p className="text-sm text-muted-foreground">Documents change only when you apply this preview. Saved revisions and independent work remain available.</p>}
       {!fresh && <p role="status" className="text-sm">Answers or decisions changed. Preview again before applying.</p>}
     </div>

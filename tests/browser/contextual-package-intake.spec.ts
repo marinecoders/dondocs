@@ -34,7 +34,7 @@ async function fill(panel: Locator, values: Record<string, string>) {
   for (const [label, value] of Object.entries(values)) await panel.getByRole('textbox', { name: label, exact: true }).fill(value);
 }
 async function apply(panel: Locator) {
-  await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
+  await panel.getByRole('button', { name: /^(Review changes|Review document updates)$/ }).click();
   await expect(panel).toHaveAttribute('aria-busy', 'false');
   const preview = panel.getByRole('region', { name: 'Action changes preview', exact: true });
   await preview.getByRole('button', { name: /^(Create package|Apply changes)$/ }).click();
@@ -177,11 +177,11 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     await expect(dialog).not.toHaveAttribute('data-revision-id', beforeLocalEdit);
     panel = await continueIntake(dialog); await showAnswers(panel);
     await panel.getByRole('combobox', { name: `${owner} · Attendance`, exact: true }).selectOption('remote');
-    await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
+    await panel.getByRole('button', { name: /^(Review changes|Review document updates)$/ }).click();
     const decision = panel.getByRole('combobox', { name: /^Document decision/ });
     await expect(decision).toHaveCount(1);
     await decision.selectOption('keep');
-    await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
+    await panel.getByRole('button', { name: /^(Review changes|Review document updates)$/ }).click();
     await expect(panel).toHaveAttribute('aria-busy', 'false');
     await panel.getByRole('button', { name: 'Field options', exact: true }).click();
     await panel.getByRole('combobox', { name: /^Field decision.*In-person location/ }).selectOption('keep-local');
@@ -228,7 +228,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     expect(pages.join(' ')).toContain('Locally corrected room'); expect(pages.join(' ')).toContain('125.50');
     panel = await continueIntake(dialog); await showAnswers(panel);
     await panel.getByRole('button', { name: 'Remove Participants · person 1 · Participants 2', exact: true }).click();
-    await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
+    await panel.getByRole('button', { name: /^(Review changes|Review document updates)$/ }).click();
     const removalDecision = panel.getByRole('combobox', { name: /^Document decision.*Remote participation.*Participants 2/ });
     await expect(removalDecision).toHaveCount(1);
     await removalDecision.selectOption('remove');
@@ -336,4 +336,25 @@ test('shows missing evidence in Documents before the first file is supplied', as
   await requirements.getByRole('button', { name: 'Add files' }).click();
   await expect(panel.getByLabel('PDF for Original supporting PDF')).toBeVisible();
   await expect(dialog.getByRole('navigation', { name: 'Package workspace' }).getByRole('button', { name: 'Documents' })).toHaveAttribute('aria-current', 'location');
+});
+
+test('a blocked review focuses its intake decision and opens the saved updates without publishing them', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing' }).click();
+  const dialog = await packages(page);
+  const panel = await start(dialog, 'administrative request');
+  await fill(panel, { Requester: 'Training Example' });
+  await panel.getByRole('button', { name: 'Save package draft' }).click();
+  await expect(panel.getByText('Intake saved; document changes not applied.')).toBeVisible();
+  const revision = await selectedPackageRevision(dialog);
+  await packageSection(dialog, 'Review');
+  await dialog.getByRole('button', { name: 'New review copy', exact: true }).click();
+  const findings = dialog.getByRole('region', { name: 'Intake before review' });
+  await expect(findings.getByRole('heading')).toBeFocused();
+  await findings.getByRole('button', { name: /Apply the saved intake changes/ }).click();
+  const review = panel.getByRole('button', { name: 'Review document updates' });
+  await review.click();
+  const preview = panel.getByRole('region', { name: 'Action changes preview' });
+  await expect(preview).toBeFocused();
+  expect(await selectedPackageRevision(dialog)).toBe(revision);
 });

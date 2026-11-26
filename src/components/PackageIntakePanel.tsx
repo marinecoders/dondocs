@@ -304,6 +304,13 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
   function decide<T extends string>(set: (value: Record<string, T>) => void, values: Readonly<Record<string, T>>, key: string, value: T | undefined) {
     invalidate(); const next = { ...values }; if (value === undefined) delete next[key]; else next[key] = value; set(next);
   }
+  const savedPending = workspace && mode === 'saved' && !!revision?.templateState?.pending && !dirty;
+  const reviewUpdates = <Button className={buttonClass} disabled={locked || !validShape || hasInactiveFiles || workspace && mode === 'saved' && !dirty && !needsReconciliation}
+    onClick={() => void perform(async capture => {
+      setFresh(false); setReviewed(false);
+      const value = await prepareConditionalPackage({ ...input(), attachments, memberChoices, answerChoices, fieldChoices }, await getExportDeploymentPolicy(), capture.signal);
+      if (current(capture)) { setPreview(value); setFresh(true); setReviewed(false); }
+    })}>{savedPending ? 'Review document updates' : workspace ? 'Review changes' : 'Preview action changes'}</Button>;
   const catalogLocked = viewDisabled || dirty;
   const query = search.trim().toLocaleLowerCase();
   const matches = maintainedPackageActions.filter(action => [action.name, action.description, action.kind].some(text => text.toLocaleLowerCase().includes(query)));
@@ -328,6 +335,7 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
       {loading && <p role="status" className="text-sm">Loading the exact saved intake…</p>}
       {!loading && template && <p role="status" className="text-xs text-muted-foreground">{workspace && dirty ? recovery.status === 'saved' ? 'Draft saved locally · not applied' : recovery.status === 'saving' ? 'Saving draft…' : 'Unapplied edits' : workspace && mode === 'new' ? '' : workspace && mode === 'saved' && !needsReconciliation ? '' : dirty ? 'Unapplied intake changes · not saved.' : mode === 'new' ? 'No intake answers changed yet.' : revision?.templateState?.pending
         ? 'Intake saved; document changes not applied.' : "Showing this revision's saved intake and package values."}</p>}
+      {savedPending && editable && !loading && !fresh && reviewUpdates}
       {mode === 'new' && !workspace && <p className="text-sm text-muted-foreground">New action · creates a separate package with fresh answers.</p>}
       {notice && <p role="status" className="text-sm">{notice}</p>}
       {error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}
@@ -433,11 +441,7 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
             const next = await saveConditionalPackageDraft(input(), await getExportDeploymentPolicy(), capture.signal, () => current(capture));
             if (current(capture)) { accept(next); setNotice(''); }
           })}>{workspace ? 'Save package draft' : 'Save intake draft'}</Button>
-          <Button className={buttonClass} disabled={locked || !validShape || hasInactiveFiles || workspace && mode === 'saved' && !dirty && !needsReconciliation} onClick={() => void perform(async capture => {
-            setFresh(false); setReviewed(false);
-            const value = await prepareConditionalPackage({ ...input(), attachments, memberChoices, answerChoices, fieldChoices }, await getExportDeploymentPolicy(), capture.signal);
-            if (current(capture)) { setPreview(value); setFresh(true); setReviewed(false); }
-          })}>{workspace ? 'Review changes' : 'Preview action changes'}</Button>
+          {(!savedPending || !editable) && (!workspace || !fresh) && reviewUpdates}
           <Button className={buttonClass} variant="outline" disabled={locked || mode !== 'new' && !dirty} onClick={discard}>{workspace ? 'Discard' : 'Discard intake changes'}</Button>
         </div>
         {preview && <PackageIntakePreview preview={preview} fresh={fresh} disabled={locked} reviewed={reviewed} directApply={workspace} applyLabel={workspace ? mode === 'new' ? 'Create package' : 'Apply changes' : undefined} onBack={workspace ? () => { setPreview(null); setFresh(false); setReviewed(false); setOpen(true); heading.current?.scrollIntoView?.({ block: 'start' }); heading.current?.focus({ preventScroll: true }); } : undefined} memberChoices={memberChoices} answerChoices={answerChoices} fieldChoices={fieldChoices}
