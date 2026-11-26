@@ -1,3 +1,4 @@
+import { packageDocumentName } from '@/lib/actionPackages';
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { buildPackageDeliveryBundle } from '@/lib/packageDeliveryBundle';
 import { PackageDeliveryFindings } from './PackageDeliveryFindings';
@@ -104,7 +105,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
         <option value="complete">Complete package</option><option value="selected">Selected files only</option>
       </select></label>}
       </div>
-      <div className="min-w-0 space-y-2">{revision.members.map(member => <label key={member.id} className="flex items-start gap-2 break-words"><input type="checkbox" checked={memberIds.includes(member.id)} onChange={event => { invalidate(); setSelection({ ...selection, scope: 'selected', memberIds: event.target.checked ? [...memberIds, member.id] : memberIds.filter(id => id !== member.id) }); }} />Include {member.label}</label>)}</div>
+      <div className="min-w-0 space-y-2">{revision.members.map(member => <label key={member.id} className="flex items-start gap-2 break-words"><input type="checkbox" checked={memberIds.includes(member.id)} onChange={event => { invalidate(); setSelection({ ...selection, scope: 'selected', memberIds: event.target.checked ? [...memberIds, member.id] : memberIds.filter(id => id !== member.id) }); }} />Include {packageDocumentName(revision, member)}</label>)}</div>
       <details><summary className="cursor-pointer text-xs text-muted-foreground">Delivery options</summary><div className="mt-3 space-y-3">
       <label className="block">Delivery purpose<select aria-label="Delivery purpose" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" value={purpose} onChange={event => { invalidate(); setSelection({ ...selection, purpose: event.target.value as typeof purpose }); }}><option value="recipient">Recipient files</option><option value="editable">Editable handoff</option></select></label>
       <p className="text-xs text-muted-foreground">{purpose === 'editable' ? 'An editable handoff includes saved answers and embedded attachments.' : 'Documents are rendered as PDFs. Uploaded files keep their original format.'}</p>

@@ -1,3 +1,4 @@
+import { packageDocumentName } from '@/lib/actionPackages';
 import { PackagePdfRegionReviewPanel } from './PackagePdfRegionReviewPanel';
 import { PackageFormCorrectionPanel } from './PackageFormCorrectionPanel';
 import { PackageFormReviewPanel } from './PackageFormReviewPanel';
@@ -62,10 +63,10 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
           if (packageReviewRoundStatus(round) !== 'active') { setSelected(member.id); return; }
           const result = await preparePackageReviewMember(record, round.id, member.id, signal?.(), () => alive.current && currentView.current === view);
           if (alive.current && currentView.current === view) { onChange(result.record, result.record.reviewRounds!.find(value => value.id === round.id)!); setSelected(member.id); setHistory([]); setFuture([]); }
-        })}>{member.label}</Button>)}
+        })}>{packageDocumentName(round.baseline, member)}</Button>)}
     </nav>
     {member && <>
-      <h4 className="font-medium break-words">{member.label}</h4>
+      <h4 className="font-medium break-words">{packageDocumentName(round.baseline, member)}</h4>
       {member.kind === 'native' && member.session.documentCategory !== 'forms' ? <div role="region" aria-label="Captured member text" tabIndex={0} className="max-h-72 overflow-auto space-y-2 whitespace-pre-wrap break-words rounded border p-3 text-sm">
         {availableCommentFields(member.session).map(field => <p key={field.field}><strong>{field.label}: </strong>{field.value}</p>)}
         {member.session.paragraphs.map((paragraph, index) => <p key={paragraph.id ?? index}>{paragraph.text}</p>)}

@@ -78,7 +78,7 @@ export async function parsePackageReviewReturn(json: string, owner: ActionPackag
 }
 export async function inspectPackageReviewTransfer(parsed: Pick<ParsedPackageReviewTransfer, 'record' | 'round' | 'resources'>, policy: PolicyResolution): Promise<ExportReview[]> {
   const { record, round, resources } = parsed;
-  const reviews = [reviewPackageReviewMetadata(round, policy), reviewPackageText(`${record.id}\n${record.name}`, 'Package review identity', policy)];
+  const reviews = [reviewPackageReviewMetadata(round, policy), reviewPackageText([record.id, record.name, ...Object.values(round.baseline.documentNames ?? {})].join("\n"), 'Package review identity', policy)];
   if (round.baseline.signing) reviews.push(...await reviewPackageSigning(round.baseline.signing, policy, async asset => resources.get(`assets/${asset.id}`)!.data));
   if (round.baseline.templateState) {
     const { reviewConditionalPackage } = await import('./packageConditionalSources');

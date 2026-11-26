@@ -1,6 +1,7 @@
+import { packageDocumentName } from '@/lib/actionPackages';
 import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
 import type { PackageDestination } from '@/lib/packageDestinations';
-import { lazy, Suspense, useLayoutEffect, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useMemo, useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import type { ActionPackage, NativePackageMember } from '@/lib/actionPackages';
 import { getPackageRevision } from '@/lib/actionPackages';
@@ -33,6 +34,7 @@ interface Props extends PackageEditorSurface {
 }
 
 export default function PackageNativeDocumentEditor({ record, member, onFieldReview, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate, onFinishFinding }: Props) {
+  const revision = useMemo(() => getPackageRevision(record), [record]);
   const key = record.id + '/' + member.id;
   const latest = useRef({ record, member, onSave });
   useLayoutEffect(() => { latest.current.onSave = onSave; }, [onSave]);
@@ -137,16 +139,16 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
     <DialogContent fullscreen showCloseButton={false} className="flex min-w-0 flex-col gap-0">
       <header className="flex flex-wrap items-center gap-3 border-b px-4 py-3">
         <Button variant="ghost" size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, onFinishFinding ? false : undefined)}><ArrowLeft />{onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
-        <div><DialogTitle>{record.name}</DialogTitle><DialogDescription>{member.label}</DialogDescription></div>
+        <div><DialogTitle>{record.name}</DialogTitle><DialogDescription>{packageDocumentName(revision, member)}</DialogDescription></div>
         <label className="text-sm">Package document<select aria-label="Package document" className="ml-2 max-w-full rounded-md border bg-background px-2 py-1.5" value={member.id} disabled={disabled || navigating} onChange={event => void navigate(event.target.value)}>
-          {getPackageRevision(record).members.map((item, index) => <option key={item.id} value={item.id}>{index + 1}. {item.label}</option>)}
+          {revision.members.map((item, index) => <option key={item.id} value={item.id}>{index + 1}. {packageDocumentName(revision, item)}</option>)}
         </select></label>
         {onFinishFinding && <Button size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, true)}>Next item</Button>}
         <span className="ml-auto text-sm text-muted-foreground" role="status">{{ saved: 'Saved to package', pending: 'Editing draft', saving: 'Saving…', error: 'Save needs attention' }[status]}</span>
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setShowPreview(!showPreview)}>{showPreview ? 'Show fields' : 'Show preview'}</Button>
         {status === 'error' && <Button size="sm" disabled={disabled || navigating} onClick={() => void flush()}>Retry save</Button>}
       </header>
-      {onFieldReview && <PackageLinkedFieldTools member={member} revision={getPackageRevision(record)} disabled={disabled || navigating || status !== 'saved'} onReview={target => { if (!dirty.current) onFieldReview(target); }} />}
+      {onFieldReview && <PackageLinkedFieldTools member={member} revision={revision} disabled={disabled || navigating || status !== 'saved'} onReview={target => { if (!dirty.current) onFieldReview(target); }} />}
       {(error || navigationError) && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{error || navigationError}</p>}
       <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-2">
         <div className={(showPreview ? 'hidden lg:block ' : '') + 'min-h-0 min-w-0'} inert={disabled || navigating || undefined} ref={owned ? setEditorHost : undefined} />

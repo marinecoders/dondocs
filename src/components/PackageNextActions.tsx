@@ -37,7 +37,7 @@ export function PackageNextActions({ record, revision, checks, disabled, quiet =
     {reviewBaseline && result?.readyForOperation && <p className="text-sm text-muted-foreground">Return to the current package to prepare a new PDF. Saved PDFs remain available in Delivery.</p>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {blockers.slice(0, expanded ? undefined : 3).map(action => <div key={action.id} className="flex items-start justify-between gap-6 text-sm">
-      <p className="min-w-0 break-words">{action.message}</p>
+      <p className="min-w-0 break-words">{action.destination?.memberId && revision.documentNames?.[action.destination.memberId] && <strong className="mr-1 font-medium">{revision.documentNames[action.destination.memberId]}:</strong>}{action.message}</p>
       {action.destination && <Button variant="link" size="sm" className="h-auto shrink-0 p-0" disabled={disabled}
         onClick={() => onNavigate(action.destination!)}>{!reviewBaseline && !record.archived && record.currentRevisionId === revision.id && action.destination.correction ? action.destination.correction.label : action.destination.section === 'documents' ? 'Open document' : 'Open details'}</Button>}
     </div>)}
