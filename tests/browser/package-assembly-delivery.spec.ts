@@ -1,5 +1,5 @@
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
-import { openAddDocuments, openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, newBlankPackage, importPackage as importWorkspacePackage, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
+import { showPackageLibrary, openAddDocuments, openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, newBlankPackage, importPackage as importWorkspacePackage, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -225,4 +225,43 @@ test('complete delivery opens a manual confirmation and selected files remain in
   await delivery.getByLabel('Delivery scope').selectOption('selected');
   await delivery.getByRole('button', { name: 'Prepare selected delivery' }).click();
   await expect(delivery.getByRole('button', { name: 'Download reviewed delivery bundle' })).toBeEnabled();
+});
+
+test('library history identifies the downloaded full editable package and assembled PDF by their bytes', async ({ page, context }) => {
+  await context.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  const workspace = await openPackageWorkspace(page);
+  await newBlankPackage(workspace, 'Synthetic handoffs');
+  const source = await PDFDocument.create();
+  source.addPage().drawText('Synthetic history');
+  await openAddDocuments(workspace);
+  await workspace.getByLabel('Add original PDF').setInputFiles({
+    name: 'Synthetic source.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await source.save()),
+  });
+  await expect(workspace.locator('li[data-selected] h3')).toContainText('Synthetic source');
+  await packageSection(workspace, 'Delivery');
+  const digests: string[] = [];
+  for (const [purpose, prepare, download] of [
+    ['Continue editing', 'Prepare editable package', 'Download editable package'],
+    ['Read or print a PDF', 'Prepare PDF', 'Download PDF'],
+  ]) {
+    const back = workspace.getByRole('button', { name: 'Back to export options' });
+    if (await back.isVisible()) await back.click();
+    await workspace.getByRole('button', { name: purpose, exact: true }).click();
+    await workspace.getByRole('button', { name: prepare, exact: true }).click();
+    const [file] = await Promise.all([page.waitForEvent('download'), workspace.getByRole('button', { name: download, exact: true }).click()]);
+    const hash = createHash('sha256');
+    for await (const chunk of (await file.createReadStream())!) hash.update(chunk);
+    digests.push(hash.digest('hex'));
+    await expect(workspace).toHaveAttribute('aria-busy', 'false');
+  }
+  await showPackageLibrary(workspace);
+  const library = workspace.getByRole('list', { name: 'Saved packages' });
+  await library.getByText('Prepared handoffs', { exact: true }).click();
+  const selected = library.getByLabel('Prepared delivery');
+  await expect(selected.locator('option')).toHaveCount(2);
+  await library.getByText('File checksums', { exact: true }).click();
+  await expect(library.getByText(digests[1], { exact: false })).toBeVisible();
+  await selected.selectOption({ index: 1 });
+  await expect(library.getByText(digests[0], { exact: false })).toBeVisible();
 });

@@ -1,3 +1,4 @@
+import { rememberPackageHandoff } from '@/lib/packageHandoffHistory';
 import { readDeliveryChoices, type PackageDeliveryChoice } from '@/lib/packageDeliveryChoices';
 import { packageDocumentName } from '@/lib/actionPackages';
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
@@ -8,7 +9,7 @@ import type { PackageDestination } from '@/lib/packageDestinations';
 import { PackageDeliveryPreview } from './PackageDeliveryPreview';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
-import { preparePackageDelivery, buildPackageDeliveryFile, assertPackageDeliveryPolicy, type PackageDeliverySelection, type PreparedPackageDelivery } from '@/lib/packageDelivery';
+import { describePreparedHandoff, preparePackageDelivery, buildPackageDeliveryFile, assertPackageDeliveryPolicy, type PackageDeliverySelection, type PreparedPackageDelivery } from '@/lib/packageDelivery';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { triggerDownload } from '@/lib/encoding';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
@@ -146,7 +147,10 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length && !choice || unavailableChoice || loadingChoices} onClick={() => void perform(async (current, operationSignal) => {
         const policy = await getExportDeploymentPolicy();
         const value = await preparePackageDelivery(record, revision.id, { label, purpose, scope, memberIds, choiceId: choice?.id, taggedNativePdfs: canTagNativePdfs && taggedNativePdfs }, policy, ports, operationSignal, current);
-        if (current()) { preparedPolicy.current = policy.status === 'ready' ? JSON.stringify(policy.policy) : undefined; setFindings([]); setPrepared(value); setApproved(false); setReviewCount(10); setFileCount(25); callback.current?.(value); }
+        if (current()) { preparedPolicy.current = policy.status === 'ready' ? JSON.stringify(policy.policy) : undefined; setFindings([]); setPrepared(value); setApproved(false); setReviewCount(10); setFileCount(25); callback.current?.(value);
+          try { await rememberPackageHandoff(describePreparedHandoff(value)); }
+          catch { if (current()) setError('Delivery is ready. Its history could not be saved on this device.'); }
+        }
       })}>Prepare selected delivery</Button>
     </fieldset>
     {prepared && <section aria-label="Captured delivery contents" className="min-w-0 space-y-3 border-t pt-3">

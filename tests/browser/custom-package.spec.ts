@@ -152,3 +152,38 @@ test('finds documents by type and form number without leaving the package', asyn
   await expect(workspace.getByRole('heading', { name: /3\..*LIBRARY FIRST/i })).toBeVisible();
   await expect(workspace.getByRole('navigation', { name: 'Package documents' }).getByRole('button', { name: /^[0-9]+[.]/ })).toHaveCount(3);
 });
+
+test('recalls the exact files in two prepared deliveries from the same revision', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing', exact: true }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newPackage(workspace);
+  const custom = workspace.getByRole('group', { name: 'Custom package', exact: true });
+  await custom.getByLabel('Package name').fill('Training handoffs');
+  await custom.getByRole('button', { name: 'Create package' }).click();
+  for (const [index, name] of ['First.pdf', 'Second.pdf'].entries()) {
+    await openAddDocuments(workspace);
+    const pdf = await PDFDocument.create();
+    pdf.addPage().drawText(name);
+    await workspace.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name, mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
+    await expect(await packageHeading(workspace, (index + 1) + '. ' + name)).toBeVisible();
+  }
+  await packageSection(workspace, 'Delivery');
+  await workspace.getByRole('button', { name: 'Receive original files' }).click();
+  const prepare = workspace.getByRole('button', { name: 'Prepare selected delivery' });
+  await workspace.getByLabel('Delivery name').fill('Both documents');
+  await prepare.click();
+  const captured = workspace.getByRole('region', { name: 'Captured delivery contents' });
+  await expect(captured.getByText(/2 included documents/)).toBeVisible();
+  await workspace.getByLabel('Include Second.pdf').uncheck();
+  await workspace.getByLabel('Delivery name').fill('First document only');
+  await prepare.click();
+  await expect(captured.getByText(/1 included documents?/)).toBeVisible();
+  await page.reload();
+  const reopened = await openPackageWorkspace(page);
+  const back = reopened.getByRole('button', { name: 'Back to packages' });
+  if (await back.isVisible()) await back.click();
+  await reopened.getByText('Prepared handoffs', { exact: true }).click();
+  await expect(reopened.getByLabel('Prepared delivery')).toContainText('First document only');
+  await expect(reopened.getByText('Removed', { exact: true }).locator('..').filter({ hasText: 'Second.pdf' })).toBeVisible();
+});

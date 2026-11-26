@@ -51,6 +51,22 @@ export async function assertPackageDeliveryCurrent(prepared: PreparedPackageDeli
   assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync());
 }
 export function copyPreparedPackageDeliveryProjection(prepared: PreparedPackageDelivery): ActionPackage { return structuredClone(capture(prepared).projection); }
+export function describePreparedHandoff(prepared: PreparedPackageDelivery): import('./packageHandoffHistory').PackageHandoff {
+  const captured = capture(prepared), revision = captured.projection.revisions[0];
+  const source = captured.source.revisions.find(item => item.id === prepared.sourceRevisionId);
+  if (!source) throw new Error('The source revision for this delivery is unavailable.');
+  const revisions = new Map(source.members.map(member => [member.id, member.revisionId]));
+  return { id: prepared.revisionId, packageId: prepared.sourcePackageId, revisionId: prepared.sourceRevisionId,
+    createdAt: revision.createdAt, label: prepared.packageName, purpose: prepared.purpose,
+    members: revision.members.map((member, index) => {
+      const assets = member.kind === 'native' ? [member.draft, ...Object.values(member.templates ?? {})]
+        : [member.original, ...(member.kind === 'original' && member.printableCopy ? [member.printableCopy.asset] : [])];
+      return { id: member.id, role: member.role, revisionId: revisions.get(member.id), label: prepared.members[index].label,
+        files: assets.map(({ name, sha256 }) => ({ name, sha256 })) };
+    }),
+  };
+}
+
 export async function readPreparedPackageDeliveryAsset(prepared: PreparedPackageDelivery, asset: PackageAsset): Promise<ArrayBuffer> {
   const saved = capture(prepared).assets.get(asset.id);
   if (!saved || !sameReviewStoredValue(saved.asset, asset)) throw new Error('This file is outside the captured delivery scope.');
