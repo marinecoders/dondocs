@@ -77,6 +77,9 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
   const byDocument = new Map<string, PackageRequirementFinding[]>();
   const remaining: PackageRequirementFinding[] = [];
   for (const item of checked?.findings ?? []) {
+    // The primary intake button already presents this package-wide instruction.
+    if (!pdfDisabled && firstDestination?.panel === 'intake' && item.fromIntake && !item.memberId && !item.question
+      && item.message === firstAction?.message) continue;
     if (item.question || !item.memberId || !documents.members.has(item.memberId)) { remaining.push(item); continue; }
     const group = byDocument.get(item.memberId);
     if (group) group.push(item);

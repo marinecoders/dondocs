@@ -72,3 +72,23 @@ it('opens the exact missing signature and keeps read-only corrections on the sav
   fireEvent.click(next.getByRole('button', { name: 'Open document' }));
   expect(props.onNavigate).toHaveBeenLastCalledWith({ revisionId: revision.id, memberId: member.id, section: 'documents' });
 });
+
+
+it('shows a package-wide intake correction once and keeps separate requirements visible', async () => {
+  const revision = { id: 'saved', createdAt: 1, members: [], outputs: [] };
+  const message = 'Apply the saved intake changes before reviewing or assembling this package.';
+  const findings: requirements.PackageRequirementFinding[] = [
+    { id: 'intake:0', fromIntake: true, kind: 'document', label: 'Package details', state: 'missing', message },
+    { id: 'confirmation', kind: 'document', label: 'Confirm authority', state: 'missing', message: 'Confirm the approving authority.' },
+  ];
+  vi.spyOn(requirements, 'assertDeliveryRequirements').mockRejectedValue(new requirements.PackageDeliveryBlocked(findings));
+  const action = { id: 'intake-0', kind: 'intake' as const, blocking: true, label: 'Resolve saved intake', message, destination: { panel: 'intake' as const } };
+  const result = { operation: 'pdf' as const, readyForOperation: false, computedBlockers: 2, pendingTasks: 0, actions: [action] };
+  const onNavigate = vi.fn();
+  render(<PackageExportOptions revision={revision} checks={{ result, error: undefined }} active canSign format="pdf" disabled={false}
+    pdfDisabled={false} onPrepare={vi.fn()} onOpenDocument={vi.fn()} onFormat={vi.fn()} onNavigate={onNavigate} />);
+  expect(await screen.findByText('Confirm the approving authority.')).toBeVisible();
+  expect(screen.getAllByText(message)).toHaveLength(1);
+  fireEvent.click(screen.getByRole('button', { name: 'Complete package details' }));
+  expect(onNavigate).toHaveBeenCalledWith({ revisionId: revision.id, panel: 'intake' });
+});
