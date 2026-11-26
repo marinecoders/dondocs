@@ -57,5 +57,17 @@
     "downloadCategory": "Personnel",
     "requiresDesktopReader": true,
     "source": "https://dso.dla.mil/DONNavyForms-RequestService/api/forms/6243/file"
+  },
+  {
+    "id": "okinawa_tla_guide",
+    "edition": "2022-2023",
+    "name": "Okinawa TLA - Arrival and departure filing guides.pdf",
+    "directory": "references/okinawa-tla/2022-2023",
+    "file": "guide.pdf",
+    "sha256": "a6b5a1609e6b80e07a5a0814815f12a232099a050949546f6da9a89925727a8a",
+    "sources": [
+      "https://www.okinawa.usmc-mccs.org/modules/media/?do=inline&id=a40939ce-a012-4f5e-8b90-52e7f3d926df",
+      "https://www.okinawa.usmc-mccs.org/modules/media/?do=inline&id=a07d2b94-2fb6-47ed-8270-5ff30a64e1c1"
+    ]
   }
 ]

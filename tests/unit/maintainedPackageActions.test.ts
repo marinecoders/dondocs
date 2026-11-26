@@ -160,3 +160,16 @@ it('selects the required documents for okinawa-cola', async () => {
   expect(selected({ coverage: 'mem' })).toEqual(['application', 'orders']);
   for (const coverage of ['both', 'dep']) expect(selected({ coverage })).toEqual(['application', 'orders', 'dependent-arrival']);
 });
+
+it('selects the required documents for okinawa-tla', async () => {
+  serveOfficialForms();
+  const template = await maintainedPackageAction('okinawa-tla');
+  const selected = (values: Record<string, string | boolean>) => listConditionalPackageInstances(template, { version: 1, groups: {}, values })
+    .filter(member => member.condition === true).map(member => member.memberKey);
+  expect(selected({ direction: 'arrival', offBase: false, extension: false, terminalReceipt: false, finalClaim: false }))
+    .toEqual(['claim', 'orders', 'receipts', 'data-sheet', 'acknowledgment', 'statement']);
+  expect(selected({ direction: 'arrival', offBase: true, extension: true, terminalReceipt: true, finalClaim: true }))
+    .toEqual(['claim', 'orders', 'receipts', 'data-sheet', 'acknowledgment', 'statement', 'availability', 'terminal', 'extension', 'quarters']);
+  expect(selected({ direction: 'departure', offBase: true, separation: true, billeting: true, extension: true, finalClaim: true }))
+    .toEqual(['claim', 'orders', 'receipts', 'statement', 'availability', 'termination', 'itinerary', 'billeting-letter', 'dmo']);
+});
