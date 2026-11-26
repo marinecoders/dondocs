@@ -104,7 +104,9 @@ test('correspondence edits, previews and recovery stay with the selected package
   const originalMember = await picker.inputValue(), other = ids.find(id => id !== originalMember)!;
   await section.selectOption('addressing');
   await subject.fill('SYNTHETIC ALPHA');
-  await subject.blur();
+  await subject.press('Control+s');
+  await expect(editor.getByText('Saved to package', { exact: true })).toBeVisible();
+  await expect(subject).toBeFocused();
   await checkPreview(editor, page, 'SYNTHETIC ALPHA');
   await picker.selectOption(other);
   await expect(picker).toHaveValue(other);

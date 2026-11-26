@@ -5,12 +5,14 @@ import { currentPackageFormRecord, packageFormValues, savePackageFormValues, typ
 import { parseFormInstance } from '@/services/forms/model';
 import { normalizeNavmc11811 } from '@/stores/formStore';
 
+import type { PackageEditorSavePhase } from './PackageEditorSaveControls';
+
 type Journal = Awaited<ReturnType<typeof openPackageEditDraft>>;
-type Phase = 'opening' | 'saved' | 'pending' | 'saving' | 'error';
 
 export function usePackageFormEditor(record: ActionPackage, member: NativePackageMember, onSave: (next: ActionPackage) => void) {
   const [values, setValues] = useState(() => packageFormValues(member));
-  const [phase, setPhase] = useState<Phase>('opening');
+  const [phase, setPhase] = useState<PackageEditorSavePhase>('opening');
+  const [openAttempt, setOpenAttempt] = useState(0);
   const recovery = useRef<Journal | null>(null);
   const [canDiscardRecovery, setCanDiscardRecovery] = useState(false);
   const [ready, setReady] = useState(false);
@@ -23,6 +25,7 @@ export function usePackageFormEditor(record: ActionPackage, member: NativePackag
 
   useEffect(() => {
     const abort = new AbortController();
+    recovery.current = null;
     controller.current = abort;
     const local = state.current;
     const scope = JSON.stringify([local.record.id, local.member.id, 'official-form']);
@@ -58,7 +61,7 @@ export function usePackageFormEditor(record: ActionPackage, member: NativePackag
     const warn = (event: BeforeUnloadEvent) => { if (local.dirty) event.preventDefault(); };
     window.addEventListener('beforeunload', warn);
     return () => { abort.abort(); window.removeEventListener('beforeunload', warn); };
-  }, []);
+  }, [openAttempt]);
 
   async function discardRecovery() {
     const journal = recovery.current;
@@ -88,7 +91,10 @@ export function usePackageFormEditor(record: ActionPackage, member: NativePackag
     setValues(next); setPhase('pending'); setError('');
     // The journal contains answers only. Package revisions retain ownership of the PDF and definition.
     void local.journal.save({ revisionId: local.member.revisionId, values: next }).catch(cause => {
-      if (!controller.current?.signal.aborted && local.values === next && local.dirty) setError(cause.message);
+      if (!controller.current?.signal.aborted && local.values === next && local.dirty) {
+        setPhase('error');
+        setError(cause instanceof Error ? cause.message : 'Could not store a recovery copy of these answers.');
+      }
     });
   }
 
@@ -106,6 +112,7 @@ export function usePackageFormEditor(record: ActionPackage, member: NativePackag
           const editing = local.values;
           setPhase('saving'); setError('');
           await journal.save({ revisionId: local.member.revisionId, values: editing });
+          signal.throwIfAborted();
           const base = await currentPackageFormRecord(local.record, local.member);
           const next = await savePackageFormValues(base, local.member, editing, signal);
           signal.throwIfAborted();
@@ -129,5 +136,9 @@ export function usePackageFormEditor(record: ActionPackage, member: NativePackag
     return running.current;
   }
 
-  return { values, change, flush, phase, error, ready, canDiscardRecovery, discardRecovery, latest: () => state.current.values };
+  function retryOpen() {
+    setReady(false); setCanDiscardRecovery(false); setError(''); setPhase('opening');
+    setOpenAttempt(attempt => attempt + 1);
+  }
+  return { values, change, flush, retryOpen, phase, error, ready, canDiscardRecovery, discardRecovery, latest: () => state.current.values };
 }

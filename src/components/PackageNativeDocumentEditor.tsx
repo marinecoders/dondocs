@@ -1,5 +1,6 @@
 import { packageDocumentName } from '@/lib/actionPackages';
-import { usePackageEditorNavigation } from './usePackageEditorNavigation';
+import { handlePackageSaveShortcut, usePackageEditorNavigation } from './usePackageEditorNavigation';
+import { PackageEditorSaveControls, type PackageEditorSavePhase } from './PackageEditorSaveControls';
 import { PackageDocumentSwitcher } from './PackageDocumentSwitcher';
 import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
 import type { PackageDestination } from '@/lib/packageDestinations';
@@ -42,7 +43,7 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
   useLayoutEffect(() => { latest.current.onSave = onSave; }, [onSave]);
   const [recovered] = useState(() => !!readFormLocation(key + '/unsaved'));
   const dirty = useRef(recovered);
-  const [status, setStatus] = useState<'saved' | 'pending' | 'saving' | 'error'>(recovered ? 'pending' : 'saved');
+  const [status, setStatus] = useState<PackageEditorSavePhase>(recovered ? 'pending' : 'saved');
   const [error, setError] = useState('');
   const [showPreview, setShowPreview] = useState(false);
   const operation = useRef<AbortController | null>(null);
@@ -122,11 +123,20 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
     return () => { unsubscribeDocument(); unsubscribeForm(); clearTimeout(timer.current); controller.abort(); window.removeEventListener('beforeunload', warn); };
   }, [documentId, key]);
 
-  const { navigate: switchDocument, navigating, navigationError: switchError } = usePackageEditorNavigation(() => {
+  function flushInput() {
     // Commit a buffered native input before comparing the active revision.
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
     return flush();
-  });
+  }
+  const { navigate: switchDocument, navigating, navigationError: switchError } = usePackageEditorNavigation(flushInput);
+  function save() {
+    if (disabled || navigating) return;
+    const field = document.activeElement;
+    void flushInput();
+    // Blur commits buffered inputs. Keep the user's caret when saving from the keyboard.
+    if (field instanceof HTMLElement && field.matches('input, textarea, [contenteditable="true"]') &&
+        field.isConnected && document.activeElement === document.body) field.focus({ preventScroll: true });
+  }
 
   function navigate(id?: string, finish?: boolean) {
     if (disabled) return;
@@ -139,16 +149,15 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
   }
   const activePreview = preview.documentId === documentId && preview.url;
   return <Dialog open onOpenChange={open => { if (!open) void navigate(undefined, onFinishFinding ? false : undefined); }}>
-    <DialogContent fullscreen showCloseButton={false} className="flex min-w-0 flex-col gap-0">
+    <DialogContent onKeyDown={event => handlePackageSaveShortcut(event, save)} fullscreen showCloseButton={false} className="flex min-w-0 flex-col gap-0">
       <header className="flex flex-wrap items-center gap-3 border-b px-4 py-3">
         <Button variant="ghost" size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, onFinishFinding ? false : undefined)}><ArrowLeft />{onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
         <div><DialogTitle>{record.name}</DialogTitle><DialogDescription>{packageDocumentName(revision, member)}</DialogDescription></div>
         <PackageDocumentSwitcher history={record.revisions} revision={revision} memberId={member.id} disabled={disabled || navigating}
           onSelect={id => void navigate(id)} />
         {onFinishFinding && <Button size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, true)}>Next item</Button>}
-        <span className="ml-auto text-sm text-muted-foreground" role="status">{{ saved: 'Saved to package', pending: 'Editing draft', saving: 'Saving…', error: 'Save needs attention' }[status]}</span>
+        <PackageEditorSaveControls phase={status} disabled={disabled || navigating} onSave={save} />
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setShowPreview(!showPreview)}>{showPreview ? 'Show fields' : 'Show preview'}</Button>
-        {status === 'error' && <Button size="sm" disabled={disabled || navigating} onClick={() => void flush()}>Retry save</Button>}
       </header>
       {onFieldReview && <PackageLinkedFieldTools record={record} onSave={next => { latest.current.record = next; onSave(next); }} member={member} revision={revision} disabled={disabled || navigating || status !== 'saved'} onReview={target => { if (!dirty.current) onFieldReview(target); }} />}
       {(error || switchError || navigationError) && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{error || switchError || navigationError}</p>}
