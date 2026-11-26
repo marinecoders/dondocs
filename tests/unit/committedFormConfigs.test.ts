@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { canonicalJson } from '@/lib/canonicalJson';
-import { officialEdition } from '@/services/forms/nativeCatalog';
+import { hasNativeWidgets, officialEdition } from '@/services/forms/nativeCatalog';
 import { compileFormDefinition } from '@/services/forms/model';
 
 const root = join(process.cwd(), 'public/templates');
@@ -19,7 +19,7 @@ describe('committed form packages', () => {
       expect(d.definitionRevision).toBe(row.definitionRevision);
       if (d.nativePdfEdition) {
         const edition = officialEdition(d.formId, d.nativePdfEdition);
-        expect(edition?.format).toBe('acroform');
+        expect(hasNativeWidgets(edition?.format)).toBe(true);
         expect(edition?.directory).toBe(d.directory);
         expect(createHash('sha256').update(canonicalJson(d)).digest('hex')).toBe(edition?.definitionSha256);
         expect(row.pages).toEqual([edition!.file]);
