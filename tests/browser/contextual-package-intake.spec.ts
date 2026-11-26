@@ -340,4 +340,5 @@ test('shows missing evidence in Documents before the first file is supplied', as
   await expect(requirements.getByText('Original supporting PDF', { exact: true })).toBeVisible();
   await requirements.getByRole('button', { name: 'Add files' }).click();
   await expect(panel.getByLabel('PDF for Original supporting PDF')).toBeVisible();
+  await expect(dialog.getByRole('navigation', { name: 'Package workspace' }).getByRole('button', { name: 'Documents' })).toHaveAttribute('aria-current', 'location');
 });
