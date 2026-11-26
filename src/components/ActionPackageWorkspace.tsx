@@ -1034,17 +1034,7 @@ function PackageDialog({
                   {record && revision && revision.id !== record.currentRevisionId && !openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => changeRevision(record.currentRevisionId)}><ArrowLeft aria-hidden="true" className="size-4" />Back to current version</Button>}
                   {record && openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => { select(record); mainScroll.current?.scrollTo?.({ top: 0 }); }}><ArrowLeft aria-hidden="true" className="size-4" />Back to current package</Button>}
                 </header>
-                {pendingPackageEdits && !((workspaceSection === 'overview' || documentsIntake) && editingIntake && intakeDirty) && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
-                <div hidden={workspaceSection !== 'overview' && !documentsIntake} className="mb-5 empty:hidden">
-                  {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel workspace destination={destination} resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
-            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction} onEditingChange={setEditingIntake}
-            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense>}
-                </div>
-                <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
-                  {record && revision && <PackageNextActions checks={packageChecks} quiet={editingIntake || informationDirty} record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
-                  {creating && !creatingAction && <fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 space-y-3">
+                  {creating && !creatingAction && <fieldset disabled={!loaded || busy || pendingPackageEdits} className="mb-6 max-w-lg min-w-0 space-y-2">
           <legend className="text-sm font-medium">Custom package</legend>
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
@@ -1071,6 +1061,21 @@ function PackageDialog({
             </Button>
           </div>
                     </fieldset>}
+                {pendingPackageEdits && !((workspaceSection === 'overview' || documentsIntake) && editingIntake && intakeDirty) && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
+                <div hidden={workspaceSection !== 'overview' && !documentsIntake} className="mb-5 empty:hidden">
+                  {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
+          <PackageIntakePanel workspace catalogOptions={creating ? { 'administrative-request': <details><summary className="cursor-pointer text-sm font-medium">Start with a reviewed worksheet</summary><div tabIndex={-1} data-package-panel="request-starter" className="mt-5"><Suspense fallback={<p>Loading request starter…</p>}>
+          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} busy={busy} run={run}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
+            onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
+        </Suspense></div></details> } : undefined} destination={destination} resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction} onEditingChange={setEditingIntake}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense>}
+                </div>
+                <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
+                  {record && revision && <PackageNextActions checks={packageChecks} quiet={editingIntake || informationDirty} record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
+
 
                   <div hidden={!creating || creatingAction} className="space-y-7">
 
@@ -1136,11 +1141,7 @@ function PackageDialog({
           </details>
 
         </fieldset></div></details>
-                    <details><summary className="cursor-pointer text-sm font-medium">Other starters</summary><div tabIndex={-1} data-package-panel="request-starter" className="mt-5"><Suspense fallback={<p>Loading request starter…</p>}>
-          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} busy={busy} run={run}
-            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
-            onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
-        </Suspense></div></details>
+
                   </div>
                   {record && revision && <details open={!revision.templateState || informationDirty || fieldReviewPackage === record.id}><summary hidden={!revision.templateState} className="cursor-pointer text-sm">Field links</summary><Suspense fallback={<p role="status">Loading package information…</p>}>
           <PackageInformationPanel workspace={!revision.templateState} recoverEdits record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} busy={busy} run={run} onApply={update}

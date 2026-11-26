@@ -213,7 +213,7 @@ it("preserves request intake through close and queued selection until the user c
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const user = userEvent.setup(), dialog = await screen.findByRole("dialog", { name: "Action packages" });
   await startNewPackage(dialog, user);
-  await user.click(within(dialog).getByText("Other starters", { exact: true }));
+  await user.click(within(dialog).getByText("Start with a reviewed worksheet", { exact: true }));
   await user.click(await within(dialog).findByRole("button", { name: "Start an administrative request" }));
   const starter = within(dialog).getByRole("region", { name: "Administrative request starter" });
   await user.type(within(starter).getByLabelText("Requester", { exact: true }), "Unfinished request");
@@ -880,7 +880,7 @@ it('reviews and creates a request through its own busy parent controller', async
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
   await startNewPackage(dialog, user);
-  await user.click(within(dialog).getByText('Other starters', { exact: true }));
+  await user.click(within(dialog).getByText('Start with a reviewed worksheet', { exact: true }));
   const start = await within(dialog).findByRole('button', { name: 'Start an administrative request' });
   await waitFor(() => expect(start).toBeEnabled()); await user.click(start);
   const starter = within(dialog).getByRole('region', { name: 'Administrative request starter' });

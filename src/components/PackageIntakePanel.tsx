@@ -4,7 +4,7 @@ import { matchesPackageDestination, type PackageDestinationRequest } from '@/lib
 import { PackageRevisionPicker } from './PackageRevisionPicker';
 import { packageRevisionSources } from '@/lib/packageRevisionSources';
 import type { ConditionalPdfChoice } from '@/lib/packageConditional';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { PackageIntakeQuestions } from './PackageIntakeQuestions';
 import { PackageIntakeScope } from './PackageIntakeScope';
@@ -30,6 +30,7 @@ import { clearPackageNewActionContext, rememberPackageNewActionContext, type Pac
 const inputClass = 'mt-1 w-full min-w-0 rounded border bg-background p-2';
 const buttonClass = 'h-auto min-h-9 max-w-full whitespace-normal';
 interface Props {
+  catalogOptions?: Partial<Record<MaintainedPackageActionId, ReactNode>>;
   destination?: PackageDestinationRequest;
   record?: ActionPackage;
   revision?: PackageRevision;
@@ -63,7 +64,8 @@ const recoveredIntake = z.object({
   fieldChoices: z.record(z.string().max(500), z.enum(['apply-package', 'keep-local', 'detach', 'reconnect'])),
 }).strict();
 
-export function PackageIntakePanel({ destination, record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, onEditingChange, resume }: Props) {
+export function PackageIntakePanel({ catalogOptions, destination, record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, onEditingChange, resume }: Props) {
+  const [search, setSearch] = useState('');
   const ownerScope = scope(record, revision);
   const [template, setTemplate] = useState<PackageTemplateV2 | null>(null), [answers, setAnswers] = useState(emptyAnswers);
   const [mode, setMode] = useState<'none' | 'new' | 'saved'>('none'), [name, setName] = useState('');
@@ -304,7 +306,12 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
     invalidate(); const next = { ...values }; if (value === undefined) delete next[key]; else next[key] = value; set(next);
   }
   const catalogLocked = viewDisabled || dirty;
-  const catalog = <div className="grid min-w-0 gap-3 md:grid-cols-3">{maintainedPackageActions.map(action => <article key={action.id} className="min-w-0 space-y-2 rounded border p-3">
+  const query = search.trim().toLocaleLowerCase();
+  const matches = maintainedPackageActions.filter(action => [action.name, action.description, action.kind].some(text => text.toLocaleLowerCase().includes(query)));
+  const catalog = <div className="space-y-3"><label className="block max-w-md text-sm">Search actions
+    <input type="search" className={inputClass} value={search} disabled={catalogLocked} onChange={event => setSearch(event.target.value)} /></label>
+    {!matches.length && <p className="text-sm">No matching actions. <Button variant="link" size="sm" onClick={() => setSearch('')}>Clear search</Button></p>}
+    <div className="grid min-w-0 gap-3 md:grid-cols-3">{matches.map(action => <article key={action.id} className="min-w-0 space-y-2 rounded border p-3">
     <p className="text-xs text-muted-foreground">{action.kind}</p><h4 className="font-medium">{action.name}</h4><p className="text-sm text-muted-foreground">{action.description}</p>
     <Button className={buttonClass} variant="outline" disabled={catalogLocked} onClick={() => void perform(async capture => {
       const selected = await maintainedPackageAction(action.id);
@@ -314,7 +321,8 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
         if (current(capture)) onStartWithDocuments(next);
       } else choose(selected, action.id);
     })}>{action.startLabel ?? `Start ${action.name.toLocaleLowerCase()}`}</Button>
-  </article>)}</div>;
+    {catalogOptions?.[action.id]}
+  </article>)}</div></div>;
   return <section tabIndex={-1} data-package-panel="intake" aria-label="Action intake" className={`min-w-0 space-y-4 ${workspace && mode !== 'saved' && !loading ? '' : 'rounded-lg border bg-background p-3 sm:p-4'}`} aria-busy={pending || loading}>
     <div className="space-y-1">
       {mode === 'new' && <Button className={buttonClass} variant="outline" disabled={viewDisabled} onClick={() => void backToActions()}>Back to actions</Button>}
