@@ -1,3 +1,4 @@
+import { packageDocumentName } from '@/lib/actionPackages';
 import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import { useEffect, useId, useRef, useState, type ComponentProps } from 'react';
@@ -114,7 +115,7 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
         <div className={(mobilePreview ? "hidden lg:block " : "") + "min-w-0 space-y-4 lg:overflow-y-auto lg:px-1"}>
           <label className="block space-y-1 text-sm font-medium">{revision.members.some(m => m.kind !== 'native' || m.session.documentCategory !== 'forms') ? 'Package document' : 'Package form'}
             <select className={selectClass} value={member.id} disabled={leaving} onChange={event => { const id = event.target.value; void navigate(() => onNavigate(id)); }}>
-              {revision.members.map((m, i) => <option key={m.id} value={m.id}>{i + 1}. {m.label}</option>)}
+              {revision.members.map((m, i) => <option key={m.id} value={m.id}>{i + 1}. {packageDocumentName(revision, m)}</option>)}
             </select>
           </label>
           <div className="text-sm">

@@ -1,3 +1,4 @@
+import { packageDocumentName } from '@/lib/actionPackages';
 import type { ReactNode } from 'react';
 import { FileText, Files, History, Paperclip } from 'lucide-react';
 import type { ActionPackage, PackageMember, PackageRevision } from '@/lib/actionPackages';
@@ -58,7 +59,8 @@ function memberKind(member: PackageMember): string {
   return member.session.documentCategory === 'forms' ? 'Editable form' : 'Editable document';
 }
 
-export function PackageMemberNavigation({ members, selectedId, disabled, onSelect }: {
+export function PackageMemberNavigation({ revision, members, selectedId, disabled, onSelect }: {
+  revision: PackageRevision;
   members: readonly PackageMember[];
   selectedId?: string;
   disabled: boolean;
@@ -69,7 +71,7 @@ export function PackageMemberNavigation({ members, selectedId, disabled, onSelec
     <label className="block text-sm lg:hidden">Document to inspect
       <select aria-label="Document to inspect" className="mt-1 w-full min-w-0 rounded border bg-background p-2"
         value={selectedId ?? ''} disabled={disabled} onChange={event => onSelect(event.target.value)}>
-        {members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {member.label} · {memberKind(member)}</option>)}
+        {members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {packageDocumentName(revision, member)} · {memberKind(member)}</option>)}
       </select>
     </label>
     <div className="hidden space-y-1 lg:block">
@@ -79,7 +81,7 @@ export function PackageMemberNavigation({ members, selectedId, disabled, onSelec
         className={`flex w-full min-w-0 items-start gap-2 rounded-md px-2 py-2.5 text-left text-sm disabled:opacity-50 ${selectedId === member.id ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'}`}
         onClick={() => onSelect(member.id)}>
         {member.kind !== 'native' ? <Paperclip className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <FileText className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
-        <span className="min-w-0 break-words"><span className="font-medium">{index + 1}. {member.label}</span><span className="block text-xs text-muted-foreground">{memberKind(member)}</span></span>
+        <span className="min-w-0 break-words"><span className="font-medium">{index + 1}. {packageDocumentName(revision, member)}</span><span className="block text-xs text-muted-foreground">{memberKind(member)}</span></span>
       </button>)}
     </div>
   </nav>;

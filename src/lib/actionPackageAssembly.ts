@@ -290,6 +290,7 @@ export async function preparePackageAssembly(
       review: reviewPackageText(
         [
           owned.name,
+          ...Object.values(revision.documentNames ?? {}),
           ...packageAssets({ ...owned, revisions: [revision], reviewRounds: undefined }).map(
             (asset) => asset.name,
           ),

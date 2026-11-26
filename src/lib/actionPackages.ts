@@ -150,6 +150,7 @@ export const packageRevisionSchema = z
     parentId: id.optional(),
     createdAt: z.number().int().nonnegative(),
     members: z.array(packageMemberSchema).max(100),
+    documentNames: z.record(id, z.string().trim().min(1).max(120)).optional(),
     outputs: z.array(outputSchema).max(20),
     citations: packageCitationsSchema.optional(),
     information: packageInformationSchema.optional(),
@@ -558,6 +559,25 @@ function shortenPackageLabel(name: string, limit: number): string {
 export function packageMemberLabel(name: string): string {
   return shortenPackageLabel(name, 120);
 }
+export function packageDocumentName(revision: PackageRevision, member: PackageMember): string {
+  return revision.documentNames && Object.hasOwn(revision.documentNames, member.id) ? revision.documentNames[member.id] : member.label;
+}
+
+export async function namePackageDocument(record: ActionPackage, memberId: string, value: string, signal?: AbortSignal) {
+  const current = getPackageRevision(record);
+  const member = current.members.find(item => item.id === memberId);
+  if (!member || record.archived) throw new Error("Open the current package to name this document.");
+  const name = value.trim();
+  const documentNames = { ...current.documentNames };
+  if (!name || name === member.label) delete documentNames[memberId];
+  else documentNames[memberId] = name;
+  const revision = { ...current, documentNames, id: newPackageId("revision"), parentId: current.id, createdAt: Date.now() };
+  const workingCopies = record.workingCopies?.map(copy => copy.revisionId === current.id
+    ? { ...copy, revisionId: revision.id } : copy);
+  return commitActionPackage(record, { ...record, ...(workingCopies && { workingCopies }),
+    currentRevisionId: revision.id, sequence: record.sequence + 1, revisions: [...record.revisions, revision] }, signal);
+}
+
 export function getPackageRevision(
   record: ActionPackage,
   revisionId = record.currentRevisionId,
@@ -608,7 +628,17 @@ export async function commitActionPackage(
   jobPublish?: import("./packageJobModel").PackageJobPublication,
   rosterPublish?: import("./packageRosterModel").PackageRosterPublish,
 ): Promise<ActionPackage> {
-  const after = actionPackageSchema.parse(structuredClone(value));
+  const next = structuredClone(value);
+  if (before && next.revisions.length === before.revisions.length + 1) {
+    const added = next.revisions[next.revisions.length - 1];
+    const names = added.documentNames ?? before.revisions.find(item => item.id === added.parentId)?.documentNames;
+    if (names) {
+      const retained = added.members.filter(member => Object.hasOwn(names, member.id));
+      if (retained.length) added.documentNames = Object.fromEntries(retained.map(member => [member.id, names[member.id]]));
+      else delete added.documentNames;
+    }
+  }
+  const after = actionPackageSchema.parse(next);
   const publication = typeof jobPublish === 'function' ? jobPublish : jobPublish && structuredClone(jobPublish);
   const roster = rosterPublish && structuredClone(rosterPublish);
   const { validateActionPackageResources } = await import(

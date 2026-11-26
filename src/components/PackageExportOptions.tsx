@@ -1,5 +1,6 @@
 import type { usePackageChecks } from '@/components/usePackageChecks';
 import { DocumentPdfChecks } from './PackageNextActions';
+import { packageDocumentName } from '@/lib/actionPackages';
 import { useEffect, useMemo, useState } from 'react';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import type { PackageRequirementFinding } from '@/lib/packageRequirements';
@@ -83,7 +84,7 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
         const summary = [signatures && `${signatures} signature${signatures === 1 ? '' : 's'} needed`,
           otherIssues && `${otherIssues} item${otherIssues === 1 ? '' : 's'} to resolve`].filter(Boolean).join(' · ');
         return <li key={member.id} className="py-3">
-          <div className="flex items-center gap-4"><span className="text-xs text-muted-foreground">{index + 1}</span><span className="min-w-0 flex-1 break-words text-sm">{member.label}</span><Button variant="link" size="sm" disabled={disabled} onClick={() => onOpenDocument(member.id)}>Open</Button></div>
+          <div className="flex items-center gap-4"><span className="text-xs text-muted-foreground">{index + 1}</span><span className="min-w-0 flex-1 break-words text-sm">{packageDocumentName(revision, member)}</span><Button variant="link" size="sm" disabled={disabled} onClick={() => onOpenDocument(member.id)}>Open</Button></div>
           <DocumentPdfChecks editable={canSign} actions={additional.filter(action => action.destination?.memberId === member.id)} disabled={disabled} onNavigate={onNavigate} />
           {!!items.length && <details className="ml-5 text-sm"><summary className="cursor-pointer">{summary}</summary>{reviewItems(items)}</details>}
         </li>;

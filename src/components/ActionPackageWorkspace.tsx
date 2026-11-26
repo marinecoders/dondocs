@@ -58,7 +58,7 @@ import {
   listActionPackages,
   getPackageRevision,
   reviseActionPackage,
-  renameActionPackage,
+  renameActionPackage, packageDocumentName, namePackageDocument,
   archiveActionPackage,
   duplicateActionPackage,
   packageRoles,
@@ -1098,7 +1098,7 @@ function PackageDialog({
             destination={destination}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense></div></details>}
-                  {record && revision && <section><div className="mb-4 flex items-center justify-between"><h2 className="text-base font-medium">Documents</h2><Button variant="link" size="sm" onClick={() => navigate('documents')}>Open documents</Button></div><ol className="divide-y">{revision.members.map((member, index) => <li key={member.id} className="flex items-center gap-4 py-4"><span className="text-xs text-muted-foreground">{index + 1}</span><div className="min-w-0 flex-1"><p className="break-words text-sm font-medium">{member.label}</p><p className="mt-1 text-xs text-muted-foreground">{member.kind === 'native' ? member.session.documentCategory === 'forms' ? 'Form' : 'Correspondence' : member.kind === 'original' ? 'Original PDF' : 'Supporting file'}</p></div><Button variant="link" size="sm" onClick={() => inspectMember(member.id)}>Open</Button></li>)}</ol></section>}
+                  {record && revision && <section><div className="mb-4 flex items-center justify-between"><h2 className="text-base font-medium">Documents</h2><Button variant="link" size="sm" onClick={() => navigate('documents')}>Open documents</Button></div><ol className="divide-y">{revision.members.map((member, index) => <li key={member.id} className="flex items-center gap-4 py-4"><span className="text-xs text-muted-foreground">{index + 1}</span><div className="min-w-0 flex-1"><p className="break-words text-sm font-medium">{packageDocumentName(revision, member)}</p><p className="mt-1 text-xs text-muted-foreground">{member.kind === 'native' ? member.session.documentCategory === 'forms' ? 'Form' : 'Correspondence' : member.kind === 'original' ? 'Original PDF' : 'Supporting file'}</p></div><Button variant="link" size="sm" onClick={() => inspectMember(member.id)}>Open</Button></li>)}</ol></section>}
                   <details hidden={!record}><summary className="cursor-pointer text-sm font-medium">Advanced</summary><div className="mt-5 space-y-5">{record && revision && <details className="rounded border p-3"><summary className="cursor-pointer text-sm font-medium">Reusable package templates</summary><fieldset disabled={busy || pendingPackageEdits} className="mt-4"><Suspense fallback={<p>Loading package templates…</p>}><PackageTemplatePanel record={openedReview ? undefined : record} revisionId={revision.id} busy={busy || pendingPackageEdits} run={run} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} onCreate={update} /></Suspense></fieldset></details>}{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Template and form upgrades{upgradeDirty ? " · awaiting review" : ""}</summary>
           <div tabIndex={-1} data-package-panel="upgrades" className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening template and form upgrades…</p>}>
@@ -1335,7 +1335,7 @@ function PackageDialog({
                 </div>
               )}</div></details>
               <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
-              <PackageMemberNavigation members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} onSelect={inspectMember} />
+              <PackageMemberNavigation revision={revision} members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} onSelect={inspectMember} />
               <ol className="min-w-0 space-y-3">
                 {revision.members.map((member, index) => {
                   const route = endorsementRoutes?.get(member.id);
@@ -1365,7 +1365,7 @@ function PackageDialog({
                       className="package-workspace-member space-y-5 outline-none"
                     >
                       <header className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                        <h3 className="min-w-0 flex-auto break-words font-medium">{index + 1}. {member.label}</h3>
+                        <h3 className="min-w-0 flex-auto break-words font-medium">{index + 1}. {packageDocumentName(revision, member)}</h3>
                         {editable && <div className="flex flex-wrap items-center gap-2 empty:hidden">
                           {isEditableOfficialForm(member) && !working ? (
                             <Button size="sm" disabled={busy || pendingPackageEdits} onClick={() => openMemberEditor(member.id)}>Edit form</Button>
@@ -1426,7 +1426,15 @@ function PackageDialog({
 {member.kind === 'original' && showPreview ? <PackagePrintableCopyField key={member.revisionId} member={member}
                         editable={editable} disabled={busy || pendingPackageEdits} savedPreview={preview}
                         onChange={file => void run(async () => update(await setPackagePrintableCopy(record, member, file, operation.current?.signal)))} /> : preview()}
-<details><summary className="cursor-pointer text-xs text-muted-foreground">Document details</summary><div className="mt-4 space-y-4"><p className="break-all text-xs text-muted-foreground">
+<details><summary className="cursor-pointer text-xs text-muted-foreground">Document details</summary><div className="mt-4 space-y-4">
+                        {editable && <form key={revision.id} className="flex flex-wrap items-end gap-2" onSubmit={event => {
+                          event.preventDefault();
+                          const value = String(new FormData(event.currentTarget).get('displayName') ?? '').trim();
+                          if ((value || member.label) !== packageDocumentName(revision, member)) void run(async () => update(await namePackageDocument(record, member.id, value, operation.current?.signal)));
+                        }}>
+                          <label className="text-sm">Name in this package<input name="displayName" maxLength={120} defaultValue={revision.documentNames?.[member.id] ?? ''} placeholder={member.label} className="mt-1 block w-full rounded border bg-background px-3 py-2" /></label>
+                          <Button type="submit" size="sm" variant="outline">Save name</Button>
+                        </form>}<p className="break-all text-xs text-muted-foreground">
                         {packageRoleLabels[member.role]} ·{" "}
                         {member.kind === "original"
                           ? member.signedOriginal

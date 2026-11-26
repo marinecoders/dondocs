@@ -20,6 +20,8 @@ import {
 import {
   createActionPackage,
   commitActionPackage,
+  namePackageDocument,
+  packageDocumentName,
   getPackageRevision,
   listActionPackages,
   reviseActionPackage,
@@ -1283,4 +1285,30 @@ it("keeps an earlier marked original readable after version 200 and reload", asy
   expect(await readPackageAsset(original.original)).toEqual(bytes);
   const portable = await buildPortableActionPackage(restored, "revision-1");
   expect((await parsePortableActionPackage(portable)).record.revisions).toHaveLength(1);
+});
+
+it("names a copy without changing its captured identity or signed bytes", async () => {
+  const data = await pdfBytes();
+  const original = await captureOriginalPackageMember({ name: "Original.pdf", data }, "basic-letter", true);
+  if (original.kind !== "original") throw new Error("Expected a captured original PDF");
+  const record = await reviseActionPackage(await createActionPackage("Copies"), [original]);
+  const named = await namePackageDocument(record, original.id, "Member copy");
+  expect(packageDocumentName(getPackageRevision(named), original)).toBe("Member copy");
+  expect(getPackageRevision(named).members[0]).toEqual(original);
+  expect(packageDocumentName(getPackageRevision(named, record.currentRevisionId), original)).toBe("Original.pdf");
+  const reloaded = (await listActionPackages(named.id))[0];
+  const next = await reviseActionPackage(reloaded, [original]);
+  expect(packageDocumentName(getPackageRevision(next), original)).toBe("Member copy");
+  const restored = await namePackageDocument(next, original.id, "");
+  expect(packageDocumentName(getPackageRevision(restored), original)).toBe("Original.pdf");
+  expect(await readPackageAsset(original.original)).toEqual(data);
+});
+
+it("keeps an open working copy attached when only a package display name changes", async () => {
+  const { record, member } = await fixture();
+  const linked = await commitActionPackage(record, { ...record, sequence: record.sequence + 1,
+    workingCopies: [{ memberId: member.id, documentId: "library-copy", revisionId: record.currentRevisionId }] });
+  const renamed = await namePackageDocument(linked, member.id, "Command copy");
+  expect(renamed.workingCopies).toEqual([{ memberId: member.id, documentId: "library-copy", revisionId: renamed.currentRevisionId }]);
+  expect(getPackageRevision(renamed).members[0].revisionId).toBe(member.revisionId);
 });

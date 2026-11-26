@@ -107,7 +107,10 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
       members.push({ ...(printableCopy && { printableCopy }), id: selectedMember.id, revisionId: newPackageId('member-revision'), label: selectedMember.label, role: selectedMember.role, required: selectedMember.required, kind: 'original', signedOriginal, ...(selectedMember.kind === 'original' && selectedMember.officialFormId && { officialFormId: selectedMember.officialFormId }), original: asset }); addAsset({ asset, bytes });
     }
   }
-  const revision = { id: newPackageId('revision'), createdAt: Date.now(), members, outputs: [] };
+  const names = sourceRevision.documentNames ?? {};
+  const selectedNames = Object.fromEntries(selected.filter(member => Object.hasOwn(names, member.id)).map(member => [member.id, names[member.id]]));
+  const revision = { id: newPackageId('revision'), createdAt: Date.now(), members, outputs: [],
+    ...(Object.keys(selectedNames).length && { documentNames: selectedNames }) };
   const projection = actionPackageSchema.parse({ kind: 'dondocs-action-package-record', version: 1, id: newPackageId('package'), historyScope: 'selected-revision', name: selection.label,
     archived: false, sequence: 0, currentRevisionId: revision.id, revisions: [revision] });
   const temporary: PreparedPackageDelivery = { sourcePackageId: source.id, sourceRevisionId: revisionId, revisionId: revision.id, packageName: selection.label, purpose: selection.purpose, taggedAssetIds, members: [], files: [], excludedMembers: 0, reviews: [], notices: [] };
@@ -117,7 +120,7 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
   if (inspected.readiness.findings.some(finding => finding.severity === 'error')) throw new Error(inspected.readiness.findings.filter(finding => finding.severity === 'error').map(finding => finding.message).join(' '));
   reviews.push(...inspected.reviews);
   const prepared = freeze({ sourcePackageId: source.id, sourceRevisionId: revisionId, revisionId: revision.id, packageName: selection.label, purpose: selection.purpose, taggedAssetIds,
-    members: members.map(member => ({ id: member.id, label: member.label, kind: member.kind, role: member.role })), files: [...new Map(packageAssets(projection).map(asset => [asset.id, asset])).values()].map(asset => ({ ...asset })),
+    members: members.map(member => ({ id: member.id, label: Object.hasOwn(selectedNames, member.id) ? selectedNames[member.id] : member.label, kind: member.kind, role: member.role })), files: [...new Map(packageAssets(projection).map(asset => [asset.id, asset])).values()].map(asset => ({ ...asset })),
     excludedMembers: getPackageRevision(source, revisionId).members.length - members.length, reviews,
     notices: ['This delivery is an independent selected-document copy. It carries no package review decisions, task list, signing records, source pointers or earlier revisions.',
       ...(selection.purpose === 'editable' ? ['Editable documents include their retained answers, inactive values, templates and embedded attachments. Review this exact scope before transfer.'] : ['Native members become PDF derivatives. Selected supporting files keep their original formats and bytes; original PDFs keep any signatures; verify those signatures in the original file.']),

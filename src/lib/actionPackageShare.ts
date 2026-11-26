@@ -82,7 +82,7 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
     throw new Error("Encrypted packages must contain exactly one selected revision. Ask the sender to share the package again.");
   const revision = getPackageRevision(record);
   const reviews: Array<{ member: string; review: ExportReview }> = [
-    { member: "Package name", review: reviewPackageText(record.name, "Package name", policy) },
+    { member: "Package name", review: reviewPackageText([record.name, ...Object.values(revision.documentNames ?? {})].join("\n"), "Package name", policy) },
   ];
   if (revision.bindings) reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) });
   if (revision.signing) for (const review of await reviewPackageSigning(revision.signing, policy)) reviews.push({ member: 'Package signing history', review });

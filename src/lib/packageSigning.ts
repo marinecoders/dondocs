@@ -1,3 +1,4 @@
+import { packageDocumentName } from '@/lib/actionPackages';
 import { z } from 'zod';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId,
   packageMemberLabel, type ActionPackage, type PackageAsset, type PackageRevision } from './actionPackages';
@@ -59,7 +60,7 @@ export function packageSigningTargets(revision: PackageRevision): Array<{ target
   return [
     ...revision.outputs.map((output, index) => ({ target: { kind: 'output' as const, id: output.id }, label: `Saved PDF ${index + 1}: ${output.asset.name}` })),
     ...revision.members.flatMap(member => member.kind === 'original' && !member.signedOriginal
-      ? [{ target: { kind: 'member' as const, id: member.id, revisionId: member.revisionId }, label: `Original PDF: ${member.label}` }] : []),
+      ? [{ target: { kind: 'member' as const, id: member.id, revisionId: member.revisionId }, label: `Original PDF: ${packageDocumentName(revision, member)}` }] : []),
   ];
 }
 function targetAsset(revision: PackageRevision, input: PackageSigningTarget): PackageAsset {
