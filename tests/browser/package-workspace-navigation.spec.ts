@@ -1,3 +1,4 @@
+import { selectSavedTemplate } from './_helpers/retiredPackageFixtures';
 import { openPackageWorkspace, newPackage, importPackage, packageSection, expandPackageTools, packageVersion, inspectPackageMember, choosePackage, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
@@ -20,21 +21,20 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     let dialog = await openPackageWorkspace(page);
     for (const action of ['administrative request', 'training participation', 'evidence submission']) {
       await newPackage(dialog);
-      const start = dialog.getByRole('button', { name: `Start ${action}`, exact: true });
-      await start.click();
+      await (await selectSavedTemplate(dialog, action)).click();
       const back = dialog.getByRole('button', { name: 'Back to actions', exact: true });
       await expect(back).toBeEnabled();
       if (action === 'administrative request') await page.screenshot({ path: info.outputPath('package-action-back.png') });
       await back.click();
-      await expect(dialog.getByRole('heading', { name: 'Start from an action', exact: true })).toBeFocused();
-      await start.click();
+      await expect(dialog.getByRole('heading', { name: /^(Package templates|Start from an action)$/ })).toBeFocused();
+      await (await selectSavedTemplate(dialog, action)).click();
       await expect(back).toBeEnabled();
       await page.keyboard.press('Escape');
       await expect(dialog).toBeHidden();
       dialog = await openPackageWorkspace(page);
       await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
       await newPackage(dialog);
-      await dialog.getByRole('button', { name: `Start ${action}`, exact: true }).click();
+      await (await selectSavedTemplate(dialog, action)).click();
       await expect(dialog.getByRole('button', { name: 'Back to actions', exact: true })).toBeEnabled();
       await dialog.getByRole('button', { name: 'Close', exact: true }).click();
       await expect(dialog).toBeHidden();
@@ -44,11 +44,13 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     }
   });
 
-  test('edited action answers recover after Escape and cancelled Back until discard is confirmed', async ({ page }) => {
+  test('an unfinished retired action resumes after Escape and keeps answers until discard', async ({ page }) => {
     await page.goto('/');
+    await page.evaluate(() => localStorage.setItem('dondocs-package-new-action', JSON.stringify({
+      source: 'maintained', id: 'administrative-request', revision: '1',
+    })));
     let dialog = await openPackageWorkspace(page);
-    await newPackage(dialog);
-    await dialog.getByRole('button', { name: 'Start administrative request', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Resume unfinished action', exact: true }).click();
     await dialog.getByRole('textbox', { name: 'Requester', exact: true }).fill('Alex Example');
     await expect(dialog.getByText('Draft saved locally · not applied', { exact: true })).toBeVisible();
     await page.keyboard.press('Escape');
@@ -66,7 +68,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     await expect(requester).toHaveValue('Alex Example');
     await back.click();
     await confirmation.getByRole('button', { name: 'Discard changes', exact: true }).click();
-    await expect(dialog.getByRole('heading', { name: 'Start from an action', exact: true })).toBeFocused();
+    await expect(dialog.getByRole('heading', { name: /^(Package templates|Start from an action)$/ })).toBeFocused();
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
   });
@@ -75,7 +77,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     await page.goto('/');
     const dialog = await openPackageWorkspace(page);
     await newPackage(dialog);
-    await dialog.getByRole('button', { name: 'Start administrative request', exact: true }).click();
+    await (await selectSavedTemplate(dialog, 'administrative request')).click();
     await dialog.getByRole('textbox', { name: 'Requester', exact: true }).fill('Alex Example');
     await dialog.getByRole('button', { name: 'Save package draft', exact: true }).click();
     await expect(dialog.getByRole('heading', { name: 'Administrative request', exact: true, level: 1 })).toBeVisible();

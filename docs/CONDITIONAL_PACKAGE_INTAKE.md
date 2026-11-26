@@ -1,14 +1,12 @@
 # Action intake
 
-Open **Packages** to start an **Administrative request**, **Training participation**, or **Evidence submission**. These are general-purpose starters using DonDocs worksheets, not official forms. Decide which documents, evidence and signing authority the actual action requires.
-
-The saved-package and revision selectors stay above intake. Blank packages, editable imports, saved templates, document editors and the quick request starter remain available below it.
+In **Packages**, choose **New package** and open **Use a saved conditional template**. Load the templates in your library, select one, and choose **Use selected conditional template**. To continue an existing package, open it from the package library.
 
 ## Answer and save
 
 Intake shows relevant unanswered questions. A Yes/No question starts unanswered; leaving it blank does not mean No. Conditional questions appear when the corresponding answer makes them relevant. **Show answered questions** lets you change earlier answers; search and paging help with longer templates.
 
-Training participation supports up to ten people. Each has a separate label and stable identity. Adding a person starts with empty answers. Moving a person preserves their answers and document ownership; removing a person does not silently discard an edited document. Person labels identify the subject without automatically filling the participant-name field.
+Templates can collect separate answers for each participant. Each has a separate label and stable identity. Adding a person starts with empty answers. Moving a person preserves their answers and document ownership; removing a person does not silently discard an edited document. Person labels identify the subject without automatically filling the participant-name field.
 
 **Save intake draft** preserves the answers and the exact template in a new package revision. It does not apply document or field changes. Pending intake is clearly labeled; finish the preview and apply step before PDF assembly or review. Reloading or transferring the editable package retains the pinned template, partial answers and participant identities without requiring a template-library setup.
 
@@ -28,7 +26,7 @@ File inputs correspond to active template slots. Choosing a file holds its bytes
 
 Required PDFs may remain missing in an unfinished saved action. **Evidence and requirements** shows saved declarations and checks **Review**, **PDF assembly**, or **Editable transfer** separately. Required evidence blocks the operations that require it; an editable transfer can preserve an unfinished action. Assignment alone does not establish overall readiness. A file marked signed records the uploader's declaration, not a verified signature.
 
-## Maintained starters
+## Packages created with the original starters
 
 | Starter | Included documents | Conditional content |
 | --- | --- | --- |
@@ -38,4 +36,4 @@ Required PDFs may remain missing in an unfinished saved action. **Evidence and r
 
 New actions have fresh package, fact, participant, member and binding identities. Saved actions use their captured template revision. Updating the maintained catalog or a library template does not silently change an existing action.
 
-Previously imported conditional templates are available under **Use a saved conditional template**. Version-one templates continue to use the original controls. **Quick request starter** retains the earlier administrative-request workflow with its explicit printed-name input.
+You can reopen packages created with any of these three retired starters. For an unfinished local intake, choose **Resume unfinished action** in the package library.

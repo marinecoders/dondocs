@@ -1,3 +1,4 @@
+import { importSavedRequest } from './_helpers/retiredPackageFixtures';
 import { blockedPackagePdf, openPackagePreparation, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, preparePackageExport, packageTool, openPackageWorkspace, choosePackage } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
@@ -28,16 +29,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   }, theme);
   await page.goto('/');
   let dialog = await packages(page);
-  await dialog.getByText('Start with a reviewed worksheet', { exact: true }).click();
-  const starter = await packageTool(dialog, 'Administrative request starter');
-  await starter.getByRole('button', { name: 'Start an administrative request', exact: true }).click();
-  for (const [label, value] of Object.entries({ Requester: 'Alex Example', Organization: 'Fictional Training Unit', Recipient: 'Training Officer', 'Request subject': 'Coordination check', 'Request date': '2026-11-17', SSIC: '1500', 'Printed signature name': 'A. EXAMPLE', 'Requested action and justification': 'Request fictional training to exercise package checks.' })) {
-    await starter.getByLabel(label, { exact: label !== 'Printed signature name' }).fill(value);
-  }
-  await starter.getByRole('button', { name: 'Review request starter', exact: true }).click();
-  await starter.getByRole('checkbox', { name: /^I reviewed these request details/ }).check();
-  await starter.getByRole('button', { name: 'Create reviewed request package', exact: true }).click();
-  await expect(dialog.getByRole('heading', { name: 'Request: Coordination check', exact: true, level: 1 })).toBeVisible();
+  await importSavedRequest(dialog);
   const information = await packageTool(dialog, /^(Details|Package information)$/);
   await expect(information.getByLabel('Value label 1', { exact: true })).toBeVisible();
   const first = await information.getByLabel(/^Value label \d+$/).count() + 1;
@@ -72,7 +64,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await relationships.getByRole('button', { name: 'Add exception to changes', exact: true }).click();
   await saveRelationships(relationships);
   await page.reload(); dialog = await openPackageWorkspace(page);
-  await choosePackage(dialog, 'Request: Coordination check');
+  await choosePackage(dialog, 'Request: Attend training');
   await expandPackageTools(dialog);
   relationships = await packageTool(dialog, 'Package relationships');
   await relationships.getByRole('button', { name: 'Check declared relationships', exact: true }).click();

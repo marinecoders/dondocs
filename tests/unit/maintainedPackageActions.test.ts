@@ -4,9 +4,12 @@ import { maintainedPackageAction, maintainedPackageActions } from '@/lib/maintai
 import { listActionPackages } from '@/lib/actionPackages';
 import { idbGetAllAttachments } from '@/lib/documentsDb';
 
-it('qualifies three clean maintained actions without installing case records or assets', async () => {
+it('keeps retired recipes available for unfinished drafts and out of the new-action catalog', async () => {
   const records = await listActionPackages(), assets = await idbGetAllAttachments();
-  const templates = await Promise.all(maintainedPackageActions.map(action => maintainedPackageAction(action.id)));
+  const retired = ['administrative-request', 'training-participation', 'evidence-submission'] as const;
+  const listed = maintainedPackageActions.map(action => action.id);
+  for (const id of retired) expect(listed).not.toContain(id);
+  const templates = await Promise.all(retired.map(id => maintainedPackageAction(id)));
   expect(templates).toHaveLength(3);
   for (const template of templates) {
     expect(template.version).toBe(2); expect(template.program.questions.length).toBeGreaterThan(0);

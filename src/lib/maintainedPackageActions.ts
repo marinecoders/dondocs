@@ -17,7 +17,9 @@ const actions = [
   { id: 'training-participation', build: training, name: 'Training participation', description: 'Participant worksheets with attendance details and optional cost estimates.', kind: 'Forms-led' },
   { id: 'evidence-submission', build: evidence, name: 'Evidence submission', description: 'A transmittal letter, submission index and original supporting PDF.', kind: 'Mixed evidence' },
 ] as const satisfies readonly ActionListing[];
-export const maintainedPackageActions: ReadonlyArray<ActionListing & { id: MaintainedPackageActionId }> = actions;
+// Unfinished drafts store an action ID and answers. Keep these editions resolvable on resume.
+const retiredActions: ReadonlySet<string> = new Set(['administrative-request', 'training-participation', 'evidence-submission']);
+export const maintainedPackageActions: ReadonlyArray<ActionListing & { id: MaintainedPackageActionId }> = actions.filter(action => !retiredActions.has(action.id));
 export type MaintainedPackageActionId = typeof actions[number]['id'];
 async function administrative(): Promise<PackageTemplateV2> {
   const sheet = await administrativeRequestWorksheet();
@@ -102,7 +104,7 @@ export async function resolveMaintainedRecipe(recipe: MaintainedRecipe): Promise
 const loaded = new Map<MaintainedPackageActionId, Promise<PackageTemplateV2>>();
 /** Catalog loading only constructs and qualifies owned clean starters. It never installs a template or saves a case. */
 export async function maintainedPackageAction(id: MaintainedPackageActionId): Promise<PackageTemplateV2> {
-  const entry = maintainedPackageActions.find(action => action.id === id);
+  const entry = actions.find(action => action.id === id);
   if (!entry) throw new Error('This maintained action is unavailable.');
   let promise = loaded.get(id);
   if (!promise) {

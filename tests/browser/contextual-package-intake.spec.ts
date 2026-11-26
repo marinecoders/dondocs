@@ -1,4 +1,5 @@
-import { blockedPackagePdf, openPackagePreparation, inspectPackageMember, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, preparePackageExport, packageTool, downloadPackageExport, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
+import { selectSavedTemplate } from './_helpers/retiredPackageFixtures';
+import { blockedPackagePdf, openPackagePreparation, inspectPackageMember, importPackage, packageSection, expandPackageTools, selectedPackageRevision, preparePackageExport, packageTool, downloadPackageExport, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator, type TestInfo } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -11,13 +12,8 @@ async function packages(page: Page) {
 }
 const intake = (dialog: Locator) => dialog.getByRole('region', { name: 'Action intake', exact: true });
 async function start(dialog: Locator, name: string) {
-  await newPackage(dialog);
-  await expandPackageTools(dialog);
-  const panel = intake(dialog), button = panel.getByRole('button', { name: `Start ${name}`, exact: true });
-  const another = panel.locator('summary').filter({ hasText: /^Start another action$/ });
-  await expect(button.or(another)).toBeVisible();
-  if (!await button.isVisible()) await another.click();
-  await button.click();
+  const panel = intake(dialog);
+  await (await selectSavedTemplate(dialog, name)).click();
   await expect(panel.getByRole('button', { name: 'Save package draft', exact: true })).toBeVisible();
   return panel;
 }
@@ -279,7 +275,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
   test(`intake remains usable at 320px with keyboard focus in ${theme}`, async ({ page }, info) => {
     await page.setViewportSize({ width: 320, height: 740 });
     const dialog = await packages(page), panel = intake(dialog);
-    const opener = panel.getByRole('button', { name: 'Start training participation', exact: true });
+    const opener = await selectSavedTemplate(dialog, 'training participation');
     await expect(opener).toBeEnabled(); await opener.focus(); await page.keyboard.press('Enter');
     await expect(panel.getByRole('textbox', { name: 'Course or activity', exact: true })).toBeFocused();
     await panel.getByRole('button', { name: 'Add person to Participants', exact: true }).click();
@@ -290,8 +286,8 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     await expandPackageTools(panel);
     await screenshot(page, dialog, info, `narrow-${theme}`);
     await panel.getByRole('button', { name: 'Discard', exact: true }).click();
-    await expect(panel.getByRole('heading', { name: 'Start from an action', exact: true })).toBeFocused();
-    await expect(opener).toBeEnabled();
+    await expect(panel.getByRole('heading', { name: /^(Package templates|Start from an action)$/ })).toBeFocused();
+    await expect(panel.getByRole('button', { name: 'Load saved conditional templates' })).toBeEnabled();
   });
 
 });
