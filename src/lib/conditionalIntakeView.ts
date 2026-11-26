@@ -70,7 +70,7 @@ export function intakeAttachmentSlots(template: PackageTemplateV2, answers: Pack
     const index = people.findIndex(person => person.id === instance.participantId), person = people[index];
     const duplicate = template.members.some(value => value.key !== member.key && value.kind === 'attachment' && value.label === member.label && value.repeatGroupId === member.repeatGroupId);
     const label = duplicate ? `${member.label} · ${member.key}` : member.label;
-    return { key: instance.key, required: instance.required,
+    return { key: instance.key, ...(member.kind === 'attachment' && member.multipleFiles && { multipleFiles: true }), required: instance.required,
       label: person ? `${intakeGroupLabel(template.program, member.repeatGroupId!)} · person ${index + 1} · ${person.label} · ${label}` : label };
   });
 }

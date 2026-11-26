@@ -1,3 +1,4 @@
+import { evidenceUploadSlot } from './packageEvidenceFiles';
 import { packageEndorsementRoutes } from './packageEndorsements';
 import { resolvePackageRevisionSource, type MemberRevisionSource } from './packageRevisionSources';
 import { captureTemplateSource } from './packageTemplateResources';
@@ -454,7 +455,13 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
   const desired = listConditionalPackageInstances(template, answers);
   const selectedChoices = own(input.memberChoices ?? {}), knownKeys = new Set([...state.instances.map(item => item.key), ...desired.map(item => item.key)]);
   for (const [key, choice] of Object.entries(selectedChoices)) if (!knownKeys.has(key) || !['keep', 'remove', 'restore'].includes(choice)) throw new Error('A document decision does not belong to this action.');
-  for (const key of Object.keys(input.attachments ?? {})) if (!desired.some(item => item.key === key && item.kind === 'attachment' && item.condition === true)) throw new Error('This PDF does not belong to an active action slot.');
+  for (const key of Object.keys(input.attachments ?? {})) {
+    const slotKey = evidenceUploadSlot(key);
+    const item = desired.find(item => item.key === slotKey && item.kind === 'attachment' && item.condition === true);
+    const blueprint = template.members.find(member => member.key === item?.memberKey);
+    if (!item || (key !== slotKey && (blueprint?.kind !== 'attachment' || !blueprint.multipleFiles)))
+      throw new Error('This PDF does not belong to an active action slot.');
+  }
   const early = () => {
     const qualifiedChanges = changes.map(change => {
       const person = participantContext(template, answers, state.instances.find(instance => instance.key === change.key)?.participantId, state.appliedAnswers);
@@ -614,6 +621,31 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
     else if (!managedIds.has(old.id) || byId.has(old.id)) ordered.push(byId.get(old.id) ?? old);
   }
   ordered.push(...queue);
+  for (const instance of state.instances) {
+    const previous = members.filter(item => item.kind === 'original' && item.evidenceSlotId === instance.memberId);
+    if (previous.length && selectedChoices[instance.key] === 'remove' && instance.condition === false) {
+      for (const item of previous) {
+        const index = ordered.findIndex(member => member.id === item.id);
+        if (index >= 0) ordered.splice(index, 1);
+      }
+    }
+    const extras = Object.entries(input.attachments ?? {}).filter(([key]) => key !== instance.key && evidenceUploadSlot(key) === instance.key);
+    if (!extras.length) continue;
+    const owner = ordered.find(item => item.id === instance.memberId);
+    if (owner?.kind !== 'original') throw new Error('Choose the first PDF for ' + instance.label + '.');
+    let insert = ordered.reduce((at, item, index) => item.id === owner.id || item.kind === 'original' && item.evidenceSlotId === owner.id ? index + 1 : at, 0);
+    for (const [, file] of extras) {
+      if ('reuse' in file || !/\.pdf$/i.test(file.name)) throw new Error('Choose a PDF to add to this evidence slot.');
+      signal?.throwIfAborted();
+      await validatePackageOriginalPdf(file.data);
+      reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
+      const original = await stage(attachments, file.name, 'application/pdf', file.data);
+      const member: PackageMember = { id: newPackageId('member'), revisionId: newPackageId('member-revision'), label: packageMemberLabel(file.name),
+        kind: 'original', evidenceSlotId: owner.id, signedOriginal: file.signedOriginal, role: owner.role, required: false, original };
+      ordered.splice(insert++, 0, member);
+      changes.push({ key: instance.key, memberId: member.id, state: 'add', label: member.label, message: 'Append to ' + instance.label + '.' });
+    }
+  }
   const retainedIds = new Set(ordered.map(member => member.id));
   for (const instance of state.instances) {
     if (instance.condition !== true) continue;
