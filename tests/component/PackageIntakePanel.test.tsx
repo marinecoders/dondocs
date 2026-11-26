@@ -277,3 +277,19 @@ it('hides the previous intake from the first frame of a package selection change
   await act(async () => finish(template));
   await waitFor(() => expect(screen.getByRole('textbox', { name: 'Course or activity' })).toHaveValue('Second saved course'));
 });
+
+it('offers a single action beside saved, unapplied intake and opens a read-only preview', async () => {
+  const user = userEvent.setup(), first = render(<Harness />);
+  await startTraining(user);
+  await user.click(screen.getByRole('button', { name: 'Save intake draft' }));
+  await screen.findByText('Intake saved; document changes not applied.');
+  const [saved] = await listActionPackages();
+  first.unmount();
+  render(<Harness workspace initial={saved} />);
+  const action = await screen.findByRole('button', { name: 'Review document updates' });
+  await waitFor(() => expect(action).toBeEnabled());
+  await user.click(action);
+  await screen.findByRole('region', { name: 'Action changes preview' });
+  expect((await listActionPackages())[0].currentRevisionId).toBe(saved.currentRevisionId);
+  expect(screen.queryByRole('button', { name: 'Review document updates' })).toBeNull();
+});
