@@ -226,6 +226,7 @@ function PackageDialog({
   const [signedSelectionOwner, setSignedSelectionOwner] = useState<string>();
   const [deliveryFormat, setDeliveryFormat] = useState<PackageExportFormat>('pdf');
   const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>("overview");
+  const [readerEntry, setReaderEntry] = useState<{ member: PackageMember; edge: "first" | "last" }>();
   const [activeMemberId, setActiveMemberId] = useState<string | null>(null);
   const overviewRef = useRef<HTMLDivElement>(null);
   const mainScroll = useRef<HTMLDivElement>(null);
@@ -599,6 +600,7 @@ function PackageDialog({
     target?.focus({ preventScroll: true });
   }, [workspaceSection, selectedMember?.id, library, selectedId, creating]);
   function inspectMember(memberId: string) {
+    setReaderEntry(undefined);
     setActiveMemberId(memberId); setWorkspaceSection("documents");
     const target = document.getElementById(`package-member-${memberId}`);
     target?.scrollIntoView?.({ block: "start" }); target?.focus({ preventScroll: true });
@@ -1422,8 +1424,18 @@ function PackageDialog({
                   const signingAction = editable && packageFormSigningAction(member);
                   const inPackageEditor = !!editorSurface && member.kind === 'native';
                   const showPreview = loaded && !editorMember && !library && workspaceSection === 'documents' && selectedMember?.id === member.id;
+                  const turnDocument = (direction: -1 | 1) => {
+                    const target = revision.members[index + direction];
+                    if (target && !busy && !pendingPackageEdits) {
+                      inspectMember(target.id);
+                      setReaderEntry({ member: target, edge: direction === 1 ? 'first' : 'last' });
+                    }
+                  };
                   const preview = (originalOnly = false) => <PackageDocumentPreview packageId={record.id} revisionId={revision.id}
-                    member={member} active={showPreview} originalOnly={originalOnly} ports={ports} exportGate={exportGate} />;
+                    member={member} active={showPreview} entryEdge={readerEntry?.member === member ? readerEntry.edge : undefined} onEntered={() => setReaderEntry(undefined)} documentBoundary={!busy && !pendingPackageEdits ? {
+                      previous: index > 0 ? () => turnDocument(-1) : undefined,
+                      next: index + 1 < revision.members.length ? () => turnDocument(1) : undefined,
+                    } : undefined} originalOnly={originalOnly} ports={ports} exportGate={exportGate} />;
                   return (
                     <li
                       key={member.id}
@@ -1488,6 +1500,11 @@ function PackageDialog({
 {member.kind === 'original' && showPreview ? <PackagePrintableCopyField key={member.revisionId} member={member}
                         editable={editable} disabled={busy || pendingPackageEdits} savedPreview={preview} onOriginal={() => void run(() => reviewOriginal(member))}
                         onChange={file => void run(async () => update(await setPackagePrintableCopy(record, member, file, operation.current?.signal)))} /> : preview()}
+                      {showPreview && revision.members.length > 1 && <nav aria-label="Read package in order" className="flex items-center justify-between gap-2">
+                        <Button type="button" size="sm" variant="outline" disabled={pendingPackageEdits || index === 0} onClick={() => turnDocument(-1)}>Previous document</Button>
+                        <span className="text-xs text-muted-foreground">{index + 1} of {revision.members.length}</span>
+                        <Button type="button" size="sm" variant="outline" disabled={pendingPackageEdits || index === revision.members.length - 1} onClick={() => turnDocument(1)}>Next document</Button>
+                      </nav>}
 <details><summary className="cursor-pointer text-xs text-muted-foreground">Document details</summary><div className="mt-4 space-y-4">
                         {editable && <form key={revision.id} className="flex flex-wrap items-end gap-2" onSubmit={event => {
                           event.preventDefault();

@@ -33,6 +33,8 @@ export interface PdfViewerProps {
   documentId?: string;
   /** Captured review exports keep delivery behind their final authority/policy gate. */
   allowOpenInTab?: boolean;
+  entryEdge?: 'first' | 'last';
+  documentBoundary?: { previous?(): void; next?(): void };
   pageRequest?: { page: number };
   onPagePaint?: (success: boolean) => void;
   onDownloadPdf?: () => void;
@@ -58,7 +60,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ follow, starterExamples, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, onPagePaint, pageRequest, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
+export default function PdfViewer({ follow, starterExamples, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, onPagePaint, pageRequest, entryEdge, documentBoundary, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [menuContainer, setMenuContainer] = useState<HTMLDivElement | null>(null);
   const setRoot = useCallback((node: HTMLDivElement | null) => {
@@ -77,8 +79,14 @@ export default function PdfViewer({ follow, starterExamples, sourceNavigationMes
   const { state, onIncomingLoaded, onIncomingReady, onIncomingFailed } = usePdfDocumentSwap(pdfUrl);
 
   const [docMeta, setDocMeta] = useState<{ numPages: number; baseWidth: number; baseAspect: number } | null>(null);
-  const [initialPage] = useState(() => documentId ? useUIStore.getState().documentPositions[documentId]?.previewPage ?? 1 : 1);
-  const [pageInView, setPageInView] = useState(initialPage);
+  const [entry] = useState(entryEdge);
+  const [initialPosition] = useState(() => documentId ? useUIStore.getState().documentPositions[documentId] : undefined);
+  useEffect(() => {
+    const reader = contentRef.current, focused = document.activeElement;
+    if (entry && reader && (focused === document.body || focused === reader.closest('[data-selected]'))) reader.focus({ preventScroll: true });
+  }, [entry]);
+  const initialPage = entry === 'last' ? Number.MAX_SAFE_INTEGER : entry === 'first' ? 1 : initialPosition?.previewPage ?? 1;
+  const [pageInView, setPageInView] = useState(entry === 'last' ? 1 : initialPage);
   const [sourceMatches, setSourceMatches] = useState<PdfSourceMatches>();
   const [loadFailed, setLoadFailed] = useState(false);
   // The active layer's scroll position at the moment an incoming document was
@@ -154,7 +162,10 @@ export default function PdfViewer({ follow, starterExamples, sourceNavigationMes
     // Ignore the first empty layer's provisional page-one notification.
     if (!docMeta) return;
     setPageInView(page);
-    if (documentId) useUIStore.getState().rememberPreviewPage(documentId, page);
+    if (documentId) {
+      const anchor = activeLayerRef.current?.getScrollAnchor();
+      useUIStore.getState().rememberPreviewPage(documentId, page, anchor?.page === page ? anchor.fraction : undefined);
+    }
   }, [documentId, docMeta]);
 
   const openInTab = useCallback(() => {
@@ -163,9 +174,14 @@ export default function PdfViewer({ follow, starterExamples, sourceNavigationMes
 
   const goToPage = useCallback(
     (delta: 1 | -1) => {
+      if (docMeta && (delta < 0 ? pageInView === 1 : pageInView === docMeta.numPages)) {
+        if (delta < 0) documentBoundary?.previous?.();
+        else documentBoundary?.next?.();
+        return;
+      }
       activeLayerRef.current?.scrollToPage(pageInView - 1 + delta, !reducedMotion);
     },
-    [pageInView, reducedMotion]
+    [docMeta, documentBoundary, pageInView, reducedMotion]
   );
 
   // Direct entry from the toolbar's page input (1-based, pre-clamped there).
@@ -310,6 +326,8 @@ export default function PdfViewer({ follow, starterExamples, sourceNavigationMes
             : null
         }
         onGoToPage={goToPageNumber}
+        previousDocument={!!documentBoundary?.previous}
+        nextDocument={!!documentBoundary?.next}
         onPrevPage={() => goToPage(-1)}
         onNextPage={() => goToPage(1)}
         onZoomIn={() => zoomStep(1)}
@@ -371,7 +389,7 @@ export default function PdfViewer({ follow, starterExamples, sourceNavigationMes
               dprCap={dprCap}
               visible
               initialPage={state.active.gen === 1 ? initialPage : 1}
-              initialAnchor={state.active.gen === 1 ? null : stagedAnchor}
+              initialAnchor={state.active.gen !== 1 ? stagedAnchor : entry || initialPosition?.previewFraction === undefined ? null : { page: initialPage, fraction: initialPosition.previewFraction }}
               thumbPortalTarget={thumbTarget}
               currentPage={pageInView}
               onDocMeta={handleDocMeta}

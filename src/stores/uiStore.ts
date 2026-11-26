@@ -196,9 +196,9 @@ interface UIState {
   setHelpOpen: (open: boolean) => void;
   welcomeOpen: boolean;
   setWelcomeOpen: (open: boolean) => void;
-  documentPositions: Record<string, { top: number; section: string | null; previewPage?: number; layout?: EditorLayout }>;
+  documentPositions: Record<string, { top: number; section: string | null; previewPage?: number; previewFraction?: number; layout?: EditorLayout }>;
   rememberPosition: (id: string, top: number, section: string | null, layout?: EditorLayout) => void;
-  rememberPreviewPage: (id: string, page: number) => void;
+  rememberPreviewPage: (id: string, page: number, fraction?: number) => void;
   starterExampleEdits: Record<string, readonly StarterExampleSection[]>;
   rememberStarterExampleEdits: (id: string, sections: readonly StarterExampleSection[]) => void;
   forgetStarterExampleEdits: (id: string) => void;
@@ -364,10 +364,10 @@ export const useUIStore = create<UIState>()(
         positions[id] = { ...s.documentPositions[id], top, section, layout: layout ?? s.editorLayout };
         return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
       }),
-      rememberPreviewPage: (id, page) => set((s) => {
+      rememberPreviewPage: (id, page, fraction) => set((s) => {
         const positions = { ...s.documentPositions };
         delete positions[id];
-        positions[id] = { ...(s.documentPositions[id] ?? { top: 0, section: null }), previewPage: Math.max(1, Math.floor(page)) };
+        positions[id] = { ...(s.documentPositions[id] ?? { top: 0, section: null }), previewPage: Math.max(1, Math.floor(page)), previewFraction: fraction };
         return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
       }),
       starterExampleEdits: {},

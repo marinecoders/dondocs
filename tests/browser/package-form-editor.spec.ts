@@ -1,3 +1,4 @@
+import { PDFDocument } from 'pdf-lib';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { expect, test, type BrowserContext, type Page, type Locator } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
@@ -373,4 +374,35 @@ test('delivery corrections preserve input after a failed save and advance to the
   await expect.poll(position).not.toEqual(nextPosition);
   await editor.getByRole('button', { name: 'Back to Delivery' }).click();
   await expect(workspace.getByRole('navigation', { name: 'Package workspace' }).getByRole('button', { name: 'Delivery' })).toHaveAttribute('aria-current', 'location');
+});
+
+test('reads across separate originals in package order and restores their own pages', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'Desktop reader keyboard and sidebar navigation');
+  await page.goto('/');
+  const workspace = await openPackageWorkspace(page);
+  await newBlankPackage(workspace, 'Reading originals');
+  for (const [name, pages] of [['First original', 3], ['Second original', 2]] as const) {
+    const pdf = await PDFDocument.create();
+    for (let pageIndex = 0; pageIndex < pages; pageIndex++) pdf.addPage([612, 792]).drawText(name + ' page ' + (pageIndex + 1));
+    await openAddDocuments(workspace);
+    await workspace.getByLabel('Add original PDF').setInputFiles({
+      name: name + '.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()),
+    });
+    await expect(workspace.locator('li[data-selected] h3')).toContainText(name);
+  }
+  const reader = workspace.getByRole('region', { name: /PDF document\. Arrow/ });
+  const pageNumber = workspace.getByRole('textbox', { name: 'Page number' });
+  await expect(pageNumber).toHaveValue('1');
+  await reader.press('PageUp');
+  await expect(workspace.locator('li[data-selected] h3')).toContainText('First original');
+  await expect(pageNumber).toHaveValue('3');
+  await expect(reader).toBeFocused();
+  await workspace.getByRole('button', { name: 'Go to next document' }).click();
+  await expect(workspace.locator('li[data-selected] h3')).toContainText('Second original');
+  await expect(pageNumber).toHaveValue('1');
+  await workspace.getByRole('button', { name: 'Previous document', exact: true }).click();
+  await expect(pageNumber).toHaveValue('3');
+  await workspace.getByRole('button', { name: /2\. Second original/ }).click();
+  await workspace.getByRole('button', { name: /1\. First original/ }).click();
+  await expect(pageNumber).toHaveValue('3');
 });

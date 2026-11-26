@@ -477,3 +477,17 @@ it('does not offer a download that bypasses the document export owner', async ()
   expect(screen.queryByLabelText('Download PDF')).toBeNull();
   expect(screen.queryByLabelText('Download preview PDF')).toBeNull();
 });
+
+it('restores keyboard focus and can cross to the previous document after a first-page entry', async () => {
+  const boundary = vi.fn();
+  useUIStore.getState().rememberPreviewPage('copy-2', 2, 0.5);
+  const { getByRole, getByLabelText } = render(<TooltipProvider>
+    <PdfViewer pdfUrl="blob:reader" entryEdge="first" documentId="copy-2" documentBoundary={{ previous: boundary }} />
+  </TooltipProvider>);
+  await screen.findByText('of 2');
+  expect(getByLabelText('Page number')).toHaveValue('1');
+  fireEvent.keyDown(getByRole('region', { name: /PDF document/ }), { key: 'PageUp' });
+  expect(boundary).toHaveBeenCalledTimes(1);
+  fireEvent.click(getByLabelText('Go to previous document'));
+  expect(boundary).toHaveBeenCalledTimes(2);
+});
