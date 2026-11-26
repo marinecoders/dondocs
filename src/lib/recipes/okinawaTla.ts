@@ -25,7 +25,7 @@ export function okinawaTla(): MaintainedRecipe {
       question('finalClaim', 'Is this the final arrival claim after moving into quarters?', 'boolean', { when: arrival }),
       question('billeting', 'Does your departure require a billeting or barracks letter?', 'boolean', { when: departure }),
       question('separation', 'Are you departing for separation processing?', 'boolean', { when: departure }),
-    ], { requirements: [
+    ], { revision: '2', requirements: [
       { id: 'claim-review', label: 'Confirm the signed request and itemized receipts cover the same claimant and lodging period',
         kind: 'confirmation', operations: ['review', 'pdf'] },
     ] }),
@@ -33,7 +33,7 @@ export function okinawaTla(): MaintainedRecipe {
       { ...evidence('claim', 'Signed local TLA request for this claim period'), reference: { id: 'okinawa_tla_guide', edition: '2022-2023' },
         completion: { reviewedScan: true } },
       evidence('orders', 'Orders with applicable endorsements'),
-      evidence('receipts', 'Itemized zero-balance lodging receipts'),
+      { ...evidence('receipts', 'Itemized zero-balance lodging receipts'), multipleFiles: true },
       evidence('data-sheet', 'Housing-certified TLA data sheet and housing search record (Appendix B)', arrival),
       evidence('acknowledgment', 'Initialed and signed IPAC acknowledgment (Appendix C)', arrival),
       evidence('statement', 'Travel card statement', { op: 'any', conditions: [arrival, offBase] }),
