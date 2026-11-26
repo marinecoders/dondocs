@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
 import { PDFDict, PDFDocument, PDFName } from 'pdf-lib';
-import type { ReviewedPrintableCopy } from '@/lib/packagePrintableCopy';
+import { needsOfficialPrintableCopy, type ReviewedPrintableCopy } from '@/lib/packagePrintableCopy';
 import type { PackageMember } from '@/lib/actionPackages';
 import { readPackageAsset } from '@/lib/actionPackageAssets';
 import { assertAssemblyPagesReadable, loadAssemblyPdf } from '@/services/pdf/assemblyPdf';
@@ -80,6 +80,7 @@ export function PackagePrintableCopyField({ member, editable, disabled, onChange
   const copy = member.printableCopy?.asset;
   return <section className="space-y-2 text-sm" aria-label="Printable PDF">
     {copy ? <p>Combined PDF uses <strong>{copy.name}</strong>. The original is {member.original.name}.</p>
+      : needsOfficialPrintableCopy(member) ? <p>Add a reviewed printable copy for the combined PDF. The original signed form is available in recipient delivery.</p>
       : <PackagePdfCompatibility source={member.original} />}
     {editable && <details onToggle={event => { if (!event.currentTarget.open) setCandidate(undefined); }}><summary className="cursor-pointer">{copy ? 'Manage printable copy' : 'Add printable copy'}</summary>
       <fieldset disabled={disabled} className="mt-2 space-y-2">

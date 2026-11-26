@@ -1685,7 +1685,7 @@ function PackageDialog({
                   </fieldset>
                   <fieldset hidden={workspaceSection !== 'delivery'} disabled={busy || pendingPackageEdits && !signingDirty && !assemblyDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Export</h2>
-                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "draft", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions checks={packageChecks} active={workspaceSection === 'delivery' && !formSigning} canSign={editable} onNavigate={openDeliveryFinding} revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { cancelExport(); setSignedSelectionOwner(undefined); setDeliveryFormat(format); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
+                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions checks={packageChecks} active={workspaceSection === 'delivery' && !formSigning} canSign={editable} onNavigate={openDeliveryFinding} revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { cancelExport(); setSignedSelectionOwner(undefined); setDeliveryFormat(format); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
                     {deliveryFormat === 'recipient' && <Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
             <PackageDeliveryPanel initialMemberIds={signedSelectionOwner === selectionOwner ? revision.members.filter(m => m.kind === 'original' && m.signedOriginal).map(m => m.id) : undefined} canSign={editable} visible={workspaceSection === 'delivery' && deliveryFormat === 'recipient' && !formSigning} onNavigate={openDeliveryFinding} directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
               onPreparedChange={prepared => {
@@ -1869,14 +1869,13 @@ function PackageDialog({
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-</div></details>
-                  </fieldset>
-                  <div hidden={workspaceSection !== 'delivery'} className="mt-7">
-                    {readRecord && revision && <Suspense fallback={<p role="status">Opening saved assembly jobs…</p>}>
+{readRecord && revision && <Suspense fallback={<p role="status">Opening saved assembly jobs…</p>}>
                       <PackageJobsPanel record={readRecord} revision={revision} disabled={pendingPackageEdits || !!openedReview} busy={busy} ports={ports} run={run} onApply={update}
                         signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
                     </Suspense>}
-                  </div>
+</div></details>
+                  </fieldset>
+
                 </>}
               </div>
             </div>

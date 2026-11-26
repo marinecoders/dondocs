@@ -80,8 +80,8 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
     catch (cause) { if (current()) setError(cause instanceof Error ? cause.message : 'The package signing operation could not start.'); }
     finally { running.current = false; if (mounted.current) setPending(false); }
   }
-  return <section ref={content} tabIndex={-1} data-package-panel="signing" aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-2 sm:p-4">
-    <h3 id={heading} className="font-medium">Package signing</h3>
+  return <section ref={content} tabIndex={-1} data-package-panel="signing" aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3">
+    <h3 id={heading} className="sr-only">Package signing</h3>
     <p className="text-sm text-muted-foreground">Prepare an exact saved PDF in the signing workspace, then capture the handoff and its signer assignments with this package.</p>
     <p className="text-xs text-muted-foreground">External signing and certificate checks stay in your signing application. Captured handoffs preserve their original revision and file bytes.</p>
     {!editable && <p className="text-xs text-muted-foreground">Signing associations are read-only in this view.</p>}

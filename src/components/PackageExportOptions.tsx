@@ -26,6 +26,7 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
   onPrepare(): void;
   onOpenDocument(id: string): void;
 }) {
+  const signed = revision.members.some(member => member.kind === 'original' && member.signedOriginal);
   const inspect = active && format === 'pdf';
   const [inspection, setInspection] = useState<{ revision: PackageRevision; findings: PackageRequirementFinding[]; error?: string }>();
   useEffect(() => {
@@ -101,7 +102,10 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
         onClick={() => onNavigate({ revisionId: revision.id, ...firstDestination })}>{actionLabel}</Button>
     </div>}
     <section aria-label="Included documents"><div className="mb-3">
-      <h3 className="text-sm font-medium">Included documents</h3><p className="text-xs text-muted-foreground">{format === 'draft' ? 'Draft marked on every page' : format === 'pdf' ? 'Combined PDF · Unsigned' : 'Open in DonDocs'}</p>
+      <h3 className="text-sm font-medium">Included documents</h3><p className="text-xs text-muted-foreground">{format === 'draft' ? 'Draft marked on every page' : format === 'pdf' ? 'Combined PDF · Unsigned' : 'Working documents and original files'}</p>
+      {signed && (format === 'pdf' || format === 'draft') && <p className="mt-1 text-sm">Choose
+        {' '}<Button size="sm" variant="link" className="h-auto p-0" disabled={disabled} onClick={() => onFormat('recipient')}>selected files (.zip)</Button>
+        {' '}to send the original signed PDFs.</p>}
     </div>
       {inspect && (!checked || checks && !checks.result && !checks.error) && <p role="status" className="text-xs text-muted-foreground">Checking delivery requirements…</p>}
       {inspect && checks?.error && <p role="alert" className="text-sm">{checks.error}</p>}

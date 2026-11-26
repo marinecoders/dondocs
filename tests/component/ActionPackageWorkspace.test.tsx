@@ -63,6 +63,7 @@ vi.mock("@/config/classification", async (importOriginal) => ({
 beforeEach(() => {
   vi.restoreAllMocks();
   localStorage.clear();
+  sessionStorage.clear();
   useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false });
 });
 
@@ -306,6 +307,7 @@ it("checks retained raw draft text before editable package download while allowi
   await user.click(within(dialog).getByRole("button", { name: "Prepare editable package" }));
   await within(dialog).findByRole("heading", { name: "Editable package" });
   expect(within(dialog).getByRole("button", { name: "Download editable package" })).toBeDisabled();
+  await user.click(within(dialog).getByRole("button", { name: "Back to export options" }));
   await user.click(within(dialog).getByRole("button", { name: "PDF" }));
   await user.click(within(dialog).getByRole("button", { name: "Prepare PDF" }));
   await within(dialog).findByRole("button", { name: "Download PDF" });
