@@ -60,7 +60,7 @@ it('runs a forms-led training recipe with independent edits, conditional corresp
   expect(revision.members.map(member => member.role)).toEqual(['supporting-document', 'enclosure', 'endorsement']);
   expect(revision.members.slice(0, 2).map(member => member.kind === 'native' && member.session.genericForm?.answers['21_remarks'])).toEqual(['Copy 1', 'Copy 2']);
   const readiness = await inspectPackageRequirements(revision, 'pdf');
-  expect(readiness.items.filter(item => item.message.includes(signature)).map(item => item.memberId)).toEqual([forms[0].id]);
+  expect(readiness.items.filter(item => item.signatureFields?.includes(signature)).map(item => item.memberId)).toEqual([forms[0].id]);
   const transferred = await parsePortableActionPackage(await buildPortableActionPackage(record));
   expect(getPackageRevision(transferred.record).members).toEqual(revision.members);
   expect((await readConditionalPackageTemplate(record)).primaryMemberKey).toBe('first');
