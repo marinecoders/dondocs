@@ -1,3 +1,4 @@
+import { printableCorrespondenceParagraphs } from '@/lib/correspondenceClosing';
 import { taggedReferenceUrl } from './links';
 import mainTemplate from '../../../../tex/main.tex?raw';
 import navalTemplate from '../../../../tex/templates/naval_letter.tex?raw';
@@ -55,6 +56,7 @@ function replaceOnce(source: string, target: string, replacement: string): strin
 /** Called synchronously with an owned prepared model. Both TeX strings and the
  * structure plan are completed before any asynchronous compiler operation. */
 export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, resolvedLevel?: string, referenceDate = new Date(), options: TaggedCorrespondenceOptions = {}): TaggedCorrespondencePreparation {
+  source = { ...source, paragraphs: printableCorrespondenceParagraphs(source.paragraphs) };
   const issues = taggedCorrespondenceIssues(source, resolvedLevel);
   if (issues.length) throw new Error(issues.join('\n'));
   const nonce = crypto.randomUUID().replaceAll('-', '');

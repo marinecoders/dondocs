@@ -10,7 +10,7 @@ import { unfilled } from '@/lib/requiredField';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { bodyTableText, bodyTableLiteral } from './bodyTableText';
 import { toTitleCase } from '@/lib/titleCase';
-import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
+import { closingTailStart, hasBottomSignature, printableCorrespondenceParagraphs } from '@/lib/correspondenceClosing';
 import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
 import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
 import { documentOutputConfig, jointMemoHeading } from '@/lib/documentOutputConfig';
@@ -1109,6 +1109,9 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
   const config = documentOutputConfig(store.docType, store.documentMode);
   if (config.uiMode === 'moa') {
     store = { ...store, paragraphs: agreementParagraphs(store.paragraphs) };
+  }
+  if (!isTechnicalPublication(store.docType)) {
+    store = { ...store, paragraphs: printableCorrespondenceParagraphs(store.paragraphs) };
   }
   let hintIndex = -1;
   if (hints?.body) {
