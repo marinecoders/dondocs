@@ -4,10 +4,30 @@ import { getPackageRevision, newPackageId, reviseActionPackage, type ActionPacka
 import { portableResourceDigest } from './portableResources';
 import { officialEdition } from '@/services/forms/nativeCatalog';
 import { inspectPackageOriginal } from './packageOriginalPdf';
+import { readPackageAsset } from './actionPackageAssets';
 import { loadAssemblyPdf } from '@/services/pdf/assemblyPdf';
 
+export function requiresExternalPrint(member: Extract<PackageMember, { kind: 'original' }>) {
+  return !!member.officialFormId && ['xfa', 'hybrid'].includes(officialEdition(member.officialFormId)?.format ?? '');
+}
+
 export function needsOfficialPrintableCopy(member: Extract<PackageMember, { kind: 'original' }>) {
-  return !member.printableCopy && !!member.officialFormId && officialEdition(member.officialFormId)?.format === 'xfa';
+  return !member.printableCopy && requiresExternalPrint(member);
+}
+
+/** Render the saved original into an unsigned, local review candidate. */
+export async function preparePackagePrintableCopy(member: Extract<PackageMember, { kind: 'original' }>, signal: AbortSignal) {
+  signal.throwIfAborted();
+  if (requiresExternalPrint(member)) throw new Error('Print the completed form to PDF in a compatible viewer, then choose that file here.');
+  const bytes = await readPackageAsset(member.original);
+  signal.throwIfAborted();
+  if (!(await inspectPackageOriginal(bytes)).printable) throw new Error('Printing is restricted for this original.');
+  const { pdf } = await loadAssemblyPdf(bytes, signal, { forcePageImages: true });
+  signal.throwIfAborted();
+  const data = await pdf.save();
+  signal.throwIfAborted();
+  if (data.byteLength > 25 * 1024 * 1024) throw new Error('The prepared copy exceeds 25 MB. Upload a smaller printable PDF.');
+  return new File([new Uint8Array(data)], member.original.name.replace(/\.pdf$/i, '') + '-print.pdf', { type: 'application/pdf' });
 }
 
 // Cache successful checks by content only. An aborted or failed render can be retried.

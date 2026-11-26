@@ -126,3 +126,30 @@ test('preserves a print-permitted original and rejects an opening password at in
   const entries: { name: string; data: string }[] = JSON.parse(portable.toString()).portableResources.entries;
   expect(entries.find(entry => entry.name === 'owner-aes.pdf')?.data).toEqual((await readFile(path)).toString('base64'));
 });
+
+test('prepares printable pages in a custom package and retains the source bytes', async ({ page }) => {
+  const pdf = await PDFDocument.create();
+  pdf.addPage([210, 310]).drawText('PAGE ONE', { x: 20, y: 60 });
+  pdf.addPage([300, 210]).drawText('PAGE TWO', { x: 25, y: 90 });
+  const source = Buffer.from(await pdf.save());
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing' }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newPackage(workspace);
+  const custom = workspace.getByRole('group', { name: 'Custom package' });
+  await custom.getByLabel('Package name').fill('Printed enclosures');
+  await custom.getByRole('button', { name: 'Create package' }).click();
+  await workspace.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'source.pdf', mimeType: 'application/pdf', buffer: source });
+  await workspace.getByText('Add printable copy', { exact: true }).click();
+  await workspace.getByRole('button', { name: 'Prepare printable copy' }).click();
+  const review = workspace.getByRole('region', { name: 'Review printable pages' });
+  await expect(review.getByRole('status').filter({ hasText: 'Printable copy: 2 pages' })).toBeVisible();
+  await review.getByRole('button', { name: 'Use these pages' }).click();
+  await expect(workspace.getByText(/Combined PDF uses/)).toContainText('source-print.pdf');
+  const archive = JSON.parse((await downloadPackageExport(page, workspace, 'Export editable package', 'Download editable package')).toString());
+  const entries: { name: string; data: string }[] = archive.portableResources.entries;
+  expect(entries.find(item => item.name === 'source.pdf')?.data).toEqual(source.toString('base64'));
+  const result = await PDFDocument.load(Buffer.from(entries.find(item => item.name === 'source-print.pdf')!.data, 'base64'));
+  expect(result.getPages().map(p => [p.getWidth(), p.getHeight()])).toEqual([[210, 310], [300, 210]]);
+  expect(result.getPages().every(p => p.node.Resources()?.lookup(PDFName.of('XObject')))).toBe(true);
+});
