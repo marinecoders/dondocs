@@ -1014,6 +1014,22 @@ function PackageDialog({
                 <header className="mb-8">
                   {!creating && <p className="mb-2 text-xs text-muted-foreground">{openedReview ? 'Review copy' : revision?.templateState ? 'Action package' : 'Package'}</p>}
                   <h1 className="break-words text-2xl font-semibold tracking-tight">{creating ? 'New package' : record?.name}</h1>
+                  {editable && record && !creating && <details key={record.id} className="mt-1" onToggle={event => {
+                    if (event.currentTarget.open) setName(record.name);
+                  }}>
+                    <summary className="w-fit cursor-pointer text-xs text-muted-foreground">Rename package</summary>
+                    <form className="mt-2 flex max-w-lg items-end gap-2" onSubmit={event => {
+                      event.preventDefault();
+                      if (!validName || busy || pendingPackageEdits) return;
+                      const details = event.currentTarget.closest('details');
+                      void run(async () => {
+                        update(await renameActionPackage(record, name, operation.current?.signal));
+                        if (details) { details.open = false; details.querySelector('summary')?.focus(); }
+                      });
+                    }}>
+                      <fieldset disabled={busy || pendingPackageEdits} className="flex min-w-0 flex-1 items-end gap-2"><label className="block text-sm">Package name<input aria-invalid={nameTooLong || undefined} aria-describedby={nameTooLong ? nameLimitId : undefined} className="mt-2 block w-full rounded border bg-background p-2" value={name} onChange={event => setName(event.target.value)} />{nameTooLong && <span id={nameLimitId} role="status" className="mt-1 block text-xs text-destructive">Use a package name of 120 characters or fewer.</span>}</label><Button type="submit" disabled={!validName}>Rename</Button></fieldset>
+                    </form>
+                  </details>}
                   {record && revision && <p className="mt-2 text-xs text-muted-foreground">{record.historyScope === 'selected-revision' ? `Saved revision ${revision.id.slice(-8)}` : `Version ${record.revisions.findIndex(item => item.id === revision.id) + 1}`}{record.archived ? ' · Archived' : revision.id !== record.currentRevisionId ? ' · Historical' : ''}{pendingPackageEdits ? ' · Unapplied edits' : ''}</p>}
                   {record && revision && revision.id !== record.currentRevisionId && !openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => changeRevision(record.currentRevisionId)}><ArrowLeft aria-hidden="true" className="size-4" />Back to current version</Button>}
                   {record && openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => { select(record); mainScroll.current?.scrollTo?.({ top: 0 }); }}><ArrowLeft aria-hidden="true" className="size-4" />Back to current package</Button>}
@@ -1178,25 +1194,8 @@ function PackageDialog({
               signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-                    {record && revision && <fieldset disabled={busy || pendingPackageEdits} className="space-y-4"><legend className="mb-4 text-sm font-medium">Package settings</legend><label className="block text-sm">Package name<input aria-invalid={nameTooLong || undefined} aria-describedby={nameTooLong ? nameLimitId : undefined} className="mt-2 block w-full rounded border bg-background p-2" value={name} onChange={event => setName(event.target.value)} />{nameTooLong && <span id={nameLimitId} role="status" className="mt-1 block text-xs text-destructive">Use a package name of 120 characters or fewer.</span>}</label><Button variant="outline" disabled={!!openedReview} onClick={() => setShareOpen(true)}>Share encrypted package</Button>
+                    {record && revision && <fieldset disabled={busy || pendingPackageEdits} className="space-y-4"><legend className="mb-4 text-sm font-medium">Package settings</legend><Button variant="outline" disabled={!!openedReview} onClick={() => setShareOpen(true)}>Share encrypted package</Button>
 <div className="flex flex-wrap gap-2">
-                <Button
-                  variant="outline"
-                  disabled={!validName}
-                  onClick={() =>
-                    void run(async () =>
-                      update(
-                        await renameActionPackage(
-                          record,
-                          name,
-                          operation.current?.signal,
-                        ),
-                      ),
-                    )
-                  }
-                >
-                  Rename
-                </Button>
                 <Button
                   variant="outline"
                   onClick={() =>
