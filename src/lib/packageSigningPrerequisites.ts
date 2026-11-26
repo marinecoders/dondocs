@@ -1,3 +1,4 @@
+import { PackageSigningRequirementError } from './packageDestinations';
 import type { PackageRevision } from './actionPackages';
 import { resolveConditionalPackageRequirements } from './packageConditionalRequirements';
 import { packageBindingReadiness } from './packageFieldBindings';
@@ -7,16 +8,26 @@ import { readAnsweredPdfFields } from '@/services/forms/readRequiredPdfFields';
 /** Evaluate the chosen signer against the exact bytes about to reach the card. */
 export async function checkPackageSigningPrerequisites(revision: PackageRevision, memberId: string, field: string, bytes: ArrayBuffer) {
   const [unresolved] = await packageBindingReadiness(revision, memberId);
-  if (unresolved) throw new Error(unresolved.message);
+  if (unresolved) throw new PackageSigningRequirementError(unresolved.message, { bindingId: unresolved.bindingId, memberId });
   const requirements = revision.templateState ? await resolveConditionalPackageRequirements(revision) : revision.requirements;
   const groups = [];
   for (const item of requirements?.items ?? []) {
     if (item.kind !== 'document' || item.memberId !== memberId || item.condition === 'inactive') continue;
     const applicable = item.completion?.answerGroups?.filter(group => group.beforeSignatures?.includes(field)) ?? [];
-    if (applicable.length && item.condition === 'unknown') throw new Error('Complete the package details for ' + item.label + ' before signing.');
+    if (applicable.length && item.condition === 'unknown') throw new PackageSigningRequirementError('Complete the package details for ' + item.label + ' before signing.', { panel: 'intake', section: 'overview' });
     groups.push(...applicable);
   }
   if (!groups.length) return;
-  const missing = missingAnswerGroups(groups, await readAnsweredPdfFields(bytes));
-  if (missing.length) throw new Error(missing.map(group => group.label).join(' '));
+  const answered = await readAnsweredPdfFields(bytes);
+  const missing = missingAnswerGroups(groups, answered);
+  if (!missing.length) return;
+  const member = revision.members.find(item => item.id === memberId);
+  const definition = member?.kind === 'native' ? member.session.genericForm?.definition : undefined;
+  const row = missing[0].alternatives.reduce((best, row) =>
+    row.filter(name => !answered.has(name)).length < best.filter(name => !answered.has(name)).length ? row : best);
+  const name = row.find(value => !answered.has(value));
+  const entry = name && Object.entries(definition?.fields ?? {}).find(([, value]) => value.sourceIds?.includes(name));
+  const section = entry && definition?.sections.find(section => section.fields.includes(entry[0]));
+  throw new PackageSigningRequirementError(missing.map(group => group.label).join(' '), entry ? { memberId,
+    correction: { kind: 'edit', fieldKey: entry[0], sectionId: section && 'field/' + section.id, label: 'Fill ' + entry[1].label } } : undefined);
 }

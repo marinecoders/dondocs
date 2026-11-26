@@ -2,6 +2,11 @@ export type PackageCorrection =
   | { kind: 'edit'; label: string; sectionId?: string; fieldKey?: string }
   | { kind: 'printable' | 'replace'; label: string };
 
+export class PackageSigningRequirementError extends Error {
+  readonly target?: PackageDestination;
+  constructor(message: string, target?: PackageDestination) { super(message); this.target = target; }
+}
+
 export interface PackageDestination {
   revisionId?: string;
   section?: 'overview' | 'documents' | 'review' | 'delivery';

@@ -441,7 +441,22 @@ function PackageDialog({
   const [advanceFrom, setAdvanceFrom] = useState<{ packageId: string; correction: string }>();
   const followLatest = useRef(followDestination);
   useLayoutEffect(() => { followLatest.current = followDestination; });
+  const returnSigner = useRef<{ packageId: string; memberId: string; field: string } | undefined>(undefined);
+  const signingLauncher = useRef(openMemberSigning);
+  useLayoutEffect(() => { signingLauncher.current = openMemberSigning; });
+  useEffect(() => {
+    const request = returnSigner.current;
+    if (!request || editorMember || busy || pendingPackageEdits) return;
+    returnSigner.current = undefined;
+    const member = revision?.members.find(item => item.id === request.memberId);
+    if (member && record?.id === request.packageId) void signingLauncher.current(member, request.field);
+  }, [record, revision, editorMember, busy, pendingPackageEdits]);
   async function finishFinding(advance: boolean) {
+    if (record && editingFinding?.signatureField && editingFinding.memberId) {
+      returnSigner.current = { packageId: record.id, memberId: editingFinding.memberId, field: editingFinding.signatureField };
+      await openMemberEditor();
+      return;
+    }
     await openMemberEditor();
     setEditingFinding(undefined);
     setPrepared(null);
@@ -938,7 +953,7 @@ function PackageDialog({
             {...editorSurface} onFinishFinding={editingFinding?.memberId === nativeEditorMember.id ? finishFinding : undefined} navigationError={error} disabled={busy} onFieldReview={reviewEditorField} onSave={onEditorSave} onNavigate={openMemberEditor} />
         </Suspense>}
         {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
-          <PackageFormEditor key={record.id + '/' + formMember.id} record={record} member={formMember} correction={editingFinding?.memberId === formMember.id ? editingFinding.correction : undefined} onFinishFinding={editingFinding?.memberId === formMember.id ? finishFinding : undefined} ports={ports} exportGate={exportGate}
+          <PackageFormEditor returnToSigner={!!editingFinding?.signatureField} key={record.id + '/' + formMember.id} record={record} member={formMember} correction={editingFinding?.memberId === formMember.id ? editingFinding.correction : undefined} onFinishFinding={editingFinding?.memberId === formMember.id ? finishFinding : undefined} ports={ports} exportGate={exportGate}
             onFieldReview={reviewEditorField} onSave={onEditorSave} navigationError={error}
             onSharedDetails={() => {
               openMemberEditor();
@@ -1871,6 +1886,10 @@ function PackageDialog({
       </DialogContent>
     </Dialog>
     {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id} initialField={formSigning.initialField}
+              onCorrect={(target, signatureField) => {
+                setFormSigning(undefined);
+                followDestination({ ...target, revisionId: revision.id, signatureField });
+              }}
               beforeSign={async (field, bytes) => {
                 const [latest] = await listActionPackages(record.id);
                 if (latest?.currentRevisionId !== revision.id) throw new Error('The package changed. Reopen this document before signing.');

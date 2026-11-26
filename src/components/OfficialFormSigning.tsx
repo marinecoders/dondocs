@@ -1,3 +1,4 @@
+import { PackageSigningRequirementError, type PackageDestination } from '@/lib/packageDestinations';
 import { OfficialSignatureLocation } from './OfficialSignatureLocation';
 import { officialEdition } from '@/services/forms/nativeCatalog';
 import { useEffect, useRef, useState } from 'react';
@@ -9,10 +10,11 @@ import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
 import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 
 export type BeforeOfficialSignature = (field: string, bytes: ArrayBuffer) => Promise<void>;
-type Props = { initialField?: string; beforeSign?: BeforeOfficialSignature; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
+export type SigningCorrection = (target: PackageDestination, signatureField: string) => void;
+type Props = { onCorrect?: SigningCorrection; initialField?: string; beforeSign?: BeforeOfficialSignature; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
   onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> };
 
-export function OfficialFormSigning({ record, initialField, beforeSign, onSave, onAttach }: Props) {
+export function OfficialFormSigning({ record, initialField, beforeSign, onCorrect, onSave, onAttach }: Props) {
   const [code, setCode] = useState('');
   const [inspection, setInspection] = useState<OfficialInspection>();
   const [identities, setIdentities] = useState<Awaited<ReturnType<typeof signingIdentities>>>([]);
@@ -23,15 +25,29 @@ export function OfficialFormSigning({ record, initialField, beforeSign, onSave, 
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const fieldLabels = useRef<Map<string, string> | undefined>(undefined);
   const active = useRef<AbortController | null>(null);
   useEffect(() => () => active.current?.abort(), []);
   const selected = inspection?.fields.find(item => item.name === field);
   const latest = record.revisions.at(-1)!;
   const profile = inspection && officialEdition(inspection.formId, inspection.edition);
   const inspected = Boolean(profile && inspection?.sha256 === latest.sha256);
+  const [check, setCheck] = useState<{ field: string; digest: string; message?: string; target?: PackageDestination }>();
+  useEffect(() => {
+    if (!beforeSign || !field) return;
+    let live = true;
+    void officialRevisionBytes(record).then(bytes => beforeSign(field, bytes.buffer)).then(() => {
+      if (live) setCheck({ field, digest: latest.sha256 });
+    }).catch(cause => {
+      if (live) setCheck({ field, digest: latest.sha256, message: cause instanceof Error ? cause.message : 'Could not check signing requirements.',
+        target: cause instanceof PackageSigningRequirementError ? cause.target : undefined });
+    });
+    return () => { live = false; };
+  }, [beforeSign, field, latest.sha256, record]);
+  const checked = check?.field === field && check.digest === latest.sha256 ? check : undefined;
   const selectInspection = (value: OfficialInspection) => {
     const available = value.fields.filter(item => !item.locked && !item.signed);
-    setInspection(value);
+    setInspection({ ...value, fields: value.fields.map(item => ({ ...item, label: fieldLabels.current?.get(item.name) || item.label })) });
     setField(previous => previous && !available.some(item => item.name === previous) ? '' : previous || available[0]?.name || '');
     setReviewed(false); setFinalize(false);
   };
@@ -50,6 +66,10 @@ export function OfficialFormSigning({ record, initialField, beforeSign, onSave, 
     signal.throwIfAborted();
     await confirmSigningDisclosure({ pdfs: [{ bytes, label: record.filename }] }, () => !signal.aborted, { action: 'inspect' });
     const info = await inspectOfficialPdf(bytes, code.trim(), signal);
+    const { officialSignatureLabels } = await import('@/lib/packageSignatureFieldLabel');
+    const labels = await officialSignatureLabels({ id: info.formId, edition: info.edition }).catch(() => undefined);
+    signal.throwIfAborted();
+    fieldLabels.current = labels;
     selectInspection(info);
     setIdentities([]); setCertificate('');
     const cards = await signingIdentities(code.trim(), signal);
@@ -85,6 +105,9 @@ export function OfficialFormSigning({ record, initialField, beforeSign, onSave, 
     {message && <p role="status" className="text-sm">{message}</p>}
     <fieldset disabled={busy} className="space-y-3">
       <OfficialSignatureLocation key={latest.sha256} initiallyOpen={!!initialField} record={record} choice={field} onChoice={setField} paired={inspected} />
+      {checked?.message && <div role="status" className="space-y-1 text-sm"><p>{checked.message}</p>
+        {onCorrect && checked.target && record.revisions.length === 1 && <Button size="sm" variant="outline" onClick={() => onCorrect(checked.target!, field)}>
+          {checked.target.correction?.label || 'Open package details'}</Button>}</div>}
       <div className="flex flex-wrap items-end gap-2"><label className="grid gap-1 text-sm">Local bridge pairing code
         <input type="password" autoComplete="off" className="rounded border bg-background px-2 py-1" value={code}
           onChange={e => { setCode(e.target.value); setInspection(undefined); setIdentities([]); setReviewed(false); }} /></label>
@@ -111,7 +134,7 @@ export function OfficialFormSigning({ record, initialField, beforeSign, onSave, 
           {profile.format === 'xfa' && !inspection.fields.some(item => item.signed) &&
             <label className="block text-sm"><input type="checkbox" checked={finalize} onChange={e => { setFinalize(e.target.checked); setReviewed(false); }} /> Lock the entire PDF after signing (prevents further signatures)</label>}
           <label className="block text-sm"><input type="checkbox" checked={reviewed} onChange={e => setReviewed(e.target.checked)} /> I reviewed the exact PDF and selected signature field.</label>
-          <Button disabled={!reviewed || !certificate} onClick={() => void run(sign)}>Sign with CAC</Button></>}
+          <Button disabled={!reviewed || !certificate || !!beforeSign && (!checked || !!checked.message)} onClick={() => void run(sign)}>Sign with CAC</Button></>}
       </div>}
       <div className="flex flex-wrap items-center gap-2">
         <Button variant="outline" onClick={() => download(record.revisions.length - 1)}>Download official PDF</Button>
