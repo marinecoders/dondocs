@@ -13,6 +13,9 @@ interface ActionListing {
 }
 
 const actions = [
+  { id: 'dependency-application', build: async () => (await import('./recipes/dependencyApplication')).dependencyApplication(),
+    name: 'Dependency application', startLabel: 'Start dependency application', startWithDocuments: true, kind: 'Forms-led',
+    description: 'Prepare NAVMC 10922 and supporting records for a marriage, birth, or loss of dependency.' },
   { id: 'administrative-request', build: administrative, name: 'Administrative request', description: 'A forwarding letter and request worksheet, with supporting evidence when needed.', kind: 'Letter-led' },
   { id: 'training-participation', build: training, name: 'Training participation', description: 'Participant worksheets with attendance details and optional cost estimates.', kind: 'Forms-led' },
   { id: 'evidence-submission', build: evidence, name: 'Evidence submission', description: 'A transmittal letter, submission index and original supporting PDF.', kind: 'Mixed evidence' },

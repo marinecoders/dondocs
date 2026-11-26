@@ -1,3 +1,4 @@
+import referenceEditions from '@/data/packageReferenceEditions.json';
 import { FormCatalogStatus } from '@/components/editor/FormCatalogStatus';
 import { formAssetUrl } from '@/lib/releasePaths';
 import { useMemo, useState } from 'react';
@@ -54,6 +55,8 @@ export function FormCatalogModal({
   // Bound thumbnail rendering as the catalog grows; show the remaining count.
   const RENDER_CAP = 90;
   const visible = shown.slice(0, RENDER_CAP);
+  const downloads = referenceEditions.filter(form => form.downloadCategory && (!category || form.downloadCategory === category)
+    && fuzzyMatch(form.name, query) !== null);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -104,11 +107,18 @@ export function FormCatalogModal({
         </div>
 
         <div className="grid min-h-0 grid-cols-[repeat(auto-fit,minmax(min(100%,140px),1fr))] gap-3 overflow-y-auto pr-1">
-          {shown.length === 0 && (
+          {shown.length === 0 && downloads.length === 0 && (
             <p className="col-span-full py-8 text-center text-sm text-muted-foreground">
               No forms match.
             </p>
           )}
+          {downloads.map(form => (
+            <a key={form.id} href={formAssetUrl(form.directory, form.file)} download={form.name}
+              className="rounded-lg border border-border p-3 text-sm hover:border-muted-foreground/40">
+              <span className="block font-medium">{form.name.replace(/\.pdf$/i, '')}</span>
+              <span className="text-xs text-muted-foreground">Download blank · Complete in a desktop XFA reader</span>
+            </a>
+          ))}
           {visible.map((f) => (
             <div
               key={f.formType}

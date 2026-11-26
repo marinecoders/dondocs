@@ -46,5 +46,16 @@
     "directory": "jagman/a-1-o/5800.7G-CH2",
     "file": "original.pdf",
     "sha256": "622110041498078de3ca023f43df5fee213649447618b7a72c2f9c856b70b73d"
+  },
+  {
+    "id": "navmc10922",
+    "edition": "2021-07",
+    "name": "NAVMC 10922 - Dependency Application.pdf",
+    "directory": "navmc/10922/2021-07",
+    "file": "original.pdf",
+    "sha256": "722fb79d993cd789375595ee7db4c217a18689ca8e6c1c3252870c584cfbc760",
+    "downloadCategory": "Personnel & Records",
+    "requiresDesktopReader": true,
+    "source": "https://dso.dla.mil/DONNavyForms-RequestService/api/forms/6243/file"
   }
 ]

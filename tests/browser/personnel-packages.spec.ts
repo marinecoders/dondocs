@@ -1,0 +1,27 @@
+import { expect, test, type Page } from '@playwright/test';
+import { expandPackageTools, newPackage, openPackageWorkspace } from './_helpers/packageWorkspace';
+
+async function startPackage(page: Page, name: string) {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing', exact: true }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newPackage(workspace);
+  await expandPackageTools(workspace);
+  await workspace.getByRole('button', { name: 'Start ' + name, exact: true }).click();
+  return workspace;
+}
+
+test('starts a dependency application with the official blank and a slot for the signed return', async ({ page }) => {
+  const workspace = await startPackage(page, 'dependency application');
+  const download = page.waitForEvent('download');
+  await workspace.getByRole('list', { name: 'Document requirements' }).getByRole('listitem').filter({ hasText: 'NAVMC 10922' }).getByRole('button', { name: 'Download blank', exact: true }).click();
+  const blank = await download;
+  expect(blank.suggestedFilename()).toBe('NAVMC 10922 - Dependency Application.pdf');
+  const slot = workspace.getByRole('listitem').filter({ hasText: 'Completed and signed NAVMC 10922' });
+  const input = slot.getByLabel('Attach completed original for Completed and signed NAVMC 10922');
+  const { readFile } = await import('node:fs/promises');
+  await input.setInputFiles({ name: 'official-blank.pdf', mimeType: 'application/pdf', buffer: await readFile((await blank.path())!) });
+  await expect(workspace.getByRole('alert').filter({ hasText: 'This is the blank form' })).toBeVisible();
+  await workspace.getByRole('button', { name: 'What changed?', exact: true }).click();
+  await expect(workspace.getByRole('region', { name: 'Action intake' }).getByLabel('What changed?', { exact: true })).toBeVisible();
+});
