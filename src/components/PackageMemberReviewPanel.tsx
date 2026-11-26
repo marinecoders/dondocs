@@ -1,8 +1,9 @@
-import { packageDocumentName } from '@/lib/actionPackages';
+import { markPackageReading, packageReadingState, subscribePackageReading } from '@/lib/packageReadingProgress';
+import { packageNavigationNames } from '@/lib/packageNavigationNames';
 import { PackagePdfRegionReviewPanel } from './PackagePdfRegionReviewPanel';
 import { PackageFormCorrectionPanel } from './PackageFormCorrectionPanel';
 import { PackageFormReviewPanel } from './PackageFormReviewPanel';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSyncExternalStore, useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -40,6 +41,18 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
     return () => { window.removeEventListener('beforeunload', warn); window.removeEventListener('keydown', guard, true); };
   }, [dirty]);
   const [selected, setSelected] = useState('');
+  const [readingError, setReadingError] = useState(false);
+  const names = useMemo(() => packageNavigationNames(round.baseline, record.revisions), [round.baseline, record.revisions]);
+  const bindings = useMemo(() => new Map(round.members.map(binding => [binding.memberId, binding])), [round.members]);
+  const readMarks = useCallback(() => round.baseline.members.map((member, index) =>
+    packageReadingState(bindings.get(member.id)!, index)).join(','), [bindings, round.baseline.members]);
+  const snapshot = useSyncExternalStore(subscribePackageReading, readMarks);
+  const statuses = snapshot ? snapshot.split(',') : [];
+  const unreadIndex = statuses.findIndex(status => status === 'unread' || status === 'changed');
+  const nextIndex = unreadIndex >= 0 ? unreadIndex : statuses.indexOf('moved');
+  const selectedIndex = round.baseline.members.findIndex(member => member.id === selected);
+  const selectedStatus = statuses[selectedIndex];
+
   const [history, setHistory] = useState<PackageMemberReview[]>([]), [future, setFuture] = useState<PackageMemberReview[]>([]);
   const member = round.baseline.members.find(member => member.id === selected);
   const child = round.memberReviews?.find(child => child.binding.memberId === selected);
@@ -55,18 +68,38 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
     if (remember && child) { setHistory(items => [...items, structuredClone(child)]); setFuture([]); }
     onChange(next, next.reviewRounds!.find(value => value.id === round.id)!);
   }
+  function openMember(id: string) {
+    void run(async () => {
+      if (packageReviewRoundStatus(round) !== 'active') { setSelected(id); return; }
+      const result = await preparePackageReviewMember(record, round.id, id, signal?.(), () => alive.current && currentView.current === view);
+      if (!alive.current || currentView.current !== view) return;
+      onChange(result.record, result.record.reviewRounds!.find(value => value.id === round.id)!);
+      setSelected(id); setHistory([]); setFuture([]);
+    });
+  }
   return <section tabIndex={-1} data-package-panel="member-review" aria-label="Package member feedback" className="space-y-3 rounded border p-3">
     <h3 className="font-medium">Review captured package members</h3>
+    <div className="flex flex-wrap items-center gap-2 text-sm">
+      <span role="status">{statuses.filter(status => status === 'read' || status === 'moved').length} of {statuses.length} read on this device</span>
+      {nextIndex >= 0 && <Button size="sm" variant="outline" disabled={busy || dirty || nextIndex === selectedIndex}
+        onClick={() => openMember(round.baseline.members[nextIndex].id)}>{unreadIndex >= 0 ? 'Continue review' : 'Review changed order'}</Button>}
+    </div>
     <nav aria-label="Captured review members" className="flex min-w-0 flex-wrap gap-2">
-      {round.baseline.members.map(member => <Button className="h-auto min-h-9 max-w-full whitespace-normal" key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || dirty}
-        onClick={() => void run(async () => {
-          if (packageReviewRoundStatus(round) !== 'active') { setSelected(member.id); return; }
-          const result = await preparePackageReviewMember(record, round.id, member.id, signal?.(), () => alive.current && currentView.current === view);
-          if (alive.current && currentView.current === view) { onChange(result.record, result.record.reviewRounds!.find(value => value.id === round.id)!); setSelected(member.id); setHistory([]); setFuture([]); }
-        })}>{packageDocumentName(round.baseline, member)}</Button>)}
+      {round.baseline.members.map((member, index) => <div key={member.id} className="min-w-0">
+        <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || dirty}
+          aria-current={selected === member.id ? 'true' : undefined} onClick={() => openMember(member.id)}>{names.get(member.id)}</Button>
+        {statuses[index] !== 'unread' && <span className="block text-xs text-muted-foreground">{statuses[index] === 'changed' ? 'Changed since read' : statuses[index] === 'moved' ? 'Read · position changed' : 'Read'}</span>}
+      </div>)}
     </nav>
     {member && <>
-      <h4 className="font-medium break-words">{packageDocumentName(round.baseline, member)}</h4>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h4 className="font-medium break-words">{names.get(member.id)}</h4>
+        <Button size="sm" variant="ghost" disabled={busy || dirty} onClick={() => {
+          const saved = markPackageReading(bindings.get(member.id)!, selectedIndex, selectedStatus !== 'read');
+          setReadingError(!saved);
+        }}>{selectedStatus === 'read' ? 'Mark as unread' : selectedStatus === 'moved' ? 'Acknowledge new position' : 'Mark as read'}</Button>
+      </div>
+      {readingError && <p role="alert" className="text-sm text-destructive">Reading progress could not be saved on this device.</p>}
       {member.kind === 'native' && member.session.documentCategory !== 'forms' ? <div role="region" aria-label="Captured member text" tabIndex={0} className="max-h-72 overflow-auto space-y-2 whitespace-pre-wrap break-words rounded border p-3 text-sm">
         {availableCommentFields(member.session).map(field => <p key={field.field}><strong>{field.label}: </strong>{field.value}</p>)}
         {member.session.paragraphs.map((paragraph, index) => <p key={paragraph.id ?? index}>{paragraph.text}</p>)}
