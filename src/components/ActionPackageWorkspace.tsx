@@ -22,8 +22,9 @@ import type { PackageSearchScope } from './PackageSearchPanel';
 import { configuredApprovalOrigin } from '@/lib/packageApprovalOrigin';
 import { PackageReviewControls } from "./PackageReviewControls";
 import { PackageMemberNavigation, PackageWorkspaceNavigation } from "./PackageWorkspaceNavigation";
+import { groupIntakeReviewBlockers, packageQuestionFindings, type IntakeReviewBlocker } from '@/lib/packageQuestionFindings';
 import { PackageLibrary } from "./PackageLibrary";
-import { DocumentPdfChecks, PackageNextActions } from "./PackageNextActions";
+import { AffectedPackageDocuments, DocumentPdfChecks, PackageNextActions } from "./PackageNextActions";
 import { attachPackageSlotFiles, preparePackageUploads } from '@/lib/packageSlotFiles';
 import { PackageRecipeDocuments } from "./PackageRecipeDocuments";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
@@ -304,6 +305,11 @@ function PackageDialog({
       informationRecoverable && previous === UNSAVED_PACKAGE_INFORMATION || intakeRecoverable && previous === 'Save, apply or discard the intake changes before closing this package.' ? '' : previous);
   }, [informationRecoverable, intakeRecoverable]);
   const [openedReview, setOpenedReview] = useState<PackageReviewRound | null>(null);
+  const [reviewIntake, setReviewIntake] = useState<{ revision: string; packageId: string; items: IntakeReviewBlocker[] }>();
+  const intakeBeforeReview = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (reviewIntake) intakeBeforeReview.current?.focus();
+  }, [reviewIntake]);
   const [reviewCopyRequest, setReviewCopyRequest] = useState<string | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [encryptedImport, setEncryptedImport] = useState<string | null>(null);
@@ -1231,6 +1237,17 @@ function PackageDialog({
                     <div ref={reviewRef} tabIndex={-1} className="scroll-mt-4 space-y-4">
               <PackageReviewControls workspace record={record} disabled={busy || typedDirty} opened={openedReview} onExit={() => select(record)}
                 onStart={() => void run(async () => {
+                  if (revision.templateState) {
+                    const { conditionalMembershipFindings, loadConditionalPackageSource } = await import('@/lib/packageConditionalSources');
+                    const findings = conditionalMembershipFindings(revision);
+                    if (findings.length) {
+                      const source = await loadConditionalPackageSource(revision);
+                      assertOperationCurrent();
+                      const questions = source ? packageQuestionFindings(source.template, revision) : new Map();
+                      setReviewIntake({ packageId: record.id, revision: revision.id, items: groupIntakeReviewBlockers(revision, questions, findings) });
+                      return;
+                    }
+                  }
                   const next = await startPackageReview(record, revision.id, `Package review ${(record.reviewRounds?.length ?? 0) + 1}`, operation.current?.signal, () => active.current);
                   update(next);
                   const round = await openPackageReview(next, next.reviewRounds!.at(-1)!.id);
@@ -1248,6 +1265,14 @@ function PackageDialog({
                   const round = await openPackageReview(next, roundId);
                   assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
                 })} />
+              {!openedReview && reviewIntake?.packageId === record.id && reviewIntake.revision === revision.id && <section aria-label="Intake before review" className="space-y-2">
+                <h3 ref={intakeBeforeReview} tabIndex={-1} className="font-medium">Complete these details before starting review</h3>
+                <ul className="divide-y">{reviewIntake.items.map((item, index) => <li key={item.questionKey ?? index} className="py-2 text-sm">
+                  <Button variant="link" size="sm" className="h-auto whitespace-normal p-0 text-left" onClick={() => followDestination({ revisionId: revision.id,
+                    section: 'documents', panel: 'intake', intakeQuestion: item.questionKey, intakeSlot: item.slotKey })}>{item.label}</Button>
+                  <AffectedPackageDocuments documents={item.documents} />
+                </li>)}</ul>
+              </section>}
               {PackageApprovalPanel && configuredApprovalOrigin && !openedReview && <details className="min-w-0 rounded border p-3">
                 <summary className="cursor-pointer text-sm font-medium">Approvals</summary>
                 <div className="pt-3"><Suspense fallback={<p role="status">Opening approvals…</p>}>

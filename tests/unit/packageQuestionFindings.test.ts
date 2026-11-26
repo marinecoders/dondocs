@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { packageQuestionFindings } from '@/lib/packageQuestionFindings';
+import { groupIntakeReviewBlockers, packageQuestionFindings } from '@/lib/packageQuestionFindings';
 import type { PackageRevision } from '@/lib/actionPackages';
 import type { PackageTemplateV2 } from '@/lib/packageTemplateSchema';
 
@@ -11,4 +11,14 @@ it('shares a correction for one decision and preserves an independent decision',
   expect(targets.get('orders')).toEqual(targets.get('receipt'));
   expect(targets.get('orders')?.label).toBe('travel');
   expect(targets.get('approval')?.label).toBe('approved');
+});
+
+it('lists one exact question with all affected documents and preserves independent failures', () => {
+  const instances = ['first', 'second', 'third'].map(memberId => ({ key: memberId, memberId, label: memberId }));
+  const revision = { templateState: { instances }, documentNames: { second: 'Second copy' } } as unknown as PackageRevision;
+  const target = { key: 'question-a', label: 'Travel approved?' };
+  const findings = instances.map(slot => ({ memberId: slot.memberId, message: 'Resolve ' + slot.label }));
+  const groups = groupIntakeReviewBlockers(revision, new Map([['first', target], ['second', target]]), findings);
+  expect(groups).toEqual([{ label: target.label, questionKey: target.key, documents: ['first', 'Second copy'] },
+    { label: 'Resolve third', slotKey: 'third', documents: [] }]);
 });
