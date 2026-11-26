@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { readConditionalPackageTemplate } from '@/lib/packageConditionalSources';
 import { getPackageRevision, type ActionPackage } from '@/lib/actionPackages';
@@ -13,8 +14,8 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dial
 const PdfViewer = lazy(() => import('./pdf/PdfViewer'));
 type Blank = { name: string; data: string };
 
-export function PackageRecipeDocuments({ record, revisionId, onCompleteDetails, onAttach, onOpen, onIntakeSlot }: {
-  record: ActionPackage; revisionId: string; onCompleteDetails?: (question: string) => void;
+export function PackageRecipeDocuments({ record, revisionId, onCompleteDetails, onAttach, onOpen, onIntakeSlot, guidesHost }: {
+  guidesHost: HTMLElement | null; record: ActionPackage; revisionId: string; onCompleteDetails?: (question: string) => void;
   onAttach?: (memberId: string, files: File[], signed: boolean) => void;
   onIntakeSlot?: (key: string) => void;
   onOpen?: (memberId: string) => void;
@@ -107,10 +108,11 @@ export function PackageRecipeDocuments({ record, revisionId, onCompleteDetails, 
         </li>;
       })}
     </ul>}
-    {(blanks.length > 0 || error) && <section aria-label="Blank forms and guides" className="space-y-2">
-    <h3 className="font-medium">Blank forms and guides</h3>
+    {error && <p role="alert">{error}</p>}
+    {blanks.length > 0 && guidesHost && createPortal(<section aria-label="Blank forms and guides" className="space-y-2">
+    <details><summary className="cursor-pointer text-sm font-medium">Blank forms and guides ({blanks.length})</summary>
     <ul>{blanks.map((blank, index) => <li key={index}><Button variant="link" className="h-auto whitespace-normal px-0 text-left" onClick={() => { setError(''); setUrl(''); setSelected(blank); }}>
-      {blank.name}</Button></li>)}</ul>
+      {blank.name}</Button></li>)}</ul></details>
     {selected && <Dialog open onOpenChange={open => { if (!open) setSelected(undefined); }}>
       <DialogContent fullscreen className="flex flex-col gap-2 p-3">
         <DialogTitle className="pr-10">{selected.name}</DialogTitle>
@@ -120,7 +122,6 @@ export function PackageRecipeDocuments({ record, revisionId, onCompleteDetails, 
         {url && <Suspense fallback={<p>Opening PDF…</p>}><PdfViewer pdfUrl={url} className="min-h-0 flex-1" showFullscreen={false} /></Suspense>}
       </DialogContent>
     </Dialog>}
-    {error && <p role="alert">{error}</p>}
-  </section>}
+  </section>, guidesHost)}
   </>;
 }
