@@ -30,12 +30,12 @@ it('focuses the first question when no other field is being edited', () => {
   expect(screen.getByRole('textbox', { name: 'Subject' })).toHaveFocus();
 });
 
-it('retains typed package-name input when loading changes intake from disabled to enabled', async () => {
+it.each([undefined, JSON.stringify(['subject', null, null])])('retains keyboard focus during recovery with target %s', async focusQuestion => {
   const user = userEvent.setup();
   const answers = freshPackageTemplateAnswers(program);
   const content = (disabled: boolean) => <>
     <label>Package name<input defaultValue="Current action" /></label>
-    <PackageIntakeQuestions program={program} answers={answers} disabled={disabled} focusFirst onChange={() => undefined} />
+    <PackageIntakeQuestions program={program} answers={answers} disabled={disabled} focusFirst focusQuestion={focusQuestion} onChange={() => undefined} />
   </>;
   const view = render(content(true));
   const name = screen.getByRole('textbox', { name: 'Package name' });
@@ -114,4 +114,16 @@ it('bounds a large question list and keeps values across its pages', async () =>
   expect(screen.getByText('Questions 26–50 of 100')).toBeVisible();
   await user.click(screen.getByRole('button', { name: 'Previous questions' }));
   expect(screen.getByLabelText('Question 1', { exact: true })).toHaveValue('First page value');
+});
+
+it('opens the correct page and focuses the requested membership question', () => {
+  const source: PackageTemplateProgram = { revision: '1', requirements: [], participantGroups: [],
+    questions: Array.from({ length: 30 }, (_, index) => ({
+      id: 'input' + index, label: 'Question ' + index, kind: 'boolean', required: false,
+    })),
+  };
+  render(<PackageIntakeQuestions program={source} answers={freshPackageTemplateAnswers(source)} disabled={false}
+    showAll focusQuestion={JSON.stringify(['input28', null, null])} onChange={() => undefined} />);
+  expect(screen.getByRole('combobox', { name: 'Question 28' })).toHaveFocus();
+  expect(screen.queryByRole('combobox', { name: 'Question 0' })).toBeNull();
 });

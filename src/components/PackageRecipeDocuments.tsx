@@ -1,6 +1,9 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { readConditionalPackageTemplate } from '@/lib/packageConditionalSources';
 import type { ActionPackage } from '@/lib/actionPackages';
+import { conditionalPackageAnswers } from '@/lib/packageConditional';
+import { intakeQuestionKey } from '@/lib/conditionalIntakeView';
+import { nextMembershipQuestion } from '@/lib/packageTemplateProgram';
 import { readPackageBlank } from '@/lib/packageBlankForms';
 import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
 import { Button } from './ui/button';
@@ -10,7 +13,10 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dial
 const PdfViewer = lazy(() => import('./pdf/PdfViewer'));
 type Blank = { name: string; data: string };
 
-export function PackageBlankPdfs({ record, revisionId }: { record: ActionPackage; revisionId: string }) {
+export function PackageRecipeDocuments({ record, revisionId, onCompleteDetails }: {
+  record: ActionPackage; revisionId: string; onCompleteDetails?: (question: string) => void;
+}) {
+  const [question, setQuestion] = useState<string>();
   const [blanks, setBlanks] = useState<Blank[]>([]);
   const [selected, setSelected] = useState<Blank>();
   const [url, setUrl] = useState('');
@@ -35,6 +41,8 @@ export function PackageBlankPdfs({ record, revisionId }: { record: ActionPackage
         const blank = member.blankPdf;
         if (blank && !unique.some(item => item.name === blank.name && item.data === blank.data)) unique.push(blank);
       }
+      const next = nextMembershipQuestion(template.program, conditionalPackageAnswers(record, revisionId), template.members);
+      setQuestion(next && intakeQuestionKey(next));
       setBlanks(unique);
     }).catch(() => { if (active) setError('The saved package forms could not be opened.'); });
     return () => { active = false; };
@@ -50,8 +58,9 @@ export function PackageBlankPdfs({ record, revisionId }: { record: ActionPackage
     finally { download.release(); }
   }
 
-  if (!blanks.length && !error) return null;
-  return <section aria-label="Blank forms and guides" className="space-y-2">
+  return <>
+    {question && onCompleteDetails && <Button size="sm" variant="outline" onClick={() => onCompleteDetails(question)}>Complete package details</Button>}
+    {(blanks.length > 0 || error) && <section aria-label="Blank forms and guides" className="space-y-2">
     <h3 className="font-medium">Blank forms and guides</h3>
     <p className="text-sm text-muted-foreground">Read the captured references here. Open working documents from the document list.</p>
     <ul>{blanks.map((blank, index) => <li key={index}><Button variant="link" className="h-auto whitespace-normal px-0 text-left" onClick={() => { setError(''); setUrl(''); setSelected(blank); }}>
@@ -66,5 +75,6 @@ export function PackageBlankPdfs({ record, revisionId }: { record: ActionPackage
       </DialogContent>
     </Dialog>}
     {error && <p role="alert">{error}</p>}
-  </section>;
+  </section>}
+  </>;
 }

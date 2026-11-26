@@ -9,11 +9,11 @@ import { PackageIntakeQuestions } from './PackageIntakeQuestions';
 import { PackageIntakeScope } from './PackageIntakeScope';
 import { PackageIntakePreview, type IntakeAnswerChoice, type IntakeMemberChoice } from './PackageIntakePreview';
 import { maintainedPackageAction, maintainedPackageActions, type MaintainedPackageActionId } from '@/lib/maintainedPackageActions';
-import { freshPackageTemplateAnswers, intakeAttachmentSlots, intakeQuestions } from '@/lib/conditionalIntakeView';
+import { freshPackageTemplateAnswers, intakeAttachmentSlots, intakeQuestionKey, intakeQuestions } from '@/lib/conditionalIntakeView';
 import { applyPreparedConditionalPackage, conditionalPackageAnswers, prepareConditionalPackage, readConditionalPackageTemplate,
   saveConditionalPackageDraft, startConditionalPackage, undoConditionalPackage, type ConditionalPackageUndo, type PreparedConditionalPackage } from '@/lib/packageConditional';
 import { getPackageRevision, type ActionPackage, type PackageRevision } from '@/lib/actionPackages';
-import type { PackageTemplateAnswers } from '@/lib/packageTemplateProgram';
+import { nextMembershipQuestion, type PackageTemplateAnswers } from '@/lib/packageTemplateProgram';
 import type { PackageTemplateV2 } from '@/lib/packageTemplateSchema';
 import { listPackageTemplates, MAX_TEMPLATE_ACTION_BYTES } from '@/lib/packageTemplateLibrary';
 import type { PackageUpdateChoices } from '@/lib/packageUpdates';
@@ -196,20 +196,37 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
     catch (cause) { return { slots: [], error: cause instanceof Error ? cause.message : 'The file slots could not be inspected.' }; }
   }, [template, answers, view]);
   const validShape = !!template && !view?.error && !view?.value?.invalidLabels.length && !!name.trim();
+  const [dismissedQuestionRequest, dismissQuestionRequest] = useState<number>();
+  const questionTarget = useMemo(() => {
+    if (!record || !revision || !template || !matchesPackageDestination(destination, record.id, revision.id)
+      || destination.panel !== 'intake' || destination.requestId === dismissedQuestionRequest) return;
+    let key = destination.intakeQuestion;
+    const slot = destination.intakeSlot && revision.templateState?.instances.find(instance => instance.key === destination.intakeSlot);
+    if (slot && slot.condition === 'unknown') {
+      const blueprint = template.members.find(member => member.key === slot.memberKey);
+      const next = blueprint && nextMembershipQuestion(template.program, answers, [blueprint], slot.participantId);
+      if (next) key = intakeQuestionKey(next);
+    }
+    return key && view?.value?.questions.some(item => item.key === key && item.instance.visibility === true) ? key : undefined;
+  }, [record, revision, template, destination, dismissedQuestionRequest, answers, view]);
   const focusedDeliveryRequest = useRef<number | undefined>(undefined);
   useEffect(() => {
     if (!record || !revision || !template || loading || !matchesPackageDestination(destination, record.id, revision.id)
-      || destination.panel !== 'intake' || focusedDeliveryRequest.current === destination.requestId) return;
+      || viewDisabled || destination.panel !== 'intake' || focusedDeliveryRequest.current === destination.requestId) return;
     if (!open) {
       const frame = requestAnimationFrame(() => setOpen(true));
       return () => cancelAnimationFrame(frame);
+    }
+    if (questionTarget) {
+      focusedDeliveryRequest.current = destination.requestId;
+      return;
     }
     const input = Array.from(heading.current?.closest('section')?.querySelectorAll<HTMLInputElement>('input[data-intake-slot]') ?? [])
       .find(item => item.dataset.intakeSlot === destination.intakeSlot);
     (input ?? heading.current)?.focus();
     (input ?? heading.current)?.scrollIntoView({ block: 'center' });
     focusedDeliveryRequest.current = destination.requestId;
-  }, [destination, record, revision, template, loading, open]);
+  }, [destination, record, revision, template, loading, open, viewDisabled, questionTarget]);
   const hasInactiveFiles = Object.keys(attachments).some(key => !files.slots.some(slot => slot.key === key));
   function token(): Token { return { generation: generation.current, owner: owner.current, signal: signal() }; }
   function current(capture: Token): boolean {
@@ -328,12 +345,14 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
         <dl className="grid gap-x-8 gap-y-5 sm:grid-cols-2">{group.questions.map(item => <div key={item.key}><dt className="text-xs text-muted-foreground">{item.questionLabel}</dt><dd className="mt-1 break-words text-sm">{typeof item.instance.value === 'boolean' ? item.instance.value ? 'Yes' : 'No' : item.question.options?.find(option => option.id === item.instance.value)?.label ?? item.instance.value ?? 'Not entered'}</dd></div>)}</dl>
       </div>)}</div>}
       {mode === 'saved' && !editable && <p className="text-sm text-muted-foreground">This saved intake is read-only in a historical, archived or reviewer copy.</p>}
-      <Button hidden={workspace && mode === 'new'} className={buttonClass} variant="outline" disabled={viewDisabled} aria-expanded={open} onClick={() => { setOpen(value => !value); setFocusQuestions(true); }}>
+      <Button hidden={workspace && mode === 'new'} className={buttonClass} variant="outline" disabled={viewDisabled} aria-expanded={open} onClick={() => { dismissQuestionRequest(destination?.requestId); setOpen(value => !value); setFocusQuestions(true); }}>
         {workspace && mode === 'saved' ? open ? 'Collapse details' : editable ? 'Edit details' : 'View details' : open ? 'Collapse intake questions' : editable || mode === 'new' ? 'Continue intake' : 'Inspect saved intake'}
       </Button>
       {open && <div className="min-w-0 space-y-4">
         <label className="block text-sm">{workspace ? 'Package name' : 'Action name'}<input className={inputClass} value={name} maxLength={120} disabled={locked} autoComplete="off" onChange={event => { invalidate(); setName(event.target.value); }} /></label>
-        {!view?.error && <PackageIntakeQuestions key={questionKey} program={template.program} answers={answers} disabled={locked} busy={viewDisabled} onChange={editAnswers} focusFirst={focusQuestions} showAll={workspace} />}
+        {!view?.error && <PackageIntakeQuestions key={questionKey + ':' + (destination?.panel === 'intake' ? destination.requestId : '')}
+          focusQuestion={questionTarget}
+          program={template.program} answers={answers} disabled={locked} busy={viewDisabled} onChange={editAnswers} focusFirst={focusQuestions} showAll={workspace} />}
       </div>}
       {!workspace && template.members.some(member => member.kind === 'native' && member.role === 'basic-letter' && member.draft.documentCategory !== 'forms') && <p className="text-sm text-muted-foreground">Finish the letter's printed name and signing block in its native working-copy editor. Intake does not create a signature or approval.</p>}
       {files.error && <p role="alert" className="text-sm text-destructive">{files.error}</p>}

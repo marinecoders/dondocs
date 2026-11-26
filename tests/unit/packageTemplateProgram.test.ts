@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { evaluatePackageTemplateCondition, evaluatePackageTemplateProgram, packageTemplateAnswersSchema,
+import { nextMembershipQuestion, evaluatePackageTemplateCondition, evaluatePackageTemplateProgram, packageTemplateAnswersSchema,
   packageTemplateConditionSchema, packageTemplateProgramSchema, validatePackageTemplateProgramMembers,
   type PackageTemplateAnswers, type PackageTemplateCondition, type PackageTemplateProgram } from '@/lib/packageTemplateProgram';
 
@@ -122,4 +122,23 @@ describe('fresh scoped intake evaluation', () => {
     delete input.values.foreign; input.groups.people[0].answers.approved = true; expect(() => evaluatePackageTemplateProgram(value, input)).toThrow(/does not belong/);
     expect(() => packageTemplateAnswersSchema.parse({ ...answers(), groups: { people: [{ id: 'same', label: 'A', answers: {} }, { id: 'same', label: 'B', answers: {} }] } })).toThrow(/unique/);
   });
+});
+
+it('only links to a visible question that can decide membership for the correct participant', () => {
+  const value = program(), input = answers();
+  const members = [{ when: equals('where', 'HQ') }, { repeatGroupId: 'people', when: equals('person_name', 'Training') }];
+  input.groups.people = [{ id: 'one', label: 'First', answers: { person_name: 'Training' } },
+    { id: 'two', label: 'Second', answers: {} }];
+  expect(nextMembershipQuestion(value, input, members)?.questionId).toBe('approved');
+  input.values.approved = true;
+  expect(nextMembershipQuestion(value, input, members)?.questionId).toBe('where');
+  input.values.where = 'HQ';
+  expect(nextMembershipQuestion(value, input, members)).toEqual({ questionId: 'person_name', scope: { groupId: 'people', participantId: 'two' } });
+  delete input.groups.people[0].answers.person_name;
+  expect(nextMembershipQuestion(value, input, members, 'two')?.scope?.participantId).toBe('two');
+  input.groups.people[0].answers.person_name = 'Training';
+  input.groups.people[1].answers.person_name = 'Other';
+  expect(nextMembershipQuestion(value, input, members)).toBeUndefined();
+  delete input.values.where;
+  expect(nextMembershipQuestion(value, input, [{ when: { op: 'any', conditions: [equals('approved', true), equals('where', 'HQ')] } }])).toBeUndefined();
 });
