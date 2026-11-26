@@ -54,7 +54,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`package reviewer copy an
     await reviewModal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
     await expect(reviewModal.getByText('Suggestion submitted to this review.', { exact: true })).toBeVisible();
     expect((await new AxeBuilder({ page: reviewer }).include('[role="dialog"]').analyze()).violations).toEqual([]);
-    await navigation.getByRole('button', { name: original.label, exact: true }).click();
+    await reviewModal.getByRole('button', { name: 'Mark as read', exact: true }).click();
+    await reviewModal.getByRole('button', { name: 'Continue review', exact: true }).click();
     await expect(reviewModal.getByText(/Comments do not alter PDF bytes or signatures/)).toBeVisible();
     await reviewModal.getByLabel('Package comment reviewer name', { exact: true }).fill('Synthetic reviewer');
     await reviewModal.getByLabel('Package member comment', { exact: true }).fill('Synthetic original PDF question.');
@@ -67,6 +68,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`package reviewer copy an
   await packageSection(reviewModal, 'Review', true);
     await reviewModal.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();
     navigation = reviewModal.getByRole('navigation', { name: 'Captured review members' });
+    await expect(reviewModal.getByText(/1 of .* read on this device/)).toBeVisible();
     await navigation.getByRole('button', { name: original.label, exact: true }).click();
     await expect(reviewModal.getByText('Synthetic original PDF question.', { exact: true })).toBeVisible();
     await prepareReviewTransfer(reviewModal, 'return');
