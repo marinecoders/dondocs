@@ -6,7 +6,7 @@ import { capturePackageMember, readPackageMemberDraft } from '@/lib/actionPackag
 import { commitActionPackage, createActionPackage, getPackageRevision, listActionPackages, newPackageId,
   reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
 import { idbGetAllAttachments } from '@/lib/documentsDb';
-import { preparePackageUpdate, applyPreparedPackageUpdate, undoPackageUpdate } from '@/lib/packageUpdates';
+import { changeDocumentOverride, preparePackageUpdate, applyPreparedPackageUpdate, undoPackageUpdate } from '@/lib/packageUpdates';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
 import { useUIStore } from '@/stores/uiStore';
@@ -72,6 +72,21 @@ beforeEach(async () => {
 });
 
 describe('captured package update plans', () => {
+  it('keeps and restores only the selected field without modifying either captured document', async () => {
+    const original = await fixture(2, 'Local subject');
+    const revision = getPackageRevision(original);
+    const [selected, sibling] = revision.bindings!.items;
+    const change = (record: ActionPackage, undo?: string) => changeDocumentOverride(
+      record, selected.memberId, selected.id, undo, policy, new AbortController().signal, () => true);
+    const kept = await change(original);
+    const after = getPackageRevision(kept);
+    expect(after.members).toEqual(revision.members);
+    expect(after.information).toEqual(revision.information);
+    expect(after.bindings!.items).toEqual([{ ...selected, mode: 'override', expectedValue: 'Local subject' }, sibling]);
+    await expect(change(kept, revision.id)).rejects.toThrow(/package changed/i);
+    expect(getPackageRevision(await change(kept, after.id)).bindings).toEqual(revision.bindings);
+  });
+
   it('blocks updates in reviewer copies and preserves exact owner review baselines', async () => {
     const owner = await startPackageReview(await fixture());
     const copy = await parsePackageReviewTransfer(await packageReviewTransferFile(await buildPackageReviewerCopy(owner, owner.reviewRounds![0].id, policy), policy));

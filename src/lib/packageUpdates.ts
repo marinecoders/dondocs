@@ -1,10 +1,10 @@
 import {
-  actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId,
+  actionPackageSchema, commitActionPackage, commitPackageMetadata, getPackageRevision, listActionPackages, newPackageId,
   type ActionPackage, type PackageRevision,
 } from './actionPackages';
 import { packageInformationSchema, type PackageInformation } from './packageInformation';
 import {
-  packageFieldBindingsSchema, type PackageFieldBindings,
+  packageFieldBindingsSchema, preservePackageFieldOverride, resolvePackageFieldBinding, type PackageFieldBindings,
 } from './packageFieldBindings';
 import type { PackageBindingValue } from './packageBindingTargets';
 import { captureLinkedPackageChanges } from './packageLinkedUpdates';
@@ -175,4 +175,30 @@ export async function undoPackageUpdate(
       revisions: [...retained.after.revisions, revision] }, signal, guard.current)); }
   catch (cause) { throw guard.error() ?? cause; }
   reversals.delete(receipt); return record;
+}
+
+export async function changeDocumentOverride(record: ActionPackage, memberId: string, bindingId: string,
+  undoRevisionId: string | undefined, policy: PolicyResolution, signal: AbortSignal, isCurrent: () => boolean) {
+  editable(record);
+  const revision = getPackageRevision(record);
+  const links = revision.bindings;
+  const binding = links?.items.find(link => link.id === bindingId && link.memberId === memberId);
+  if (!links || !binding) throw new Error('This field link is no longer available.');
+  const guard = await deploymentGuard(policy, signal, isCurrent);
+  let next;
+  if (undoRevisionId) {
+    if (revision.id !== undoRevisionId || !revision.parentId || binding.mode !== 'override')
+      throw new Error('The package changed after this field was kept.');
+    next = getPackageRevision(record, revision.parentId).bindings?.items.find(link => link.id === bindingId && link.memberId === memberId);
+    if (!next || next.mode !== 'linked') throw new Error('The previous field link is unavailable.');
+  } else {
+    const resolved = await resolvePackageFieldBinding(revision, binding);
+    if (!resolved.field || !['current', 'changed'].includes(resolved.state))
+      throw new Error('This field cannot be kept as a document override.');
+    next = preservePackageFieldOverride(binding, resolved.field.value);
+  }
+  const bindings = { ...links, items: links.items.map(link => link.id === bindingId ? next : link) };
+  reviewPackageBindings(bindings, policy);
+  guard.assert();
+  return commitPackageMetadata(record, { bindings }, signal, guard.current);
 }
