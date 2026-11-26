@@ -23,6 +23,7 @@ import { PackageReviewControls } from "./PackageReviewControls";
 import { PackageMemberNavigation, PackageWorkspaceNavigation } from "./PackageWorkspaceNavigation";
 import { PackageLibrary } from "./PackageLibrary";
 import { DocumentPdfChecks, PackageNextActions } from "./PackageNextActions";
+import { attachPackageSlotFile } from '@/lib/packageSlotFiles';
 import { PackageRecipeDocuments } from "./PackageRecipeDocuments";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
 import { PackageExportOptions, type PackageExportFormat } from "./PackageExportOptions";
@@ -1247,6 +1248,11 @@ function PackageDialog({
                     <h2 className="text-base font-medium">Documents</h2>
                     {workspaceSection === 'documents' && record && revision?.templateState && !library &&
                       <PackageRecipeDocuments key={revision.id} record={readRecord!} revisionId={revision.id}
+                        onOpen={memberId => followDestination({ memberId })}
+                        onAttach={editable ? (memberId, file, signed) => void run(async () => {
+                          update(await attachPackageSlotFile(record, revision.id, memberId, file, signed, operation.current?.signal));
+                          setActiveMemberId(memberId);
+                        }) : undefined}
                         onCompleteDetails={editable ? intakeQuestion => followDestination({ panel: 'intake', intakeQuestion }) : undefined} />}
                     <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
               <details data-add-package-document key={record.id + revision.members.length} hidden={!editable} open={!revision.members.length && !revision.templateState || undefined}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
