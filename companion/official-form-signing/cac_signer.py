@@ -15,12 +15,11 @@ from pyhanko_certvalidator.errors import ValidationError
 from pyhanko_certvalidator.registry import SimpleCertificateStore
 
 
-# DoD Root CAs 3 through 6. DER certificates matched to the published DoD
-# thumbprints before deriving these SHA-256 pins. Only these roots are anchors.
+# DoD trust anchors from section 2.1 of the master document, version 12.0.
+# SHA-256 over the DER certificates whose thumbprints it publishes.
 # https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/pdf/unclass-dod_approved_external_pkis_master_document.pdf
 DOD_ROOT_PINS = frozenset({
     "b107b33f453e5510f68e513110c6f6944bacc263df0137f821c1b3c2f8f863d2",
-    "559a5189452b13f8233f0022363c06f26e3c517c1d4b77445035959df3244f74",
     "1f4ede9dc2a241f6521bf518424acd49ebe84420e69daf5bac57af1f8ee294a9",
     "2a5e41aca93df7cc496d2369b7a0a037045d502f1abaaf76975fc07c6660cf93",
 })

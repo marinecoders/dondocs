@@ -4,7 +4,9 @@ DonDocs uses the same local signing workspace for standalone official forms, cor
 
 ## Run from a checkout
 
-Install Python 3.12 x64, connect the CAC reader, and obtain your organization’s DoD CA bundle in PEM format. Include the issuing intermediates and the applicable pinned DoD root. From the repository root, run in PowerShell:
+Connect the CAC reader and follow your organization’s Windows smart-card setup. The bridge reads its own PEM file containing public CA certificates. You can obtain the DoD PKI Only bundle from Cyber Exchange, verify its signed checksum using the included instructions, and convert its DER-encoded PKCS#7 file to PEM. Include the issuing CA and its root. [CAC workstation setup](https://www.cyber.mil/pki-pke/end-users/getting-started) · [Official CA bundles](https://www.cyber.mil/pki-pke/tools-configuration-files/)
+
+From the repository root, use Python 3.12 x64 and PowerShell:
 
 ```powershell
 py -3.12 -m venv .venv
@@ -23,7 +25,11 @@ Replace the bundle path. To use a local build, supply its exact origin, includin
 
 ## Verification
 
-The helper discovers certificates in the inserted card’s reader-scoped store. The card provider performs the private-key operation. The bridge uses its configured DoD bundle to validate the chain offline, so revocation status can be unavailable. [Microsoft smart-card architecture](https://learn.microsoft.com/en-us/windows/security/identity-protection/smart-cards/smart-card-architecture) · [Smart-card certificate store](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptgetprovparam)
+The helper reads the inserted card’s public certificates. The bridge selects a currently valid RSA certificate with both Digital Signature and Non-Repudiation key usages. The card provider performs the private-key operation. A signed PDF contains the signer’s public certificate and can identify the cardholder. Use generated identities and synthetic documents for test fixtures. [Federal CAC document-signing guidance](https://piee.eb.mil/xhtml/unauth/web/homepage/cacpivSupport.xhtml)
+
+The bridge accepts DoD Roots 3, 5, and 6 as trust anchors. Root 4 was decommissioned. The bridge verifies the document signature and certificate chain offline. It does not fetch a current certificate revocation list or query an online status responder. A trusted chain alone cannot establish current revocation status. [DoD trust anchors, section 2.1](https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/pdf/unclass-dod_approved_external_pkis_master_document.pdf) · [Certificate status services](https://www.cyber.mil/pki-pke/about)
+
+Windows provider details are documented in the platform references. [Microsoft smart-card architecture](https://learn.microsoft.com/en-us/windows/security/identity-protection/smart-cards/smart-card-architecture) · [Smart-card certificate store](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptgetprovparam)
 
 From the repository root run the helper tests with the same virtual environment:
 

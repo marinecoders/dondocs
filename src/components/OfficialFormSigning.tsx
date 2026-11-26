@@ -92,7 +92,7 @@ export function OfficialFormSigning({ record, initialField, onSave, onAttach }: 
           <span>{item.label}</span><span>{item.signed ? item.trusted ? 'Signed · trusted chain' : 'Signed · trust unconfirmed' : item.locked ? 'Locked' : 'Available'}</span>
         </li>)}</ul>
         {!inspection.fields.some(item => item.signed) && <p className="text-sm text-muted-foreground">If a signer will use Acrobat, have them sign there first. Open their signed PDF in the signing workspace to countersign in DonDocs.</p>}
-        {inspection.fields.some(item => item.signed) && <p className="text-sm text-muted-foreground">Certificate chains are checked offline. Current revocation status may be unavailable.</p>}
+        {inspection.fields.some(item => item.signed) && <p className="text-sm text-muted-foreground">Certificate chains are checked offline. Live revocation status is unverified.</p>}
         {inspection.fields.some(item => !item.locked && !item.signed) && <label className="grid gap-1 text-sm">Signature field<select className="rounded border bg-background p-2" value={field}
           onChange={e => { setField(e.target.value); setReviewed(false); setFinalize(false); }}>
           {!selected && <option value="" disabled>Select an available signature field</option>}
