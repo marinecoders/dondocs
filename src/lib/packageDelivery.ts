@@ -16,7 +16,7 @@ import { renderPackageRecipientMember } from './packageNativeDelivery';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
 
 export const packageDeliverySelectionSchema = z.object({ label: z.string().trim().min(1).max(120).refine(value => Array.from(value).every(character => character.charCodeAt(0) >= 32 && character.charCodeAt(0) !== 127), 'Use a single-line delivery label.'),
-  purpose: z.enum(['recipient', 'editable']), choiceId: z.string().min(1).max(100).optional(), scope: z.enum(['complete', 'selected']).optional(), taggedNativePdfs: z.boolean().optional(), memberIds: z.array(z.string().min(1).max(100)).min(1).max(100) }).strict();
+  purpose: z.enum(['recipient', 'editable']), choiceId: z.string().min(1).max(100).optional(), scope: z.enum(['complete', 'selected']).optional(), taggedNativePdfs: z.boolean().optional(), memberIds: z.array(z.string().min(1).max(100)).max(100) }).strict().refine(value => !!value.memberIds.length || !!value.choiceId, 'Choose at least one document.');
 export type PackageDeliverySelection = z.infer<typeof packageDeliverySelectionSchema>;
 export interface PackageDeliveryFile { id: string; name: string; type: string; size: number; sha256: string }
 export interface PreparedPackageDelivery {
@@ -31,11 +31,12 @@ const captures = new WeakMap<PreparedPackageDelivery, Capture>();
 function capture(value: PreparedPackageDelivery): Capture { const owned = captures.get(value); if (!owned) throw new Error('Prepare this delivery from its saved package before continuing.'); return owned; }
 function freeze<T>(value: T): T { if (value && typeof value === 'object') { Object.values(value).forEach(freeze); Object.freeze(value); } return value; }
 function identity(policy: PolicyResolution) { if (policy.status !== 'ready') throw new Error(policy.message); assertExportDeploymentPolicy(policy.policy); return JSON.stringify(policy.policy); }
-export function selectPackageDeliveryMembers(record: ActionPackage, revisionId: string, memberIds: readonly string[]): PackageMember[] {
+export function selectPackageDeliveryMembers(record: ActionPackage, revisionId: string, memberIds: readonly string[], useSelectionOrder = false): PackageMember[] {
   const selected = new Set(memberIds), revision = getPackageRevision(record, revisionId);
-  if (!selected.size || selected.size !== memberIds.length || selected.size > 100 || [...selected].some(id => !revision.members.some(member => member.id === id)))
+  const byId = new Map(revision.members.map(member => [member.id, member]));
+  if (!selected.size || selected.size !== memberIds.length || selected.size > 100 || memberIds.some(id => !byId.has(id)))
     throw new Error('Choose each included document once from this exact saved revision.');
-  return structuredClone(revision.members.filter(member => selected.has(member.id)));
+  return useSelectionOrder ? memberIds.map(id => byId.get(id)!) : revision.members.filter(member => selected.has(member.id));
 }
 /** Call synchronously immediately before exposing the already generated delivery bytes. */
 export function assertPackageDeliveryPolicy(prepared: PreparedPackageDelivery, policy: PolicyResolution): void {
@@ -63,16 +64,13 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
   const choice = selection.choiceId ? (await readDeliveryChoices(sourceRevision)).find(item => item.id === selection.choiceId) : undefined;
   if (selection.choiceId && (!choice || selection.purpose !== 'recipient' || selection.scope !== (choice.complete ? 'complete' : 'selected')
       || !sameReviewStoredValue(choice.memberIds, selection.memberIds))) throw new Error('Review this delivery choice again for the saved revision.');
-  const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds);
-  if (choice) {
-    const positions = new Map(choice.memberIds.map((id, index) => [id, index]));
-    selected.sort((a, b) => positions.get(a.id)! - positions.get(b.id)!);
-  }
-  if (selection.scope === 'complete' && selected.length !== sourceRevision.members.length) throw new Error('Include every member for complete package delivery.');
-  if (selection.purpose === 'recipient' && (sourceRevision.templateState || sourceRevision.requirements || selected.some(member => member.endorsementLink))) {
+  if (selection.scope === 'complete' && selection.memberIds.length !== sourceRevision.members.length) throw new Error('Include every member for complete package delivery.');
+  if (selection.purpose === 'recipient' && (sourceRevision.templateState || sourceRevision.requirements || sourceRevision.members.some(member => member.endorsementLink))) {
     const { assertDeliveryRequirements } = await import('./packageRequirements');
     await assertDeliveryRequirements(sourceRevision, selection.scope === 'selected' ? selection.memberIds : undefined, signal, choice);
   }
+  if (choice && !choice.memberIds.length) throw new Error('This delivery choice has no applicable documents.');
+  const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds, !!choice);
   const taggedNativePdfs = selection.taggedNativePdfs === true;
   if (taggedNativePdfs && (selection.purpose !== 'recipient' || !selected.some(member => member.kind === 'native'))) {
     throw new Error('Select supported correspondence to prepare a recipient delivery with tagged PDFs.');

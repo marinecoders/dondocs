@@ -43,7 +43,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
   const [choices, setChoices] = useState<PackageDeliveryChoice[]>();
   const [choiceError, setChoiceError] = useState('');
   useEffect(() => {
-    if (visible === false || !revision.templateState?.hasDeliveryChoices) return;
+    if (!visible || !revision.templateState?.hasDeliveryChoices) return;
     let current = true;
     void readDeliveryChoices(revision).then(values => { if (current) { setChoices(values); setChoiceError(''); } })
       .catch(cause => { if (current) setChoiceError(cause instanceof Error ? cause.message : 'Could not load delivery choices.'); });
@@ -140,7 +140,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
           <span>Tag supported correspondence PDFs (experimental)<span className="block text-xs text-muted-foreground">Logical reading order and table headings are included. Original files keep their existing accessibility.</span></span>
         </label>}
       </div></details>
-      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length || !!selection.choiceId && !choice || !!revision.templateState?.hasDeliveryChoices && purpose === 'recipient' && !choices} onClick={() => void perform(async (current, operationSignal) => {
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length && !choice || !!selection.choiceId && !choice || !!revision.templateState?.hasDeliveryChoices && purpose === 'recipient' && !choices} onClick={() => void perform(async (current, operationSignal) => {
         const policy = await getExportDeploymentPolicy();
         const value = await preparePackageDelivery(record, revision.id, { label, purpose, scope, memberIds, choiceId: choice?.id, taggedNativePdfs: canTagNativePdfs && taggedNativePdfs }, policy, ports, operationSignal, current);
         if (current()) { preparedPolicy.current = policy.status === 'ready' ? JSON.stringify(policy.policy) : undefined; setFindings([]); setPrepared(value); setApproved(false); setReviewCount(10); setFileCount(25); callback.current?.(value); }
