@@ -115,3 +115,15 @@ it('bounds a large question list and keeps values across its pages', async () =>
   await user.click(screen.getByRole('button', { name: 'Previous questions' }));
   expect(screen.getByLabelText('Question 1', { exact: true })).toHaveValue('First page value');
 });
+
+it('opens the correct page and focuses the requested membership question', () => {
+  const source: PackageTemplateProgram = { revision: '1', requirements: [], participantGroups: [],
+    questions: Array.from({ length: 30 }, (_, index) => ({
+      id: 'input' + index, label: 'Question ' + index, kind: 'boolean', required: false,
+    })),
+  };
+  render(<PackageIntakeQuestions program={source} answers={freshPackageTemplateAnswers(source)} disabled={false}
+    showAll focusQuestion={JSON.stringify(['input28', null, null])} onChange={() => undefined} />);
+  expect(screen.getByRole('combobox', { name: 'Question 28' })).toHaveFocus();
+  expect(screen.queryByRole('combobox', { name: 'Question 0' })).toBeNull();
+});

@@ -13,28 +13,32 @@ interface Props {
   busy?: boolean;
   onChange(answers: PackageTemplateAnswers): void;
   focusFirst?: boolean;
+  focusQuestion?: string;
   showAll?: boolean;
 }
 
-export function PackageIntakeQuestions({ program, answers, disabled, busy = false, onChange, focusFirst, showAll = false }: Props) {
+export function PackageIntakeQuestions({ program, answers, disabled, busy = false, onChange, focusFirst, focusQuestion, showAll = false }: Props) {
   const validationPrefix = useId();
   const { evaluation, questions, invalidLabels } = useMemo(() => intakeQuestions(program, answers), [program, answers]);
-  const [showAnswered, setShowAnswered] = useState(showAll), [search, setSearch] = useState(''), [page, setPage] = useState(0);
+  const [showAnswered, setShowAnswered] = useState(showAll), [search, setSearch] = useState(''), [page, setPage] = useState(() => {
+    const index = questions.filter(item => item.instance.visibility === true).findIndex(item => item.key === focusQuestion);
+    return Math.max(0, Math.floor(index / 25));
+  });
   const [presented, setPresented] = useState(() => new Set<string>());
   const first = useRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null>(null), focused = useRef(false);
   const focusTargets = useRef(new Map<string, HTMLElement>()), focusKey = useRef<string | null>(null);
   const [inactiveCount, setInactiveCount] = useState(25);
   useEffect(() => {
-    if (!focusFirst || disabled || focused.current || !first.current) return;
+    if ((!focusFirst && !focusQuestion) || disabled || focused.current || !first.current) return;
     // Recovery can enable these fields after the user has started editing the
     // package name. Do not redirect their next keystroke into a question.
     const active = first.current.ownerDocument.activeElement;
-    if (active?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+    if (!focusQuestion && active?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
       focused.current = true;
       return;
     }
     first.current.focus(); focused.current = true;
-  }, [focusFirst, disabled, questions.length]);
+  }, [focusFirst, focusQuestion, disabled, questions.length]);
   useEffect(() => { if (focusKey.current) { focusTargets.current.get(focusKey.current)?.focus(); focusKey.current = null; } }, [answers]);
   const visible = questions.filter(item => item.instance.visibility === true && (showAnswered || presented.has(item.key) || !item.instance.answered || !item.instance.valid)
     && item.label.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()));
@@ -99,7 +103,7 @@ export function PackageIntakeQuestions({ program, answers, disabled, busy = fals
           if (!presented.has(item.key)) setPresented(previous => new Set([...previous, item.key]));
           onChange(withIntakeAnswer(answers, instance, value));
         };
-        const ref = (node: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null) => { if (index === 0) first.current = node; };
+        const ref = (node: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null) => { if (focusQuestion ? item.key === focusQuestion : index === 0) first.current = node; };
         return <label key={item.key} className={`min-w-0 text-sm ${question.kind === 'text' && !showAll ? 'sm:col-span-2' : ''}`}>
           {instance.scope && <span className="mb-1 block break-words text-xs text-muted-foreground">{item.label.slice(0, -(item.questionLabel.length + 3))}</span>}
           <span className="font-medium">{item.questionLabel}</span>{question.required && <span className="ml-1 text-xs text-muted-foreground">Required</span>}

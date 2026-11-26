@@ -204,6 +204,10 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
       const frame = requestAnimationFrame(() => setOpen(true));
       return () => cancelAnimationFrame(frame);
     }
+    if (destination.intakeQuestion) {
+      focusedDeliveryRequest.current = destination.requestId;
+      return;
+    }
     const input = Array.from(heading.current?.closest('section')?.querySelectorAll<HTMLInputElement>('input[data-intake-slot]') ?? [])
       .find(item => item.dataset.intakeSlot === destination.intakeSlot);
     (input ?? heading.current)?.focus();
@@ -333,7 +337,9 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
       </Button>
       {open && <div className="min-w-0 space-y-4">
         <label className="block text-sm">{workspace ? 'Package name' : 'Action name'}<input className={inputClass} value={name} maxLength={120} disabled={locked} autoComplete="off" onChange={event => { invalidate(); setName(event.target.value); }} /></label>
-        {!view?.error && <PackageIntakeQuestions key={questionKey} program={template.program} answers={answers} disabled={locked} busy={viewDisabled} onChange={editAnswers} focusFirst={focusQuestions} showAll={workspace} />}
+        {!view?.error && <PackageIntakeQuestions key={questionKey + ':' + (destination?.intakeQuestion ? destination.requestId : '')}
+          focusQuestion={record && revision && matchesPackageDestination(destination, record.id, revision.id) ? destination.intakeQuestion : undefined}
+          program={template.program} answers={answers} disabled={locked} busy={viewDisabled} onChange={editAnswers} focusFirst={focusQuestions} showAll={workspace} />}
       </div>}
       {!workspace && template.members.some(member => member.kind === 'native' && member.role === 'basic-letter' && member.draft.documentCategory !== 'forms') && <p className="text-sm text-muted-foreground">Finish the letter's printed name and signing block in its native working-copy editor. Intake does not create a signature or approval.</p>}
       {files.error && <p role="alert" className="text-sm text-destructive">{files.error}</p>}

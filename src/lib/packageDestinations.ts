@@ -12,6 +12,7 @@ export interface PackageDestination {
   memberId?: string;
   requirementId?: string;
   intakeSlot?: string;
+  intakeQuestion?: string;
   signatureField?: string;
   correction?: PackageCorrection;
   outputId?: string;

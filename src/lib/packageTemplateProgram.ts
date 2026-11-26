@@ -162,6 +162,36 @@ function evaluator(program: PackageTemplateProgram, answers: PackageTemplateAnsw
   }
   return { answer, visibility, condition };
 }
+/** Find a question the user can answer to decide an unresolved member condition. */
+export function nextMembershipQuestion(program: PackageTemplateProgram, answers: PackageTemplateAnswers,
+  members: readonly { when?: PackageTemplateCondition; repeatGroupId?: string }[]): Pick<PackageTemplateQuestionInstance, 'questionId' | 'scope'> | undefined {
+  const runtime = evaluator(program, answers);
+  function unresolved(rule: PackageTemplateCondition, scope?: PackageTemplateScope): ReturnType<typeof nextMembershipQuestion> {
+    if (runtime.condition(rule, scope) !== 'unknown') return;
+    if (rule.op === 'not') return unresolved(rule.condition, scope);
+    if ('conditions' in rule) {
+      for (const child of rule.conditions) {
+        const next = unresolved(child, scope);
+        if (next) return next;
+      }
+      return;
+    }
+    const question = program.questions.find(item => item.id === rule.questionId);
+    if (!question) return;
+    const owner = question.groupId ? scope : undefined;
+    if (runtime.visibility(question, owner) === true) return { questionId: question.id, scope: owner };
+    if (question.when) return unresolved(question.when, owner);
+  }
+  for (const member of members) {
+    if (!member.when) continue;
+    const group = member.repeatGroupId;
+    const scopes = group ? (answers.groups[group] ?? []).map(person => ({ groupId: group, participantId: person.id })) : [undefined];
+    for (const scope of scopes) {
+      const next = unresolved(member.when, scope);
+      if (next) return next;
+    }
+  }
+}
 /** Supplied state stays owned. Hidden retained values are inspectable but cannot decide branches. */
 export function evaluatePackageTemplateProgram(programInput: PackageTemplateProgram, input: unknown): PackageTemplateEvaluation {
   const program = packageTemplateProgramSchema.parse(programInput), answers = packageTemplateAnswersSchema.parse(input), issues: PackageTemplateAnswerIssue[] = [], questions: PackageTemplateQuestionInstance[] = [];
