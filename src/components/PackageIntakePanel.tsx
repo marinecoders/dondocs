@@ -12,7 +12,7 @@ import { PackageIntakePreview, type IntakeAnswerChoice, type IntakeMemberChoice 
 import { maintainedPackageAction, maintainedPackageActions, type MaintainedPackageActionId } from '@/lib/maintainedPackageActions';
 import { freshPackageTemplateAnswers, intakeAttachmentSlots, intakeQuestionKey, intakeQuestions } from '@/lib/conditionalIntakeView';
 import { applyPreparedConditionalPackage, conditionalPackageAnswers, prepareConditionalPackage, readConditionalPackageTemplate,
-  saveConditionalPackageDraft, startConditionalPackage, undoConditionalPackage, type ConditionalPackageUndo, type PreparedConditionalPackage } from '@/lib/packageConditional';
+  saveConditionalPackageDraft, startConditionalPackage, listConditionalPackageInstances, undoConditionalPackage, type ConditionalPackageUndo, type PreparedConditionalPackage } from '@/lib/packageConditional';
 import { getPackageRevision, type ActionPackage, type PackageRevision } from '@/lib/actionPackages';
 import { nextMembershipQuestion, type PackageTemplateAnswers } from '@/lib/packageTemplateProgram';
 import type { PackageTemplateV2 } from '@/lib/packageTemplateSchema';
@@ -65,6 +65,7 @@ const recoveredIntake = z.object({
 
 export function PackageIntakePanel({ destination, record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, onEditingChange, resume }: Props) {
   const [search, setSearch] = useState('');
+  const [inspectedAction, setInspectedAction] = useState<{ id: string; initial: string[]; remaining: string[] }>();
   const ownerScope = scope(record, revision);
   const [template, setTemplate] = useState<PackageTemplateV2 | null>(null), [answers, setAnswers] = useState(emptyAnswers);
   const [mode, setMode] = useState<'none' | 'new' | 'saved'>('none'), [name, setName] = useState('');
@@ -327,6 +328,25 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
         if (current(capture)) onStartWithDocuments(next);
       } else choose(selected, action.id);
     })}>{action.startLabel ?? `Start ${action.name.toLocaleLowerCase()}`}</Button>
+    {workspace && <div><Button size="sm" variant="link" className="h-auto p-0" disabled={catalogLocked} aria-label={'Package contents for ' + action.name} aria-expanded={inspectedAction?.id === action.id}
+      onClick={() => {
+        if (inspectedAction?.id === action.id) { setInspectedAction(undefined); return; }
+        void perform(async capture => {
+          const selected = await maintainedPackageAction(action.id);
+          if (!current(capture)) return;
+          const initial = new Set(action.startWithDocuments ? listConditionalPackageInstances(selected, emptyAnswers())
+            .filter(slot => slot.condition === true && selected.members.some(member => member.key === slot.memberKey && member.kind === 'native')).map(slot => slot.memberKey) : []);
+          setInspectedAction({ id: action.id, initial: selected.members.filter(member => initial.has(member.key)).map(member => member.label),
+            remaining: selected.members.filter(member => !initial.has(member.key)).map(member => member.label) });
+        });
+      }}>Package contents</Button>
+      {inspectedAction?.id === action.id && <div className="mt-2 space-y-1 text-xs">
+        <p className="font-medium">Included at start</p>
+        {inspectedAction.initial.length ? <ul>{inspectedAction.initial.map((item, index) => <li key={index}>{item}</li>)}</ul> : <p>Complete the package details to add documents.</p>}
+        {!!inspectedAction.remaining.length && <details><summary>Other possible documents ({inspectedAction.remaining.length})</summary>
+          <ul>{inspectedAction.remaining.map((item, index) => <li key={index}>{item}</li>)}</ul></details>}
+      </div>}
+    </div>}
   </article>)}</div></div>;
   return <section tabIndex={-1} data-package-panel="intake" aria-label="Action intake" className={`min-w-0 space-y-4 ${workspace && mode !== 'saved' && !loading ? '' : 'rounded-lg border bg-background p-3 sm:p-4'}`} aria-busy={pending || loading}>
     <div className="space-y-1">

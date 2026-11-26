@@ -707,6 +707,7 @@ function PackageDialog({
     if (creating && !pendingPackageEdits) setCreating(false);
     setUnfinishedAction(readPackageNewActionContext());
     setLibraryOpen(true);
+    if (creating) requestAnimationFrame(() => dialogRoot.current?.querySelector<HTMLButtonElement>('[data-new-package]')?.focus());
     setError('');
     setNotice('');
   }
@@ -955,7 +956,10 @@ function PackageDialog({
   return <>
     <Dialog open onOpenChange={value => { if (!value) close(); }}>
       <DialogContent fullscreen showCloseButton={false} ref={dialogRoot}
-        onEscapeKeyDown={event => { if (dialogRoot.current?.querySelector('[data-package-reordering="true"]')) event.preventDefault(); }} className="package-workspace-dialog" aria-busy={busy} data-package-id={record?.id} data-revision-id={revision?.id}>
+        onEscapeKeyDown={event => {
+          if (dialogRoot.current?.querySelector('[data-package-reordering="true"]')) event.preventDefault();
+          else if (creating && !library && !pendingPackageEdits) { event.preventDefault(); if (!busy) showLibrary(); }
+        }} className="package-workspace-dialog" aria-busy={busy} data-package-id={record?.id} data-revision-id={revision?.id}>
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
         {editorSurface && record && nativeEditorMember && copy && copy.documentId === currentId && <Suspense fallback={<p role="status">Opening document…</p>}>
           <PackageNativeDocumentEditor key={copy.documentId} record={record} member={nativeEditorMember} documentId={copy.documentId}
@@ -1049,6 +1053,7 @@ function PackageDialog({
               {/* Native maxlength can drop a full-length Unicode replacement on mobile; validate commits instead. */}
               <input
                 aria-label="Package name"
+                placeholder="Optional"
                 className="mt-1 w-full rounded border bg-background p-2"
                 aria-invalid={nameTooLong || undefined}
                 aria-describedby={nameTooLong ? nameLimitId : undefined}
@@ -1058,9 +1063,14 @@ function PackageDialog({
               {nameTooLong && <span id={nameLimitId} role="status" className="mt-1 block text-xs text-destructive">Use a package name of 120 characters or fewer.</span>}
             </label>
             <Button
-              disabled={!loaded || !validName}
+              disabled={!loaded || nameTooLong}
               onClick={() => void run(async () => {
-                update(await createActionPackage(name, operation.current?.signal));
+                let blankName = 'Untitled package';
+                if (!name.trim()) {
+                  const names = new Set(records.map(item => item.name));
+                  for (let suffix = 2; names.has(blankName); suffix++) blankName = 'Untitled package ' + suffix;
+                }
+                update(await createActionPackage(name.trim() || blankName, operation.current?.signal));
                 setWorkspaceSection('documents');
               })}
             >

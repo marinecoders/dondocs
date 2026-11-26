@@ -146,7 +146,7 @@ it("exposes derived evidence requirements for an imported legacy intake without 
   expect((await listActionPackages()).find(record => record.id === legacy.id)).toEqual(legacy);
 });
 
-it("closes an untouched new action with Escape without creating a package", async () => {
+it("returns to the package library from an untouched starter and restores keyboard focus", async () => {
   const before = await listActionPackages();
   useUIStore.setState({ actionPackagesOpen: true });
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
@@ -157,6 +157,9 @@ it("closes an untouched new action with Escape without creating a package", asyn
   const course = await within(dialog).findByLabelText("Course or activity", { exact: true });
   await waitFor(() => expect(course).toBeEnabled());
   expect(within(dialog).getByRole("button", { name: "Close" })).toBeVisible();
+  await user.keyboard("{Escape}");
+  const create = await within(dialog).findByRole("button", { name: "New package" });
+  await waitFor(() => expect(create).toHaveFocus());
   await user.keyboard("{Escape}");
   await waitFor(() => expect(dialog).not.toBeVisible());
   expect(await listActionPackages()).toEqual(before);
