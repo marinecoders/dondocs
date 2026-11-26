@@ -595,7 +595,11 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
           item.memberId === instance.memberId && item.condition === 'active' && item.completion ? [item.completion] : []);
         if (!instance.required && blueprint.completion) rules.push(blueprint.completion);
         const { verifyRevisionForEvidence } = await import('./packageRequirements');
-        await verifyRevisionForEvidence(source, rules, { signal, readAsset: async () => bytes });
+        await verifyRevisionForEvidence(source, rules, {
+          signal, participantId: instance.participantId,
+          referenceRevision: { ...getPackageRevision(before), templateState: state, members: [...selectedMembers, ...members] },
+          readAsset: async asset => attachments.find(staged => staged.id === asset.id)?.data ?? readPackageAsset(asset),
+        });
         reviews.push(await reviewPackageOriginal(bytes, source.original.name, policy));
         if (source.printableCopy) reviews.push(await reviewPackageOriginal(await readPackageAsset(source.printableCopy.asset), source.printableCopy.asset.name, policy));
         member = { ...source, ...identity };

@@ -10,6 +10,14 @@ const completed = equals('stage', 'completed');
 const hasDecision: PackageTemplateCondition = { op: 'any', conditions: [approved, disapproved, completed] };
 const approvalOnFile: PackageTemplateCondition = { op: 'any', conditions: [approved, completed] };
 
+const memberIdentity = [
+  { name: firstPage + 'TextField2[0]', label: 'Member name' },
+  { name: firstPage + 'TextField2[2]', label: 'Member EDIPI', optional: true as const },
+];
+const expiration = firstPage + 'TextField2[18]';
+const approvedMark = firstPage + 'a5[0]';
+const disapprovedMark = firstPage + 'b5[0]';
+
 export async function conditionalRelease(): Promise<MaintainedRecipe> {
   return {
     kind: 'dondocs-package-template', version: 2, id: 'dondocs_conditional_release',
@@ -31,7 +39,7 @@ export async function conditionalRelease(): Promise<MaintainedRecipe> {
           firstPage + 'member[0]', firstPage + 'recruiter[0]',
         ] } },
       { id: 'approval', memberKey: 'decision-form', kind: 'document', label: 'Approved release and expiration',
-        operations: ['pdf'], when: approvalOnFile, completion: { expectedForm: edition, requiredPdfFields: [firstPage + 'a5[0]', firstPage + 'TextField2[18]'], uncheckedPdfFields: [firstPage + 'b5[0]'] } },
+        operations: ['pdf'], when: approvalOnFile, completion: { expectedForm: edition, requiredPdfFields: [approvedMark, expiration], uncheckedPdfFields: [disapprovedMark] } },
       { id: 'disapproval', memberKey: 'decision-form', kind: 'document', label: 'Disapproval and explanation in remarks',
         operations: ['pdf'], when: disapproved, completion: { expectedForm: edition, requiredPdfFields: [firstPage + 'b5[0]', 'form1[0].#subform[5].TextField2[35]'], uncheckedPdfFields: [firstPage + 'a5[0]'] } },
       { id: 'decision-match', kind: 'confirmation', label: 'Confirm the returned decision is for this member and request and exactly one decision is marked',
@@ -49,10 +57,14 @@ export async function conditionalRelease(): Promise<MaintainedRecipe> {
         facts: { member_name: 'memberName', unit: 'unit', target_component: 'destination' },
         completion: { expectedForm: edition, requiredPdfFields: [firstPage + 'TextField2[0]'] } },
       { key: 'decision-form', kind: 'attachment', label: 'Signed DD Form 368 decision', role: 'supporting-document', required: true,
-        when: hasDecision, completion: { expectedForm: edition, signatureFields: [firstPage + 'ao[0]'] } },
+        when: hasDecision, completion: { expectedForm: edition, matchingPdfFields: [{ memberKey: 'request', fields: memberIdentity }], signatureFields: [firstPage + 'ao[0]'] } },
       { key: 'notification', kind: 'attachment', label: 'Completed DD Form 368 with Section III certification',
-        role: 'supporting-document', required: true, when: completed, completion: { expectedForm: edition, signatureFields: [firstPage + 'SignatureField1[0]'],
-          requiredPdfFields: [firstPage + 'TextField2[26]'] } },
+        role: 'supporting-document', required: true, when: completed, completion: { expectedForm: edition, signatureFields: [firstPage + 'ao[0]', firstPage + 'SignatureField1[0]'],
+          requiredPdfFields: [approvedMark, expiration, firstPage + 'TextField2[26]', firstPage + 'signedDate4[0]'],
+          uncheckedPdfFields: [disapprovedMark], matchingPdfFields: [
+            { memberKey: 'request', fields: memberIdentity },
+            { memberKey: 'decision-form', fields: [...memberIdentity, { name: expiration, label: 'Approval expiration' }] },
+          ] } },
       { key: 'oath', kind: 'attachment', label: 'Oath of enlistment or appointment', role: 'supporting-document', required: true, when: completed },
       { key: 'orders', kind: 'attachment', label: 'Orders showing the enlistment or commissioning date', role: 'supporting-document', required: true, when: completed },
     ],

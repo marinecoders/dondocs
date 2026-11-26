@@ -92,3 +92,44 @@ it('preserves the received DD 368 exactly through transfer and blocks conflictin
   expect(inspected.ready).toBe(false);
   expect(inspected.items[0].message).toContain('conflicting selection');
 });
+
+it('compares the certification copy with the saved request and decision before delivery', async () => {
+  const { captureOriginalPackageMember } = await import('@/lib/actionPackageAssets');
+  const { getPackageRevision } = await import('@/lib/actionPackages');
+  const { startConditionalPackage } = await import('@/lib/packageConditional');
+  const { resolveExportDeploymentPolicy } = await import('@/lib/exportDeploymentPolicy');
+  const { verifyRevisionForEvidence } = await import('@/lib/packageRequirements');
+  vi.stubGlobal('fetch', async (url: string) => new Response(new Uint8Array(await readFile('public' + decodeURIComponent(new URL(url, 'https://test.invalid').pathname)))));
+  const template = await maintainedPackageAction('conditional-release');
+  const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: null, runtime: { status: 'absent' } });
+  const revision = getPackageRevision(await startConditionalPackage(template, policy, undefined, () => true));
+  const rule = template.members.find(m => m.key === 'notification')!.completion!;
+  expect(rule.signatureFields).toHaveLength(2);
+  // Exercise printed data independently of the two signatures, which these synthetic files lack.
+  const { signatureFields: _signatures, ...printed } = rule;
+  const definition = compileFormDefinition(JSON.parse(await readFile(directory + '/form.json', 'utf8')));
+  const original = await readFile(directory + '/original.pdf');
+  async function pdf(answers: Record<string, string | boolean>) {
+    const result = await renderForm({ definition, answers, rows: {}, answerRevision: 1 }, 'export', async () => original);
+    return captureOriginalPackageMember({ name: 'training.pdf', data: Uint8Array.from(result.bytes).buffer }, 'supporting-document', true);
+  }
+  const identity = { member_name: 'RIVERA, EXAMPLE', edipi: '0000000001' };
+  const decision = { ...identity, approved: true, valid_until: '270301' };
+  const complete = { ...decision, oath_component: 'USMCR', certifier_date: '270201' };
+  for (const [key, answers] of [['request', identity], ['decision-form', decision]] as const) {
+    const source = await pdf(answers);
+    const slot = revision.templateState!.instances.find(item => item.memberKey === key)!;
+    slot.condition = true;
+    slot.memberId = source.id;
+    revision.members.push(source);
+  }
+  const check = async (overrides: Record<string, string | boolean>) =>
+    verifyRevisionForEvidence(await pdf({ ...complete, ...overrides }), [printed], { referenceRevision: revision });
+  await expect(check({})).resolves.toBeUndefined();
+  await expect(check({ member_name: 'OTHER, EXAMPLE' })).rejects.toThrow('Member name must match');
+  await expect(check({ edipi: '0000000002' })).rejects.toThrow('Member EDIPI must match');
+  await expect(check({ valid_until: '271231' })).rejects.toThrow('Approval expiration must match');
+  await expect(check({ approved: false, disapproved: true })).rejects.toThrow('conflicting selection');
+  await expect(check({ certifier_date: '' })).rejects.toThrow('signedDate4');
+  await expect(verifyRevisionForEvidence(await pdf(complete), [rule], { referenceRevision: revision })).rejects.toThrow(/sign or verify/i);
+});

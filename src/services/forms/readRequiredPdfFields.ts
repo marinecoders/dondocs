@@ -6,8 +6,13 @@ export async function readPdfAnswerStates(bytes: ArrayBuffer) {
   const task = pdfjs.getDocument({ ...HARDENED_PDF_OPTIONS, data: new Uint8Array(bytes.slice(0)), password: '' });
   try {
     const fields = await (await task.promise).getFieldObjects();
+    const textValues = new Map<string, string>();
     const answered = new Set<string>();
     for (const [name, widgets] of Object.entries(fields ?? {})) {
+      // Repeated widgets must agree before a printed answer can identify another copy.
+      const values = widgets.map(widget => 'value' in widget ? widget.value : undefined);
+      const first = values[0];
+      if (typeof first === 'string' && values.every(value => value === first)) textValues.set(name, first);
       if (widgets.some(field => {
         if (!('value' in field) || field.value == null) return false;
         const button = 'type' in field && (field.type === 'radiobutton' || field.type === 'checkbox');
@@ -19,7 +24,7 @@ export async function readPdfAnswerStates(bytes: ArrayBuffer) {
     const unchecked = new Set(Object.entries(fields ?? {}).filter(([, widgets]) =>
       widgets.length > 0 && widgets.every(widget => 'type' in widget && widget.type === 'checkbox' &&
         'value' in widget && widget.value === 'Off')).map(([name]) => name));
-    return { answered, unchecked };
+    return { answered, unchecked, textValues };
   } finally { await task.destroy(); }
 }
 
