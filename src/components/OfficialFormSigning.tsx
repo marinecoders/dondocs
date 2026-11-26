@@ -8,10 +8,11 @@ import { inspectOfficialPdf, signOfficialPdf, signingIdentities, type OfficialIn
 import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
 import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 
-type Props = { initialField?: string; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
+export type BeforeOfficialSignature = (field: string, bytes: ArrayBuffer) => Promise<void>;
+type Props = { initialField?: string; beforeSign?: BeforeOfficialSignature; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
   onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> };
 
-export function OfficialFormSigning({ record, initialField, onSave, onAttach }: Props) {
+export function OfficialFormSigning({ record, initialField, beforeSign, onSave, onAttach }: Props) {
   const [code, setCode] = useState('');
   const [inspection, setInspection] = useState<OfficialInspection>();
   const [identities, setIdentities] = useState<Awaited<ReturnType<typeof signingIdentities>>>([]);
@@ -45,6 +46,8 @@ export function OfficialFormSigning({ record, initialField, onSave, onAttach }: 
   }
   async function pair(signal: AbortSignal) {
     const bytes = await officialRevisionBytes(record);
+    if (field) await beforeSign?.(field, bytes.buffer);
+    signal.throwIfAborted();
     await confirmSigningDisclosure({ pdfs: [{ bytes, label: record.filename }] }, () => !signal.aborted, { action: 'inspect' });
     const info = await inspectOfficialPdf(bytes, code.trim(), signal);
     selectInspection(info);
@@ -57,6 +60,8 @@ export function OfficialFormSigning({ record, initialField, onSave, onAttach }: 
   async function sign(signal: AbortSignal) {
     if (!inspected || !selected || selected.signed || selected.locked || !reviewed) return;
     const bytes = await officialRevisionBytes(record);
+    await beforeSign?.(field, bytes.buffer);
+    signal.throwIfAborted();
     const signed = await signOfficialPdf(bytes, field, certificate, finalize, code.trim(), signal);
     const result = await inspectOfficialPdf(signed, code.trim(), signal);
     if (!result.fields.some(item => item.name === field && item.signed && item.trusted)) throw new Error('The selected signature could not be verified.');

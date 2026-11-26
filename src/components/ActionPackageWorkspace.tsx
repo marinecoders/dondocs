@@ -1878,6 +1878,12 @@ function PackageDialog({
       </DialogContent>
     </Dialog>
     {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id} initialField={formSigning.initialField}
+              beforeSign={async (field, bytes) => {
+                const [latest] = await listActionPackages(record.id);
+                if (latest?.currentRevisionId !== revision.id) throw new Error('The package changed. Reopen this document before signing.');
+                const { checkPackageSigningPrerequisites } = await import('@/lib/packageSigningPrerequisites');
+                await checkPackageSigningPrerequisites(revision, formSigning.memberId, field, bytes);
+              }}
               onOpenChange={open => { if (!open) setFormSigning(undefined); }}
               onAttach={async (saved, inspection) => {
                 if (!editable || !record) throw new Error('The package changed. Reopen the current member before applying a signed revision.');

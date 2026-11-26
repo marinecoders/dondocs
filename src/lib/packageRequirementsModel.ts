@@ -16,6 +16,11 @@ const common = {
 export const formCompletionSchema = z.object({
   expectedForm: z.object({ id: identity, edition: z.string().regex(/^[A-Za-z0-9_.-]{1,100}$/) }).strict().optional(),
   requiredPdfFields: z.array(z.string().trim().min(1).max(250)).min(1).max(100).optional(),
+  answerGroups: z.array(z.object({
+    label,
+    alternatives: z.array(z.array(z.string().trim().min(1).max(250)).min(1).max(12)).min(1).max(32),
+    beforeSignatures: z.array(z.string().trim().min(1).max(250)).min(1).max(32).optional(),
+  }).strict()).min(1).max(20).optional(),
   reviewedScan: z.literal(true).optional(),
   writtenContent: z.literal(true).optional(),
   blankSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),

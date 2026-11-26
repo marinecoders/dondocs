@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { expect, it, vi } from 'vitest';
 import { OfficialSignatureLocation } from '@/components/OfficialSignatureLocation';
 import type { OfficialSigningRecord } from '@/lib/officialSigning';
@@ -25,7 +25,7 @@ it('reads the PDF on request, selects its visible field before pairing, and reus
   expect(read).not.toHaveBeenCalled();
   fireEvent.click(screen.getByRole('button', { name: 'Review signature location' }));
   await screen.findByText('PDF page 2');
-  expect(onChoice).toHaveBeenCalledWith('Reviewer');
+  await waitFor(() => expect(onChoice).toHaveBeenCalledWith('Reviewer'));
   fireEvent.click(screen.getByRole('button', { name: 'Previous page' }));
   await screen.findByText('PDF page 1');
   expect(read).toHaveBeenCalledTimes(1);
