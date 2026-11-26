@@ -13,8 +13,8 @@ vi.mock('@/services/forms/signingBridge', () => ({
   signingIdentities: async () => [],
 }));
 
-it('requires an explicit new selection when the requested field is already signed', async () => {
-  render(<OfficialFormSigning initialField="previous" onSave={vi.fn()} record={{
+it.each(['previous', undefined])('requires an explicit choice for an unavailable or unspecified package field: %s', async initialField => {
+  render(<OfficialFormSigning beforeSign={async () => {}} initialField={initialField} onSave={vi.fn()} record={{
     format: 'dondocs-official-signing-v1', filename: 'Training.pdf', id: 'sample', data: '', revisions: [{ length: 1, sha256: 'digest' }],
   }} />);
   fireEvent.change(screen.getByLabelText('Local bridge pairing code'), { target: { value: 'sample' } });

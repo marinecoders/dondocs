@@ -10,6 +10,7 @@ import { validateAnswers } from '@/services/forms/model';
 import { FormSectionFields } from './editor/GenericFormSection';
 import { FormRows } from './editor/RowGroupGrid';
 import { Page11Fields } from './editor/Form11811Section';
+import { packageFormSigningAction } from '@/lib/packageOfficialForms';
 import { PackageDocumentPreview } from './PackageDocumentPreview';
 import { usePackageFormEditor } from './usePackageFormEditor';
 import { Button } from './ui/button';
@@ -42,10 +43,11 @@ type Props = Pick<ComponentProps<typeof PackageDocumentPreview>, 'ports' | 'expo
   onFinishFinding?(advance: boolean): Promise<void>;
   returnToSigner?: boolean;
   onSharedDetails(): void;
+  onSign?(field?: string): void | Promise<void>;
   navigationError?: string;
 };
 
-export default function PackageFormEditor({ record, member, onFieldReview, onSave, onNavigate, onSharedDetails, ports, exportGate, navigationError, correction, onFinishFinding, returnToSigner }: Props) {
+export default function PackageFormEditor({ record, member, onFieldReview, onSave, onNavigate, onSharedDetails, onSign, ports, exportGate, navigationError, correction, onFinishFinding, returnToSigner }: Props) {
   const editor = usePackageFormEditor(record, member, onSave);
   const titleId = useId();
   const [mobilePreview, setMobilePreview] = useState(false);
@@ -80,6 +82,8 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
   const selected = sections.find(s => s.id === sectionId)?.id ??
     (sectionId === 'all' || defaultLayout === 'scroll' ? 'all' : sections[0]?.id);
   const issues = instance ? validateAnswers(instance.definition, instance.answers, instance.rows, false) : [];
+  const signingAction = packageFormSigningAction(member);
+  const sign = signingAction && onSign ? (field?: string) => void navigate(() => onSign(field)) : undefined;
   const selectClass = 'block min-w-0 max-w-full rounded-md border bg-background px-2 py-1.5 text-sm';
   return <Dialog open onOpenChange={open => { if (!open) void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate()); }}>
     <DialogContent fullscreen showCloseButton={false} aria-labelledby={titleId} className="flex flex-col gap-0">
@@ -91,6 +95,7 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
         {onFinishFinding && !returnToSigner && <Button size="sm" disabled={leaving} onClick={() => void navigate(() => onFinishFinding(true))}>Next item</Button>}
         <span className="ml-auto text-sm text-muted-foreground" role="status">{({ opening: 'Opening form…', saved: 'Saved to package', saving: 'Saving…', pending: 'Editing draft', error: 'Save needs attention' })[editor.phase]}</span>
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
+        {sign && <Button variant="outline" size="sm" disabled={leaving || !editor.ready} onClick={() => sign()}>{signingAction}</Button>}
         <Button size="sm" disabled={leaving || editor.phase !== 'pending'} onClick={() => void editor.flush()}>Save changes</Button>
       </header>
       {onFieldReview && <PackageLinkedFieldTools record={record} onSave={onSave} member={member} revision={revision} disabled={leaving || editor.phase !== 'saved'} onReview={onFieldReview} />}
@@ -119,7 +124,7 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
               {instance.definition.sections.filter(s => selected === 'all' || selected === 'field/' + s.id).map(section =>
                 <section key={section.id} className="space-y-2">
                   {selected === 'all' && <h3 className="font-medium">{section.title}</h3>}
-                  <FormSectionFields instance={instance} section={section} issues={issues} prefix="pkg-" onChange={(key, value) => {
+                  <FormSectionFields instance={instance} section={section} issues={issues} prefix="pkg-" onSign={sign} onChange={(key, value) => {
                     const current = editor.latest();
                     if (current.kind === 'configured') editor.change({ ...current, answers: { ...current.answers, [key]: value } });
                   }} />
@@ -127,7 +132,7 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
               {groups.filter(([key]) => selected === 'all' || selected === 'rows/' + key).map(([key, group]) =>
                 <section key={key} className="space-y-2">
                   {selected === 'all' && <h3 className="font-medium">{group.title}</h3>}
-                  <FormRows groupKey={key} group={group} rows={instance.rows[key] ?? []} issues={issues}
+                  <FormRows groupKey={key} group={group} onSign={sign} rows={instance.rows[key] ?? []} issues={issues}
                     editForm={update => {
                       const current = editor.latest();
                       if (current.kind !== 'configured') return;

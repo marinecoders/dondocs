@@ -8,10 +8,11 @@ interface Props {
   label?: string;
   id?: string;
   error?: string;
+  onSign?(): void;
 }
 const inputClass = 'w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-10 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive';
 
-export function FormAnswerControl({ field, value, onChange, label = field.label, id, error }: Props) {
+export function FormAnswerControl({ field, value, onChange, label = field.label, id, error, onSign }: Props) {
   const controlId = useId();
   const errorId = `${controlId}-error`;
   const attributes = {
@@ -22,6 +23,7 @@ export function FormAnswerControl({ field, value, onChange, label = field.label,
     'aria-describedby': error ? errorId : undefined,
   };
   let control: ReactNode;
+  if (field.kind === 'signature' && onSign) return <button id={attributes.id} type="button" className="block text-sm underline underline-offset-4" onClick={onSign} aria-label={'Sign ' + label}>Sign here</button>;
   if (field.kind === 'signature') return <p className="text-xs text-muted-foreground">Sign after export.</p>;
   if (field.kind === 'boolean') {
     control = <select {...attributes} className={inputClass} value={value === undefined ? '' : String(value)} onChange={e => onChange(e.target.value === '' ? '' : e.target.value === 'true')}>

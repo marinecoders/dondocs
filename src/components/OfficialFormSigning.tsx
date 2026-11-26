@@ -45,10 +45,14 @@ export function OfficialFormSigning({ record, initialField, beforeSign, onCorrec
     return () => { live = false; };
   }, [beforeSign, field, latest.sha256, record]);
   const checked = check?.field === field && check.digest === latest.sha256 ? check : undefined;
+  const choosePackageField = !!beforeSign && !initialField;
   const selectInspection = (value: OfficialInspection) => {
     const available = value.fields.filter(item => !item.locked && !item.signed);
     setInspection({ ...value, fields: value.fields.map(item => ({ ...item, label: fieldLabels.current?.get(item.name) || item.label })) });
-    setField(previous => previous && !available.some(item => item.name === previous) ? '' : previous || available[0]?.name || '');
+    setField(previous => {
+      if (previous) return available.some(item => item.name === previous) ? previous : '';
+      return choosePackageField ? '' : available[0]?.name ?? '';
+    });
     setReviewed(false); setFinalize(false);
   };
 
@@ -104,7 +108,7 @@ export function OfficialFormSigning({ record, initialField, beforeSign, onCorrec
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {message && <p role="status" className="text-sm">{message}</p>}
     <fieldset disabled={busy} className="space-y-3">
-      <OfficialSignatureLocation key={latest.sha256} initiallyOpen={!!initialField} record={record} choice={field} onChoice={setField} paired={inspected} />
+      <OfficialSignatureLocation requireChoice={choosePackageField} key={latest.sha256} initiallyOpen={!!initialField} record={record} choice={field} onChoice={setField} paired={inspected} />
       {checked?.message && <div role="status" className="space-y-1 text-sm"><p>{checked.message}</p>
         {onCorrect && checked.target && record.revisions.length === 1 && <Button size="sm" variant="outline" onClick={() => onCorrect(checked.target!, field)}>
           {checked.target.correction?.label || 'Open package details'}</Button>}</div>}

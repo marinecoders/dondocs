@@ -15,7 +15,8 @@ export function RowGroupGrid({ groupKey, group, issues = [] }: Props) {
   return <FormRows groupKey={groupKey} group={group} rows={rows} issues={issues} editForm={editForm} />;
 }
 
-export function FormRows({ groupKey, group, rows, issues = [], editForm }: Props & {
+export function FormRows({ groupKey, group, rows, issues = [], editForm, onSign }: Props & {
+  onSign?(): void;
   rows: AnswerRow[]; editForm: typeof import('@/services/forms/documents').editForm;
 }) {
   const columns = Object.entries(group.columns);
@@ -24,6 +25,7 @@ export function FormRows({ groupKey, group, rows, issues = [], editForm }: Props
   const remove = (index: number) => editForm(form => { form.rows[groupKey].splice(index, 1); });
   const control = (index: number, key: string) => <FormAnswerControl
     field={group.columns[key]}
+    onSign={onSign}
     label={`${group.columns[key].label}, row ${index + 1}`}
     value={rows[index].answers[key]}
     error={issues.filter(issue => issue.path === `${groupKey}.${index}.${key}`).map(issue => issue.message).join('; ')}
