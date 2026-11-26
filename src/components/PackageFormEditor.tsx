@@ -1,4 +1,5 @@
-import { usePackageEditorNavigation } from './usePackageEditorNavigation';
+import { handlePackageSaveShortcut, usePackageEditorNavigation } from './usePackageEditorNavigation';
+import { PackageEditorSaveControls } from './PackageEditorSaveControls';
 import { PackageDocumentSwitcher } from './PackageDocumentSwitcher';
 import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
 import type { PackageDestination } from '@/lib/packageDestinations';
@@ -85,18 +86,21 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
   const signingAction = packageFormSigningAction(member);
   const sign = signingAction && onSign ? (field?: string) => void navigate(() => onSign(field)) : undefined;
   const selectClass = 'block min-w-0 max-w-full rounded-md border bg-background px-2 py-1.5 text-sm';
+  function save() {
+    if (leaving || !editor.ready) return;
+    void editor.flush();
+  }
   return <Dialog open onOpenChange={open => { if (!open) void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate()); }}>
-    <DialogContent fullscreen showCloseButton={false} aria-labelledby={titleId} className="flex flex-col gap-0">
+    <DialogContent onKeyDown={event => handlePackageSaveShortcut(event, save)} fullscreen showCloseButton={false} aria-labelledby={titleId} className="flex flex-col gap-0">
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-4 py-3">
         <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate())}><ArrowLeft />{returnToSigner ? 'Back to signing' : onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
         <div className="min-w-0"><DialogTitle id={titleId}>{record.name}</DialogTitle><DialogDescription>Package form editor</DialogDescription></div>
         <PackageDocumentSwitcher history={record.revisions} revision={revision} memberId={member.id} disabled={leaving}
           onSelect={id => void navigate(() => onNavigate(id))} />
         {onFinishFinding && !returnToSigner && <Button size="sm" disabled={leaving} onClick={() => void navigate(() => onFinishFinding(true))}>Next item</Button>}
-        <span className="ml-auto text-sm text-muted-foreground" role="status">{({ opening: 'Opening form…', saved: 'Saved to package', saving: 'Saving…', pending: 'Editing draft', error: 'Save needs attention' })[editor.phase]}</span>
+        <PackageEditorSaveControls phase={editor.phase} disabled={leaving} unavailable={!editor.ready} onSave={save} />
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
         {sign && <Button variant="outline" size="sm" disabled={leaving || !editor.ready} onClick={() => sign()}>{signingAction}</Button>}
-        <Button size="sm" disabled={leaving || editor.phase !== 'pending'} onClick={() => void editor.flush()}>Save changes</Button>
       </header>
       {onFieldReview && <PackageLinkedFieldTools record={record} onSave={onSave} member={member} revision={revision} disabled={leaving || editor.phase !== 'saved'} onReview={onFieldReview} />}
       {(switchError || navigationError) && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{switchError || navigationError}</p>}
@@ -106,7 +110,7 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
           if (await showAppConfirm({ title: 'Discard recovered input?', message: 'This opens the saved package answers and clears the recovered draft for this form.', confirmLabel: 'Discard draft', destructive: true }))
             await editor.discardRecovery();
         }}>Use saved answers</Button>}
-        {editor.ready && <Button size="sm" variant="outline" onClick={() => void editor.flush()}>Retry save</Button>}
+        {!editor.ready && !editor.canDiscardRecovery && <Button size="sm" variant="outline" onClick={editor.retryOpen}>Retry opening form</Button>}
       </div>}
       <main className="grid min-h-0 flex-1 content-start gap-6 overflow-auto p-4 lg:grid-cols-[minmax(20rem,2fr)_minmax(0,3fr)] lg:content-stretch lg:overflow-hidden">
         <div className={(mobilePreview ? "hidden lg:block " : "") + "min-w-0 space-y-4 lg:overflow-y-auto lg:px-1"}>

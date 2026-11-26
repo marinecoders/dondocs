@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type KeyboardEvent } from 'react';
 
 /** Keep the current editor available until the save and destination change have settled. */
 export function usePackageEditorNavigation(flush: () => Promise<boolean>) {
@@ -22,4 +22,11 @@ export function usePackageEditorNavigation(flush: () => Promise<boolean>) {
   }
 
   return { navigate, navigating, navigationError };
+}
+
+export function handlePackageSaveShortcut(event: KeyboardEvent, save: () => void) {
+  if (event.nativeEvent.isComposing || !(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey || event.key.toLowerCase() !== 's') return;
+  event.preventDefault();
+  event.stopPropagation();
+  if (!event.repeat) save();
 }
