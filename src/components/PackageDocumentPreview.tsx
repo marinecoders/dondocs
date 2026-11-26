@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import type { PackageFormValues } from '@/lib/packageFormEditing';
+import { isEditableOfficialForm, packageFormValues, type PackageFormValues } from '@/lib/packageFormEditing';
 import type { PackageMember } from '@/lib/actionPackages';
 import { readPackageAsset } from '@/lib/actionPackageAssets';
 import { renderPackageRecipientMember } from '@/lib/packageNativeDelivery';
@@ -42,8 +42,9 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
       if (member.kind === 'native') {
         const release = await exportGate.acquireWhenAvailable(controller.signal);
         // The viewer paints native AcroForm appearances. XFA needs its printable rendition.
-        const mode = formPreview?.kind === 'configured' ? 'editable' : 'printable';
-        try { ({ bytes } = await renderPackageRecipientMember(member, policy, latestPorts.current, readPackageAsset, controller.signal, undefined, mode, formPreview)); }
+        const answers = formPreview ?? (isEditableOfficialForm(member) ? packageFormValues(member) : undefined);
+        const mode = answers?.kind === 'configured' ? 'editable' : 'printable';
+        try { ({ bytes } = await renderPackageRecipientMember(member, policy, latestPorts.current, readPackageAsset, controller.signal, undefined, mode, answers)); }
         finally { release(); }
         type = 'application/pdf';
       } else {
