@@ -20,6 +20,15 @@ export async function officialSignatureLabels(form: { id: string; edition: strin
   const cached = editionLabels.get(profile.sha256);
   if (cached) return cached;
   const pending = (async () => {
+    if (profile.definitionSha256) {
+      const { loadPackageFormDefinition } = await import('./packageFormFields');
+      const definition = await loadPackageFormDefinition(profile);
+      const labels = new Map<string, string>();
+      for (const field of Object.values(definition.fields)) {
+        if (field.kind === 'signature') for (const name of field.sourceIds ?? []) labels.set(name, field.label);
+      }
+      if (labels.size) return labels;
+    }
     const bytes = await readRetainedTemplatePage(profile.sha256) ?? await loadTemplatePage(formAssetUrl(profile.directory, profile.file));
     if (await portableResourceDigest(bytes) !== profile.sha256) throw new Error('Official form edition mismatch.');
     const { readSignatureLayout } = await import('@/services/forms/signatureLayout');

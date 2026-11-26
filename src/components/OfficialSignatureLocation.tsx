@@ -10,7 +10,10 @@ async function readLayout(record: OfficialSigningRecord, signal: AbortSignal) {
   const id = await identifyOfficialOriginal(bytes.buffer);
   const profile = id && officialEdition(id);
   if (!profile || profile.format !== 'acroform') return;
-  return readSignatureLayout(bytes, signal);
+  const layout = await readSignatureLayout(bytes, signal);
+  const { officialSignatureLabels } = await import('@/lib/packageSignatureFieldLabel');
+  const labels = profile.definitionSha256 && await officialSignatureLabels({ id: profile.formId, edition: profile.edition }).catch(() => undefined);
+  return { ...layout, slots: layout.slots.map(slot => ({ ...slot, label: (labels && labels.get(slot.name)) || slot.label })) };
 }
 
 /** Reads only the saved bytes. Certificate trust and signing permission come from the bridge. */
