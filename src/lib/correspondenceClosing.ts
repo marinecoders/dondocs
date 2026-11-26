@@ -7,9 +7,9 @@ export function hasBottomSignature(type: string): boolean {
 }
 
 /** Trim unused editor rows only at the end of correspondence output. */
-export function printableCorrespondenceParagraphs(paragraphs: Paragraph[]): Paragraph[] {
+export function printableCorrespondenceParagraphs(paragraphs: Paragraph[], previewHintIndex = -1): Paragraph[] {
   let end = paragraphs.length;
-  while (end > 0) {
+  while (end > previewHintIndex + 1) {
     const p = paragraphs[end - 1];
     if (p.text.trim() || p.header?.trim() || p.bodyTable || p.figure || p.portionMarking ||
         p.referenceId || p.publicationSection || p.volumeSectionId || p.tableKey ||

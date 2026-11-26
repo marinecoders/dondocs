@@ -169,6 +169,18 @@ describe('live preview hints', () => {
     expect(getPreviewHints(source).body).toBeUndefined();
   });
 
+  it('keeps the preview hint after an empty table when the corresponding paragraph follows the table', () => {
+    const source = draft('naval_letter', {}, [
+      { level: 0, text: '', bodyTable: { headerRows: 1, rows: [[''], ['']] } },
+      { level: 0, id: 'after-table', text: '' },
+    ]);
+    const body = preview(source).texFiles['body.tex'];
+    const table = body.indexOf('longtable');
+    expect(table).toBeGreaterThan(-1);
+    expect(body.indexOf('Your content here')).toBeGreaterThan(table);
+    expect(getPreviewHints(source).body?.paragraphId).toBe('after-table');
+  });
+
   it('keeps the body hint for an inactive figure retained from another format', () => {
     const figure = { fileRef: { id: 'image', name: 'training.png', type: 'image/png', size: 1 } };
     const source = draft('standard_letter', {}, [{ level: 0, text: '', figure }]);

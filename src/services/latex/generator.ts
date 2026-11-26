@@ -1110,9 +1110,6 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
   if (config.uiMode === 'moa') {
     store = { ...store, paragraphs: agreementParagraphs(store.paragraphs) };
   }
-  if (!isTechnicalPublication(store.docType)) {
-    store = { ...store, paragraphs: printableCorrespondenceParagraphs(store.paragraphs) };
-  }
   let hintIndex = -1;
   if (hints?.body) {
     hintIndex = store.paragraphs.findIndex(paragraph => isPreviewBodyParagraph(paragraph) && unfilled(paragraph.text));
@@ -1120,6 +1117,9 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
       hintIndex = 0;
       store = { ...store, paragraphs: [{ level: 0, text: '' }, ...store.paragraphs] };
     }
+  }
+  if (!isTechnicalPublication(store.docType)) {
+    store = { ...store, paragraphs: printableCorrespondenceParagraphs(store.paragraphs, hintIndex) };
   }
   const crossReferences = publicationReferences(store.paragraphs, store.publicationTables);
   const bodyText = store.docType === 'i_type' ? (text: string) => publicationReferenceText(text, crossReferences) : processBodyText;
