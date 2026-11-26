@@ -19,6 +19,10 @@ export async function loadPackageBlank(id: string, edition: string) {
     completion: { blankSha256: source.sha256 } };
 }
 
+export function requiresDesktopReader(name: string) {
+  return references.some(source => source.name === name && source.requiresDesktopReader);
+}
+
 export async function readPackageBlank(blank: { name: string; data: string }) {
   const bytes = new Uint8Array(base64ToUint8Array(blank.data)).buffer;
   const digest = await portableResourceDigest(bytes);

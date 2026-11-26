@@ -13,6 +13,9 @@ interface ActionListing {
 }
 
 const actions = [
+  { id: 'dependency-application', build: async () => (await import('./recipes/dependencyApplication')).dependencyApplication(),
+    name: 'Dependency application', startLabel: 'Start dependency application', startWithDocuments: true, kind: 'Forms-led',
+    description: 'Prepare NAVMC 10922 and supporting records for a marriage, birth, or loss of dependency.' },
   { id: 'conditional-release', build: async () => (await import('./recipes/conditionalRelease')).conditionalRelease(),
     name: 'Conditional release', startLabel: 'Start conditional release', startWithDocuments: true, kind: 'Letter-led',
     description: 'Prepare an active-duty Marine transfer request for MMSR-2 with DD Form 368, a naval letter and a command endorsement. Keep the decision and final return with the request.' },

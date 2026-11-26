@@ -129,3 +129,16 @@ it('requires evidence appropriate to refusal, an imposed punishment, a decided a
   expect(active({ caseStage: 'closed-no-punishment' }).find(r => r.id === 'closed-without-award')?.completion?.deliveryBlockReason).toContain('Do not deliver');
   expect(template.members.find(m => m.key === 'written-matters')?.required).toBe(true);
 });
+
+it('selects the required documents for dependency-application', async () => {
+  serveOfficialForms();
+  const template = await maintainedPackageAction('dependency-application');
+  const selected = (values: Record<string, string | boolean>) => listConditionalPackageInstances(template, { version: 1, groups: {}, values })
+    .filter(member => member.condition === true).map(member => member.memberKey);
+  for (const event of ['marriage', 'birth', 'loss']) {
+    expect(selected({ event, supportOrder: false })).toEqual(['application', event]);
+  }
+  expect(selected({ event: 'birth', supportOrder: true })).toEqual(['application', 'birth', 'order']);
+  expect(template.members[0].completion?.blankSha256).toBe(createHash('sha256')
+    .update(Buffer.from(template.members[0].blankPdf!.data, 'base64')).digest('hex'));
+});
