@@ -79,7 +79,7 @@ export async function matchesExpectedForm(member: PackageMember, expected: NonNu
   if (expected.id === 'package_correspondence') return member.session.documentCategory === 'correspondence';
   if (member.session.formType !== expected.id) return false;
   const definition = member.session.genericForm?.definition;
-  return profile.format === 'xfa' ? member.session.forms?.officialPdfEdition === expected.edition :
+  return member.session.forms ? member.session.forms?.officialPdfEdition === expected.edition :
     !!definition && definition.nativePdfEdition === expected.edition &&
     await portableResourceDigest(new TextEncoder().encode(canonicalJson(definition)).buffer) === profile.definitionSha256;
 }

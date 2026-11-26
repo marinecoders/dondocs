@@ -19,6 +19,8 @@ export async function captureExportFormTemplates(captured: CapturedDocument) {
   const { formType, forms } = content.document;
   const edition = forms.officialPdfEdition;
   const profile = edition ? officialPdfProfile(formType, edition) : undefined;
+  if (formType === 'navmc_10274' && profile)
+    return captureFormExportTemplates(content.kind, formType, { official: new Uint8Array(await loadOfficialPdfSource(profile)) });
   const [printable, original] = await Promise.all([
     formType === 'navmc_10274' ? loadNavmc10274Templates() : loadNavmc11811Template(!!profile).then(page1 => ({ page1 })),
     profile ? loadOfficialPdfSource(profile) : undefined,

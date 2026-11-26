@@ -95,6 +95,8 @@ def revision_policy(profile):
 
 def official_profile(data):
     for profile in EDITIONS:
+        if profile.get("nativeSigning") is False:
+            continue
         length = profile["length"]
         if len(data) >= length and sha256(memoryview(data)[:length]).hexdigest() == profile["sha256"]:
             return profile

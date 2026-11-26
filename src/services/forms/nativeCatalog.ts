@@ -11,6 +11,11 @@ export function officialEdition(formId: string, edition?: string) {
   return editions.find(profile => profile.formId === formId && (edition === undefined || profile.edition === edition));
 }
 
+export function supportsOfficialSigning(formId: string, edition?: string) {
+  const profile = officialEdition(formId, edition);
+  return !!profile && profile.nativeSigning !== false;
+}
+
 /** Acrobat and DonDocs incremental revisions retain the exact publisher PDF as a prefix. */
 export async function identifyOfficialOriginal(data: ArrayBuffer) {
   const { portableResourceDigest } = await import('@/lib/portableResources');

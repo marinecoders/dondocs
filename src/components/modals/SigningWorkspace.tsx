@@ -1,6 +1,6 @@
 import type { BeforeOfficialSignature } from '../OfficialFormSigning';
 import type { OfficialInspection } from '@/services/forms/signingBridge';
-import { identifyOfficialOriginal } from '@/services/forms/nativeCatalog';
+import { identifyOfficialOriginal, supportsOfficialSigning } from '@/services/forms/nativeCatalog';
 import { idbDeleteSigningRecord } from '@/lib/documentsDb';
 import { OfficialFormSigning } from '@/components/OfficialFormSigning';
 import { saveOfficialRevision, officialSigningRecords, type OfficialSigningRecord } from '@/lib/officialSigning';
@@ -46,7 +46,7 @@ function SigningRecords({ initialRecordId, initialField, beforeSign, onAttach }:
         try {
           if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF up to 20 MB.');
           const data = await file.arrayBuffer();
-          if (!await identifyOfficialOriginal(data)) throw new Error('Choose an original PDF from a supported official edition.');
+          if (!supportsOfficialSigning(await identifyOfficialOriginal(data) ?? '')) throw new Error('Choose an original PDF from a supported official edition.');
           const next = await saveOfficialRevision(file.name, new Uint8Array(data), () => true);
           setRecords(rows => [next, ...rows]); setSelected(next.id); setError('');
         } catch (cause) { setError(signingErrorMessage(cause)); }

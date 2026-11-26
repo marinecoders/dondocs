@@ -46,13 +46,5 @@
     "directory": "jagman/a-1-o/5800.7G-CH2",
     "file": "original.pdf",
     "sha256": "622110041498078de3ca023f43df5fee213649447618b7a72c2f9c856b70b73d"
-  },
-  {
-    "id": "navmc_10274",
-    "edition": "2020-07",
-    "name": "NAVMC 10274 - Administrative Action.pdf",
-    "directory": "NAVMC10274 - Administrative Action/2020-07",
-    "file": "original.pdf",
-    "sha256": "ca93f0f8bcb0ba97442c3807f070ba752e48a8c0ea3d02bc0ffabbcc53ceeb4a"
   }
 ]

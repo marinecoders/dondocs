@@ -100,7 +100,9 @@ it('keeps all seven blank attachments in the portable resource list and restores
   const blanks = descriptor.members.filter((member: { blankPdf?: unknown }) => member.blankPdf);
   expect(blanks).toHaveLength(7);
   for (const { blankPdf } of blanks) {
-    expect(source.resources?.pdfs).toContainEqual(expect.objectContaining({ name: blankPdf.name, sha256: blankPdf.data }));
+    expect(blankPdf.name).toMatch(/\.pdf$/);
+    // A working form and its reference can share the same publisher bytes.
+    expect(source.resources?.pdfs.filter(asset => asset.sha256 === blankPdf.data)).toHaveLength(1);
   }
   vi.stubGlobal('fetch', () => { throw new Error('Unexpected network read'); });
   expect(await restoreTemplateSource(source, read)).toEqual(template);

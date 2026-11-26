@@ -482,6 +482,50 @@ export interface Navmc10274Options {
   includeCoverPage?: boolean;  // Include Privacy Act cover page (default: false)
 }
 
+export function administrativeBlockTwelve(data: Navmc10274Data, font: Awaited<ReturnType<typeof embedPdfFont>>, width = PAGE2_FIELDS.supplementalInfo.maxWidth) {
+  return composeBlockTwelveLines({
+    supplementalInfo: data.supplementalInfo
+      ? wrapText(data.supplementalInfo, width, font, FONT_SIZE)
+      : [],
+    proposedAction: data.proposedAction
+      ? wrapText(
+          `Proposed/recommended action: ${data.proposedAction}`,
+          width,
+          font,
+          FONT_SIZE
+        )
+      : [],
+    signatureBlocks: (data.signatureBlocks ?? []).map((block) => ({
+      statement: block.statement?.trim()
+        ? wrapText(block.statement.trim(), width, font, FONT_SIZE)
+        : [],
+      name: (block.name ?? '').trim(),
+      style: block.style,
+      image: block.image,
+    })),
+  });
+}
+
+export async function placeAdministrativeSignature(
+  pdfDoc: PDFDocument,
+  sequence: number,
+  page: PDFPage,
+  p: SignatureFieldPlacement,
+  box: { x: number; y: number; lineHeight: number }
+): Promise<void> {
+  if (p.style === 'digital') {
+    addSignatureFieldToPage(
+      pdfDoc,
+      page,
+      signatureFieldRect(box.x, box.y, p.nameLineInPage, box.lineHeight),
+      signatureFieldName(p.name, sequence)
+    );
+  } else if (p.style === 'image' && p.image) {
+    const img = await embedSignatureImage(pdfDoc, p.image);
+    if (img) drawSignatureImage(page, img, box.x, box.y, p.nameLineInPage, box.lineHeight);
+  }
+}
+
 /**
  * Generate a filled NAVMC 10274 form
  * @param data - Form data to fill in
@@ -598,46 +642,7 @@ export async function generateNavmc10274Pdf(
   // pagination moves them to the continuation page together — and a signature
   // block moves whole (paginateBlockTwelve), never leaving a typed name
   // stranded without its signing space.
-  const blockTwelve = composeBlockTwelveLines({
-    supplementalInfo: data.supplementalInfo
-      ? wrapText(data.supplementalInfo, PAGE2_FIELDS.supplementalInfo.maxWidth, font, FONT_SIZE)
-      : [],
-    proposedAction: data.proposedAction
-      ? wrapText(
-          `Proposed/recommended action: ${data.proposedAction}`,
-          PAGE2_FIELDS.supplementalInfo.maxWidth,
-          font,
-          FONT_SIZE
-        )
-      : [],
-    signatureBlocks: (data.signatureBlocks ?? []).map((block) => ({
-      statement: block.statement?.trim()
-        ? wrapText(block.statement.trim(), PAGE2_FIELDS.supplementalInfo.maxWidth, font, FONT_SIZE)
-        : [],
-      name: (block.name ?? '').trim(),
-      style: block.style,
-      image: block.image,
-    })),
-  });
-
-  // Place a signing mark (CAC field or scanned image) in the gap above a name.
-  const placeSignatureMark = async (
-    page: PDFPage,
-    p: SignatureFieldPlacement,
-    box: { x: number; y: number; lineHeight: number }
-  ): Promise<void> => {
-    if (p.style === 'digital') {
-      addSignatureFieldToPage(
-        pdfDoc,
-        page,
-        signatureFieldRect(box.x, box.y, p.nameLineInPage, box.lineHeight),
-        signatureFieldName(p.name, sigFieldSeq++)
-      );
-    } else if (p.style === 'image' && p.image) {
-      const img = await embedSignatureImage(pdfDoc, p.image);
-      if (img) drawSignatureImage(page, img, box.x, box.y, p.nameLineInPage, box.lineHeight);
-    }
-  };
+  const blockTwelve = administrativeBlockTwelve(data, font);
   // Continuation-page field placements are held until page 3 is created below.
   let continuationFieldPlacements: SignatureFieldPlacement[] = [];
   if (blockTwelve.lines.length > 0) {
@@ -657,7 +662,7 @@ export async function generateNavmc10274Pdf(
     );
     // Signing marks whose name landed on the main page.
     for (const p of fieldPlacements.filter((f) => f.page === 'main')) {
-      await placeSignatureMark(page2, p, PAGE2_FIELDS.supplementalInfo);
+      await placeAdministrativeSignature(pdfDoc, p.style === 'digital' ? sigFieldSeq++ : 0, page2, p, PAGE2_FIELDS.supplementalInfo);
     }
     continuationFieldPlacements = fieldPlacements.filter((f) => f.page === 'continuation');
     if (continuationLines.length > 0) {
@@ -689,7 +694,7 @@ export async function generateNavmc10274Pdf(
     );
     // Signing marks for blocks that overflowed onto page 3.
     for (const p of continuationFieldPlacements) {
-      await placeSignatureMark(page3, p, PAGE3_FIELDS.supplementalInfo);
+      await placeAdministrativeSignature(pdfDoc, p.style === 'digital' ? sigFieldSeq++ : 0, page3, p, PAGE3_FIELDS.supplementalInfo);
     }
   }
 

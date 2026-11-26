@@ -24,6 +24,10 @@ export async function renderDocumentForPrint(captured: CapturedDocument, { compi
   if (content.kind === 'builtin-form') {
     const { formType, forms } = content.document;
     if (formType === 'navmc_10274') {
+      if (forms.officialPdfEdition) {
+        const { renderOfficialAdministrativePrint } = await import('./navmc10274Native');
+        return renderOfficialAdministrativePrint(forms);
+      }
       const { page1, page2, page3 } = await loadNavmc10274Templates();
       signal.throwIfAborted();
       return generateNavmc10274Pdf(forms.navmc10274!, page1, page2, page3, { includeCoverPage: forms.includeCoverPage });
