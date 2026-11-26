@@ -149,7 +149,35 @@ it('rejects missing and mismatched official editions when starting a recipe slot
   const { officialFormBlueprint } = await import('@/lib/packageOfficialForms');
   const member = { key: 'rights', role: 'supporting-document' as const, required: true, formId: 'jagman_a1d' };
   await expect(officialFormBlueprint({ ...member, completion: { expectedForm: { id: member.formId, edition: 'unavailable' } } }))
-    .rejects.toThrow('official form is unavailable');
+    .rejects.toThrow('official form edition is unavailable');
   await expect(officialFormBlueprint({ ...member, completion: { expectedForm: { id: 'jagman_a1g', edition: '5800.7G-CH2.1' } } }))
     .rejects.toThrow('different official form');
+});
+
+it.each([false, true])('checks the item 2 refusal marker on the editable form and the returned PDF (marked %s)', async marked => {
+  const { officialFormCompletionIssues } = await import('@/lib/packageFormCompletion');
+  const { verifyRevisionForEvidence } = await import('@/lib/packageRequirements');
+  const { captureOriginalPackageMember } = await import('@/lib/actionPackageAssets');
+  const { maintainedPackageAction } = await import('@/lib/maintainedPackageActions');
+  vi.stubGlobal('fetch', async (url: string) => new Response(new Uint8Array(
+    await readFile('public' + decodeURIComponent(new URL(url, 'https://test.invalid').pathname)))));
+  try {
+    const recipe = await maintainedPackageAction('njp');
+    const marker = recipe.program.requirements.find(rule => rule.id === 'refusal-marker')!.completion!;
+    const election = recipe.program.requirements.find(rule => rule.id === 'refusal')!.completion!;
+    const member = await createOfficialFormMember('navmc10132', 'supporting-document');
+    const form = member.session.genericForm!;
+    form.answers = { '18_accused_full_name': 'EXAMPLE, TEST', '2_acc_refuse_to_sign': marked,
+      '2_demand': 'I demand trial and refuse non-judicial punishment.' };
+    const issues = officialFormCompletionIssues(member, marker);
+    expect(issues).toHaveLength(marked ? 0 : 1);
+    const bytes = await readFile('public/templates/NAVMC10132 - Unit Punishment Book/original.pdf');
+    const output = await renderForm(form, 'export', async () => bytes);
+    const returned = await captureOriginalPackageMember({ name: 'training.pdf', data: Uint8Array.from(output.bytes).buffer }, 'supporting-document', true);
+    const check = verifyRevisionForEvidence(returned, [marker]);
+    if (marked) await expect(check).resolves.toBeUndefined();
+    else await expect(check).rejects.toThrow('Mark the refusal to sign in UPB item 2.');
+    // A refusal still requires the item 2 signature, including when the CO signs for a refusal to sign.
+    await expect(verifyRevisionForEvidence(returned, [election])).rejects.toThrow(/sign or verify/i);
+  } finally { vi.unstubAllGlobals(); }
 });

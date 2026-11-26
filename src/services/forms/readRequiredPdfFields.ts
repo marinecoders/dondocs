@@ -7,12 +7,16 @@ export async function readPdfAnswerStates(bytes: ArrayBuffer) {
   try {
     const fields = await (await task.promise).getFieldObjects();
     const textValues = new Map<string, string>();
+    const checked = new Set<string>();
     const answered = new Set<string>();
     for (const [name, widgets] of Object.entries(fields ?? {})) {
       // Repeated widgets must agree before a printed answer can identify another copy.
       const values = widgets.map(widget => 'value' in widget ? widget.value : undefined);
-      const first = values[0];
-      if (typeof first === 'string' && values.every(value => value === first)) textValues.set(name, first);
+      const scalar = values.map(value => Array.isArray(value) && value.length === 1 ? value[0] : value);
+      const first = scalar[0];
+      if (typeof first === 'string' && scalar.every(value => value === first)) textValues.set(name, first);
+      if (widgets.length && widgets.every(widget => 'type' in widget && widget.type === 'checkbox' &&
+          'value' in widget && typeof widget.value === 'string' && widget.value !== '' && widget.value !== 'Off')) checked.add(name);
       if (widgets.some(field => {
         if (!('value' in field) || field.value == null) return false;
         const button = 'type' in field && (field.type === 'radiobutton' || field.type === 'checkbox');
@@ -24,7 +28,7 @@ export async function readPdfAnswerStates(bytes: ArrayBuffer) {
     const unchecked = new Set(Object.entries(fields ?? {}).filter(([, widgets]) =>
       widgets.length > 0 && widgets.every(widget => 'type' in widget && widget.type === 'checkbox' &&
         'value' in widget && widget.value === 'Off')).map(([name]) => name));
-    return { answered, unchecked, textValues };
+    return { answered, checked, unchecked, textValues };
   } finally { await task.destroy(); }
 }
 

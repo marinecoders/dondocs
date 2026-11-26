@@ -417,6 +417,8 @@ function PackageDialog({
     if (!record || !editable || busy || pendingPackageEdits || !packageFormSigningAction(member)) return;
     return run(async () => {
       const signal = operation.current!.signal;
+      const { checkMemberSigningSelections } = await import('@/lib/packageRequirements');
+      await checkMemberSigningSelections(getPackageRevision(record, revisionId || record.currentRevisionId), member, signal);
       const documentId = await signingMemberKey(record.id, member);
       let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId);
       if (!saved) {

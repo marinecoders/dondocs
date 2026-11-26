@@ -615,6 +615,30 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
     changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'add', message: 'reuse' in (input.attachments?.[instance.key] ?? {}) ? 'Use the selected saved PDF version, preserving its exact bytes.' : 'Add a fresh captured document from this exact template.' });
   }
   if (issues.length) return early();
+  // A stage can supply an unentered choice. An explicit answer or a signed original stays intact.
+  for (const member of selectedMembers) {
+    if (member.kind !== 'native' || !member.session.genericForm) continue;
+    const selections = requirementSlots.flatMap(slot => slot.memberId === member.id && slot.condition === 'active'
+      ? slot.completion?.pdfSelections?.filter(selection => selection.initialize) ?? [] : []);
+    if (!selections.length) continue;
+    const form = member.session.genericForm;
+    const fields = await listPackageBindingFields(member);
+    const patches = [];
+    for (const selection of selections) {
+      const field = Object.entries(form.definition.fields).find(([, field]) => field.sourceIds?.includes(selection.field));
+      if (!field || field[1].kind !== 'singleChoice' || !Array.isArray(selection.expected) || selection.expected.length !== 1) continue;
+      if (form.answers[field[0]] != null && form.answers[field[0]] !== '') continue;
+      const binding = fields.find(item => item.target.kind === 'configured-form' && !item.target.row && item.target.fieldId === field[0]);
+      if (binding) patches.push({ target: binding.target, expected: binding.value, value: selection.expected[0] });
+    }
+    if (!patches.length) continue;
+    const staged = attachments.find(asset => asset.id === member.draft.id);
+    const draft = staged ? JSON.parse(new TextDecoder().decode(staged.data)) : (await readPackageMemberDraft(member)).draft;
+    const patched = await patchPackageBindingDraftFields(draft, patches);
+    member.session = patched.session;
+    member.draft = await stage(attachments, member.draft.name, 'application/json', new TextEncoder().encode(JSON.stringify(patched.draft)).buffer);
+    member.revisionId = newPackageId('member-revision');
+  }
   const managedIds = new Set(state.instances.map(instance => instance.memberId));
   const activeIds = new Set(state.instances.filter(instance => instance.condition === true).map(instance => instance.memberId));
   const byId = new Map(selectedMembers.map(member => [member.id, member]));

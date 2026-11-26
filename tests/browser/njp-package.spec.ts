@@ -1,7 +1,8 @@
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { PDFDocument } from 'pdf-lib';
 import { readFile } from 'node:fs/promises';
 import { expect, test } from '@playwright/test';
-import { downloadPackageExport, expandPackageTools, importPackage, newPackage, openPackageWorkspace, packageSection } from './_helpers/packageWorkspace';
+import { choosePackage, downloadPackageExport, expandPackageTools, importPackage, newPackage, openPackageWorkspace, packageSection } from './_helpers/packageWorkspace';
 
 test.use({ serviceWorkers: 'block' });
 test('starts an NJP action and edits both catalog forms inside the saved package', async ({ page }) => {
@@ -19,6 +20,7 @@ test('starts an NJP action and edits both catalog forms inside the saved package
   await page.route('**/templates/**', route => route.abort());
   await page.reload();
   await openPackageWorkspace(page);
+  await choosePackage(workspace, 'Nonjudicial punishment (NJP)');
   await packageSection(workspace, 'Documents');
   const files = [
     ['JAGMAN A-1-d - Rights notice and election.pdf', 'jagman/a-1-d/5800.7G-CH2/original.pdf'],
@@ -42,7 +44,7 @@ test('starts an NJP action and edits both catalog forms inside the saved package
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).first().click();
   const initial = page.getByRole('dialog', { name: 'Nonjudicial punishment (NJP)', exact: true });
   await initial.getByLabel('18 Accused full name', { exact: true }).fill('RIVERA EXAMPLE');
-  const switchForm = initial.getByRole('combobox', { name: 'Package form' });
+  const switchForm = initial.getByRole('combobox', { name: 'Package document' });
   await switchForm.selectOption({ label: '2. Rights notice and election' });
   await initial.getByLabel('Marine name', { exact: false }).first().fill('RIVERA EXAMPLE');
   await initial.getByRole('button', { name: 'Save changes', exact: true }).click();
@@ -85,7 +87,7 @@ test('starts an NJP action and edits both catalog forms inside the saved package
   await packageSection(workspace, 'Documents');
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).first().click();
   const editor = page.getByRole('dialog', { name: 'NJP training' });
-  const picker = editor.getByRole('combobox', { name: 'Package form', exact: true });
+  const picker = editor.getByRole('combobox', { name: 'Package document', exact: true });
   await picker.selectOption({ label: '1. Unit Punishment Book' });
   await expect(editor.getByLabel('18 Accused full name', { exact: true })).toHaveValue('RIVERA EXAMPLE');
   await picker.selectOption({ label: '5. Page 11' });
@@ -136,4 +138,52 @@ test('transfers an incomplete NJP to a fresh browser with its working forms and 
     const restoredEditor = restored.getByRole('dialog', { name: 'Nonjudicial punishment (NJP)', exact: true });
     await expect(restoredEditor.getByLabel('Marine name', { exact: false }).first()).toHaveValue('TRANSFER EXAMPLE');
   } finally { await fresh.close(); }
+});
+
+test('writes the refusal into UPB item 2 and blocks signing a contradictory edit', async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing', exact: true }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newPackage(workspace);
+  await workspace.getByRole('button', { name: 'Start NJP', exact: true }).click();
+  await packageSection(workspace, 'Overview');
+  const intake = workspace.getByRole('region', { name: 'Action intake', exact: true });
+  if (await intake.getByRole('button', { name: 'Edit details' }).isVisible())
+    await intake.getByRole('button', { name: 'Edit details' }).click();
+  for (const [label, value] of Object.entries({
+    'Case reference': 'TRAINING-01', 'Marine name (last, first middle)': 'EXAMPLE, TEST',
+    'Unit': 'Training unit', 'Allegation summary': 'Fictional review exercise',
+  })) await intake.getByLabel(label, { exact: true }).fill(value);
+  for (const [label, value] of Object.entries({
+    'Case stage': 'refused', 'Did the Marine also refuse to sign the UPB?': 'false',
+    'Does the command require a separate administrative action?': 'false', 'Does DD Form 2701 issuance need tracking?': 'false',
+  })) {
+    const input = intake.getByLabel(label, { exact: true });
+    if (!await input.isVisible()) await intake.getByRole('button', { name: 'Next questions' }).click();
+    await input.selectOption(value);
+  }
+  await intake.getByRole('button', { name: 'Review changes' }).click();
+  await intake.getByRole('button', { name: 'Apply changes' }).click();
+  await expect(intake.getByText('Changes saved as a new version.', { exact: true })).toBeVisible();
+  await packageSection(workspace, 'Documents');
+  await workspace.getByRole('navigation', { name: 'Package documents' }).getByRole('button', { name: /Unit Punishment Book/ }).click();
+  const layer = workspace.getByRole('region', { name: /Preview of Unit Punishment Book/ }).locator('[data-pdf-layer="active"]');
+  await expect(layer.locator('canvas').first()).toBeVisible({ timeout: 30_000 });
+  const bytes = await layer.evaluate(async element => Array.from(new Uint8Array(
+    await (await fetch(element.getAttribute('data-preview-blob')!)).arrayBuffer())));
+  const pdf = await getDocument({ data: new Uint8Array(bytes) }).promise;
+  try {
+    const fields = await pdf.getFieldObjects();
+    expect(fields?.['2 DEMAND']?.[0]).toMatchObject({ value: 'I demand trial and refuse non-judicial punishment.' });
+    expect(fields?.['2 ACC REFUSE TO SIGN']?.[0]).toMatchObject({ value: 'Off' });
+  } finally { await pdf.destroy(); }
+  await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
+  const editor = page.getByRole('dialog', { name: 'Nonjudicial punishment (NJP)', exact: true });
+  await editor.getByLabel('2 Demand', { exact: true }).selectOption({ label: 'I do not demand trial and will accept non-judicial punishment, subject to my right of appeal.' });
+  await editor.getByRole('button', { name: 'Save changes', exact: true }).click();
+  await expect(editor.getByText('Saved to package', { exact: true })).toBeVisible();
+  await editor.getByRole('button', { name: 'Back to package', exact: true }).click();
+  await workspace.getByRole('button', { name: 'Sign official form', exact: true }).click();
+  await expect(workspace.getByRole('alert').filter({ hasText: /select refusal of NJP in UPB item 2/i })).toBeVisible();
 });

@@ -101,7 +101,7 @@ async function compareSourceFields(rule: FormCompletion, actualFields: ReadonlyM
 async function inspectResolvedRequirements(revision: PackageRevision, requirements: PackageRequirements | undefined, operation: PackageRequirementOperation, options: InspectionOptions): Promise<PackageRequirementsInspection> {
   const originalsNeeded = new Set(requirements?.items.flatMap(item =>
     operation === 'pdf' && item.kind === 'document' && item.condition === 'active' && item.operations.includes(operation)
-    && (item.completion?.answerGroups?.length || item.completion?.expectedForm || item.completion?.requiredPdfFields?.length || item.completion?.uncheckedPdfFields?.length || item.completion?.matchingPdfFields?.length) && item.memberId ? [item.memberId] : []));
+    && (item.completion?.answerGroups?.length || item.completion?.expectedForm || item.completion?.requiredPdfFields?.length || item.completion?.uncheckedPdfFields?.length || item.completion?.matchingPdfFields?.length || item.completion?.pdfSelections?.length) && item.memberId ? [item.memberId] : []));
   const answeredByMember = new Map<string, ReturnType<typeof import('@/services/forms/readRequiredPdfFields').readPdfAnswerStates>>();
   const readAnswers = (member: PackageMember, bytes: ArrayBuffer) => {
     const key = member.kind === 'original' ? member.original.sha256 : member.revisionId;
@@ -159,19 +159,25 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
           if (member.kind === 'original' && !member.signedOriginal) corrections.push({ kind: 'replace', label: 'Replace PDF' });
         } else if (rule?.matchingPdfFields?.length && !originalBytes) {
           issues.push('A returned original PDF is required to compare these fields.');
-        } else if ((rule?.requiredPdfFields?.length || rule?.answerGroups?.length || rule?.uncheckedPdfFields?.length || rule?.matchingPdfFields?.length) && originalBytes) {
+        } else if ((rule?.requiredPdfFields?.length || rule?.answerGroups?.length || rule?.uncheckedPdfFields?.length || rule?.matchingPdfFields?.length || rule?.pdfSelections?.length) && originalBytes) {
           const fields = await readAnswers(member, originalBytes);
           issues.push(...missingAnswerGroups(rule.answerGroups, fields.answered).map(group => group.label));
           if (rule.matchingPdfFields?.length) {
             issues.push(...await compareSourceFields(rule, fields.textValues, options.referenceRevision ?? revision,
               requirement.participantId, source => validate(source, true), readAnswers));
           }
+          for (const selection of rule.pdfSelections ?? []) {
+            const valid = typeof selection.expected === 'boolean'
+              ? (selection.expected ? fields.checked : fields.unchecked).has(selection.field)
+              : selection.expected.includes(fields.textValues.get(selection.field) ?? '');
+            if (!valid) issues.push(selection.label);
+          }
           const conflicting = rule.uncheckedPdfFields?.filter(field => !fields.unchecked.has(field));
           if (conflicting?.length) issues.push('The returned PDF has a conflicting selection: ' + conflicting.join(', ') + '.');
           const missing = (rule.requiredPdfFields ?? []).filter(field => !fields.answered.has(field));
           if (missing.length) issues.push('The saved PDF is missing required answers: ' + missing.join(', ') + '.');
           if (issues.length && member.kind === 'original' && !member.signedOriginal) corrections.push({ kind: 'replace', label: 'Replace PDF' });
-        } else if ((rule?.requiredPdfFields?.length || rule?.answerGroups?.length || rule?.uncheckedPdfFields?.length || rule?.matchingPdfFields?.length) && !(member.kind === 'native' && member.session.genericForm)) {
+        } else if ((rule?.requiredPdfFields?.length || rule?.answerGroups?.length || rule?.uncheckedPdfFields?.length || rule?.matchingPdfFields?.length || rule?.pdfSelections?.length) && !(member.kind === 'native' && member.session.genericForm)) {
           issues.push('The required fields cannot be verified on this document.');
         }
         const signatureFields = missingPackageSignatures(member, rule);
@@ -196,6 +202,15 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
   }
   return { operation, ready: items.every(item => ['satisfied', 'inactive', 'not-required'].includes(item.state)), items };
 }
+export async function checkMemberSigningSelections(revision: PackageRevision, member: PackageMember, signal: AbortSignal) {
+  if (!revision.templateState && !revision.requirements) return;
+  const rules = await (await import('./packageConditionalRequirements')).resolveConditionalPackageRequirements(revision);
+  const selections = rules?.items.flatMap(item =>
+    item.kind === 'document' && item.condition === 'active' && item.memberId === member.id && item.completion?.pdfSelections?.length
+      ? [{ expectedForm: item.completion.expectedForm, pdfSelections: item.completion.pdfSelections }] : []);
+  if (selections?.length) await verifyRevisionForEvidence(member, selections, { signal });
+}
+
 /** Validate a proposed reuse with the same byte, field and signature checks used for final delivery. */
 export async function verifyRevisionForEvidence(member: PackageMember, rules: FormCompletion[], options: InspectionOptions = {}) {
   if (!rules.length) {
