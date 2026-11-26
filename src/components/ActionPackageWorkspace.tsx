@@ -1,3 +1,4 @@
+import { PackagePdfReplacement } from './PackagePdfReplacement';
 import { usePackageChecks } from '@/components/usePackageChecks';
 import { PackageDocumentPicker } from './PackageDocumentPicker';
 import { PackagePreparedPdf } from './PackagePreparedPdf';
@@ -6,7 +7,7 @@ import { setPackagePrintableCopy } from '@/lib/packagePrintableCopy';
 import { packageEndorsementRoutes } from '@/lib/packageEndorsements';
 import { bindUnsignedFormPdf, checkPackageFormReturn, signingMemberKey } from '@/lib/packageFormReturn';
 import { officialEdition } from '@/services/forms/nativeCatalog';
-import { packageMemberHistory, reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
+import { packageMemberHistory, replacePackagePdf } from '@/lib/packageMemberHistory';
 import { isEditableOfficialForm } from '@/lib/packageFormEditing';
 import type { PackageEditorSurface } from './PackageNativeDocumentEditor';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
@@ -23,7 +24,7 @@ import { PackageReviewControls } from "./PackageReviewControls";
 import { PackageMemberNavigation, PackageWorkspaceNavigation } from "./PackageWorkspaceNavigation";
 import { PackageLibrary } from "./PackageLibrary";
 import { DocumentPdfChecks, PackageNextActions } from "./PackageNextActions";
-import { attachPackageSlotFiles } from '@/lib/packageSlotFiles';
+import { attachPackageSlotFiles, preparePackageUploads } from '@/lib/packageSlotFiles';
 import { PackageRecipeDocuments } from "./PackageRecipeDocuments";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
 import { PackageExportOptions, type PackageExportFormat } from "./PackageExportOptions";
@@ -746,11 +747,11 @@ function PackageDialog({
       if (active.current) setBusy(false);
     }
   }
-  async function modify(members: PackageMember[]) {
+  async function modify(members: PackageMember[], staged?: readonly import("@/lib/documentsDb").StoredAttachment[]) {
     if (!record) return;
     const added = members.find(member => !revision?.members.some(previous => previous.id === member.id));
     const ordered = added?.role === 'basic-letter' ? [added, ...members.filter(item => item.id !== added.id)] : members;
-    update(await reviseActionPackage(record, ordered, operation.current?.signal));
+    update(await reviseActionPackage(record, ordered, operation.current?.signal, undefined, undefined, undefined, staged));
     if (added) {
       setSigned(false);
       setActiveMemberId(added.id);
@@ -1303,30 +1304,16 @@ function PackageDialog({
                       Add original PDF
                       <input
                         aria-label="Add original PDF"
-                        type="file"
+                        type="file" multiple
                         accept="application/pdf,.pdf"
                         className="sr-only"
-                        onChange={(event) => {
-                          const file = event.target.files?.[0];
+                        onChange={event => {
+                          const files = Array.from(event.target.files ?? []);
                           event.target.value = "";
-                          if (file)
-                            void run(async () => {
-                              if (file.size > 25 * 1024 * 1024)
-                                throw new Error(
-                                  "Original files are limited to 25 MB.",
-                                );
-                              await modify([
-                                ...revision.members,
-                                await captureOriginalPackageMember(
-                                  {
-                                    name: file.name,
-                                    data: await file.arrayBuffer(),
-                                  },
-                                  role,
-                                  signed,
-                                ),
-                              ]);
-                            });
+                          if (files.length) void run(async () => {
+                            const additions = await preparePackageUploads(files, role, signed, operation.current?.signal);
+                            await modify([...revision.members, ...additions.members], additions.attachments);
+                          });
                         }}
                       />
                     </label>
@@ -1404,15 +1391,8 @@ function PackageDialog({
                                 revisionId: crypto.randomUUID(), ...(reviewed && { signatureReviewSha256: member.original.sha256 }) } : item));
                             });
                           }} />I reviewed the signature on this exact scan</label>}
-                      {editable && member.kind === 'original' && !member.signedOriginal && <label className="inline-block cursor-pointer rounded border px-3 py-2 text-sm">
-                        Replace PDF in this slot
-                        <input data-replacement-input className="sr-only" type="file" accept="application/pdf,.pdf" disabled={busy || pendingPackageEdits}
-                          onChange={event => {
-                            const file = event.target.files?.[0];
-                            event.target.value = '';
-                            if (file) void run(async () => update(await reviseUnsignedPackagePdf(record, member, file, operation.current?.signal)));
-                          }} />
-                      </label>}
+                      {editable && member.kind === 'original' && <PackagePdfReplacement key={member.revisionId} member={member} disabled={busy || pendingPackageEdits}
+                        onReplace={(file, signed) => void run(async () => update(await replacePackagePdf(record, member, file, signed, operation.current?.signal)))} />}
                       {selectedMember?.id === member.id && !openedReview && <details>
                         <summary className="cursor-pointer text-sm">Document versions</summary>
                         <ol className="mt-2 space-y-1">{packageMemberHistory(record, member.id, revision.id).map((entry, version) =>

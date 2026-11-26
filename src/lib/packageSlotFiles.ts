@@ -1,10 +1,26 @@
 import { MAX_TEMPLATE_ACTION_BYTES } from './packageTemplateLibrary';
 import { packageMemberLabel, getPackageRevision, newPackageId, reviseActionPackage, type ActionPackage, type PackageMember } from './actionPackages';
 import { readConditionalPackageTemplate } from './packageConditionalSources';
-import { identifyOfficialOriginal } from '@/services/forms/nativeCatalog';
-import { newAttachmentId } from './attachments';
-import { validatePackageOriginalPdf } from './packageOriginalPdf';
-import { portableResourceDigest } from './portableResources';
+import { preparePackagePdfAsset } from './actionPackageAssets';
+
+function checkPackageUploadSizes(files: readonly File[]) {
+  if (!files.length || files.some(file => !/\.pdf$/i.test(file.name) || !file.size || file.size > 25 * 1024 * 1024)
+      || files.reduce((size, file) => size + file.size, 0) > MAX_TEMPLATE_ACTION_BYTES)
+    throw new Error('Choose PDFs up to 25 MB each and 64 MB in total.');
+}
+
+export async function preparePackageUploads(files: readonly File[], role: PackageMember['role'], signedOriginal: boolean, signal?: AbortSignal) {
+  checkPackageUploadSizes(files);
+  const members: PackageMember[] = [], attachments = [];
+  for (const file of files) {
+    signal?.throwIfAborted();
+    const { original, attachment, officialFormId } = await preparePackagePdfAsset(file.name, await file.arrayBuffer(), signedOriginal);
+    members.push({ id: newPackageId('member'), revisionId: newPackageId('member-revision'), kind: 'original', label: packageMemberLabel(file.name),
+      required: true, role: role === 'basic-letter' && members.length ? 'supporting-document' : role, signedOriginal, original, ...(officialFormId && { officialFormId }) });
+    attachments.push(attachment);
+  }
+  return { members, attachments };
+}
 
 /** Capture an original into a declared slot without changing the user's other intake answers. */
 export async function attachPackageSlotFiles(record: ActionPackage, revisionId: string, memberId: string, files: readonly File[], signedOriginal: boolean, signal?: AbortSignal) {
@@ -18,23 +34,17 @@ export async function attachPackageSlotFiles(record: ActionPackage, revisionId: 
   const saved = revision.members.find(member => member.id === memberId);
   if (slot?.condition !== true || blueprint?.kind !== 'attachment' || (saved || files.length > 1) && !blueprint.multipleFiles)
     throw new Error('This document slot is no longer available.');
-  if (!files.length || files.some(file => !/\.pdf$/i.test(file.name) || !file.size || file.size > 25 * 1024 * 1024)
-      || files.reduce((size, file) => size + file.size, 0) > MAX_TEMPLATE_ACTION_BYTES)
-    throw new Error('Choose PDFs up to 25 MB each and 64 MB in total.');
+  checkPackageUploadSizes(files);
   const staged = [], additions: PackageMember[] = [];
   for (const [index, file] of files.entries()) {
     signal?.throwIfAborted();
     const data = await file.arrayBuffer();
-    await validatePackageOriginalPdf(data);
-    const sha256 = await portableResourceDigest(data);
-    if (sha256 === blueprint.completion?.blankSha256) throw new Error('This is the blank form. Attach the completed original.');
-    const original = { id: newAttachmentId(), name: file.name, size: data.byteLength, type: 'application/pdf' as const, sha256 };
-    const officialFormId = signedOriginal ? await identifyOfficialOriginal(data) : undefined;
+    const { original, attachment, officialFormId } = await preparePackagePdfAsset(file.name, data, signedOriginal, blueprint.completion?.blankSha256);
     const extra = !!saved || index > 0;
     additions.push({ id: extra ? newPackageId('member') : slot.memberId, revisionId: newPackageId('member-revision'), kind: 'original',
       label: extra ? packageMemberLabel(file.name) : slot.label, role: blueprint.role, required: !extra && blueprint.required, signedOriginal, original,
       ...(officialFormId && { officialFormId }), ...(extra && { evidenceSlotId: slot.memberId }) });
-    staged.push({ ...original, data });
+    staged.push(attachment);
   }
   const later = new Set(instances.slice(instances.indexOf(slot) + 1).map(item => item.memberId));
   const next = revision.members.findIndex(item => later.has(item.id));

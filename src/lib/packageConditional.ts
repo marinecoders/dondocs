@@ -1,3 +1,5 @@
+import { identifyOfficialOriginal } from '@/services/forms/nativeCatalog';
+import { preparePackagePdfReplacement } from './packageMemberHistory';
 import { evidenceUploadSlot } from './packageEvidenceFiles';
 import { packageEndorsementRoutes } from './packageEndorsements';
 import { resolvePackageRevisionSource, type MemberRevisionSource } from './packageRevisionSources';
@@ -40,7 +42,7 @@ export { packageTemplateInstanceKey, readConditionalPackageTemplate };
 export type ConditionalMemberChoice = 'keep' | 'remove' | 'restore';
 export interface ConditionalPackageChange {
   key: string; memberId?: string; label: string;
-  state: 'add' | 'keep' | 'remove' | 'conflict' | 'missing' | 'unresolved';
+  state: 'add' | 'replace' | 'keep' | 'remove' | 'conflict' | 'missing' | 'unresolved';
   message: string; choices?: ConditionalMemberChoice[];
 }
 export interface ConditionalAnswerChange {
@@ -529,7 +531,19 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
       continue;
     }
     if (existing) {
-      if (input.attachments?.[instance.key]) throw new Error('Review removal of the existing original before replacing it with a new upload.');
+      const file = input.attachments?.[instance.key];
+      if (file) {
+        if (existing.kind !== 'original' || blueprint.kind !== 'attachment' || 'reuse' in file) throw new Error('Choose a replacement PDF for an existing evidence slot.');
+        const { replacement, attachment } = await preparePackagePdfReplacement(existing, file.name, file.data, file.signedOriginal, blueprint.completion?.blankSha256);
+        attachments.push(attachment);
+        if (attachments.reduce((sum, item) => sum + item.size, 0) > MAX_TEMPLATE_ACTION_BYTES) throw new Error('Prepared action files exceed the combined 64 MB limit.');
+        reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
+        instance.generatedDigest = await memberDigest(replacement);
+        selectedMembers.push(replacement);
+        changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'replace',
+          message: `Replace ${existing.original.name} with ${file.name}. The previous PDF stays in version history.` });
+        continue;
+      }
       selectedMembers.push(existing); changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'keep', message: 'Keep captured content and local edits.' }); continue;
     }
     const existed = !!current?.templateState?.instances.some(prior => prior.key === instance.key && prior.generatedDigest && (prior.condition === true || prior.suppressed === true));
@@ -604,8 +618,10 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
         if (!/\.pdf$/i.test(file.name)) throw new Error('Action evidence slots currently accept PDF originals.');
         signal?.throwIfAborted(); await validatePackageOriginalPdf(file.data);
         reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
-        member = { ...identity, kind: 'original', signedOriginal: file.signedOriginal, original: await stage(attachments, file.name, 'application/pdf', file.data) };
+        const officialFormId = file.signedOriginal ? await identifyOfficialOriginal(file.data) : undefined;
+        member = { ...identity, kind: 'original', signedOriginal: file.signedOriginal, ...(officialFormId && { officialFormId }), original: await stage(attachments, file.name, 'application/pdf', file.data) };
       }
+      if (member.original.sha256 === blueprint.completion?.blankSha256) throw new Error('This is the blank form. Attach the completed original.');
     } else member = await nativeMember(blueprint, instance, template, answers, information, state, attachments, bindings);
     instance.generatedDigest = await memberDigest(member); instance.suppressed = false; clean.set(member.id, true); selectedMembers.push(member);
     changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'add', message: 'reuse' in (input.attachments?.[instance.key] ?? {}) ? 'Use the selected saved PDF version, preserving its exact bytes.' : 'Add a fresh captured document from this exact template.' });
@@ -633,6 +649,7 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
     if (!extras.length) continue;
     const owner = ordered.find(item => item.id === instance.memberId);
     if (owner?.kind !== 'original') throw new Error('Choose the first PDF for ' + instance.label + '.');
+    const blueprint = template.members.find(member => member.key === instance.memberKey);
     let insert = ordered.reduce((at, item, index) => item.id === owner.id || item.kind === 'original' && item.evidenceSlotId === owner.id ? index + 1 : at, 0);
     for (const [, file] of extras) {
       if ('reuse' in file || !/\.pdf$/i.test(file.name)) throw new Error('Choose a PDF to add to this evidence slot.');
@@ -640,8 +657,10 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
       await validatePackageOriginalPdf(file.data);
       reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
       const original = await stage(attachments, file.name, 'application/pdf', file.data);
+      if (original.sha256 === blueprint?.completion?.blankSha256) throw new Error('This is the blank form. Attach the completed original.');
+      const officialFormId = file.signedOriginal ? await identifyOfficialOriginal(file.data) : undefined;
       const member: PackageMember = { id: newPackageId('member'), revisionId: newPackageId('member-revision'), label: packageMemberLabel(file.name),
-        kind: 'original', evidenceSlotId: owner.id, signedOriginal: file.signedOriginal, role: owner.role, required: false, original };
+        kind: 'original', evidenceSlotId: owner.id, signedOriginal: file.signedOriginal, ...(officialFormId && { officialFormId }), role: owner.role, required: false, original };
       ordered.splice(insert++, 0, member);
       changes.push({ key: instance.key, memberId: member.id, state: 'add', label: member.label, message: 'Append to ' + instance.label + '.' });
     }

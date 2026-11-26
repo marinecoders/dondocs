@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import { reviewRestoredPackageSources } from '@/lib/packageRestoredSources';
 import { extractPdfText } from '@/lib/pdfText';
 import { setPackagePrintableCopy } from '@/lib/packagePrintableCopy';
-import { reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
+import { replacePackagePdf } from '@/lib/packageMemberHistory';
 import { packageMemberSchema } from '@/lib/actionPackages';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -166,7 +166,7 @@ it('binds a printable copy to the source bytes and includes it only in editable 
       ? [excluded.original.sha256, member.printableCopy.asset.sha256] : [excluded.original.sha256]);
   }
   await expect(setPackagePrintableCopy(paired, excluded, null)).rejects.toThrow('current original');
-  const replaced = await reviseUnsignedPackagePdf(paired, member, new File([await pdf('New source')], 'new-source.pdf'));
+  const replaced = await replacePackagePdf(paired, member, new File([await pdf('New source')], 'new-source.pdf'), false);
   expect(getPackageRevision(replaced).members.find(item => item.id === member.id)).not.toHaveProperty('printableCopy');
   expect(getPackageRevision(replaced, paired.currentRevisionId).members.find(item => item.id === member.id)).toEqual(member);
 });
