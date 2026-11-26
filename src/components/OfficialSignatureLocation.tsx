@@ -1,37 +1,16 @@
 import { useEffect, useState } from 'react';
-import { pdfjs } from 'react-pdf';
-import { HARDENED_PDF_OPTIONS } from './pdf/pdfConfig';
+import { readSignatureLayout, type Slot } from '@/services/forms/signatureLayout';
 import { SigningPdfPreview } from './SigningPdfPreview';
 import { Button } from './ui/button';
 import { identifyOfficialOriginal, officialEdition } from '@/services/forms/nativeCatalog';
 import { officialRevisionBytes, type OfficialSigningRecord } from '@/lib/officialSigning';
 
-interface Slot { name: string; label: string; page: number; box: number[] }
 async function readLayout(record: OfficialSigningRecord, signal: AbortSignal) {
   const bytes = await officialRevisionBytes(record);
   const id = await identifyOfficialOriginal(bytes.buffer);
   const profile = id && officialEdition(id);
   if (!profile || profile.format !== 'acroform') return;
-  signal.throwIfAborted();
-  const task = pdfjs.getDocument({ ...HARDENED_PDF_OPTIONS, data: bytes });
-  try {
-    const pdf = await task.promise;
-    const slots: Slot[] = [];
-    const sizes: number[][] = [];
-    for (let index = 0; index < pdf.numPages; index++) {
-      signal.throwIfAborted();
-      const page = await pdf.getPage(index + 1);
-      const view = page.getViewport({ scale: 1 });
-      sizes.push([view.width, view.height]);
-      for (const widget of await page.getAnnotations()) {
-        if (widget.fieldType !== 'Sig' || !widget.fieldName || !Array.isArray(widget.rect)) continue;
-        const [x1, y1, x2, y2] = view.convertToViewportRectangle(widget.rect);
-        slots.push({ name: widget.fieldName, label: widget.alternativeText || widget.fieldName, page: index,
-          box: [Math.min(x1,x2), Math.min(y1,y2), Math.abs(x2-x1), Math.abs(y2-y1)] });
-      }
-    }
-    return { sizes, slots };
-  } finally { await task.destroy(); }
+  return readSignatureLayout(bytes, signal);
 }
 
 /** Reads only the saved bytes. Certificate trust and signing permission come from the bridge. */
@@ -66,11 +45,13 @@ function SignatureLocations({ record, choice, onChoice, paired }: LocationProps)
   }, [first, choice, paired, onChoice]);
   if (error) return <p role="alert">{error}</p>;
   if (!layout?.slots.length) return <p role="status">Reading signature locations…</p>;
-  const slot = layout.slots.find(item => item.name === choice) ?? layout.slots[0];
-  return <><label className="grid gap-1 text-sm">PDF signature location<select value={slot.name} disabled={paired}
+  const slot = choice ? layout.slots.find(item => item.name === choice) : layout.slots[0];
+  return <><label className="grid gap-1 text-sm">PDF signature location<select value={slot?.name ?? ''} disabled={paired}
       className="rounded border bg-background p-2" onChange={event => onChoice(event.target.value)}>
+      {!slot && <option value="" disabled>Requested field unavailable</option>}
       {layout.slots.map(item => <option key={item.name} value={item.name}>{item.label}</option>)}</select></label>
-    <SignaturePages key={slot.name} data={record.data} slot={slot} sizes={layout.sizes} />
+    {slot ? <SignaturePages key={slot.name} data={record.data} slot={slot} sizes={layout.sizes} />
+      : <p role="alert">The requested signature field is unavailable on this revision.</p>}
   </>;
 }
 

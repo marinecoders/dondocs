@@ -1,4 +1,4 @@
-import { packageSignatureFieldLabel } from './packageSignatureFieldLabel';
+import { officialSignatureLabels, packageSignatureFieldLabel } from './packageSignatureFieldLabel';
 import { matchesExpectedForm, missingPackageSignatures, officialFormCompletionIssues } from './packageFormCompletion';
 import { resolvePackageRevisionSource } from './packageRevisionSources';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
@@ -24,6 +24,7 @@ export interface PackageRequirementFinding {
   documentIssues?: string[];
   corrections?: import('./packageDestinations').PackageCorrection[];
   signatureFields?: string[];
+  signatureLabels?: Record<string, string>;
   fromIntake?: boolean;
 }
 export interface PackageRequirementsInspection {
@@ -101,6 +102,7 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
         const issues = officialFormCompletionIssues(member, rule, (_, target) => { if (target) corrections.push(target); });
         if (rule?.expectedForm && !await matchesExpectedForm(member, rule.expectedForm, originalBytes)) {
           issues.push('This slot needs the maintained form and edition named in the recipe.');
+          if (member.kind === 'original' && !member.signedOriginal) corrections.push({ kind: 'replace', label: 'Replace PDF' });
         } else if (rule?.requiredPdfFields?.length && originalBytes) {
           let answered = answeredByMember.get(member.id);
           if (!answered) {
@@ -119,10 +121,15 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
         }
         const signatureFields = missingPackageSignatures(member, rule);
         if (issues.length || signatureFields.length) {
+          const editionLabels = member.kind === 'original' && signatureFields.length && rule?.expectedForm
+            ? await officialSignatureLabels(rule.expectedForm).catch(() => undefined) : undefined;
+          options.signal?.throwIfAborted();
+          const signatureLabels = Object.fromEntries(signatureFields.map(field =>
+            [field, editionLabels?.get(field) || packageSignatureFieldLabel(member, field)]));
           const messages = signatureFields.length
-            ? [...issues, 'Sign or verify: ' + signatureFields.map(field => packageSignatureFieldLabel(member, field)).join(', ') + '.']
+            ? [...issues, 'Sign or verify: ' + signatureFields.map(field => signatureLabels[field]).join(', ') + '.']
             : issues;
-          items.push({ ...base, state: 'missing', message: messages.join(' '), documentIssues: issues, corrections, signatureFields });
+          items.push({ ...base, state: 'missing', message: messages.join(' '), documentIssues: issues, corrections, signatureFields, signatureLabels });
           continue;
         }
       }
