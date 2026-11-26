@@ -1,3 +1,4 @@
+import { readDeliveryChoices } from './packageDeliveryChoices';
 import { z } from 'zod';
 import { PDFDocument } from 'pdf-lib';
 import { actionPackageSchema, getPackageRevision, listActionPackages, newPackageId, packageAssets, type ActionPackage, type PackageAsset, type PackageMember } from './actionPackages';
@@ -15,7 +16,7 @@ import { renderPackageRecipientMember } from './packageNativeDelivery';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
 
 export const packageDeliverySelectionSchema = z.object({ label: z.string().trim().min(1).max(120).refine(value => Array.from(value).every(character => character.charCodeAt(0) >= 32 && character.charCodeAt(0) !== 127), 'Use a single-line delivery label.'),
-  purpose: z.enum(['recipient', 'editable']), scope: z.enum(['complete', 'selected']).optional(), taggedNativePdfs: z.boolean().optional(), memberIds: z.array(z.string().min(1).max(100)).min(1).max(100) }).strict();
+  purpose: z.enum(['recipient', 'editable']), choiceId: z.string().min(1).max(100).optional(), scope: z.enum(['complete', 'selected']).optional(), taggedNativePdfs: z.boolean().optional(), memberIds: z.array(z.string().min(1).max(100)).min(1).max(100) }).strict();
 export type PackageDeliverySelection = z.infer<typeof packageDeliverySelectionSchema>;
 export interface PackageDeliveryFile { id: string; name: string; type: string; size: number; sha256: string }
 export interface PreparedPackageDelivery {
@@ -57,12 +58,20 @@ export async function readPreparedPackageDeliveryAsset(prepared: PreparedPackage
 export async function preparePackageDelivery(input: ActionPackage, revisionId: string, selectionInput: PackageDeliverySelection, policy: PolicyResolution,
   ports?: CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> }, signal = new AbortController().signal, isCurrent: () => boolean = () => true): Promise<PreparedPackageDelivery> {
   signal.throwIfAborted(); const source = actionPackageSchema.parse(structuredClone(input)), selection = packageDeliverySelectionSchema.parse(structuredClone(selectionInput)), policyKey = identity(policy);
-  const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds), assets = new Map<string, CapturedDeliveryAsset>(), members: PackageMember[] = [], reviews: Array<{ member: string; review: ExportReview }> = [];
+  const assets = new Map<string, CapturedDeliveryAsset>(), members: PackageMember[] = [], reviews: Array<{ member: string; review: ExportReview }> = [];
   const sourceRevision = getPackageRevision(source, revisionId);
+  const choice = selection.choiceId ? (await readDeliveryChoices(sourceRevision)).find(item => item.id === selection.choiceId) : undefined;
+  if (selection.choiceId && (!choice || selection.purpose !== 'recipient' || selection.scope !== (choice.complete ? 'complete' : 'selected')
+      || !sameReviewStoredValue(choice.memberIds, selection.memberIds))) throw new Error('Review this delivery choice again for the saved revision.');
+  const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds);
+  if (choice) {
+    const positions = new Map(choice.memberIds.map((id, index) => [id, index]));
+    selected.sort((a, b) => positions.get(a.id)! - positions.get(b.id)!);
+  }
   if (selection.scope === 'complete' && selected.length !== sourceRevision.members.length) throw new Error('Include every member for complete package delivery.');
   if (selection.purpose === 'recipient' && (sourceRevision.templateState || sourceRevision.requirements || selected.some(member => member.endorsementLink))) {
     const { assertDeliveryRequirements } = await import('./packageRequirements');
-    await assertDeliveryRequirements(sourceRevision, selection.scope === 'selected' ? selection.memberIds : undefined, signal);
+    await assertDeliveryRequirements(sourceRevision, selection.scope === 'selected' ? selection.memberIds : undefined, signal, choice);
   }
   const taggedNativePdfs = selection.taggedNativePdfs === true;
   if (taggedNativePdfs && (selection.purpose !== 'recipient' || !selected.some(member => member.kind === 'native'))) {

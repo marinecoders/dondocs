@@ -678,3 +678,30 @@ it('reviews a replacement in intake and preserves the previous signed evidence r
   expect(getPackageRevision(next).members.at(-1)).toMatchObject({ id: previous.id, signedOriginal: false, original: { name: second.name } });
   expect(getPackageRevision(next, record.currentRevisionId).members.at(-1)).toMatchObject({ id: previous.id, signedOriginal: true, original: { name: first.name } });
 });
+
+it('delivers declared slots in recipe order and keeps missing slots and confirmations in scope', async () => {
+  const { readDeliveryChoices } = await import('@/lib/packageDeliveryChoices');
+  const { preparePackageDelivery } = await import('@/lib/packageDelivery');
+  const { assertDeliveryRequirements } = await import('@/lib/packageRequirements');
+  const spec = template();
+  spec.program.requirements.push({ id: 'checked', kind: 'confirmation', label: 'Check the enclosure', operations: ['pdf'] });
+  spec.members.push({ key: 'evidence', kind: 'attachment', label: 'Evidence', role: 'supporting-document', required: true, multipleFiles: true });
+  spec.deliveryChoices = [{ id: 'file', label: 'File' }, { id: 'forward', label: 'Forward', memberKeys: ['extra', 'evidence', 'main'],
+    confirmationIds: ['checked'], when: { op: 'equals', questionId: 'include', value: true } }];
+  const record = await saveConditionalPackageDraft({ template: spec, answers: answers(true), name: 'Training' }, policy);
+  const bytes = (await fixturePage()).bytes;
+  const key = packageTemplateInstanceKey('evidence');
+  const plan = await prepareConditionalPackage({ template: spec, answers: answers(true), record, attachments: {
+    [key]: { name: 'first.pdf', data: new Uint8Array(bytes).buffer, signedOriginal: false },
+    [key + '/second']: { name: 'second.pdf', data: new Uint8Array(bytes).buffer, signedOriginal: false },
+  } }, policy);
+  const applied = await applyPreparedConditionalPackage(plan, policy, true);
+  const revision = getPackageRevision(applied.record);
+  const [file, forward] = await readDeliveryChoices(revision);
+  expect(file.memberIds).toEqual(revision.members.map(member => member.id));
+  expect(forward.memberIds.map(id => revision.members.find(member => member.id === id)?.label)).toEqual(['Conditional document', 'Evidence', 'second.pdf', 'Main document']);
+  await expect(preparePackageDelivery(applied.record, revision.id, { choiceId: 'forward', scope: 'selected', label: 'Forward', purpose: 'recipient', memberIds: file.memberIds }, policy)).rejects.toThrow('Review this delivery choice');
+  await expect(assertDeliveryRequirements(revision, forward.memberIds, undefined, forward)).rejects.toMatchObject({
+    findings: expect.arrayContaining([expect.objectContaining({ label: 'Check the enclosure' })]),
+  });
+});

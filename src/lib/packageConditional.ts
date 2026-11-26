@@ -185,7 +185,7 @@ export function conditionalPackageAnswers(record: ActionPackage, revisionId = re
   return answers;
 }
 function stateFor(template: PackageTemplateV2, source: PackageConditionalState['source'], answers: PackageTemplateAnswers, prior?: PackageConditionalState): PackageConditionalState {
-  return { version: 1, source, ...(template.primaryMemberKey && { primaryMemberKey: template.primaryMemberKey }), templateId: template.id, templateRevision: template.program.revision, pending: true, answers: own(answers),
+  return { version: 1, source, ...(template.deliveryChoices && { hasDeliveryChoices: true }), ...(template.primaryMemberKey && { primaryMemberKey: template.primaryMemberKey }), templateId: template.id, templateRevision: template.program.revision, pending: true, answers: own(answers),
     appliedAnswers: own(prior?.appliedAnswers ?? prior?.answers ?? emptyAnswers()), facts: own(prior?.facts ?? []), instances: own(prior?.instances ?? []), requirementIds: own(prior?.requirementIds ?? []),
     ...(prior?.upgrades ? { upgrades: own(prior.upgrades) } : {}) };
 }
@@ -834,6 +834,8 @@ export async function prepareConditionalTemplateUpgrade(input: ConditionalTempla
   prior.upgrades = [...prior.upgrades ?? [], { id: newPackageId('template-upgrade'), source: own(prior.source), templateId: prior.templateId,
     templateRevision: prior.templateRevision, answers: own(prior.answers), ...(prior.appliedAnswers ? { appliedAnswers: own(prior.appliedAnswers) } : {}),
     questionMappings, memberMappings, ...(original.requirements ? { requirements: own(original.requirements) } : {}), createdAt: Date.now() }];
+  if (template.deliveryChoices) prior.hasDeliveryChoices = true;
+  else delete prior.hasDeliveryChoices;
   if (template.primaryMemberKey) prior.primaryMemberKey = template.primaryMemberKey;
   else delete prior.primaryMemberKey;
   prior.source = source as PackageConditionalState['source']; prior.templateId = template.id; prior.templateRevision = template.program.revision;

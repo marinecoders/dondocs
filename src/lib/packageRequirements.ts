@@ -1,3 +1,4 @@
+import type { PackageDeliveryChoice } from './packageDeliveryChoices';
 import { missingAnswerGroups } from './packageFormCompletion';
 import { officialSignatureLabels, packageSignatureFieldLabel } from './packageSignatureFieldLabel';
 import { matchesExpectedForm, missingPackageSignatures, officialFormCompletionIssues } from './packageFormCompletion';
@@ -174,20 +175,21 @@ export class PackageDeliveryBlocked extends Error {
   }
 }
 
-export async function assertDeliveryRequirements(revision: PackageRevision, selectedIds: readonly string[] | undefined, signal?: AbortSignal) {
+export async function assertDeliveryRequirements(revision: PackageRevision, selectedIds: readonly string[] | undefined, signal?: AbortSignal, choice?: PackageDeliveryChoice) {
   const state = revision.templateState;
   const requirements = state
     ? await (await import('./packageConditionalRequirements')).resolveConditionalPackageRequirements(revision)
     : revision.requirements;
-  const selected = selectedIds && new Set(selectedIds);
+  const selected = selectedIds && new Set([...selectedIds, ...choice?.slotIds ?? []]);
   const applicable = selected && requirements ? { ...requirements, items: requirements.items.filter(item =>
-    item.kind === 'document' && item.memberId && selected.has(item.memberId)) } : requirements;
+    item.kind === 'document' ? !!item.memberId && selected.has(item.memberId)
+      : !!item.definitionId && !!choice?.confirmationIds.includes(item.definitionId)) } : requirements;
   const inspected = await inspectResolvedRequirements(revision, applicable, 'pdf', { signal });
   const failures = inspected.items.filter(item => ['missing', 'invalid', 'unknown'].includes(item.state));
   if (state) {
     const { conditionalMembershipFindings } = await import('./packageConditionalSources');
     for (const issue of conditionalMembershipFindings(revision)) {
-      if (selected && (!issue.memberId || !selected.has(issue.memberId))) continue;
+      if (selected && (issue.memberId ? !selected.has(issue.memberId) : !choice)) continue;
       const slot = state.instances.find(instance => instance.memberId === issue.memberId);
       failures.push({ id: 'intake:' + failures.length, kind: 'document', state: 'missing', label: slot?.label ?? 'Package details',
         message: issue.message, memberId: issue.memberId, fromIntake: true });

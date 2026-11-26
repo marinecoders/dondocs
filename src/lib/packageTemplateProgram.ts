@@ -12,11 +12,13 @@ export type PackageTemplateTruth = boolean | 'unknown';
 export interface PackageTemplateScope { groupId: string; participantId: string }
 export type PackageTemplateCondition =
   | { op: 'equals'; questionId: string; value: PackageTemplateAnswer }
+  | { op: 'matchesAny'; questionId: string; values: string[] }
   | { op: 'answered'; questionId: string }
   | { op: 'all' | 'any'; conditions: PackageTemplateCondition[] }
   | { op: 'not'; condition: PackageTemplateCondition };
 const conditionNode: z.ZodType<PackageTemplateCondition> = z.lazy(() => z.discriminatedUnion('op', [
   z.object({ op: z.literal('equals'), questionId: identity, value: answerSchema }).strict(),
+  z.object({ op: z.literal('matchesAny'), questionId: identity, values: z.array(z.string().trim().min(1).max(100)).min(1).max(150) }).strict(),
   z.object({ op: z.literal('answered'), questionId: identity }).strict(),
   z.object({ op: z.enum(['all', 'any']), conditions: z.array(conditionNode).min(1).max(20) }).strict(),
   z.object({ op: z.literal('not'), condition: conditionNode }).strict(),
@@ -77,6 +79,7 @@ export function templateConditionProblems(program: PackageTemplateProgram, condi
     const question = program.questions.find(question => question.id === node.questionId);
     if (!question) problems.push(`Unknown template question ${node.questionId}.`);
     else if (question.groupId && question.groupId !== groupId) problems.push(`Question ${node.questionId} is outside this participant group.`);
+    else if (node.op === 'matchesAny' && question.kind !== 'text') problems.push('Text matching requires a text question.');
     else if (node.op === 'equals' && !validAnswer(question, node.value)) problems.push(`Condition for ${node.questionId} has an incompatible value or option.`);
   }
   visit(condition); return problems;
@@ -158,6 +161,7 @@ function evaluator(program: PackageTemplateProgram, answers: PackageTemplateAnsw
     if (value === undefined) return rule.op === 'answered' ? false : 'unknown';
     if (typeof value === 'string' && !value.trim()) return question.kind === 'boolean' ? 'unknown' : rule.op === 'answered' ? false : 'unknown';
     if (!validAnswer(question, value)) return 'unknown';
+    if (rule.op === 'matchesAny') return typeof value === 'string' && rule.values.some(option => option.toLowerCase() === value.trim().toLowerCase());
     return rule.op === 'answered' ? true : value === rule.value;
   }
   return { answer, visibility, condition };
