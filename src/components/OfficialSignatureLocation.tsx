@@ -45,13 +45,13 @@ function SignatureLocations({ record, choice, onChoice, paired }: LocationProps)
   }, [first, choice, paired, onChoice]);
   if (error) return <p role="alert">{error}</p>;
   if (!layout?.slots.length) return <p role="status">Reading signature locations…</p>;
-  const slot = choice ? layout.slots.find(item => item.name === choice) : layout.slots[0];
+  const slot = choice ? layout.slots.find(item => item.name === choice) : paired ? undefined : layout.slots[0];
   return <><label className="grid gap-1 text-sm">PDF signature location<select value={slot?.name ?? ''} disabled={paired}
       className="rounded border bg-background p-2" onChange={event => onChoice(event.target.value)}>
-      {!slot && <option value="" disabled>Requested field unavailable</option>}
+      {!slot && <option value="" disabled>{choice ? 'Requested field unavailable' : 'Select a signature field'}</option>}
       {layout.slots.map(item => <option key={item.name} value={item.name}>{item.label}</option>)}</select></label>
     {slot ? <SignaturePages key={slot.name} data={record.data} slot={slot} sizes={layout.sizes} />
-      : <p role="alert">The requested signature field is unavailable on this revision.</p>}
+      : choice && <p role="alert">The requested signature field is unavailable on this revision.</p>}
   </>;
 }
 
