@@ -1,6 +1,6 @@
-import { lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { PDFDict, PDFDocument, PDFName } from 'pdf-lib';
-import { needsOfficialPrintableCopy, type ReviewedPrintableCopy } from '@/lib/packagePrintableCopy';
+import { needsOfficialPrintableCopy, requiresExternalPrint, preparePackagePrintableCopy, type ReviewedPrintableCopy } from '@/lib/packagePrintableCopy';
 import type { PackageMember } from '@/lib/actionPackages';
 import { readPackageAsset } from '@/lib/actionPackageAssets';
 import { assertAssemblyPagesReadable, loadAssemblyPdf } from '@/services/pdf/assemblyPdf';
@@ -73,20 +73,45 @@ function Candidate({ file, member, disabled, savedPreview, onAccept, onCancel }:
   </section>;
 }
 
-export function PackagePrintableCopyField({ member, editable, disabled, onChange, savedPreview }: {
-  member: Original; editable: boolean; disabled: boolean; onChange(copy: ReviewedPrintableCopy | null): void; savedPreview(original: boolean): ReactNode;
+export function PackagePrintableCopyField({ member, editable, disabled, onChange, savedPreview, onOriginal }: {
+  member: Original; editable: boolean; disabled: boolean; onOriginal(): void; onChange(copy: ReviewedPrintableCopy | null): void; savedPreview(original: boolean): ReactNode;
 }) {
   const [candidate, setCandidate] = useState<{ id: number; file: File }>();
+  const job = useRef<AbortController | null>(null);
+  const [preparing, setPreparing] = useState(false);
+  const [failure, setFailure] = useState('');
   const copy = member.printableCopy?.asset;
+  const needsExternalPages = requiresExternalPrint(member);
+  useEffect(() => () => job.current?.abort(), []);
+  function cancelPreparation() {
+    job.current?.abort(); job.current = null; setPreparing(false); setFailure('');
+  }
+  async function prepare() {
+    if (job.current) return;
+    const controller = new AbortController();
+    job.current = controller; setPreparing(true); setFailure('');
+    try {
+      const file = await preparePackagePrintableCopy(member, controller.signal);
+      if (!controller.signal.aborted) setCandidate({ id: Date.now(), file });
+    } catch (cause) {
+      if (!controller.signal.aborted) setFailure(cause instanceof Error ? cause.message : 'Choose a printable PDF from your device.');
+    } finally {
+      if (job.current === controller && !controller.signal.aborted) { job.current = null; setPreparing(false); }
+    }
+  }
   return <section className="space-y-2 text-sm" aria-label="Printable PDF">
     {copy ? <p>Combined PDF uses <strong>{copy.name}</strong>. The original is {member.original.name}.</p>
       : needsOfficialPrintableCopy(member) ? <p>Add a reviewed printable copy for the combined PDF. The original signed form is available in recipient delivery.</p>
       : <PackagePdfCompatibility source={member.original} />}
-    {editable && <details onToggle={event => { if (!event.currentTarget.open) setCandidate(undefined); }}><summary className="cursor-pointer">{copy ? 'Manage printable copy' : 'Add printable copy'}</summary>
+    {member.signedOriginal && <Button size="sm" variant="link" className="h-auto p-0" disabled={disabled} onClick={onOriginal}>Review signed original for download</Button>}
+    {editable && <details onToggle={event => { if (!event.currentTarget.open) { cancelPreparation(); setCandidate(undefined); } }}><summary className="cursor-pointer">{copy ? 'Manage printable copy' : 'Add printable copy'}</summary>
       <fieldset disabled={disabled} className="mt-2 space-y-2">
+        {!needsExternalPages && !candidate && <Button size="sm" variant="outline" disabled={preparing} onClick={() => void prepare()}>{preparing ? 'Preparing pages…' : 'Prepare printable copy'}</Button>}
+        {needsExternalPages && <p>Print the completed form to PDF in a compatible viewer, then choose that file here.</p>}
+        {failure && <p role="alert">{failure}</p>}
         <label className="block">Printable PDF for {member.original.name}
           <input data-printable-input className="mt-1 block" type="file" accept=".pdf,application/pdf" onChange={event => {
-            const file = event.target.files?.[0]; event.target.value = '';
+            cancelPreparation(); const file = event.target.files?.[0]; event.target.value = '';
             if (file) setCandidate(prev => ({ id: (prev?.id ?? 0) + 1, file }));
           }} />
         </label>

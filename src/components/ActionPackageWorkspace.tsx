@@ -1426,7 +1426,7 @@ function PackageDialog({
                         </p>
                       )}
 {member.kind === 'original' && showPreview ? <PackagePrintableCopyField key={member.revisionId} member={member}
-                        editable={editable} disabled={busy || pendingPackageEdits} savedPreview={preview}
+                        editable={editable} disabled={busy || pendingPackageEdits} savedPreview={preview} onOriginal={() => void run(() => reviewOriginal(member))}
                         onChange={file => void run(async () => update(await setPackagePrintableCopy(record, member, file, operation.current?.signal)))} /> : preview()}
 <details><summary className="cursor-pointer text-xs text-muted-foreground">Document details</summary><div className="mt-4 space-y-4">
                         {editable && <form key={revision.id} className="flex flex-wrap items-end gap-2" onSubmit={event => {
