@@ -92,3 +92,17 @@ it('shows a package-wide intake correction once and keeps separate requirements 
   fireEvent.click(screen.getByRole('button', { name: 'Complete package details' }));
   expect(onNavigate).toHaveBeenCalledWith({ revisionId: revision.id, panel: 'intake' });
 });
+
+it('routes recipient intent to the existing output and review workflows', () => {
+  const onFormat = vi.fn(), onReviewCopy = vi.fn();
+  render(<PackageExportOptions active={false} canSign={false} onNavigate={vi.fn()}
+    revision={{ id: 'revision', createdAt: 1, members: [], outputs: [] }}
+    format="pdf" disabled={false} pdfDisabled={false} onFormat={onFormat}
+    onPrepare={vi.fn()} onOpenDocument={vi.fn()} onReviewCopy={onReviewCopy} />);
+  expect(screen.getByRole('button', { name: 'Read or print a PDF' })).toHaveAttribute('aria-pressed', 'true');
+  fireEvent.click(screen.getByRole('button', { name: 'Receive original files' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Continue editing' }));
+  expect(onFormat.mock.calls).toEqual([['recipient'], ['editable']]);
+  fireEvent.click(screen.getByRole('button', { name: 'Review and return feedback' }));
+  expect(onReviewCopy).toHaveBeenCalledOnce();
+});

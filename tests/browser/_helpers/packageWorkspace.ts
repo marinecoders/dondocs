@@ -128,7 +128,7 @@ export async function blockedPackagePdf(dialog: Locator) {
   await packageSection(dialog, 'Delivery');
   const back = dialog.getByRole('button', { name: 'Back to export options', exact: true });
   if (await back.isVisible()) await back.click();
-  await dialog.getByRole('button', { name: 'PDF', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Read or print a PDF', exact: true }).click();
   const action = dialog.getByRole('group', { name: 'Next delivery action' });
   await expect(action.getByRole('button')).toBeEnabled();
   await expect(dialog.getByRole('button', { name: 'Prepare PDF', exact: true })).toHaveCount(0);
@@ -143,7 +143,7 @@ export async function preparePackageExport(dialog: Locator, mode: 'pdf' | 'edita
   const cancel = dialog.getByRole('button', { name: 'Cancel export', exact: true });
   if (await cancel.isVisible()) await cancel.click();
   if (mode === 'pdf' || mode === 'editable') {
-    await dialog.getByRole('button', { name: mode === 'pdf' ? 'PDF' : 'Editable package', exact: true }).click();
+    await dialog.getByRole('button', { name: mode === 'pdf' ? 'Read or print a PDF' : 'Continue editing', exact: true }).click();
     await dialog.getByRole('button', { name: mode === 'pdf' ? 'Prepare PDF' : 'Prepare editable package', exact: true }).click();
   } else {
     await expandPackageTools(dialog);
@@ -196,7 +196,7 @@ export async function packageTool(dialog: Locator, name: string | RegExp) {
   const section = typeof name === 'string' ? sections[name] : 'Overview';
   if (section && await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).isVisible()) await packageSection(dialog, section);
   if (name === 'Recipient delivery' || name === 'Captured delivery contents') {
-    const files = dialog.getByRole('button', { name: 'Download selected files (.zip)', exact: true });
+    const files = dialog.getByRole('button', { name: 'Receive original files', exact: true });
     if (await files.getAttribute('aria-pressed') !== 'true') await files.click();
     await expect(dialog.getByRole('region', { name: 'Recipient delivery', exact: true })).toBeVisible();
   }
@@ -242,7 +242,7 @@ export async function preparePackagePdf(dialog: Locator) {
   await packageSection(dialog, 'Delivery');
   const cancel = dialog.getByRole('button', { name: 'Cancel export', exact: true });
   if (await cancel.isVisible()) await cancel.click();
-  await dialog.getByRole('button', { name: 'PDF', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Read or print a PDF', exact: true }).click();
   await dialog.getByRole('button', { name: 'Prepare PDF', exact: true }).click();
   await expect(dialog.getByRole('heading', { name: 'PDF export', exact: true })).toBeVisible();
 }
