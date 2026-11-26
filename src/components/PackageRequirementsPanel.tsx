@@ -20,13 +20,14 @@ interface Props {
   isCurrent(): boolean;
   signal(): AbortSignal | undefined;
   onDirtyChange?(dirty: boolean): void;
+  onAddEvidence?(id: string, label: string): void;
   destination?: PackageDestinationRequest;
 }
 const inputClass = 'block w-full min-w-0 rounded border bg-background p-2 text-sm';
 const operationLabels: Record<PackageRequirementOperation, string> = { review: 'Review', pdf: 'PDF assembly', portable: 'Editable transfer' };
 
 /** Declared evidence slots remain metadata until the user assigns actual captured package content. */
-export function PackageRequirementsPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange, destination }: Props) {
+export function PackageRequirementsPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange, destination, onAddEvidence }: Props) {
   const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}`;
   const content = useRef<HTMLElement>(null), handledDestination = useRef<number | null>(null);
   const [base, setBase] = useState<PackageRequirements | undefined>(() => structuredClone(revision.requirements));
@@ -134,6 +135,11 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
               {sources.find(source => source.memberId === item.memberId && source.revisionId === item.memberRevisionId)?.label ?? 'Unavailable saved version'}
             </option>}
           </select></label>
+          {item.condition === 'active' && !item.memberId && !hasPinnedCompletionMember(item, !!revision.templateState) && <>
+            {onAddEvidence && <Button size="sm" variant="outline" disabled={dirty} onClick={() => onAddEvidence(item.id, item.label)}>Add document for {item.label}</Button>}
+            {matchesPackageDestination(destination, record.id, revision.id) && destination.requirementId === item.id && revision.members.some(member => member.id === destination.addedEvidenceId) &&
+              <Button size="sm" onClick={() => { if (draft) edit({ ...draft, items: draft.items.map(rule => rule.id === item.id ? { ...item, memberId: destination.addedEvidenceId } : rule) }); }}>Use added document for {item.label}</Button>}
+          </>}
           {!hasPinnedCompletionMember(item, !!revision.templateState) && <PackageRevisionPicker label={controlLabel}
             sources={sources} disabled={locked} value={item.memberId && item.memberRevisionId ? { memberId: item.memberId, revisionId: item.memberRevisionId } : undefined}
             onSelect={source => {

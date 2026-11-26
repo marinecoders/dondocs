@@ -181,3 +181,20 @@ it('captures stable requirement ids when saving a declaration in a legacy pendin
   expect(revision.templateState?.requirementIds[0].id).toBe(revision.requirements?.items[0].id);
   expect(saved.revisions[0].templateState?.requirementIds).toEqual([]);
 });
+
+it('routes to add evidence for the requested slot and stages its returned member for review', async () => {
+  const record = await fixture();
+  const revision = getPackageRevision(record);
+  const member = revision.members[0];
+  const onAddEvidence = vi.fn();
+  const props = { record, revision, disabled: false, busy: false, run: async (action: () => Promise<void>) => action(),
+    onApply: vi.fn(), isCurrent: () => true, signal: () => undefined, onAddEvidence };
+  const view = render(<PackageRequirementsPanel {...props} />);
+  await userEvent.click(screen.getByRole('button', { name: 'Add document for Supporting document' }));
+  expect(onAddEvidence).toHaveBeenCalledWith('supporting-pdf', 'Supporting document');
+  view.rerender(<PackageRequirementsPanel {...props} destination={{ packageId: record.id, revisionId: revision.id, requestId: 1, requirementId: 'supporting-pdf', addedEvidenceId: member.id }} />);
+  await userEvent.click(screen.getByRole('button', { name: 'Use added document for Supporting document' }));
+  expect(screen.getByRole('combobox', { name: /Evidence for Supporting document/ })).toHaveValue(member.id);
+  expect(screen.getByText(/unapplied requirement changes/i)).toBeVisible();
+  expect(props.onApply).not.toHaveBeenCalled();
+});

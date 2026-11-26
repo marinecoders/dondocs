@@ -36,6 +36,7 @@ export function packageCorrectionKey({ memberId, correction }: PackageDestinatio
 
 /** A destination belongs to one selected saved revision, including historical views. */
 export interface PackageDestinationRequest extends PackageDestination {
+  addedEvidenceId?: string;
   requestId: number;
   packageId: string;
   revisionId: string;

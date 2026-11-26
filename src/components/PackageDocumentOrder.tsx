@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode, type KeyboardEvent } from 'react';
+import { createContext, useId, useContext, useState, type ReactNode, type KeyboardEvent } from 'react';
 import { DndContext, PointerSensor, closestCenter, type CollisionDetection, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -40,6 +40,7 @@ export function PackageDocumentOrder({ ids, labels, disabled, onMove, children }
 export function PackageOrderRow({ id, label, disabled, children }: { id: string; label: string; disabled: boolean; children: ReactNode }) {
   const { setNodeRef, setActivatorNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({ id, disabled });
   const order = useContext(KeyboardOrder);
+  const instructions = useId();
   const [position, setPosition] = useState<number | null>(null);
   function keyDown(event: KeyboardEvent<HTMLButtonElement>) {
     if (!order || disabled) return;
@@ -61,10 +62,11 @@ export function PackageOrderRow({ id, label, disabled, children }: { id: string;
   return <div ref={setNodeRef}><div data-package-reordering={isDragging || position !== null || undefined} style={{ transform: CSS.Transform.toString(transform), transition }}
     className={`flex items-center rounded-md bg-background ${isDragging ? 'relative z-10 shadow-md ring-1 ring-border' : ''}`}>
     <button type="button" ref={setActivatorNodeRef} data-package-order-handle={id} {...attributes} {...listeners} onKeyDown={keyDown} onBlur={() => setPosition(null)}
-      aria-pressed={position !== null || isDragging} aria-label={'Reorder ' + label}
+      aria-describedby={instructions} aria-pressed={position !== null || isDragging} aria-label={'Reorder ' + label}
       disabled={disabled} className="shrink-0 touch-none cursor-grab rounded p-1.5 text-muted-foreground hover:bg-accent focus-visible:ring-2 active:cursor-grabbing">
       <GripVertical aria-hidden="true" className="size-4" />
     </button>
+    <span id={instructions} className="sr-only">Press Space to pick up. Use the up and down arrows to choose a position, then Space to move or Escape to cancel.</span>
     {children}
   </div>
     {position !== null && order && <p className="px-2 py-1 text-xs text-muted-foreground" role="status">Drop at position {position + 1}, {order.labels.get(order.ids[position])}.</p>}

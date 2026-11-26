@@ -41,6 +41,11 @@ test('assembles a custom letter and two PDFs and preserves their order on reload
   await expect(workspace.getByRole('status').filter({ hasText: 'Drop at position 2, First.pdf.' })).toBeAttached();
   await page.mouse.up();
   await expect(sidebar.getByRole('button', { name: /2[.] Second[.]pdf/ })).toBeVisible();
+  await workspace.getByRole('button', { name: 'Undo document reorder' }).click();
+  await expect(sidebar.getByRole('button', { name: /3[.] Second[.]pdf/ })).toBeVisible();
+  await expect(workspace.getByRole('button', { name: 'Undo document reorder' })).toHaveCount(0);
+  await source.focus(); await page.keyboard.press('Space'); await page.keyboard.press('ArrowUp'); await page.keyboard.press('Space');
+  await expect(sidebar.getByRole('button', { name: /2[.] Second[.]pdf/ })).toBeVisible();
   const revision = await workspace.getAttribute('data-revision-id');
   await source.focus(); await page.keyboard.press('Space');
   await expect(source).toHaveAttribute('aria-pressed', 'true'); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Escape');
