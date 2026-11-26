@@ -210,7 +210,7 @@ export async function inspectPackageMember(dialog: Locator, memberId: string) {
   else {
     const target = dialog.locator(`[id="package-member-${memberId}"]`);
     const index = await target.evaluate(element => [...element.parentElement!.children].indexOf(element));
-    await dialog.getByRole('navigation', { name: 'Package documents', exact: true }).getByRole('button').nth(index).click();
+    await dialog.getByRole('navigation', { name: 'Package documents', exact: true }).getByRole('button', { name: /^\d+[.]/ }).nth(index).click();
   }
 }
 
