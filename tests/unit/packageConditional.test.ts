@@ -613,3 +613,25 @@ it('uses an exact saved PDF in another recipe slot and checks its active complet
   expect(received.id).not.toBe(source.id);
   expect(restored.resources.get('assets/' + source.original.id)?.data).toEqual(file.data);
 });
+
+it('captures a returned original against its saved slot without finishing unrelated intake', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { attachPackageSlotFile } = await import('@/lib/packageSlotFiles');
+  const { startConditionalPackage } = await import('@/lib/packageConditional');
+  const { portableResourceDigest } = await import('@/lib/portableResources');
+  const source = template();
+  const file = async (name: string) => new File([new Uint8Array(await readFile('tests/fixtures/permission-pdfs/' + name))], name, { type: 'application/pdf' });
+  const blank = await file('source.pdf');
+  source.members.push({ key: 'returned', kind: 'attachment', label: 'Returned form', required: true, role: 'enclosure',
+    completion: { blankSha256: await portableResourceDigest(await blank.arrayBuffer()) } });
+  const initial = await startConditionalPackage(source, policy, undefined, () => true);
+  const revision = getPackageRevision(initial);
+  const slot = revision.templateState!.instances.find(item => item.memberKey === 'returned')!;
+  await expect(attachPackageSlotFile(initial, revision.id, slot.memberId, blank, false)).rejects.toThrow('blank form');
+  const original = await file('source-cropped.pdf');
+  const next = await attachPackageSlotFile(initial, revision.id, slot.memberId, original, true);
+  const member = getPackageRevision(next).members.find(item => item.id === slot.memberId);
+  expect(member).toMatchObject({ kind: 'original', signedOriginal: true, original: { name: original.name } });
+  expect(getPackageRevision(next).templateState?.pending).toBe(true);
+  await expect(attachPackageSlotFile(next, revision.id, slot.memberId, original, false)).rejects.toThrow('current editable');
+});

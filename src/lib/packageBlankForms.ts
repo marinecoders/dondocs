@@ -5,7 +5,7 @@ import { portableResourceDigest } from './portableResources';
 import { base64ToUint8Array, uint8ArrayToBase64 } from './encoding';
 import { loadTemplatePage } from '@/services/pdf/loadTemplatePage';
 
-interface ReferenceEdition { id: string; edition: string; name: string; directory: string; file: string; sha256: string }
+interface ReferenceEdition { id: string; edition: string; name: string; directory: string; file: string; sha256: string; requiresDesktopReader?: boolean }
 const catalog: readonly ReferenceEdition[] = [...references, ...formEditions.map(form => ({
   id: form.formId, edition: form.edition, name: form.label + '.pdf', directory: form.directory, file: form.file, sha256: form.sha256,
 }))];
@@ -24,4 +24,9 @@ export async function readPackageBlank(blank: { name: string; data: string }) {
   const digest = await portableResourceDigest(bytes);
   if (!catalog.some(item => item.name === blank.name && item.sha256 === digest)) throw new Error('The saved PDF does not match a catalog edition.');
   return bytes;
+}
+
+/** Captured blank digests identify the verified catalog edition across renames and transfer. */
+export function desktopPackageBlank(sha256?: string) {
+  return catalog.some(edition => edition.sha256 === sha256 && edition.requiresDesktopReader === true);
 }
