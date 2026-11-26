@@ -49,8 +49,8 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
   }, [inspect, revision]);
   const checked = inspect && inspection?.revision === revision ? inspection : undefined;
   const additional = inspect ? checks?.result?.actions.filter(action => action.blocking
-    && !(checked?.findings.some(finding => finding.memberId === action.destination?.memberId
-      && (action.id === 'requirement-' + finding.id || action.message === finding.message)))) ?? [] : [];
+    && !(checked?.findings.some(finding => (finding.question && finding.question.key === action.destination?.intakeQuestion)
+      || finding.memberId === action.destination?.memberId && (action.id === 'requirement-' + finding.id || action.message === finding.message)))) ?? [] : [];
   const firstAction = (inspect ? checks?.result : undefined)?.actions.find(action => action.blocking && action.destination
     && (action.destination.panel || action.destination.memberId || action.destination.section !== 'delivery'));
   const documents = useMemo(() => indexDeliveryDocuments(revision), [revision]);
@@ -75,7 +75,7 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
   const byDocument = new Map<string, PackageRequirementFinding[]>();
   const remaining: PackageRequirementFinding[] = [];
   for (const item of checked?.findings ?? []) {
-    if (!item.memberId || !documents.members.has(item.memberId)) { remaining.push(item); continue; }
+    if (item.question || !item.memberId || !documents.members.has(item.memberId)) { remaining.push(item); continue; }
     const group = byDocument.get(item.memberId);
     if (group) group.push(item);
     else byDocument.set(item.memberId, [item]);

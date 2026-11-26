@@ -41,6 +41,8 @@ export function packageWorkText(work: PackageWork): string {
 }
 
 export interface PackageWorkDestination {
+  intakeQuestion?: string;
+  intakeSlot?: string;
   correction?: import('./packageDestinations').PackageCorrection;
   section?: 'overview' | 'documents' | 'review' | 'delivery';
   panel?: 'information' | 'requirements' | 'intake' | 'consistency' | 'work' | 'signing';

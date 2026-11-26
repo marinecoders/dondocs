@@ -27,6 +27,7 @@ export interface PackageRequirementFinding {
   signatureFields?: string[];
   signatureLabels?: Record<string, string>;
   fromIntake?: boolean;
+  question?: import('./packageQuestionFindings').PackageQuestionFinding;
 }
 export interface PackageRequirementsInspection {
   operation: PackageRequirementOperation;
@@ -199,6 +200,18 @@ export async function assertDeliveryRequirements(revision: PackageRevision, sele
     for (const member of linked) {
       const message = endorsementLinkIssue(member, routes.get(member.id));
       if (message) failures.push({ id: 'endorsement:' + member.id, kind: 'document', state: 'invalid', label: member.label, memberId: member.id, message });
+    }
+  }
+  if (failures.length && state) {
+    const { loadConditionalPackageSource } = await import('./packageConditionalSources');
+    const { packageQuestionFindings } = await import('./packageQuestionFindings');
+    const source = await loadConditionalPackageSource(revision);
+    if (source) {
+      const questions = packageQuestionFindings(source.template, revision);
+      for (const item of failures) {
+        if (item.state === 'unknown') item.question = questions.get(item.id);
+        if (item.fromIntake && item.memberId) item.question = questions.get(item.memberId);
+      }
     }
   }
   if (failures.length) throw new PackageDeliveryBlocked(failures);

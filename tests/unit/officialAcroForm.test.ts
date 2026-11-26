@@ -110,6 +110,12 @@ it('updates the remaining linked form and preserves an already signed official m
     const signedMember = { ...await captureOriginalPackageMember({ name: 'signed.pdf', data: signed.buffer }, a.role, true), id: a.id };
     if (signedMember.kind !== 'original') throw new Error('Expected the retained signed 10132.');
     const captured = await reviseActionPackage(linked, [signedMember, current.members[1]]);
+    const { packageBindingReadiness } = await import('@/lib/packageFieldBindings');
+    expect(await packageBindingReadiness(getPackageRevision(captured))).toEqual([]);
+    const wrongForm = getPackageRevision(captured);
+    wrongForm.members[0] = { ...signedMember, officialFormId: 'navmc_118_11' };
+    expect(await packageBindingReadiness(wrongForm, a.id)).toHaveLength(1);
+    expect(await packageBindingReadiness(wrongForm, b.id)).toEqual([]);
     const preview = await preparePackageUpdate(captured, facts('Updated, Lee'), current.bindings, {}, policy);
     expect(preview.ready).toBe(true);
     expect(preview.changes.map(change => [change.memberId, change.state])).toEqual([[a.id, 'signed-original'], [b.id, 'update']]);
@@ -121,6 +127,7 @@ it('updates the remaining linked form and preserves an already signed official m
     expect(Buffer.compare(Buffer.from(await readPackageAsset(signedMember.original)), signed)).toBe(0);
     const portable = await parsePortableActionPackage(await buildPortableActionPackage(updated));
     expect(getPackageRevision(portable.record).members[0]).toEqual(signedMember);
+    expect(await packageBindingReadiness(getPackageRevision(portable.record))).toEqual([]);
     expect(Buffer.compare(Buffer.from(portable.resources.get('assets/' + signedMember.original.id)!.data), signed)).toBe(0);
   } finally { vi.restoreAllMocks(); vi.unstubAllGlobals(); }
 }, 45_000);

@@ -1,10 +1,13 @@
 import type { PackageRevision } from './actionPackages';
 import { resolveConditionalPackageRequirements } from './packageConditionalRequirements';
+import { packageBindingReadiness } from './packageFieldBindings';
 import { missingAnswerGroups } from './packageFormCompletion';
 import { readAnsweredPdfFields } from '@/services/forms/readRequiredPdfFields';
 
 /** Evaluate the chosen signer against the exact bytes about to reach the card. */
 export async function checkPackageSigningPrerequisites(revision: PackageRevision, memberId: string, field: string, bytes: ArrayBuffer) {
+  const [unresolved] = await packageBindingReadiness(revision, memberId);
+  if (unresolved) throw new Error(unresolved.message);
   const requirements = revision.templateState ? await resolveConditionalPackageRequirements(revision) : revision.requirements;
   const groups = [];
   for (const item of requirements?.items ?? []) {
