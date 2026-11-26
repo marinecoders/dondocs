@@ -70,6 +70,7 @@ test('reviews the current candidate, preserves approved pages on cancel, and exp
   const custom = workspace.getByRole('group', { name: 'Custom package' });
   await custom.getByLabel('Package name').fill('Printable review');
   await custom.getByRole('button', { name: 'Create package' }).click();
+  await workspace.getByLabel('Uploaded original is signed (preserve unchanged)').check();
   await workspace.getByLabel('Add original PDF', { exact: true }).setInputFiles(source);
   await workspace.getByText('Add printable copy', { exact: true }).click();
   const input = workspace.getByLabel('Printable PDF for original.pdf');
@@ -84,6 +85,19 @@ test('reviews the current candidate, preserves approved pages on cancel, and exp
     expect((await (await pdf.getPage(1)).getTextContent()).items.map(item => 'str' in item && item.str)).toContain('BRAVO');
   } finally { await pdf.destroy(); }
   await use.click();
+  const saved = workspace.getByRole('region', { name: 'Preview of original.pdf' });
+  const selector = saved.getByLabel('Preview file');
+  await expect(selector).toHaveValue('original');
+  for (const [choice, expected] of [['original', source], ['print', second]] as const) {
+    await selector.selectOption(choice);
+    await expect.poll(async () => {
+      const url = await saved.locator('[data-pdf-layer="active"]').getAttribute('data-preview-blob');
+      return saved.evaluate(async (_, url) => {
+        const bytes = await (await fetch(url!)).arrayBuffer();
+        return Array.from(new Uint8Array(bytes));
+      }, url);
+    }).toEqual(Array.from(expected.buffer));
+  }
   await workspace.getByText('Manage printable copy', { exact: true }).click();
   await input.setInputFiles(first); await expect(use).toBeEnabled(); await review.getByRole('button', { name: 'Cancel' }).click();
   await page.reload();
