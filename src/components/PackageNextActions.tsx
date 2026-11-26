@@ -5,15 +5,15 @@ import type { PackageNextActions as Findings } from '@/lib/packageNextActions';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import { Button } from './ui/button';
 
-export function DocumentPdfChecks({ actions, onNavigate, disabled, editable }: {
-  actions: Findings['actions']; onNavigate(destination: PackageDestination): void; disabled: boolean; editable: boolean;
+export function DocumentPdfChecks({ actions, onNavigate, disabled, editable, inline = false }: {
+  inline?: boolean; actions: Findings['actions']; onNavigate(destination: PackageDestination): void; disabled: boolean; editable: boolean;
 }) {
   if (!actions.length) return null;
-  return <details className="mt-2 text-sm"><summary className="cursor-pointer text-muted-foreground">{actions.length} {actions.length === 1 ? 'item' : 'items'} before PDF</summary>
-    <ul className="mt-2 divide-y pl-3">{actions.map(action => <li key={action.id} className="flex flex-wrap items-baseline justify-between gap-x-3 py-2">
+  const list = <ul className="mt-2 divide-y pl-3">{actions.map(action => <li key={action.id} className="flex flex-wrap items-baseline justify-between gap-x-3 py-2">
       <span>{action.message}</span>{action.destination && <Button variant="link" size="sm" className="h-auto p-0" disabled={disabled}
         onClick={() => onNavigate(action.destination!)}>{editable && action.destination.correction ? action.destination.correction.label : 'Open details'}</Button>}
-    </li>)}</ul></details>;
+    </li>)}</ul>;
+  return inline ? list : <details className="mt-2 text-sm"><summary className="cursor-pointer text-muted-foreground">{actions.length} {actions.length === 1 ? 'item' : 'items'} before PDF</summary>{list}</details>;
 }
 
 export function PackageNextActions({ record, revision, checks, disabled, quiet = false, reviewBaseline, onNavigate, onPrepare }: {

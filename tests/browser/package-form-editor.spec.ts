@@ -335,11 +335,12 @@ test('delivery corrections preserve input after a failed save and advance to the
   }
   await packageSection(workspace, 'Delivery');
   const included = workspace.getByRole('region', { name: 'Included documents', exact: true });
-  await expect(included.getByText('4 items before PDF', { exact: true })).toHaveCount(2);
-  await workspace.getByRole('button', { name: 'Prepare PDF', exact: true }).click();
-  const corrections = workspace.getByRole('button', { name: 'Complete addressing', exact: true });
-  await expect(corrections).toHaveCount(2);
-  await corrections.nth(1).click();
+  const documents = included.locator('ol > li');
+  await expect(documents).toHaveCount(2);
+  await expect(documents.nth(1).locator('summary')).toHaveText('4 items to resolve');
+  await expect(workspace.getByRole('group', { name: 'Next delivery action' })).toBeVisible();
+  await documents.nth(1).locator('summary').click();
+  await documents.nth(1).getByRole('button', { name: 'Complete addressing', exact: true }).click();
   const editor = page.getByRole('dialog').filter({ has: page.getByRole('combobox', { name: 'Package document', exact: true }) });
   const picker = editor.getByLabel('Package document', { exact: true });
   await expect(picker).toHaveValue(await picker.locator('option').nth(1).getAttribute('value') ?? '');

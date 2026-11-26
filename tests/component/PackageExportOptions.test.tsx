@@ -62,6 +62,7 @@ it('opens the exact missing signature and keeps read-only corrections on the sav
   const props = { revision, active: true, format: 'pdf' as const, canSign: true, disabled: false, pdfDisabled: false,
     checks: { result, error: undefined }, onFormat: vi.fn(), onPrepare: vi.fn(), onOpenDocument: vi.fn(), onNavigate: vi.fn() };
   const view = render(<PackageExportOptions {...props} />);
+  expect(screen.queryByRole('button', { name: 'Prepare PDF' })).toBeNull();
   const next = within(screen.getByRole('group', { name: 'Next delivery action' }));
   fireEvent.click(await next.findByRole('button', { name: 'Review Certifying official' }));
   expect(props.onNavigate).toHaveBeenLastCalledWith({ revisionId: revision.id, memberId: member.id, signatureField: field });

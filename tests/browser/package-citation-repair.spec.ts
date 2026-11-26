@@ -1,4 +1,4 @@
-import { openAddDocuments, openPackagePreparation, importPackage, packageSection, packageVersion, choosePackageById, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
+import { blockedPackagePdf, openAddDocuments, openPackagePreparation, importPackage, packageSection, packageVersion, choosePackageById, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
 import { test, expect, type Page, type BrowserContext } from "@playwright/test";
 import { capturePackageDocument } from "../_helpers/capturePackageDocument";
 import { PDFDocument, StandardFonts } from "pdf-lib";
@@ -98,10 +98,7 @@ for (const theme of ["light", "dark", "classic"]) {
     await item.getByRole("button", { name: "Remove", exact: true }).click();
     const repair = await packageTool(modal, "Package citation repair");
     await expect(repair).toContainText("1 linked citations need repair");
-    await preparePackageExport(modal, 'pdf');
-  await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
-    await expect(modal).toContainText("repair linked citation");
-    await expect(modal.getByRole("button", { name: "Download PDF", exact: true })).toBeDisabled();
+    await expect(await blockedPackagePdf(modal)).toContainText(/citation/i);
     const linkId = before.package.revisions[0].citations.links[0].id;
     await packageSection(modal, 'Documents', true);
     await repair.getByLabel("Link to repair", { exact: true }).selectOption(linkId);

@@ -1,4 +1,4 @@
-import { openPackagePreparation, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, preparePackageExport, packageTool, openPackageWorkspace, choosePackage } from './_helpers/packageWorkspace';
+import { blockedPackagePdf, openPackagePreparation, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, preparePackageExport, packageTool, openPackageWorkspace, choosePackage } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
@@ -62,11 +62,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await expect(relationships.getByText(/conflict: The first date is later than the second date/)).toBeVisible();
   await relationships.getByRole('button', { name: /Inspect Package · End date for Action dates/ }).click();
   await expect(information.locator('legend').filter({ hasText: /^End date$/ })).toBeFocused();
-  await preparePackageExport(dialog, 'pdf');
-  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
-  await expect(dialog.getByRole('alert').filter({ hasText: 'Action dates: The first date is later than the second date.' })).toBeVisible();
-  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member, privacy findings/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member, privacy findings/ }).check();
-  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
+  await expect(await blockedPackagePdf(dialog)).toContainText('Action dates');
   await packageSection(dialog, 'Review', true);
   await dialog.getByRole('button', { name: 'New review copy', exact: true }).click();
   await expect(dialog.getByRole('alert')).toHaveText('Action dates: The first date is later than the second date.');
@@ -104,10 +100,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await saveInformation(dialog);
   await relationships.getByRole('button', { name: 'Check declared relationships', exact: true }).click();
   await expect(relationships.getByText('The saved exception does not apply to these current values.', { exact: true })).toBeVisible();
-  await preparePackageExport(dialog, 'pdf');
-  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
-  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member, privacy findings/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member, privacy findings/ }).check();
-  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
+  await expect(await blockedPackagePdf(dialog)).toContainText('Action dates');
   await dialog.getByRole('button', { name: 'Overview', exact: true }).click();
   await relationships.getByRole('textbox', { name: 'Relationship label 1' }).fill('Unsaved label');
   await expect(dialog.getByRole('button', { name: 'Continue editing', exact: true })).toBeVisible();
