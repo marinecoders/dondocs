@@ -37,6 +37,7 @@ export const packageConditionalStateSchema = z.object({
   upgrades: z.array(packageTemplateUpgradeSchema).max(10).optional(),
   templateId: identity,
   primaryMemberKey: identity.optional(),
+  hasDeliveryChoices: z.literal(true).optional(),
   templateRevision: z.string().trim().min(1).max(100),
   pending: z.boolean(),
   answers: packageTemplateAnswersSchema,

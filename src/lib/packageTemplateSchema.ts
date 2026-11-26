@@ -2,7 +2,7 @@ import { formCompletionSchema } from './packageRequirementsModel';
 import { z } from 'zod';
 import { packageRoles } from './packageRoles';
 import { packageBindingTargetKey, packageBindingTargetSchema } from './packageBindingTargets';
-import { packageTemplateConditionNodeCount, packageTemplateConditionSchema, packageTemplateProgramSchema, validatePackageTemplateProgramMembers } from './packageTemplateProgram';
+import { templateConditionProblems, packageTemplateConditionNodeCount, packageTemplateConditionSchema, packageTemplateProgramSchema, validatePackageTemplateProgramMembers } from './packageTemplateProgram';
 
 const legacyIdentity = z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/);
 const identity = legacyIdentity.refine(value => value !== 'prototype' && !Object.hasOwn(Object.prototype, value), 'Reserved template identity.');
@@ -22,8 +22,13 @@ export const packageTemplateV1Schema = z.object({
 }).strict();
 const link = z.object({ questionId: identity, target: packageBindingTargetSchema, format: z.enum(['field', 'uppercase']) }).strict();
 const extensions = { blankPdf: packageTemplatePageSchema.optional(), completion: formCompletionSchema.optional(), key: identity, when: packageTemplateConditionSchema.optional(), repeatGroupId: identity.optional(), links: z.array(link).max(100).optional() };
+const keyList = z.array(identity).min(1).max(100).refine(keys => new Set(keys).size === keys.length, 'Duplicate delivery key.');
+const deliveryChoiceSchema = z.object({
+  id: identity, label: z.string().trim().min(1).max(100).refine(label => Array.from(label).every(char => char.charCodeAt(0) >= 32 && char.charCodeAt(0) !== 127), 'Use a single-line delivery label.'),
+  memberKeys: keyList.optional(), confirmationIds: keyList.optional(), when: packageTemplateConditionSchema.optional(),
+}).strict();
 export const packageTemplateV2Schema = packageTemplateV1Schema.omit({ version: true, members: true, id: true }).extend({
-  id: identity, primaryMemberKey: identity.optional(), version: z.literal(2), program: packageTemplateProgramSchema,
+  id: identity, primaryMemberKey: identity.optional(), deliveryChoices: z.array(deliveryChoiceSchema).min(1).max(12).optional(), version: z.literal(2), program: packageTemplateProgramSchema,
   members: z.array(z.discriminatedUnion('kind', [native.extend({ ...extensions, pagesFrom: identity.optional(), endorses: identity.optional() }), attachment.extend({ ...extensions, multipleFiles: z.literal(true).optional() })])).min(1).max(100),
 }).strict().superRefine((template, context) => {
   const problem = (message: string) => context.addIssue({ code: 'custom', message });
@@ -32,6 +37,15 @@ export const packageTemplateV2Schema = packageTemplateV1Schema.omit({ version: t
   if (!main || (template.primaryMemberKey ? main.key !== template.primaryMemberKey : main.role !== 'basic-letter') || !main.required || main.when || main.repeatGroupId || template.members.slice(1).some(member => member.role === 'basic-letter'))
     problem('Version 2 templates must start with exactly one required, unconditional, nonrepeating main document.');
   let nodes = [...template.program.questions, ...template.program.requirements].reduce((sum, item) => sum + (item.when ? packageTemplateConditionNodeCount(item.when) : 0), 0), links = 0;
+  const choices = template.deliveryChoices ?? [];
+  if (new Set(choices.map(choice => choice.id)).size !== choices.length) problem('Duplicate delivery choice.');
+  if (choices.filter(choice => !choice.memberKeys).length > 1) problem('Only one choice can include the whole package.');
+  for (const choice of choices) {
+    templateConditionProblems(template.program, choice.when).forEach(problem);
+    if (choice.when) nodes += packageTemplateConditionNodeCount(choice.when);
+    if (choice.memberKeys?.some(key => !template.members.some(member => member.key === key))) problem('Unknown delivery member.');
+    if (choice.confirmationIds?.some(id => !template.program.requirements.some(rule => rule.id === id && rule.kind === 'confirmation' && rule.operations.includes('pdf')))) problem('Unknown delivery confirmation.');
+  }
   for (const member of template.members) {
     if (member.kind === 'attachment' && member.multipleFiles &&
         (member.role === 'basic-letter' || member.role === 'endorsement' || member.completion || member.blankPdf || member.key === template.primaryMemberKey))
@@ -89,6 +103,7 @@ export function packageTemplateProgramText(template: PackageTemplate): string {
     else if (value && typeof value === 'object') Object.entries(value).forEach(([key, child]) => { strings.push(key); collect(child); });
   }
   collect(owned.program);
+  collect(owned.deliveryChoices);
   for (const { key, when, repeatGroupId, links } of owned.members) collect({ key, when, repeatGroupId, links });
   return strings.join('\n');
 }

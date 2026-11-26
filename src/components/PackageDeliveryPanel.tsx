@@ -1,3 +1,4 @@
+import { readDeliveryChoices, type PackageDeliveryChoice } from '@/lib/packageDeliveryChoices';
 import { packageDocumentName } from '@/lib/actionPackages';
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { buildPackageDeliveryBundle } from '@/lib/packageDeliveryBundle';
@@ -38,21 +39,34 @@ type ProfileProps = Props & { selection: PackageDeliverySelection; setSelection(
 function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal, isCurrent, onPreparedChange, directDownload = false,
   onNavigate, canSign, visible = true, selection, setSelection, recheck, setRecheck }: ProfileProps) {
   const heading = useId();
-  const { label, purpose, scope, taggedNativePdfs = false } = selection;
-  const memberIds = revision.members.filter(member => scope === 'complete' || selection.memberIds.includes(member.id)).map(member => member.id);
+  const { purpose, scope, taggedNativePdfs = false } = selection;
+  const [choices, setChoices] = useState<PackageDeliveryChoice[]>();
+  const [choiceError, setChoiceError] = useState('');
+  useEffect(() => {
+    if (!visible || !revision.templateState?.hasDeliveryChoices) return;
+    let current = true;
+    void readDeliveryChoices(revision).then(values => { if (current) { setChoices(values); setChoiceError(''); } })
+      .catch(cause => { if (current) setChoiceError(cause instanceof Error ? cause.message : 'Could not load delivery choices.'); });
+    return () => { current = false; };
+  }, [revision, visible]);
+  const choice = purpose === 'recipient' ? choices?.find(item => selection.choiceId ? item.id === selection.choiceId : scope === 'complete' && item.complete) : undefined;
+  const loadingChoices = purpose === 'recipient' && !!revision.templateState?.hasDeliveryChoices && !choices;
+  const unavailableChoice = !!selection.choiceId && !choice;
+  const label = choice && selection.label === 'Selected documents' ? choice.label : selection.label;
+  const memberIds = choice?.memberIds ?? revision.members.filter(member => scope === 'complete' || selection.memberIds.includes(member.id)).map(member => member.id);
   const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
   const [findings, setFindings] = useState<PackageRequirementFinding[]>([]);
   useEffect(() => {
-    if (!visible || !recheck || disabled || purpose !== 'recipient') return;
+    if (!visible || !recheck || disabled || purpose !== 'recipient' || loadingChoices || unavailableChoice) return;
     const controller = new AbortController();
-    void assertDeliveryRequirements(revision, scope === 'selected' ? selection.memberIds : undefined, controller.signal)
+    void assertDeliveryRequirements(revision, scope === 'selected' ? choice?.memberIds ?? selection.memberIds : undefined, controller.signal, choice)
       .then(() => { if (!controller.signal.aborted) setFindings([]); })
       .catch(cause => { if (!controller.signal.aborted) {
         if (cause instanceof PackageDeliveryBlocked) setFindings(cause.findings);
         else setError(cause instanceof Error ? cause.message : 'Readiness check failed.');
       } });
     return () => controller.abort();
-  }, [visible, recheck, revision, selection.memberIds, scope, purpose, disabled]);
+  }, [visible, recheck, revision, selection.memberIds, scope, purpose, disabled, choice, loadingChoices, unavailableChoice]);
   const [reviewCount, setReviewCount] = useState(10), [fileCount, setFileCount] = useState(25);
   const preparedPolicy = useRef<string | undefined>(undefined);
   const mounted = useRef(false), running = useRef(false), generation = useRef(0), callback = useRef(onPreparedChange);
@@ -94,20 +108,33 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
   return <section aria-labelledby={heading} className="min-w-0 max-w-4xl space-y-4 border-t pt-4 text-sm" aria-busy={pending}>
     <h3 id={heading} className="font-medium">Recipient delivery</h3>
     <p className="text-xs text-muted-foreground">{purpose === 'editable' ? 'This editable ZIP includes saved answers and embedded attachments for the selected documents.' : 'The ZIP includes the selected documents. Original files retain their signatures.'}</p>
+    {choiceError && <p role="alert">{choiceError}</p>}
     {error && <p role="alert" className="break-words text-destructive">{error}</p>}
     {findings.length > 0 && <><p role="alert">{findings.length} delivery {findings.length === 1 ? 'item needs' : 'items need'} attention.</p>
       <PackageDeliveryFindings canSign={canSign} revision={revision} findings={findings} onNavigate={target => onNavigate?.(target)} disabled={locked || !onNavigate} /></>}
     <fieldset disabled={locked} className="min-w-0 space-y-3">
       <div className="grid gap-3 sm:grid-cols-2">
       <label className="block">Delivery name<input aria-label="Delivery name" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" maxLength={120} value={label} onChange={event => { invalidate(); setSelection({ ...selection, label: event.target.value }); }} /></label>
-      {purpose === 'recipient' && <label className="block">Delivery scope<select className="mt-1 block w-full rounded border bg-background p-2" value={scope}
-        onChange={event => { invalidate(); setSelection({ ...selection, scope: event.target.value as PackageDeliverySelection['scope'], memberIds }); }}>
-        <option value="complete">Complete package</option><option value="selected">Selected files only</option>
+      {purpose === 'recipient' && <label className="block">Delivery scope<select className="mt-1 block w-full rounded border bg-background p-2" value={selection.choiceId ? 'choice/' + selection.choiceId : scope}
+        onChange={event => {
+          const value = event.target.value;
+          const next = choices?.find(item => value === 'choice/' + item.id);
+          invalidate();
+          setSelection({ ...selection, label: next?.label ?? (value === 'complete' ? choices?.find(item => item.complete)?.label ?? label : label),
+            choiceId: next?.id, scope: next ? 'selected' : value as PackageDeliverySelection['scope'], memberIds: next?.memberIds ?? memberIds });
+        }}>
+        <option value="complete">{choices?.find(item => item.complete)?.label ?? 'Complete package'}</option>
+        {choices?.filter(item => !item.complete).map(item => <option key={item.id} value={'choice/' + item.id}>{item.label}</option>)}
+        {selection.choiceId && !choice && <option value={'choice/' + selection.choiceId} disabled>{loadingChoices && !choiceError ? 'Loading delivery choice…' : 'Unavailable for this revision'}</option>}
+        <option value="selected">Selected files only</option>
       </select></label>}
       </div>
-      <div className="min-w-0 space-y-2">{revision.members.map(member => <label key={member.id} className="flex items-start gap-2 break-words"><input type="checkbox" checked={memberIds.includes(member.id)} onChange={event => { invalidate(); setSelection({ ...selection, scope: 'selected', memberIds: event.target.checked ? [...memberIds, member.id] : memberIds.filter(id => id !== member.id) }); }} />Include {packageDocumentName(revision, member)}</label>)}</div>
+      {choice ? <ol aria-label="Documents in delivery order" className="list-decimal space-y-1 pl-6">{choice.memberIds.map(id => {
+        const member = revision.members.find(item => item.id === id)!;
+        return <li key={id}>{packageDocumentName(revision, member)}</li>;
+      })}</ol> : <div className="min-w-0 space-y-2">{revision.members.map(member => <label key={member.id} className="flex items-start gap-2 break-words"><input type="checkbox" checked={memberIds.includes(member.id)} onChange={event => { invalidate(); setSelection({ ...selection, choiceId: undefined, scope: 'selected', memberIds: event.target.checked ? [...memberIds, member.id] : memberIds.filter(id => id !== member.id) }); }} />Include {packageDocumentName(revision, member)}</label>)}</div>}
       <details><summary className="cursor-pointer text-xs text-muted-foreground">Delivery options</summary><div className="mt-3 space-y-3">
-      <label className="block">Delivery purpose<select aria-label="Delivery purpose" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" value={purpose} onChange={event => { invalidate(); setSelection({ ...selection, purpose: event.target.value as typeof purpose }); }}><option value="recipient">Recipient files</option><option value="editable">Editable handoff</option></select></label>
+      <label className="block">Delivery purpose<select aria-label="Delivery purpose" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" value={purpose} onChange={event => { invalidate(); setSelection({ ...selection, choiceId: undefined, memberIds, purpose: event.target.value as typeof purpose }); }}><option value="recipient">Recipient files</option><option value="editable">Editable handoff</option></select></label>
       <p className="text-xs text-muted-foreground">{purpose === 'editable' ? 'An editable handoff includes saved answers and embedded attachments.' : 'Documents are rendered as PDFs. Uploaded files keep their original format.'}</p>
       {canTagNativePdfs &&
         <label className="flex items-start gap-2">
@@ -115,9 +142,9 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
           <span>Tag supported correspondence PDFs (experimental)<span className="block text-xs text-muted-foreground">Logical reading order and table headings are included. Original files keep their existing accessibility.</span></span>
         </label>}
       </div></details>
-      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length} onClick={() => void perform(async (current, operationSignal) => {
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length && !choice || unavailableChoice || loadingChoices} onClick={() => void perform(async (current, operationSignal) => {
         const policy = await getExportDeploymentPolicy();
-        const value = await preparePackageDelivery(record, revision.id, { label, purpose, scope, memberIds, taggedNativePdfs: canTagNativePdfs && taggedNativePdfs }, policy, ports, operationSignal, current);
+        const value = await preparePackageDelivery(record, revision.id, { label, purpose, scope, memberIds, choiceId: choice?.id, taggedNativePdfs: canTagNativePdfs && taggedNativePdfs }, policy, ports, operationSignal, current);
         if (current()) { preparedPolicy.current = policy.status === 'ready' ? JSON.stringify(policy.policy) : undefined; setFindings([]); setPrepared(value); setApproved(false); setReviewCount(10); setFileCount(25); callback.current?.(value); }
       })}>Prepare selected delivery</Button>
     </fieldset>

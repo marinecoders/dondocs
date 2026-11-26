@@ -20,7 +20,7 @@ async function sourceTemplate(state: Pick<PackageConditionalState, 'source'>, re
 }
 function stateMatches(template: PackageTemplateV2, value: PackageConditionalState, revision: PackageRevision): void {
   const state = packageConditionalStateSchema.parse(value);
-  if (template.primaryMemberKey !== state.primaryMemberKey || template.id !== state.templateId || template.program.revision !== state.templateRevision)
+  if (!!template.deliveryChoices !== !!state.hasDeliveryChoices || template.primaryMemberKey !== state.primaryMemberKey || template.id !== state.templateId || template.program.revision !== state.templateRevision)
     throw new Error('The captured action template does not match its saved revision.');
   const evaluation = evaluatePackageTemplateProgram(template.program, state.answers);
   if (!state.pending && !evaluation.ready) throw new Error('Applied action answers are incomplete or invalid.');
