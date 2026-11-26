@@ -93,6 +93,12 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await panel.getByRole('checkbox', { name: /^I reviewed the handoff PDF/ }).check();
   await panel.getByRole('button', { name: 'Capture handoff in new package revision', exact: true }).click();
   await expect(panel.getByRole('button', { name: 'Check signing applicability', exact: true })).toBeVisible();
+  await packageSection(dialog, 'Documents');
+  const signatureDetails = dialog.locator('details').filter({ has: page.locator('summary', { hasText: /^Signatures$/ }) }).last();
+  await signatureDetails.locator('summary').first().click();
+  await expect(signatureDetails.getByText('Awaiting a returned copy')).toBeVisible();
+  await expect(signatureDetails.getByText(/Signers on handoff.*Alex Example/)).toBeVisible();
+  await signatureDetails.getByRole('button', { name: 'Inspect handoff' }).click();
   await capturedHandoff(panel);
   await panel.getByRole('button', { name: 'Check signing applicability', exact: true }).click();
   await expect(panel.getByText(/^inputs-match:/)).toBeVisible();

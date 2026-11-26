@@ -28,16 +28,24 @@ export async function signingIdentities(code: string, signal: AbortSignal) {
 }
 
 // Transfer files cannot supply trust decisions. Re-inspect the exact bytes on this device.
-const inspectedFields = new Map<string, ReadonlySet<string>>();
+// Only a digest-checked local inspection may supply signing or lock status.
+type InspectedSlot = Readonly<Omit<OfficialInspection['fields'][number], 'lockFields'> & { lockFields: readonly string[] }>;
+const inspectedFields = new Map<string, { trusted: ReadonlySet<string>; slots: readonly InspectedSlot[] }>();
+export function inspectedOfficialSignatureSlots(sha256: string) {
+  return inspectedFields.get(sha256)?.slots;
+}
 export function hasInspectedSignature(sha256: string, field: string) {
-  return inspectedFields.get(sha256)?.has(field) === true;
+  return inspectedFields.get(sha256)?.trusted.has(field) === true;
 }
 export async function inspectOfficialPdf(bytes: Uint8Array, code: string, signal: AbortSignal, base?: { length: number; sha256: string }) {
   const result = inspection.parse(await (await request(base ? '/return' : '/inspect', code, signal, bytes,
     base && { 'X-Base-Length': String(base.length), 'X-Base-SHA256': base.sha256 })).json());
   if (result.sha256 !== await portableResourceDigest(new Uint8Array(bytes).buffer)) throw new Error('The bridge inspected a different PDF revision.');
   const signed = result.fields.filter(field => field.signed);
-  inspectedFields.set(result.sha256, new Set(signed.every(field => field.trusted) ? signed.map(field => field.name) : []));
+  inspectedFields.set(result.sha256, {
+    trusted: new Set(signed.every(field => field.trusted) ? signed.map(field => field.name) : []),
+    slots: Object.freeze(result.fields.map(slot => Object.freeze({ ...slot, lockFields: Object.freeze([...slot.lockFields]) }))),
+  });
   return result;
 }
 

@@ -31,6 +31,7 @@ import { PackageDocumentPreview } from "./PackageDocumentPreview";
 import { PackageExportOptions, type PackageExportFormat } from "./PackageExportOptions";
 import { PackageReviewIssues } from './PackageReviewIssues';
 import { reviewIssueKey, type PackageNextAction } from '@/lib/packageNextActions';
+import { PackageDocumentSignatures } from './PackageDocumentSignatures';
 import { PackageExportFindings } from "./PackageExportFindings";
 import { readPackageNewActionContext, type PackageNewActionContext } from '@/lib/packageNewActionContext';
 import './package-workspace.css';
@@ -1542,6 +1543,9 @@ function PackageDialog({
                             onClick={() => void openMemberSigning(member)}>{signingAction}</Button>}
                         </div>}
                       </header>
+                      {showPreview && <PackageDocumentSignatures revision={revision} member={member}
+                        disabled={busy || pendingPackageEdits} onField={signingAction ? field => openMemberSigning(member, field) : undefined}
+                        onHandoff={id => followDestination({ revisionId: revision.id, signingId: id })} />}
                       {selectedMember?.id === member.id && <DocumentPdfChecks editable={editable} actions={pdfBlockers.filter(action => action.destination?.memberId === member.id)}
                         onNavigate={followDestination} disabled={busy || pendingPackageEdits} />}
 
