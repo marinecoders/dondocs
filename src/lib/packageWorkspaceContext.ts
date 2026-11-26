@@ -37,3 +37,19 @@ export function rememberPackageWorkspaceContext(value: PackageWorkspaceContext):
   try { localStorage.setItem(PACKAGE_WORKSPACE_CONTEXT_KEY, JSON.stringify(value)); }
   catch { /* Navigation restoration is best effort, separate from content durability. */ }
 }
+
+// Only reload the workspace in the tab that had it open. A deliberate close or
+// return to the library clears the route while keeping the cross-tab history.
+export function activePackageWorkspace(): PackageWorkspaceContext | null {
+  try {
+    const value = JSON.parse(sessionStorage.getItem(PACKAGE_WORKSPACE_CONTEXT_KEY) ?? 'null') as unknown;
+    return valid(value) ? value : null;
+  } catch { return null; }
+}
+
+export function setActivePackageWorkspace(value: PackageWorkspaceContext | null) {
+  try {
+    if (value) sessionStorage.setItem(PACKAGE_WORKSPACE_CONTEXT_KEY, JSON.stringify(value));
+    else sessionStorage.removeItem(PACKAGE_WORKSPACE_CONTEXT_KEY);
+  } catch { /* Navigation storage can be blocked. */ }
+}
