@@ -364,20 +364,23 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
       {!workspace && template.members.some(member => member.kind === 'native' && member.role === 'basic-letter' && member.draft.documentCategory !== 'forms') && <p className="text-sm text-muted-foreground">Finish the letter's printed name and signing block in its native working-copy editor. Intake does not create a signature or approval.</p>}
       {files.error && <p role="alert" className="text-sm text-destructive">{files.error}</p>}
       {files.slots.length > 0 && <section aria-label="Action PDF files" className="min-w-0 space-y-3 rounded border p-3">
-        <h4 className="text-sm font-medium">Supporting PDFs</h4><p className="text-xs text-muted-foreground">Selected files are retained only when you apply a reviewed preview. Required files stay unresolved until actual PDFs are applied.</p>
+        <h4 className="text-sm font-medium">Supporting PDFs</h4><p className="text-xs text-muted-foreground">Apply reviewed changes to save staged files to the package.</p>
         {files.slots.map(slot => {
           const captured = mode === 'saved' ? revision?.templateState?.instances.find(instance => instance.key === slot.key) : undefined;
           const saved = captured && revision?.members.find(member => member.id === captured.memberId);
           const selected = attachments[slot.key];
           return <div key={slot.key} className="min-w-0 space-y-2 border-t pt-2 text-sm">
-          <p className="break-words text-xs text-muted-foreground">{saved?.kind === 'original' ? `Saved original: ${saved.original.name}${saved.signedOriginal ? ' · marked signed by uploader' : ''}` : 'No original PDF saved for this slot.'}</p>
+          <p className="font-medium">{slot.label}</p>
+          {captured && revision?.members.filter(member => member.kind === 'original' && (member.id === captured.memberId || member.evidenceSlotId === captured.memberId)).map(member =>
+            member.kind === 'original' && <p key={member.id} className="break-words text-xs text-muted-foreground">Saved to package · {member.original.name}{member.signedOriginal && ' · marked signed by uploader'}</p>)}
           {!saved && <PackageRevisionPicker label={slot.label} sources={sources} disabled={locked}
             value={selected && 'reuse' in selected ? selected.reuse : undefined} onSelect={source => {
               invalidate();
               setAttachments(previous => ({ ...previous, [slot.key]: { name: source.label, reuse: { memberId: source.memberId, revisionId: source.revisionId } } }));
               setAttachmentLabels(previous => ({ ...previous, [slot.key]: slot.label }));
             }} />}
-          <label className="block break-words">{slot.label}<input data-intake-slot={slot.key} aria-label={`PDF for ${slot.label}`} className="mt-1 block w-full min-w-0 text-xs file:mr-2 file:max-w-full file:whitespace-normal" type="file" multiple={slot.multipleFiles} accept=".pdf,application/pdf" disabled={locked}
+          <label className="relative inline-flex cursor-pointer rounded-md border px-3 py-1.5 text-sm focus-within:ring-2">
+            {slot.multipleFiles ? 'Add PDFs' : selected || saved ? 'Choose replacement PDF' : 'Choose PDF'}<input data-intake-slot={slot.key} aria-label={`PDF for ${slot.label}`} className="absolute inset-0 w-full cursor-pointer opacity-0" type="file" multiple={slot.multipleFiles} accept=".pdf,application/pdf" disabled={locked}
             onChange={event => {
               const files = Array.from(event.target.files ?? []); event.target.value = '';
               if (files.length) void perform(async capture => {
@@ -397,10 +400,10 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
               });
             }} /></label>
           {Object.entries(attachments).filter(([key]) => evidenceUploadSlot(key) === slot.key && key !== slot.key).map(([key, file]) =>
-            <div key={key} className="flex items-center justify-between"><span>{file.name}</span>
-              <Button size="sm" variant="ghost" disabled={locked} onClick={() => removeFile(key)}>Remove {file.name}</Button></div>)}
-          {selected && <><p className="break-words">Selected: {selected.name}</p>
-            {'data' in selected && <PackagePdfCompatibility source={selected.data} />}
+            <div key={key} className="flex items-center justify-between"><span>Staged · {file.name}</span>
+              <Button size="sm" variant="ghost" disabled={locked} aria-label={'Remove ' + file.name} onClick={() => removeFile(key)}>Remove</Button></div>)}
+          {selected && <><p className="break-words">Staged · {selected.name}</p>
+            {'data' in selected && <PackagePdfCompatibility warningsOnly source={selected.data} />}
             {'signedOriginal' in selected && <label className="flex items-start gap-2"><input type="checkbox" disabled={locked} checked={selected.signedOriginal} onChange={event => {
               invalidate(); setAttachments(previous => ({ ...previous, [slot.key]: { ...selected, signedOriginal: event.target.checked } }));
             }} />I mark this original as signed; its signature has not been verified.</label>}
