@@ -1,3 +1,4 @@
+import '../_helpers/packageCatalogFixture';
 import { openSavedPackage, workspaceSection, expandDetails, choosePackageVersion, startNewPackage } from "../helpers/packageWorkspace";
 import type { PackageRenderComparison } from "@/lib/packageRenderComparison";
 import { StrictMode } from "react";
@@ -204,26 +205,6 @@ it("distinguishes a native draft with no library source from a known captured so
   await user.click(within(dialog).getByRole("button", { name: /1\. Known source/ })); await expandDetails(dialog, user);
   const capturedCard = within(dialog).getByRole("heading", { name: "1. Known source" }).closest("li")!;
   expect(within(capturedCard).getByText(/Source: unavailable; preserved copy retained · Captured/)).toHaveTextContent(new Date(captured.source!.capturedAt).toLocaleString());
-});
-
-it("preserves request intake through close and queued selection until the user cancels it", async () => {
-  const previous = await createActionPackage("Request starter origin");
-  const requested = await createActionPackage("Request starter destination");
-  useUIStore.getState().openActionPackage(previous.id);
-  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
-  const user = userEvent.setup(), dialog = await screen.findByRole("dialog", { name: "Action packages" });
-  await startNewPackage(dialog, user);
-  await user.click(within(dialog).getByText("Start with a reviewed worksheet", { exact: true }));
-  await user.click(await within(dialog).findByRole("button", { name: "Start an administrative request" }));
-  const starter = within(dialog).getByRole("region", { name: "Administrative request starter" });
-  await user.type(within(starter).getByLabelText("Requester", { exact: true }), "Unfinished request");
-  await user.keyboard("{Escape}");
-  expect(dialog).toBeVisible(); expect(within(starter).getByLabelText("Requester", { exact: true })).toHaveValue("Unfinished request");
-  act(() => useUIStore.getState().openActionPackage(requested.id));
-  expect(within(starter).getByLabelText("Requester", { exact: true })).toHaveValue("Unfinished request");
-  await user.click(within(starter).getByRole("button", { name: "Cancel request starter" }));
-  await waitFor(() => expect(readPackageWorkspaceContext()?.packageId).toBe(requested.id));
-  expect((await listActionPackages()).find(record => record.id === previous.id)).toEqual(previous);
 });
 
 it("loads the package library before allowing package creation", async () => {
@@ -873,28 +854,6 @@ it('loads and saves new intake through its own busy parent controller without re
   expect(getPackageRevision(saved!).members).toEqual([]);
 });
 
-
-it('reviews and creates a request through its own busy parent controller', async () => {
-  const before = await listActionPackages(), user = userEvent.setup();
-  useUIStore.setState({ actionPackagesOpen: true });
-  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
-  const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
-  await startNewPackage(dialog, user);
-  await user.click(within(dialog).getByText('Start with a reviewed worksheet', { exact: true }));
-  const start = await within(dialog).findByRole('button', { name: 'Start an administrative request' });
-  await waitFor(() => expect(start).toBeEnabled()); await user.click(start);
-  const starter = within(dialog).getByRole('region', { name: 'Administrative request starter' });
-  const fields = { Requester: 'Synthetic Person', Organization: 'Synthetic Unit', Recipient: 'Training Officer', 'Request subject': 'Parent controller lifecycle',
-    'Request date': '2026-11-18', SSIC: '1500', 'Printed signature name': 'S. PERSON', 'Requested action and justification': 'Synthetic request lifecycle verification.' };
-  for (const [label, value] of Object.entries(fields)) await user.type(within(starter).getByLabelText(label, { exact: label !== 'Printed signature name' }), value);
-  await user.click(within(starter).getByRole('button', { name: 'Review request starter' }));
-  await user.click(await within(starter).findByRole('checkbox', { name: /^I reviewed these request details/ }, { timeout: 15_000 }));
-  await user.click(within(starter).getByRole('button', { name: 'Create reviewed request package' }));
-  await within(dialog).findByText('Request package created. Review its letter and worksheet before submission.', {}, { timeout: 15_000 });
-  const saved = (await listActionPackages()).find(record => !before.some(existing => existing.id === record.id));
-  expect(saved).toBeDefined(); expect(getPackageRevision(saved!).members).toHaveLength(2);
-  expect(getPackageRevision(saved!).information!.facts.some(fact => fact.value === fields.Requester)).toBe(true);
-});
 
 it('leaves new-package creation when an encrypted import requests a saved package', async () => {
   const incoming = await createActionPackage('Imported package from creation');

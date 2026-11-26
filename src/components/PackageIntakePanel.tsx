@@ -4,7 +4,7 @@ import { matchesPackageDestination, type PackageDestinationRequest } from '@/lib
 import { PackageRevisionPicker } from './PackageRevisionPicker';
 import { packageRevisionSources } from '@/lib/packageRevisionSources';
 import type { ConditionalPdfChoice } from '@/lib/packageConditional';
-import { type ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { PackageIntakeQuestions } from './PackageIntakeQuestions';
 import { PackageIntakeScope } from './PackageIntakeScope';
@@ -30,7 +30,6 @@ import { clearPackageNewActionContext, rememberPackageNewActionContext, type Pac
 const inputClass = 'mt-1 w-full min-w-0 rounded border bg-background p-2';
 const buttonClass = 'h-auto min-h-9 max-w-full whitespace-normal';
 interface Props {
-  catalogOptions?: Partial<Record<MaintainedPackageActionId, ReactNode>>;
   destination?: PackageDestinationRequest;
   record?: ActionPackage;
   revision?: PackageRevision;
@@ -64,7 +63,7 @@ const recoveredIntake = z.object({
   fieldChoices: z.record(z.string().max(500), z.enum(['apply-package', 'keep-local', 'detach', 'reconnect'])),
 }).strict();
 
-export function PackageIntakePanel({ catalogOptions, destination, record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, onEditingChange, resume }: Props) {
+export function PackageIntakePanel({ destination, record, revision, editable, disabled, busy, run, onApply, onStartWithDocuments, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, onEditingChange, resume }: Props) {
   const [search, setSearch] = useState('');
   const ownerScope = scope(record, revision);
   const [template, setTemplate] = useState<PackageTemplateV2 | null>(null), [answers, setAnswers] = useState(emptyAnswers);
@@ -321,12 +320,11 @@ export function PackageIntakePanel({ catalogOptions, destination, record, revisi
         if (current(capture)) onStartWithDocuments(next);
       } else choose(selected, action.id);
     })}>{action.startLabel ?? `Start ${action.name.toLocaleLowerCase()}`}</Button>
-    {catalogOptions?.[action.id]}
   </article>)}</div></div>;
   return <section tabIndex={-1} data-package-panel="intake" aria-label="Action intake" className={`min-w-0 space-y-4 ${workspace && mode !== 'saved' && !loading ? '' : 'rounded-lg border bg-background p-3 sm:p-4'}`} aria-busy={pending || loading}>
     <div className="space-y-1">
       {mode === 'new' && <Button className={buttonClass} variant="outline" disabled={viewDisabled} onClick={() => void backToActions()}>Back to actions</Button>}
-      <h3 ref={heading} tabIndex={-1} className="break-words font-medium">{workspace && (mode === 'saved' || loading) ? 'Details' : loading ? 'Action intake' : template?.name ?? 'Start from an action'}</h3>
+      <h3 ref={heading} tabIndex={-1} className="break-words font-medium">{workspace && (mode === 'saved' || loading) ? 'Details' : loading ? 'Action intake' : template?.name ?? (maintainedPackageActions.length ? 'Start from an action' : 'Package templates')}</h3>
       {loading && <p role="status" className="text-sm">Loading the exact saved intake…</p>}
       {!loading && template && <p role="status" className="text-xs text-muted-foreground">{workspace && dirty ? recovery.status === 'saved' ? 'Draft saved locally · not applied' : recovery.status === 'saving' ? 'Saving draft…' : 'Unapplied edits' : workspace && mode === 'new' ? '' : workspace && mode === 'saved' && !needsReconciliation ? '' : dirty ? 'Unapplied intake changes · not saved.' : mode === 'new' ? 'No intake answers changed yet.' : revision?.templateState?.pending
         ? 'Intake saved; document changes not applied.' : "Showing this revision's saved intake and package values."}</p>}
@@ -337,7 +335,7 @@ export function PackageIntakePanel({ catalogOptions, destination, record, revisi
       {view?.error && <p role="alert" className="break-words text-sm text-destructive">{view.error}</p>}
     </div>
     <div hidden={workspace && (loading || mode !== 'none')} className="space-y-4">
-    {!template ? catalog : <details><summary className="cursor-pointer text-sm font-medium">Start another action</summary><div className="pt-3">{catalog}</div></details>}
+    {maintainedPackageActions.length > 0 && (!template ? catalog : <details><summary className="cursor-pointer text-sm font-medium">Start another action</summary><div className="pt-3">{catalog}</div></details>)}
     <details className="min-w-0 rounded border p-3"><summary className="cursor-pointer text-sm font-medium">Use a saved conditional template</summary>
       <div className="space-y-3 pt-3">
         <Button className={buttonClass} variant="outline" disabled={catalogLocked} onClick={() => void perform(async capture => {
@@ -347,7 +345,7 @@ export function PackageIntakePanel({ catalogOptions, destination, record, revisi
         {library && <><label className="block text-sm">Saved conditional template<select className={inputClass} value={libraryId} disabled={catalogLocked} onChange={event => setLibraryId(event.target.value)}>
           <option value="">Choose a saved template</option>{library.map(value => <option key={value.id} value={value.id}>{value.name} · revision {value.program.revision} · {value.id.slice(-8)}</option>)}
         </select></label>
-          {!library.length && <p className="text-sm text-muted-foreground">No saved conditional templates. The maintained starters above are available without setup.</p>}
+          {!library.length && <p className="text-sm text-muted-foreground">No saved conditional templates.</p>}
           <Button className={buttonClass} variant="outline" disabled={catalogLocked || !libraryId} onClick={() => { const value = library.find(value => value.id === libraryId); if (value) choose(structuredClone(value)); }}>Use selected conditional template</Button>
         </>}
       </div>

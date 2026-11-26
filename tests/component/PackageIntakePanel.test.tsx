@@ -1,3 +1,4 @@
+import '../_helpers/packageCatalogFixture';
 import 'fake-indexeddb/auto';
 import { Profiler, useRef, useState } from 'react';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
@@ -40,6 +41,19 @@ async function startTraining(user: ReturnType<typeof userEvent.setup>) {
   const field = await screen.findByLabelText('Course or activity', { exact: true });
   await waitFor(() => expect(field).toBeEnabled()); return field;
 }
+it('filters published recipes and restores the choices after clearing the search', async () => {
+  const user = userEvent.setup();
+  render(<Harness />);
+  const search = screen.getByRole('searchbox', { name: 'Search actions' });
+  await user.type(search, 'participation');
+  expect(screen.getByRole('button', { name: 'Start training participation' })).toBeVisible();
+  expect(screen.queryByRole('button', { name: 'Start administrative request' })).toBeNull();
+  await user.clear(search);
+  await user.type(search, 'unknown recipe');
+  await user.click(screen.getByRole('button', { name: 'Clear search' }));
+  expect(screen.getByRole('button', { name: 'Start administrative request' })).toBeVisible();
+});
+
 it('protects an entered intake answer before the edited frame is painted', async () => {
   let guarded = false;
   const commits: { answer: string; guarded: boolean }[] = [];

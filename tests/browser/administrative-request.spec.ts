@@ -1,4 +1,5 @@
-import { openPackagePreparation, newPackage, importPackage, packageSection, expandPackageTools, packageVersion, preparePackageExport, packageTool, packageHeading, downloadPackageExport, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
+import { importSavedRequest } from './_helpers/retiredPackageFixtures';
+import { openPackagePreparation, importPackage, packageSection, packageVersion, preparePackageExport, packageTool, downloadPackageExport, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
@@ -14,25 +15,6 @@ async function download(page: Page, action: () => Promise<void>) {
 }
 async function exportPackage(page: Page, dialog: Locator) {
   return downloadPackageExport(page, dialog, 'Export editable package', 'Download editable package');
-}
-async function createRequest(dialog: Locator, person: string, subject: string, signature: string) {
-  await newPackage(dialog);
-  await expandPackageTools(dialog);
-  const quick = dialog.locator('summary').filter({ hasText: /^Start with a reviewed worksheet/ });
-  if (!await dialog.getByRole('region', { name: 'Administrative request starter', exact: true }).isVisible()) await quick.click();
-  const starter = await packageTool(dialog, 'Administrative request starter');
-  await starter.getByRole('button', { name: 'Start an administrative request', exact: true }).click();
-  const values = { Requester: person, Organization: 'Fictional Training Unit', Recipient: 'Training Officer', 'Request subject': subject,
-    'Request date': '2026-11-17', SSIC: '1500', 'Printed signature name': signature, 'Requested action and justification': `Request training for ${person}. The activity supports assigned duties.` };
-  for (const [label, value] of Object.entries(values)) {
-    const field = starter.getByLabel(label, { exact: label !== 'Printed signature name' });
-    await expect(field).toHaveValue(''); await field.fill(value);
-  }
-  await starter.getByRole('button', { name: 'Review request starter', exact: true }).click();
-  await starter.getByRole('checkbox', { name: /^I reviewed these request details/ }).check();
-  await starter.getByRole('button', { name: 'Create reviewed request package', exact: true }).click();
-  await expect(dialog.getByRole('heading', { name: `Request: ${subject}`, exact: true, level: 1 })).toBeVisible();
-  await expect((await packageHeading(dialog, '2. DonDocs request details worksheet'))).toBeVisible();
 }
 async function applySubject(dialog: Locator, subject: string, overrideLink?: string) {
   const information = await packageTool(dialog, /^(Details|Package information)$/);
@@ -60,7 +42,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`administrative request l
   }, theme);
   await page.goto('/');
   let dialog = await openPackages(page);
-  await createRequest(dialog, 'Alex Example', 'Attend training', 'A. EXAMPLE');
+  await importSavedRequest(dialog);
   const initialBytes = await exportPackage(page, dialog), initial = JSON.parse(initialBytes.toString());
   const initialRevision = initial.package.revisions[0];
   expect(initialRevision.bindings.items).toHaveLength(12);
@@ -80,7 +62,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`administrative request l
   await choosePackageById(dialog, initial.package.id);
   await expect(dialog).toHaveAttribute('data-package-id', initial.package.id);
   await expect(dialog.getByRole('region', { name: /^(Details|Package information)$/ }).getByLabel('Value 4', { exact: true })).toHaveValue('Final training request');
-  await createRequest(dialog, 'Blair Sample', 'Second training action', 'B. SAMPLE');
+  await importSavedRequest(dialog, true);
   const secondBytes = await exportPackage(page, dialog), second = JSON.parse(secondBytes.toString());
   expect(second.package.id).not.toBe(initial.package.id);
   expect(second.package.revisions).toHaveLength(1);

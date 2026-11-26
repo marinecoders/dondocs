@@ -475,8 +475,6 @@ workflow. Clean PDF and Word output omit pending proposals and review metadata.
 
 ## Reuse an action package setup
 
-For a ready-to-use letter and supporting worksheet, choose **Start an administrative request** in **Packages**. Shared details are entered once, and each action starts with fresh information. See the [administrative request starter](ADMINISTRATIVE_REQUEST.md) for its supported links and signing scope.
-
 Open **Packages**, select the source revision, and enter a **Template name** in **Reusable package templates**. Review the native starter text before saving. Names, dates, form answers and other ordinary text are retained; replace every value that must change with a `{{PLACEHOLDER}}` in the source documents first. Confirm the source-content review and choose **Save package template**.
 
 A template preserves member order, roles, required flags, native starter content, figures and exact form pages. Original PDF members become fresh upload slots. Prior signatures, review feedback, source links, working-copy bindings and assembled outputs are omitted. Attached basic-letter and enclosure PDFs inside native correspondence are also removed and become required fresh-file slots. Supply replacements before creating the action; they are embedded into the corresponding native member. The previous person’s original files are never reused automatically. Existing package readiness checks then apply to the completed new action.
@@ -721,7 +719,7 @@ Missing original targets, changed parents and unsupported formatting cannot be s
 
 ### Start an action with contextual intake
 
-In **Packages**, choose an administrative request, training participation or evidence submission. These general-purpose starters use DonDocs worksheets. Save partial answers for later, or preview and apply the exact document changes. Repeated people have independent identities; conditional content and evidence requirements follow the reviewed answers. See [action intake](CONDITIONAL_PACKAGE_INTAKE.md) for the full workflow, including local edits, saved templates and editable transfer.
+In **Packages**, choose **New package** and open **Use a saved conditional template** to start from a template in your library. Save partial answers for later, or preview and apply the exact document changes. Repeated people have independent identities; conditional content and evidence requirements follow the reviewed answers. See [action intake](CONDITIONAL_PACKAGE_INTAKE.md) for the full workflow, including local edits, saved templates and editable transfer.
 
 See [maintaining package templates](PACKAGE_TEMPLATE_MAINTENANCE.md) for maintainer editing and scenario validation.
 

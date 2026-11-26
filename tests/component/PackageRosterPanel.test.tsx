@@ -1,3 +1,4 @@
+import '../_helpers/packageCatalogFixture';
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { act, cleanup, render, screen, waitFor, within } from '@testing-library/react';
