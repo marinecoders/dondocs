@@ -1,4 +1,5 @@
 import { usePackageChecks } from '@/components/usePackageChecks';
+import { PackageDocumentPicker } from './PackageDocumentPicker';
 import { PackagePreparedPdf } from './PackagePreparedPdf';
 import { PackagePrintableCopyField } from './PackagePrintableCopyField';
 import { setPackagePrintableCopy } from '@/lib/packagePrintableCopy';
@@ -12,7 +13,7 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
 import { officialSigningRecords, saveOfficialRevision } from '@/lib/officialSigning';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { memberSigningFormId, packageOfficialForms, createOfficialFormMember, packageFormSigningAction, preparePackageFormSigning } from '@/lib/packageOfficialForms';
+import { memberSigningFormId, createOfficialFormMember, packageFormSigningAction, preparePackageFormSigning } from '@/lib/packageOfficialForms';
 import { createBlankSession, getSerializedSession, prepareSessionState } from '@/stores/documentStore';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
@@ -348,7 +349,8 @@ function PackageDialog({
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
   const hasMain = revision?.members.some(member => member.role === 'basic-letter') || !!revision?.templateState?.primaryMemberKey;
-  const role = requestedRole && !(hasMain && requestedRole === 'basic-letter') ? requestedRole : hasMain ? 'supporting-document' : 'basic-letter';
+  const explicitRole = hasMain && requestedRole === 'basic-letter' ? undefined : requestedRole;
+  const role = explicitRole ?? (hasMain ? 'supporting-document' : 'basic-letter');
   const editorMember = editable && revision?.members.find(m => formLocation === record.id + '/' + m.id);
   const nativeEditorMember = editorMember && editorMember.kind === 'native' ? editorMember : undefined;
   const copy = nativeEditorMember && record?.workingCopies?.find(item =>
@@ -743,7 +745,7 @@ function PackageDialog({
       setWorkspaceSection('documents');
     }
   }
-  async function addBlankDocument(type: 'naval_letter' | 'coordination_page', label: string, memberRole: PackageMember['role']) {
+  async function addBlankDocument(type: string, label: string, memberRole: PackageMember['role']) {
     if (!revision) return;
     const session = createBlankSession(undefined, type);
     const captured = captureDocumentRevision({
@@ -1252,43 +1254,29 @@ function PackageDialog({
                     <select
                       aria-label="New member role"
                       className="ml-2 rounded border bg-background p-2"
-                      value={role}
+                      value={explicitRole ?? ""}
                       onChange={(event) =>
-                        setRole(event.target.value as PackageMember["role"])
+                        setRole(event.target.value ? event.target.value as PackageMember["role"] : undefined)
                       }
                     >
+                      <option value="">Automatic</option>
                       {packageRoles.filter(value => !hasMain || value !== "basic-letter").map((role) => (
                         <option key={role} value={role}>{packageRoleLabels[role]}</option>
                       ))}
                     </select>
                   </label>
-                  <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" onClick={() => void run(() => addBlankDocument('naval_letter', 'Naval letter', role))}>
-                      Add letter
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() =>
-                        void run(async () => {
-                          const captured = captureCurrentDocumentRevision();
-                          const member = await capturePackageMember(
-                            captured,
-                            docs[currentId!]?.meta.title || "Native member",
-                            role,
-                          );
-                          await modify([...revision.members, member]);
-                        })
-                      }
-                    >
-                      Capture current document
-                    </Button>
-                    <Button variant="outline" onClick={() => void run(() => addBlankDocument('coordination_page', 'Coordination page', 'coordination-sheet'))}>
-                      Add coordination page
-                    </Button>
-                    {packageOfficialForms.map(form => <Button key={form.id} variant="outline" onClick={() => void run(async () => {
-                      const member = await createOfficialFormMember(form.id, role);
+                  <PackageDocumentPicker docs={docs} currentId={currentId}
+                    onCorrespondence={(type, label) => void run(() => addBlankDocument(type, label, !explicitRole && type === 'coordination_page' ? 'coordination-sheet' : role))}
+                    onForm={(id, label) => void run(async () => { const member = await createOfficialFormMember(id, role, label); await modify([...revision.members, member]); })}
+                    onLibrary={id => void run(async () => {
+                      const doc = docs[id];
+                      if (!doc || doc.meta.deletedAt) throw new Error('This document is no longer in your library.');
+                      const captured = id === currentId ? captureCurrentDocumentRevision() : captureDocumentRevision({
+                        documentId: id, capturedAt: doc.session.timestamp, editSequence: 0, epoch: 0,
+                      }, prepareSessionState(doc.session, supportsReviewComments(doc.session)));
+                      const member = await capturePackageMember(captured, doc.meta.title, role);
                       await modify([...revision.members, member]);
-                    })}>Add {form.label}</Button>)}
+                    })} upload={<>
                     <label className="cursor-pointer rounded border p-2 text-sm">
                       Add original PDF
                       <input
@@ -1320,7 +1308,6 @@ function PackageDialog({
                         }}
                       />
                     </label>
-                  </div>
                   <label className="flex items-center gap-2 text-sm">
                     <input
                       type="checkbox"
@@ -1329,9 +1316,7 @@ function PackageDialog({
                     />
                     Uploaded original is signed (preserve unchanged)
                   </label>
-                  <p className="text-xs text-muted-foreground">
-                    Add the document open in the editor, or upload an original PDF up to 25 MB.
-                  </p>
+                  </>} />
                 </div>
               )}</div></details>
               <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
