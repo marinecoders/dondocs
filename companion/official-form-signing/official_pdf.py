@@ -37,6 +37,8 @@ class WidgetResolver(HistoricalResolver):
         if isinstance(value, generic.DictionaryObject) and "/XFA" in value:
             value[generic.pdf_name("/XFA")] = materialize(value.raw_get("/XFA"))
         if isinstance(value, generic.DictionaryObject) and value.get("/Subtype") == "/Widget":
+            if value.get("/FT") == "/Sig" and isinstance(value.get("/V"), generic.NullObject):
+                del value[generic.pdf_name("/V")]
             for key in tuple(value):
                 if key != "/V" or value.get("/FT") != "/Sig":
                     value[generic.pdf_name(key)] = materialize(value.raw_get(key))
@@ -90,7 +92,7 @@ ACROFORM_DIFF = StandardDiffPolicy(DEFAULT_DIFF_POLICY.global_rules, ChangedForm
 def revision_policy(profile):
     if profile["formId"] in ("navmc10132", "dd0368"):
         return IMMUTABLE_CATALOG_DIFF
-    return ACROFORM_DIFF if profile["format"] == "acroform" else DEFAULT_DIFF_POLICY
+    return ACROFORM_DIFF if profile["format"] == "acroform" or profile["formId"] == "navmc11106" else DEFAULT_DIFF_POLICY
 
 
 def official_profile(data):
@@ -121,7 +123,19 @@ def check_slots(profile, data, slots):
             original.decrypt("")
         definitions = {name: slot_definition(ref) for name, _, ref in fields.enumerate_sig_fields(original)}
         expected = set(definitions)
-        valid = all(slot_definition(ref) == definitions.get(name) for name, _, ref in slots)
+        def matches_slot(name, ref):
+            expected = definitions.get(name)
+            actual = slot_definition(ref)
+            if actual == expected:
+                return True
+            # The form editor serializes this edition's three-decimal rectangles
+            # to two decimals. Accept that exact representation with identical locks.
+            if profile["formId"] != "navmc11106" or not expected:
+                return False
+            rect, action, locked = expected
+            return actual == (tuple(round(value, 2) for value in rect), action, locked)
+
+        valid = all(matches_slot(name, ref) for name, _, ref in slots)
     if not valid or len(slots) != len(expected) or {name for name, _, _ in slots} != expected:
         raise ValueError("The signature fields differ from the maintained official edition.")
 
@@ -170,7 +184,7 @@ def inspect_revision(data, context):
         lock = widget["/Lock"] if "/Lock" in widget else {}
         result.append({
             "name": name, "label": PAGE11_LABELS.get(name, str(widget.get("/TU", name))),
-            "signed": value is not None, "locked": locked,
+            "signed": value is not None and not isinstance(value, generic.NullObject), "locked": locked,
             "trusted": checked.get(name), "lockAction": str(lock.get("/Action", "")).lstrip("/"),
             "lockFields": [str(item.get_object()) for item in lock.get("/Fields", [])],
         })
@@ -202,6 +216,11 @@ def sign_revision(data, name, signer, context, style=None, finalize=False):
     packets = xfa_fingerprints(writer)
     if edition == "Page 11" and not list(fields.enumerate_sig_fields(writer)):
         add_signature_slots(writer)
+    # An explicit PDF null in an unsigned widget is equivalent to an absent value.
+    for field_name, value, ref in fields.enumerate_sig_fields(writer):
+        if field_name == name and isinstance(value, generic.NullObject):
+            del ref.get_object()[generic.pdf_name("/V")]
+            break
     meta = signers.PdfSignatureMetadata(field_name=name, md_algorithm="sha256", certify=finalize,
                                         docmdp_permissions=fields.MDPPerm.NO_CHANGES if finalize else fields.MDPPerm.FILL_FORMS)
     output = BytesIO()

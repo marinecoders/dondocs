@@ -60,6 +60,29 @@ class OfficialSigning(unittest.TestCase):
         _, signed = inspect_revision(data, self.context)
         self.assertTrue(all(slot["signed"] and slot["trusted"] for slot in signed))
 
+    def test_cola_retains_member_and_command_signatures_after_editing(self):
+        blank = (self.templates / "navmc/11106/1989-01/original.pdf").read_bytes()
+        writer = OfficialRevisionWriter(BytesIO(blank), strict=False)
+        for _, _, ref in fields.enumerate_sig_fields(writer):
+            widget = ref.get_object()
+            widget[generic.pdf_name("/V")] = generic.NullObject()
+            widget[generic.pdf_name("/Rect")] = generic.ArrayObject(
+                generic.FloatObject(round(float(value), 2)) for value in widget["/Rect"]
+            )
+            writer.mark_update(ref)
+        output = BytesIO()
+        writer.write(output)
+        data = output.getvalue()
+        _, unsigned = inspect_revision(data, self.context)
+        self.assertFalse(any(slot["signed"] for slot in unsigned))
+        for field in ("SigMem", "SigCO"):
+            base = data
+            data = sign_revision(base, f"topmostSubform[0].Page1[0].{field}[0]", self.signer, self.context)
+            inspect_return(data, len(base), sha256(base).hexdigest(), self.context)
+        _, slots = inspect_revision(data, self.context)
+        self.assertEqual(len(slots), 2)
+        self.assertTrue(all(slot["signed"] and slot["trusted"] for slot in slots))
+
     def test_page11_countersign_and_first_signature_lock(self):
         data = (self.templates / "NAVMC11811 - Administrative Remarks/2014-05/original.pdf").read_bytes()
         _, slots = inspect_revision(data, self.context)

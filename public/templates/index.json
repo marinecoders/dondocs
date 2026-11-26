@@ -125,6 +125,23 @@
       "pages": [
         "original.pdf"
       ]
+    },
+    {
+      "id": "navmc11106",
+      "name": "NAVMC 11106 - Application for Cost-of-Living Allowances",
+      "directory": "navmc/11106/1989-01",
+      "definitionRevision": "1989-01",
+      "status": "published",
+      "config": true,
+      "category": "Personnel",
+      "keywords": [
+        "OCONUS",
+        "COLA",
+        "overseas"
+      ],
+      "pages": [
+        "original.pdf"
+      ]
     }
   ]
 }

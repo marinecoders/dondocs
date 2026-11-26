@@ -13,6 +13,9 @@ interface ActionListing {
 }
 
 const actions = [
+  { id: 'okinawa-cola', build: async () => (await import('./recipes/okinawaCola')).okinawaCola(),
+    name: 'Okinawa overseas COLA', startLabel: 'Start Okinawa overseas COLA', startWithDocuments: true, kind: 'Forms-led',
+    description: 'Prepare the member and command sections of NAVMC 11106 for an Okinawa claim and attach the supporting orders and arrival records.' },
   { id: 'developmental-counseling', build: async () => (await import('./recipes/developmentalCounseling')).developmentalCounseling(),
     name: 'Developmental counseling', startLabel: 'Start developmental counseling', startWithDocuments: true, kind: 'Forms-led',
     description: 'Record the discussion, agreed targets and next session, with an optional prior record or signed acknowledgment.' },

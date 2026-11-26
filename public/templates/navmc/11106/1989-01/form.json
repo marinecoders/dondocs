@@ -1,0 +1,1133 @@
+{
+  "schemaVersion": 2,
+  "formId": "navmc11106",
+  "label": "NAVMC 11106 - Application for Cost-of-Living Allowances",
+  "directory": "navmc/11106/1989-01",
+  "nativePdfEdition": "1989-01",
+  "definitionRevision": "1989-01",
+  "templateRevision": "8d2bfef56dbc0a1ad75337968724b0a3ea4d92a19faad8875307c27ca13b2485",
+  "pages": [
+    {
+      "file": "original.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "8d2bfef56dbc0a1ad75337968724b0a3ea4d92a19faad8875307c27ca13b2485"
+    }
+  ],
+  "fields": {
+    "RadA1": {
+      "kind": "singleChoice",
+      "label": "Claim covers",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RadA1[0]"
+      ],
+      "options": [
+        {
+          "id": "mem",
+          "label": "Member only"
+        },
+        {
+          "id": "both",
+          "label": "Member and dependents"
+        },
+        {
+          "id": "dep",
+          "label": "Dependents only"
+        }
+      ],
+      "requiredAt": "export"
+    },
+    "NameApplc": {
+      "kind": "text",
+      "label": "Member name (last, first, middle initial)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameApplc[0]"
+      ],
+      "requiredAt": "export"
+    },
+    "GrdApplc": {
+      "kind": "text",
+      "label": "Grade",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].GrdApplc[0]"
+      ]
+    },
+    "DateRnk": {
+      "kind": "text",
+      "label": "Date of rank",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateRnk[0]"
+      ]
+    },
+    "SocSecNoApplc": {
+      "kind": "text",
+      "label": "Social Security number",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].SocSecNoApplc[0]"
+      ]
+    },
+    "DutyStatn": {
+      "kind": "text",
+      "label": "Permanent duty station",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DutyStatn[0]"
+      ],
+      "requiredAt": "export",
+      "multiline": true
+    },
+    "DateOrdrs": {
+      "kind": "text",
+      "label": "Effective date of orders",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateOrdrs[0]"
+      ]
+    },
+    "DateArrvl": {
+      "kind": "text",
+      "label": "Arrival date",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateArrvl[0]"
+      ],
+      "requiredAt": "export"
+    },
+    "NameSps1": {
+      "kind": "text",
+      "label": "Spouse name",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameSps1[0]"
+      ]
+    },
+    "RelatnshpSps1": {
+      "kind": "text",
+      "label": "Relationship (row 1)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RelatnshpSps1[0]"
+      ]
+    },
+    "DateMarr": {
+      "kind": "text",
+      "label": "Marriage date",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateMarr[0]"
+      ]
+    },
+    "NameDep2": {
+      "kind": "text",
+      "label": "Dependent name (row 2)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameDep2[0]"
+      ]
+    },
+    "RelatnshpDep2": {
+      "kind": "text",
+      "label": "Relationship (row 2)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RelatnshpDep2[0]"
+      ]
+    },
+    "DateDepBrth2": {
+      "kind": "text",
+      "label": "Date of birth (row 2)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateDepBrth2[0]"
+      ]
+    },
+    "NameDep3": {
+      "kind": "text",
+      "label": "Dependent name (row 3)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameDep3[0]"
+      ]
+    },
+    "RelatnshpDep3": {
+      "kind": "text",
+      "label": "Relationship (row 3)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RelatnshpDep3[0]"
+      ]
+    },
+    "DateDepBrth3": {
+      "kind": "text",
+      "label": "Date of birth (row 3)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateDepBrth3[0]"
+      ]
+    },
+    "NameDep4": {
+      "kind": "text",
+      "label": "Dependent name (row 4)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameDep4[0]"
+      ]
+    },
+    "RelatnshpDep4": {
+      "kind": "text",
+      "label": "Relationship (row 4)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RelatnshpDep4[0]"
+      ]
+    },
+    "DateDepBrth4": {
+      "kind": "text",
+      "label": "Date of birth (row 4)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateDepBrth4[0]"
+      ]
+    },
+    "NameDep5": {
+      "kind": "text",
+      "label": "Dependent name (row 5)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameDep5[0]"
+      ]
+    },
+    "RelatnshpDep5": {
+      "kind": "text",
+      "label": "Relationship (row 5)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RelatnshpDep5[0]"
+      ]
+    },
+    "DateDepBrth5": {
+      "kind": "text",
+      "label": "Date of birth (row 5)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateDepBrth5[0]"
+      ]
+    },
+    "NameDep6": {
+      "kind": "text",
+      "label": "Dependent name (row 6)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameDep6[0]"
+      ]
+    },
+    "RelatnshpDep6": {
+      "kind": "text",
+      "label": "Relationship (row 6)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RelatnshpDep6[0]"
+      ]
+    },
+    "DateDepBrth6": {
+      "kind": "text",
+      "label": "Date of birth (row 6)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateDepBrth6[0]"
+      ]
+    },
+    "NameDep7": {
+      "kind": "text",
+      "label": "Dependent name (row 7)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameDep7[0]"
+      ]
+    },
+    "RelatnshpDep7": {
+      "kind": "text",
+      "label": "Relationship (row 7)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RelatnshpDep7[0]"
+      ]
+    },
+    "DateDepBrth7": {
+      "kind": "text",
+      "label": "Date of birth (row 7)",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateDepBrth7[0]"
+      ]
+    },
+    "DepLoc": {
+      "kind": "text",
+      "label": "Dependent location if different",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DepLoc[0]"
+      ]
+    },
+    "DateDepArrv": {
+      "kind": "text",
+      "label": "Dependent arrival date",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateDepArrv[0]"
+      ]
+    },
+    "DateDepComnd": {
+      "kind": "text",
+      "label": "Command sponsorship date",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateDepComnd[0]"
+      ]
+    },
+    "DateMemSigntr": {
+      "kind": "text",
+      "label": "Date of member signature",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateMemSigntr[0]"
+      ]
+    },
+    "RadD1AvailNot": {
+      "kind": "singleChoice",
+      "label": "Government quarters",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RadD1AvailNot[0]"
+      ],
+      "options": [
+        {
+          "id": "y",
+          "label": "Available"
+        },
+        {
+          "id": "n",
+          "label": "Unavailable"
+        }
+      ]
+    },
+    "RadD1AssnNot": {
+      "kind": "singleChoice",
+      "label": "Quarters assignment",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RadD1AssnNot[0]"
+      ],
+      "options": [
+        {
+          "id": "Yes",
+          "label": "Assigned"
+        },
+        {
+          "id": "no",
+          "label": "Unassigned"
+        }
+      ]
+    },
+    "RadD1ToMemDep": {
+      "kind": "singleChoice",
+      "label": "Quarters determination applies to",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RadD1ToMemDep[0]"
+      ],
+      "options": [
+        {
+          "id": "mem",
+          "label": "Member"
+        },
+        {
+          "id": "dep",
+          "label": "Dependents"
+        }
+      ]
+    },
+    "RadD2AvailNot": {
+      "kind": "singleChoice",
+      "label": "Government mess",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RadD2AvailNot[0]"
+      ],
+      "options": [
+        {
+          "id": "y",
+          "label": "Available"
+        },
+        {
+          "id": "n",
+          "label": "Unavailable"
+        }
+      ]
+    },
+    "RadD2Mem": {
+      "kind": "singleChoice",
+      "label": "Mess determination applies to",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RadD2Mem[0]"
+      ],
+      "options": [
+        {
+          "id": "mem",
+          "label": "Member"
+        },
+        {
+          "id": "memdep",
+          "label": "Member and dependents"
+        }
+      ]
+    },
+    "RadD2B1": {
+      "kind": "singleChoice",
+      "label": "Separate mess determination",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RadD2B1[0]"
+      ],
+      "options": [
+        {
+          "id": "y",
+          "label": "Enlisted member authorized to mess separately"
+        },
+        {
+          "id": "n",
+          "label": "Government mess impractical for member in economy housing"
+        }
+      ]
+    },
+    "DateApplcEffct": {
+      "kind": "text",
+      "label": "Approval effective date",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateApplcEffct[0]"
+      ]
+    },
+    "RemrkD3": {
+      "kind": "text",
+      "label": "Remarks",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].RemrkD3[0]"
+      ],
+      "multiline": true
+    },
+    "DateCmndOffcr": {
+      "kind": "text",
+      "label": "Date of command signature",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].DateCmndOffcr[0]"
+      ]
+    },
+    "NameComndOffcr": {
+      "kind": "text",
+      "label": "Commanding officer name, grade and activity",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].NameComndOffcr[0]"
+      ]
+    },
+    "SigMem": {
+      "kind": "signature",
+      "label": "Member signature",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].SigMem[0]"
+      ]
+    },
+    "SigCO": {
+      "kind": "signature",
+      "label": "Commanding officer signature",
+      "sourceIds": [
+        "topmostSubform[0].Page1[0].SigCO[0]"
+      ]
+    }
+  },
+  "placements": [
+    {
+      "fieldId": "RadA1",
+      "page": 1,
+      "box": {
+        "left": 418.518,
+        "top": 676.539,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "dep"
+    },
+    {
+      "fieldId": "RadA1",
+      "page": 1,
+      "box": {
+        "left": 207.238,
+        "top": 676.538,
+        "width": 15.131,
+        "height": 15.131
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "both"
+    },
+    {
+      "fieldId": "RadA1",
+      "page": 1,
+      "box": {
+        "left": 32.237,
+        "top": 676.539,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "mem"
+    },
+    {
+      "fieldId": "NameApplc",
+      "page": 1,
+      "box": {
+        "left": 17.105,
+        "top": 625.552,
+        "width": 283.554,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "GrdApplc",
+      "page": 1,
+      "box": {
+        "left": 302.633,
+        "top": 625.552,
+        "width": 69.737,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateRnk",
+      "page": 1,
+      "box": {
+        "left": 374.344,
+        "top": 625.552,
+        "width": 86.185,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "SocSecNoApplc",
+      "page": 1,
+      "box": {
+        "left": 461.844,
+        "top": 625.552,
+        "width": 134.211,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DutyStatn",
+      "page": 1,
+      "box": {
+        "left": 16.447,
+        "top": 597.571,
+        "width": 273.028,
+        "height": 29.256
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateOrdrs",
+      "page": 1,
+      "box": {
+        "left": 291.449,
+        "top": 588.052,
+        "width": 152.632,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateArrvl",
+      "page": 1,
+      "box": {
+        "left": 446.713,
+        "top": 588.052,
+        "width": 148.027,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "NameSps1",
+      "page": 1,
+      "box": {
+        "left": 17.763,
+        "top": 541.341,
+        "width": 100.659,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RelatnshpSps1",
+      "page": 1,
+      "box": {
+        "left": 120.395,
+        "top": 541.341,
+        "width": 90.132,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateMarr",
+      "page": 1,
+      "box": {
+        "left": 212.501,
+        "top": 541.341,
+        "width": 94.737,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "NameDep2",
+      "page": 1,
+      "box": {
+        "left": 17.763,
+        "top": 508.446,
+        "width": 100.659,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RelatnshpDep2",
+      "page": 1,
+      "box": {
+        "left": 120.395,
+        "top": 508.446,
+        "width": 90.132,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateDepBrth2",
+      "page": 1,
+      "box": {
+        "left": 212.501,
+        "top": 508.446,
+        "width": 94.737,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "NameDep3",
+      "page": 1,
+      "box": {
+        "left": 17.763,
+        "top": 475.551,
+        "width": 100.659,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RelatnshpDep3",
+      "page": 1,
+      "box": {
+        "left": 120.395,
+        "top": 475.551,
+        "width": 90.132,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateDepBrth3",
+      "page": 1,
+      "box": {
+        "left": 212.501,
+        "top": 475.551,
+        "width": 94.737,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "NameDep4",
+      "page": 1,
+      "box": {
+        "left": 17.763,
+        "top": 442.656,
+        "width": 100.659,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RelatnshpDep4",
+      "page": 1,
+      "box": {
+        "left": 120.395,
+        "top": 442.656,
+        "width": 90.132,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateDepBrth4",
+      "page": 1,
+      "box": {
+        "left": 212.501,
+        "top": 442.656,
+        "width": 94.737,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "NameDep5",
+      "page": 1,
+      "box": {
+        "left": 309.212,
+        "top": 541.341,
+        "width": 105.922,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RelatnshpDep5",
+      "page": 1,
+      "box": {
+        "left": 417.765,
+        "top": 541.341,
+        "width": 91.448,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateDepBrth5",
+      "page": 1,
+      "box": {
+        "left": 511.844,
+        "top": 541.341,
+        "width": 82.896,
+        "height": 17.106
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "NameDep6",
+      "page": 1,
+      "box": {
+        "left": 309.212,
+        "top": 508.446,
+        "width": 105.922,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RelatnshpDep6",
+      "page": 1,
+      "box": {
+        "left": 417.765,
+        "top": 508.446,
+        "width": 91.448,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateDepBrth6",
+      "page": 1,
+      "box": {
+        "left": 511.844,
+        "top": 508.446,
+        "width": 82.896,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "NameDep7",
+      "page": 1,
+      "box": {
+        "left": 309.212,
+        "top": 475.551,
+        "width": 105.922,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RelatnshpDep7",
+      "page": 1,
+      "box": {
+        "left": 417.765,
+        "top": 475.551,
+        "width": 91.448,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateDepBrth7",
+      "page": 1,
+      "box": {
+        "left": 511.844,
+        "top": 475.551,
+        "width": 82.896,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DepLoc",
+      "page": 1,
+      "box": {
+        "left": 309.212,
+        "top": 442.656,
+        "width": 286.186,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateDepArrv",
+      "page": 1,
+      "box": {
+        "left": 232.238,
+        "top": 415.682,
+        "width": 94.737,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateDepComnd",
+      "page": 1,
+      "box": {
+        "left": 232.896,
+        "top": 382.787,
+        "width": 94.737,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateMemSigntr",
+      "page": 1,
+      "box": {
+        "left": 484.871,
+        "top": 307.787,
+        "width": 108.553,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RadD1AvailNot",
+      "page": 1,
+      "box": {
+        "left": 40.79,
+        "top": 260.906,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "y"
+    },
+    {
+      "fieldId": "RadD1AvailNot",
+      "page": 1,
+      "box": {
+        "left": 40.79,
+        "top": 240.932,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "n"
+    },
+    {
+      "fieldId": "RadD1AssnNot",
+      "page": 1,
+      "box": {
+        "left": 184.869,
+        "top": 241.669,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "no"
+    },
+    {
+      "fieldId": "RadD1AssnNot",
+      "page": 1,
+      "box": {
+        "left": 214.475,
+        "top": 260.089,
+        "width": 15.131,
+        "height": 15.131
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "Yes"
+    },
+    {
+      "fieldId": "RadD1ToMemDep",
+      "page": 1,
+      "box": {
+        "left": 434.183,
+        "top": 260.032,
+        "width": 15.19,
+        "height": 15.19
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "mem"
+    },
+    {
+      "fieldId": "RadD1ToMemDep",
+      "page": 1,
+      "box": {
+        "left": 365.133,
+        "top": 241.669,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "dep"
+    },
+    {
+      "fieldId": "RadD2AvailNot",
+      "page": 1,
+      "box": {
+        "left": 178.948,
+        "top": 218.642,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "y"
+    },
+    {
+      "fieldId": "RadD2AvailNot",
+      "page": 1,
+      "box": {
+        "left": 225.001,
+        "top": 218.642,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "n"
+    },
+    {
+      "fieldId": "RadD2Mem",
+      "page": 1,
+      "box": {
+        "left": 342.765,
+        "top": 218.641,
+        "width": 15.131,
+        "height": 15.131
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "memdep"
+    },
+    {
+      "fieldId": "RadD2Mem",
+      "page": 1,
+      "box": {
+        "left": 506.016,
+        "top": 218.642,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "mem"
+    },
+    {
+      "fieldId": "RadD2B1",
+      "page": 1,
+      "box": {
+        "left": 250.001,
+        "top": 202.195,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "n"
+    },
+    {
+      "fieldId": "RadD2B1",
+      "page": 1,
+      "box": {
+        "left": 61.185,
+        "top": 202.195,
+        "width": 15.132,
+        "height": 15.132
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "y"
+    },
+    {
+      "fieldId": "DateApplcEffct",
+      "page": 1,
+      "box": {
+        "left": 190.132,
+        "top": 172.26,
+        "width": 98.027,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "RemrkD3",
+      "page": 1,
+      "box": {
+        "left": 18.421,
+        "top": 142.305,
+        "width": 576.977,
+        "height": 78.598
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "DateCmndOffcr",
+      "page": 1,
+      "box": {
+        "left": 19.079,
+        "top": 46.602,
+        "width": 92.764,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "NameComndOffcr",
+      "page": 1,
+      "box": {
+        "left": 113.816,
+        "top": 46.602,
+        "width": 283.554,
+        "height": 17.105
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "SigMem",
+      "page": 1,
+      "box": {
+        "left": 17.806,
+        "top": 312.477,
+        "width": 464.183,
+        "height": 21.26
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "SigCO",
+      "page": 1,
+      "box": {
+        "left": 398.939,
+        "top": 53.049,
+        "width": 194.762,
+        "height": 22.361
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    }
+  ],
+  "sections": [
+    {
+      "id": "application",
+      "title": "Application",
+      "fields": [
+        "RadA1",
+        "NameApplc",
+        "GrdApplc",
+        "DateRnk",
+        "SocSecNoApplc",
+        "DutyStatn",
+        "DateOrdrs",
+        "DateArrvl",
+        "NameComndOffcr"
+      ]
+    },
+    {
+      "id": "dependents",
+      "title": "Dependents",
+      "fields": [
+        "NameSps1",
+        "RelatnshpSps1",
+        "DateMarr",
+        "NameDep2",
+        "RelatnshpDep2",
+        "DateDepBrth2",
+        "NameDep3",
+        "RelatnshpDep3",
+        "DateDepBrth3",
+        "NameDep4",
+        "RelatnshpDep4",
+        "DateDepBrth4",
+        "NameDep5",
+        "RelatnshpDep5",
+        "DateDepBrth5",
+        "NameDep6",
+        "RelatnshpDep6",
+        "DateDepBrth6",
+        "NameDep7",
+        "RelatnshpDep7",
+        "DateDepBrth7",
+        "DepLoc",
+        "DateDepArrv",
+        "DateDepComnd"
+      ]
+    },
+    {
+      "id": "certification",
+      "title": "Certification",
+      "fields": [
+        "DateMemSigntr",
+        "RadD1AvailNot",
+        "RadD1AssnNot",
+        "RadD1ToMemDep",
+        "RadD2AvailNot",
+        "RadD2Mem",
+        "RadD2B1",
+        "DateApplcEffct",
+        "RemrkD3",
+        "DateCmndOffcr",
+        "SigMem",
+        "SigCO"
+      ]
+    }
+  ],
+  "rowGroups": {}
+}

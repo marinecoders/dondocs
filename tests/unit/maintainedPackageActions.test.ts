@@ -151,3 +151,12 @@ it('selects the required documents for developmental-counseling', async () => {
   expect(selected({ session: 'initial', prior: true, signed: false })).toEqual(['counseling']);
   expect(selected({ session: 'follow-up', prior: true, signed: true })).toEqual(['counseling', 'prior-record', 'acknowledgment']);
 });
+
+it('selects the required documents for okinawa-cola', async () => {
+  serveOfficialForms();
+  const template = await maintainedPackageAction('okinawa-cola');
+  const selected = (values: Record<string, string | boolean>) => listConditionalPackageInstances(template, { version: 1, groups: {}, values })
+    .filter(member => member.condition === true).map(member => member.memberKey);
+  expect(selected({ coverage: 'mem' })).toEqual(['application', 'orders']);
+  for (const coverage of ['both', 'dep']) expect(selected({ coverage })).toEqual(['application', 'orders', 'dependent-arrival']);
+});
