@@ -1,7 +1,7 @@
 import { FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
 import { hasNativeWidgets, identifyOfficialOriginal, officialEdition, nativeSigningFormId, officialFormChoices } from '@/services/forms/nativeCatalog';
-import { loadDefinition } from '@/services/forms/packages';
+import { loadPackageFormDefinition } from './packageFormFields';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { captureDocumentRevision } from './capturedDocument';
 import { capturePackageMember, readPackageAsset } from './actionPackageAssets';
@@ -21,7 +21,7 @@ async function officialFormStarter(formId: string, catalogLabel?: string) {
   if (!label) throw new Error('This form is unavailable.');
   const session = createBlankSession(formId);
   if (edition && hasNativeWidgets(edition.format) || !builtin && !edition) {
-    const definition = edition ? await loadDefinition(edition.directory) : await (await import('@/services/formRegistry')).configForFormType(formId);
+    const definition = edition ? await loadPackageFormDefinition(edition) : await (await import('@/services/formRegistry')).configForFormType(formId);
     if (!definition || definition.formId !== formId || edition && definition.nativePdfEdition !== edition.edition)
       throw new Error('The form definition does not match the selected edition.');
     delete session.forms;
