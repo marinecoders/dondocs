@@ -1,3 +1,4 @@
+import { officialEdition } from '@/services/forms/nativeCatalog';
 import { loadAssemblyPdf } from '@/services/pdf/assemblyPdf';
 import { copyPreparedDocument, copyPreparedFormTemplates, type ReadyExportJob } from '@/lib/preparedExport';
 import { createExportArtifact } from '@/lib/exportExecution';
@@ -15,7 +16,9 @@ export async function renderPreparedConfiguredForm(ready: ReadyExportJob, signal
   });
   if (signal.aborted) throw new Error('Export cancelled.');
   if (mode === 'printable' && content.document.genericForm.definition.nativePdfEdition) {
-    const { pdf } = await loadAssemblyPdf(result.bytes, signal);
+    const definition = content.document.genericForm.definition;
+    const edition = officialEdition(definition.formId, definition.nativePdfEdition);
+    const { pdf } = await loadAssemblyPdf(result.bytes, signal, { generatedHybridForm: edition?.format === 'hybrid' });
     result.bytes = await pdf.save();
     signal.throwIfAborted();
   }

@@ -55,5 +55,26 @@
         792
       ]
     ]
+  },
+  {
+    "formId": "dd0368",
+    "edition": "2011-08.upd20241126",
+    "label": "DD Form 368 – Request for Conditional Release",
+    "format": "hybrid",
+    "directory": "dd/0368/2024-11-26",
+    "file": "original.pdf",
+    "length": 61395,
+    "sha256": "52b10f59aa001aacae6b23f7c9aa57d5dd205b68dac04df9542fb810686e024c",
+    "definitionSha256": "7d46116c818de1faf6de6edb165ad896d26ed10e02416b71826cd4e1d29e97f4",
+    "pageSizes": [
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ]
+    ]
   }
 ]

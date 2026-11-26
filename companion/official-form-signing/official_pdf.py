@@ -52,7 +52,7 @@ class OfficialReader(PdfFileReader):
 
 class ImmutableCatalogRule(CatalogModificationRule):
     def apply_qualified(self, old, new):
-        # The UPB embeds plaintext CMS in the encrypted catalog. A generic
+        # These official forms embed plaintext CMS in the encrypted catalog. A generic
         # dictionary comparison attempts to decrypt that CMS. Require both
         # revisions to resolve to the exact same on-disk catalog object.
         xrefs = old.reader.xrefs
@@ -77,7 +77,7 @@ class ChangedFormObjects:
             yield level, update
 
 
-UPB_DIFF = StandardDiffPolicy(
+IMMUTABLE_CATALOG_DIFF = StandardDiffPolicy(
     [ImmutableCatalogRule() if isinstance(rule, CatalogModificationRule) else rule
      for rule in DEFAULT_DIFF_POLICY.global_rules],
     ChangedFormObjects(),
@@ -88,8 +88,8 @@ ACROFORM_DIFF = StandardDiffPolicy(DEFAULT_DIFF_POLICY.global_rules, ChangedForm
 
 
 def revision_policy(profile):
-    if profile["formId"] == "navmc10132":
-        return UPB_DIFF
+    if profile["formId"] in ("navmc10132", "dd0368"):
+        return IMMUTABLE_CATALOG_DIFF
     return ACROFORM_DIFF if profile["format"] == "acroform" else DEFAULT_DIFF_POLICY
 
 

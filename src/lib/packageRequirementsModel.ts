@@ -21,6 +21,11 @@ export const formCompletionSchema = z.object({
     alternatives: z.array(z.array(z.string().trim().min(1).max(250)).min(1).max(12)).min(1).max(32),
     beforeSignatures: z.array(z.string().trim().min(1).max(250)).min(1).max(32).optional(),
   }).strict()).min(1).max(20).optional(),
+  matchingPdfFields: z.array(z.object({
+    memberKey: identity,
+    fields: z.array(z.object({ name: z.string().min(1).max(250), label, optional: z.literal(true).optional() }).strict()).min(1).max(32),
+  }).strict()).min(1).max(8).optional(),
+  uncheckedPdfFields: z.array(z.string().trim().min(1).max(250)).min(1).max(100).optional(),
   reviewedScan: z.literal(true).optional(),
   writtenContent: z.literal(true).optional(),
   blankSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),

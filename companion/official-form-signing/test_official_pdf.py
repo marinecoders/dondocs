@@ -47,6 +47,19 @@ class OfficialSigning(unittest.TestCase):
             cls.signer = SimpleSigner.load_pkcs12(str(pfx))
         cls.templates = Path(__file__).resolve().parents[2] / "public/templates"
 
+    def test_conditional_release_retains_all_four_publisher_signatures(self):
+        data = (self.templates / "dd/0368/2024-11-26/original.pdf").read_bytes()
+        _, slots = inspect_revision(data, self.context)
+        expected = ["member[0]", "recruiter[0]", "ao[0]", "SignatureField1[0]"]
+        self.assertCountEqual([slot["name"].split(".")[-1] for slot in slots], expected)
+        for name in expected:
+            base = data
+            field = next(slot["name"] for slot in slots if slot["name"].endswith("." + name))
+            data = sign_revision(base, field, self.signer, self.context)
+            inspect_return(data, len(base), sha256(base).hexdigest(), self.context)
+        _, signed = inspect_revision(data, self.context)
+        self.assertTrue(all(slot["signed"] and slot["trusted"] for slot in signed))
+
     def test_page11_countersign_and_first_signature_lock(self):
         data = (self.templates / "NAVMC11811 - Administrative Remarks/2014-05/original.pdf").read_bytes()
         _, slots = inspect_revision(data, self.context)

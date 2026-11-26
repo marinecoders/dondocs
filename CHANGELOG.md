@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.328] — 2026-11-25
+
+### Added
+
+- Fill the official DD Form 368 on its own or within a Conditional Release package that keeps the request, command endorsement, returned decision and final transfer records together.
+
 ## [1.3.311] — 2026-11-25
 
 ### Added

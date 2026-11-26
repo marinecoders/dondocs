@@ -34,7 +34,7 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
       add('The official form is still blank.', { kind: 'edit', label: 'Fill form' });
     for (const name of rule?.requiredPdfFields ?? []) {
       const match = Object.entries(definition.fields).find(([, field]) => field.sourceIds?.includes(name));
-      if (!match || match[1].requiredAt !== 'export' && !hasValue(answers[match[0]]))
+      if (!match || (match[1].kind === 'boolean' ? answers[match[0]] !== true : match[1].requiredAt !== 'export' && !hasValue(answers[match[0]])))
         add('Complete the required field: ' + (match?.[1].label ?? name) + '.', match ? fieldTarget(match[0]) : undefined);
     }
     if (rule?.answerGroups?.length) {
@@ -44,6 +44,10 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
         const key = Object.keys(definition.fields).find(key => definition.fields[key].sourceIds?.includes(group.alternatives[0][0]));
         add(group.label, key ? fieldTarget(key) : undefined);
       }
+    }
+    for (const name of rule?.uncheckedPdfFields ?? []) {
+      const match = Object.entries(definition.fields).find(([, field]) => field.sourceIds?.includes(name));
+      if (match?.[1].kind !== 'boolean' || answers[match[0]] === true) add('Leave this field unchecked: ' + (match?.[1].label ?? name) + '.');
     }
     for (const issue of validateAnswers(definition, answers, rows)) if (issue.severity === 'error') add(issue.message, fieldTarget(issue.path));
   } else if (member.kind !== 'native' && (rule?.blankSha256 === member.original.sha256 ||

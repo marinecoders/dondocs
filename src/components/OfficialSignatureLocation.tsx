@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { readSignatureLayout, type Slot } from '@/services/forms/signatureLayout';
 import { SigningPdfPreview } from './SigningPdfPreview';
 import { Button } from './ui/button';
-import { identifyOfficialOriginal, officialEdition } from '@/services/forms/nativeCatalog';
+import { hasNativeWidgets, identifyOfficialOriginal, officialEdition } from '@/services/forms/nativeCatalog';
 import { officialRevisionBytes, type OfficialSigningRecord } from '@/lib/officialSigning';
 
 async function readLayout(record: OfficialSigningRecord, signal: AbortSignal) {
   const bytes = await officialRevisionBytes(record);
   const id = await identifyOfficialOriginal(bytes.buffer);
   const profile = id && officialEdition(id);
-  if (!profile || profile.format !== 'acroform') return;
+  if (!profile || !hasNativeWidgets(profile.format)) return;
   return readSignatureLayout(bytes, signal);
 }
 

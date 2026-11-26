@@ -595,16 +595,20 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
           item.memberId === instance.memberId && item.condition === 'active' && item.completion ? [item.completion] : []);
         if (!instance.required && blueprint.completion) rules.push(blueprint.completion);
         const { verifyRevisionForEvidence } = await import('./packageRequirements');
-        await verifyRevisionForEvidence(source, rules, { signal, readAsset: async () => bytes });
+        await verifyRevisionForEvidence(source, rules, {
+          signal, participantId: instance.participantId,
+          referenceRevision: { ...getPackageRevision(before), templateState: state, members: [...selectedMembers, ...members] },
+          readAsset: async asset => attachments.find(staged => staged.id === asset.id)?.data ?? readPackageAsset(asset),
+        });
         reviews.push(await reviewPackageOriginal(bytes, source.original.name, policy));
         if (source.printableCopy) reviews.push(await reviewPackageOriginal(await readPackageAsset(source.printableCopy.asset), source.printableCopy.asset.name, policy));
         member = { ...source, ...identity };
         delete member.endorsementLink;
       } else {
         if (!/\.pdf$/i.test(file.name)) throw new Error('Action evidence slots currently accept PDF originals.');
-        signal?.throwIfAborted(); await validatePackageOriginalPdf(file.data);
+        signal?.throwIfAborted(); const officialFormId = await validatePackageOriginalPdf(file.data);
         reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
-        member = { ...identity, kind: 'original', signedOriginal: file.signedOriginal, original: await stage(attachments, file.name, 'application/pdf', file.data) };
+        member = { ...identity, kind: 'original', signedOriginal: file.signedOriginal, ...(file.signedOriginal && officialFormId && { officialFormId }), original: await stage(attachments, file.name, 'application/pdf', file.data) };
       }
     } else member = await nativeMember(blueprint, instance, template, answers, information, state, attachments, bindings);
     instance.generatedDigest = await memberDigest(member); instance.suppressed = false; clean.set(member.id, true); selectedMembers.push(member);

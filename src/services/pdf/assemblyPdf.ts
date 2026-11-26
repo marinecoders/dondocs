@@ -100,12 +100,15 @@ function hasPrintableAnnotations(pdf: PDFDocument, needsAppearances: boolean | u
   return printable;
 }
 
-async function checkRenderedFormFields(page: PDFPageProxy, needsAppearances: boolean | undefined, widgetType: number): Promise<void> {
+async function checkRenderedFormFields(page: PDFPageProxy, needsAppearances: boolean | undefined, widgetType: number, generatedHybridForm = false): Promise<void> {
   for (const annotation of await page.getAnnotations({ intent: 'print' })) {
     if (annotation.annotationType !== widgetType) continue;
     const rectangle: unknown = annotation.rect;
     if (Array.isArray(rectangle) && (rectangle[0] === rectangle[2] || rectangle[1] === rectangle[3])) continue;
     const value: unknown = annotation.fieldValue ?? annotation.defaultFieldValue;
+    // The official DD 368 has no appearance stream for its unchecked decision boxes.
+    // In a freshly rendered maintained form this state intentionally paints nothing.
+    if (generatedHybridForm && annotation.checkBox && value === 'Off' && !annotation.hasAppearance) continue;
     const valued = typeof value === 'string' ? value.length > 0 : Array.isArray(value) ? value.length > 0 : value != null;
     if (valued && (needsAppearances !== false || !annotation.hasAppearance)) throw new Error(FORM_APPEARANCE_ERROR);
   }
@@ -211,7 +214,7 @@ function checkImages(pdf: PDFDocument): void {
  * Render that encrypted case, or printable upload annotations, to a separate,
  * bounded visual derivative. Vector copies retain page content and geometry.
  */
-export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: AbortSignal, options: { forcePageImages?: boolean; onPageImage?: (image: { bytes: Uint8Array; width: number; height: number }) => void | Promise<void> } = {}): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason }> {
+export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: AbortSignal, options: { generatedHybridForm?: boolean; forcePageImages?: boolean; onPageImage?: (image: { bytes: Uint8Array; width: number; height: number }) => void | Promise<void> } = {}): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason }> {
   signal?.throwIfAborted();
   const source = bytesOf(data);
   const pdf = await PDFDocument.load(source, { ignoreEncryption: true });
@@ -241,7 +244,8 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
     const documentPdf = await task.promise;
     controller.signal.throwIfAborted();
     const metadata = await documentPdf.getMetadata();
-    if ('IsXFAPresent' in metadata.info && metadata.info.IsXFAPresent) throw new Error(XFA_ERROR);
+    // Only the configured-form writer passes this for freshly generated, hash-pinned hybrid forms.
+    if ('IsXFAPresent' in metadata.info && metadata.info.IsXFAPresent && !options.generatedHybridForm) throw new Error(XFA_ERROR);
     controller.signal.throwIfAborted();
     if (documentPdf.numPages < 1 || documentPdf.numPages > PROTECTED_PDF_LIMITS.pages) throw new Error('PDF image copies support 1–50 pages. Split this PDF and try again.');
     // pdf-lib cannot inspect an encrypted object stream. The vendored PDF.js
@@ -255,7 +259,7 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
       controller.signal.throwIfAborted();
       const page = await documentPdf.getPage(number);
       try {
-        await checkRenderedFormFields(page, needsAppearances ?? savedAppearanceFlag, pdfjs.AnnotationType.WIDGET);
+        await checkRenderedFormFields(page, needsAppearances ?? savedAppearanceFlag, pdfjs.AnnotationType.WIDGET, options.generatedHybridForm);
         controller.signal.throwIfAborted();
         const base = page.getViewport({ scale: 1 });
         if (![base.width, base.height].every(value => Number.isFinite(value) && value > 0 && value <= 14_400)) throw new Error('This PDF has unsupported page dimensions.');

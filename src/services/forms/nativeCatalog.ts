@@ -2,6 +2,11 @@ import editions from '@/data/officialPdfEditions.json' with { type: 'json' };
 
 export const officialFormChoices = Array.from(new Map(editions.filter(profile => profile.formId !== 'package_correspondence').map(profile => [profile.formId, profile.label])), ([id, label]) => ({ id, label }));
 
+// Hybrid editions expose the same named widgets and also maintain XFA datasets.
+export function hasNativeWidgets(format?: string) {
+  return format === 'acroform' || format === 'hybrid';
+}
+
 export function officialEdition(formId: string, edition?: string) {
   return editions.find(profile => profile.formId === formId && (edition === undefined || profile.edition === edition));
 }
