@@ -772,6 +772,7 @@ export async function preparePackagePdfOutput(prepared: PreparedPackageAssembly,
   const blob = new Blob([asset.data], { type: 'application/pdf' });
   return {
     prepared, blob, pages: outputPageCount(output), entries: output.navigation ?? [],
+    sha256: output.asset.sha256, memberIds: output.boundaries.map(boundary => boundary.memberId),
     async deliver(operation: AbortSignal) {
       const [latest] = await listActionPackages(input.record.id);
       if (!latest || latest.sequence !== input.record.sequence || latest.currentRevisionId !== input.record.currentRevisionId)

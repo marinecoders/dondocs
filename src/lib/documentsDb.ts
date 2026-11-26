@@ -1669,3 +1669,26 @@ export async function idbComparePackageRoster(inputBefore: import('./packageRost
     });
   } catch { return false; }
 }
+
+/** Store only the latest twenty prepared delivery manifests per local case. */
+export async function idbUpdateHandoffs(packageId: string, update: (current: unknown) => unknown): Promise<void> {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(APP_STORE, 'readwrite');
+    const store = transaction.objectStore(APP_STORE);
+    const key = 'package-handoffs:' + packageId;
+    const request = store.get(key);
+    let failure: unknown;
+    request.onsuccess = () => {
+      try { store.put({ key, value: update(request.result ? request.result.value : []) }); }
+      catch (cause) { failure = cause; transaction.abort(); }
+    };
+    transaction.oncomplete = () => resolve();
+    transaction.onabort = () => reject(failure ?? transaction.error ?? new Error('The prepared handoff history could not be saved.'));
+  });
+}
+
+export async function idbReadHandoffs(packageId: string): Promise<unknown> {
+  const entry = await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get('package-handoffs:' + packageId));
+  return entry ? entry.value : [];
+}

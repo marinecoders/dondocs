@@ -926,6 +926,18 @@ function PackageDialog({
       : "This revision has no retained PDF.");
     return selectedRetainedOutput;
   }
+  async function recordArtifactHandoff(purpose: 'editable' | 'pdf' | 'draft-pdf', filename: string,
+    digest: string | Uint8Array<ArrayBuffer>, memberIds?: string[]) {
+    if (!record || !revision) return;
+    try {
+      const { documentHandoffMembers, rememberPackageHandoff } = await import('@/lib/packageHandoffHistory');
+      const sha256 = typeof digest === 'string' ? digest : await (await import('@/lib/portableResources')).portableResourceDigest(digest.buffer);
+      await rememberPackageHandoff({ id: crypto.randomUUID(), packageId: record.id, revisionId: revision.id, label: record.name,
+        createdAt: Date.now(), purpose, members: documentHandoffMembers(revision, purpose === 'editable', memberIds), output: { name: filename, sha256 } });
+    } catch {
+      if (active.current && !operation.current?.signal.aborted) setNotice(previous => previous + ' Handoff history could not be saved on this device.');
+    }
+  }
   async function deliver(reviewed: boolean) {
     if (!record || !revision || !prepared || !reviewed) return;
     assertOperationCurrent();
@@ -973,14 +985,13 @@ function PackageDialog({
       assertPreparedPackagePolicy(prepared, await getExportDeploymentPolicy());
       assertOperationCurrent();
       assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
-      triggerDownload(
-        new TextEncoder().encode(json),
-        `${record.name.replace(/[^a-z0-9_-]/gi, "_")}.dondocs-package.json`,
-        "application/json",
-      );
+      const bytes = new TextEncoder().encode(json);
+      const filename = `${record.name.replace(/[^a-z0-9_-]/gi, "_")}.dondocs-package.json`;
+      triggerDownload(bytes, filename, "application/json");
       setNotice(
         "Editable package downloaded, including the selected revision and its original files.",
       );
+      await recordArtifactHandoff('editable', filename, bytes);
     } else if (reviewMode === "preview" || reviewMode === "saved") {
       const output = requireRetainedOutput();
       assertPreparedPackagePolicy(prepared, await getExportDeploymentPolicy());
@@ -991,6 +1002,7 @@ function PackageDialog({
       else {
         triggerDownload(new Uint8Array(bytes), output.asset.name, output.asset.type);
         setNotice(`Retained PDF downloaded. SHA-256: ${output.asset.sha256}`);
+        await recordArtifactHandoff('pdf', output.asset.name, output.asset.sha256, output.boundaries.map(row => row.memberId));
       }
     } else {
       if (!pdfOutput || pdfOutput.prepared !== prepared) throw new Error('Prepare the current PDF again.');
@@ -1000,6 +1012,7 @@ function PackageDialog({
       if (!updated) {
         triggerDownload(pdfOutput.blob, record.name + '-draft.pdf');
         setNotice('Draft PDF downloaded.');
+        await recordArtifactHandoff('draft-pdf', record.name + '-draft.pdf', pdfOutput.sha256, pdfOutput.memberIds);
         return;
       }
       update(updated);
@@ -1009,6 +1022,7 @@ function PackageDialog({
       setPdfUrl(URL.createObjectURL(pdfOutput.blob));
       triggerDownload(pdfOutput.blob, output.asset.name);
       setNotice('PDF downloaded. A copy is kept with this version.');
+      await recordArtifactHandoff('pdf', output.asset.name, output.asset.sha256, output.boundaries.map(row => row.memberId));
     }
     setPrepared(null);
 

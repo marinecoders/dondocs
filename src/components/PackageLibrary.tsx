@@ -1,3 +1,4 @@
+import { PackageHandoffHistory } from './PackageHandoffHistory';
 import { useMemo, useState } from 'react';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
 import { packageSectionLabels, type PackageWorkspaceContext } from '@/lib/packageWorkspaceContext';
@@ -62,6 +63,7 @@ export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate, on
                 </span>
                 <span className="shrink-0 text-xs text-muted-foreground">{new Date(revision.createdAt).toLocaleDateString()}</span>
               </button>
+              <PackageHandoffHistory packageId={record.id} />
             </li>;
           })}
         </ul>
