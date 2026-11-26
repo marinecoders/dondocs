@@ -26,7 +26,30 @@ test('assembles a custom letter and two PDFs and preserves their order on reload
     await workspace.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name, mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
     await expect(await packageHeading(workspace, (index + 2) + '. ' + name)).toBeVisible();
   }
-  await workspace.getByRole('button', { name: 'Move up', exact: true }).click();
+  const sidebar = workspace.getByRole('navigation', { name: 'Package documents' });
+  const source = sidebar.getByRole('button', { name: 'Reorder Second.pdf', exact: true });
+  const target = sidebar.getByRole('button', { name: 'Reorder First.pdf', exact: true });
+  await source.scrollIntoViewIfNeeded();
+  const from = (await source.boundingBox())!, to = (await target.boundingBox())!;
+  await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(to.x + to.width / 2, to.y + to.height / 2, { steps: 12 });
+  await expect(workspace.getByRole('status').filter({ hasText: 'Drop at position 2, First.pdf.' })).toBeAttached();
+  await page.mouse.up();
+  await expect(sidebar.getByRole('button', { name: /2[.] Second[.]pdf/ })).toBeVisible();
+  const revision = await workspace.getAttribute('data-revision-id');
+  await source.focus(); await page.keyboard.press('Space');
+  await expect(source).toHaveAttribute('aria-pressed', 'true'); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Escape');
+  await expect(workspace).toHaveAttribute('data-revision-id', revision!);
+  for (const [arrow, position] of [['ArrowDown', 3], ['ArrowUp', 2]] as const) {
+    await source.focus(); await page.keyboard.press('Space');
+    await expect(source).toHaveAttribute('aria-pressed', 'true');
+    await page.keyboard.press(arrow);
+    await expect(workspace.getByRole('status').filter({ hasText: 'Drop at position ' + position })).toBeAttached();
+    await page.keyboard.press('Space');
+    await expect(sidebar.getByRole('button', { name: new RegExp(position + '[.] Second[.]pdf') })).toBeVisible();
+    await expect(source).toBeFocused();
+  }
   await expect(await packageHeading(workspace, '2. Second.pdf')).toBeVisible();
   await page.reload();
   workspace = await openPackageWorkspace(page);
@@ -118,5 +141,5 @@ test('finds documents by type and form number without leaving the package', asyn
   await workspace.getByRole('button', { name: 'My documents', exact: true }).click();
   await workspace.getByRole('button', { name: /Add .*LIBRARY FIRST/i }).click();
   await expect(workspace.getByRole('heading', { name: /3\..*LIBRARY FIRST/i })).toBeVisible();
-  await expect(workspace.getByRole('navigation', { name: 'Package documents' }).getByRole('button')).toHaveCount(3);
+  await expect(workspace.getByRole('navigation', { name: 'Package documents' }).getByRole('button', { name: /^[0-9]+[.]/ })).toHaveCount(3);
 });

@@ -52,7 +52,7 @@ export function PackageCitationReorder({ record, revision, editable, prepared, o
       </ol>
       <Button variant="outline" disabled={!member || order.every((value, index) => value === index)} onClick={() => { setApproved(null); onPrepare({ kind, memberId, order }); }}>Review native list reorder</Button>
     </fieldset>}
-    {reviewed && <section aria-label="Citation reorder review" className="space-y-3 rounded border p-3">
+    {reviewed && <section aria-label="Citation reorder review" data-package-panel="citation-reorder" tabIndex={-1} className="space-y-3 rounded border p-3">
       <h4 className="font-medium">Review proposed {reviewed.kind === "members" ? "package member" : reviewed.kind === "references" ? "reference" : "enclosure"} order</h4>
       <ol className="list-decimal space-y-1 pl-5">{reviewed.orderLabels.map((label, index) => <li className="break-words" key={index}>{label}</li>)}</ol>
       {reviewed.changes.length === 0 && <p>No linked paragraph text changes are needed for this order.</p>}

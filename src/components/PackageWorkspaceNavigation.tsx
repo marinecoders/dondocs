@@ -1,5 +1,6 @@
 import { packageDocumentName } from '@/lib/actionPackages';
-import type { ReactNode } from 'react';
+import { PackageDocumentOrder, PackageOrderRow } from './PackageDocumentOrder';
+import { useState, type ReactNode } from 'react';
 import { FileText, Files, History, Paperclip } from 'lucide-react';
 import type { ActionPackage, PackageMember, PackageRevision } from '@/lib/actionPackages';
 import type { PackageWorkspaceSection } from '@/lib/packageWorkspaceContext';
@@ -59,17 +60,34 @@ function memberKind(member: PackageMember): string {
   return member.session.documentCategory === 'forms' ? 'Editable form' : 'Editable document';
 }
 
-export function PackageMemberNavigation({ revision, members, selectedId, disabled, onSelect }: {
+export function PackageMemberNavigation({ revision, members, selectedId, disabled, onSelect, onMove }: {
   revision: PackageRevision;
   members: readonly PackageMember[];
   selectedId?: string;
   disabled: boolean;
   onSelect(id: string): void;
+  onMove?(from: string, to: string, keyboard: boolean): void;
 }) {
+  const [arranging, setArranging] = useState(false);
   if (!members.length) return null;
   const participants = new Map(revision.information?.participants.map(person => [person.id, person.label]));
   const owners = new Map(revision.templateState?.instances.map(slot => [slot.memberId, slot.participantId]));
   const groupAt = (index: number) => participants.get(owners.get(members[index]?.id) ?? '');
+  const sortable = !!onMove && members.length > 1;
+  const rows = members.map((member, index) => {
+    const row = <button type="button"
+      disabled={disabled} aria-current={selectedId === member.id ? 'true' : undefined}
+      className={`flex w-full min-w-0 items-start gap-2 rounded-md px-2 py-2.5 text-left text-sm disabled:opacity-50 ${selectedId === member.id ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'}`}
+      onClick={() => onSelect(member.id)}>
+      {member.kind !== 'native' ? <Paperclip className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <FileText className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
+      <span className="min-w-0 break-words"><span className="font-medium">{index + 1}. {packageDocumentName(revision, member)}</span><span className="block text-xs text-muted-foreground">{memberKind(member)}</span></span>
+    </button>;
+    if (sortable) return <PackageOrderRow key={member.id} id={member.id} label={packageDocumentName(revision, member)} disabled={disabled}>{row}</PackageOrderRow>;
+    return <div key={member.id}>
+        {groupAt(index) && groupAt(index) !== groupAt(index - 1) && <p className="px-2 pt-3 text-xs font-medium">{groupAt(index)}</p>}
+        {row}
+      </div>;
+  });
   return <nav aria-label="Package documents" className="min-w-0 space-y-2 lg:sticky lg:top-0 lg:self-start">
     <label className="block text-sm lg:hidden">Document to inspect
       <select aria-label="Document to inspect" className="mt-1 w-full min-w-0 rounded border bg-background p-2"
@@ -77,17 +95,13 @@ export function PackageMemberNavigation({ revision, members, selectedId, disable
         {members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {packageDocumentName(revision, member)} · {memberKind(member)}</option>)}
       </select>
     </label>
-    <div className="hidden space-y-1 lg:block">
+    {onMove && members.length > 1 && <Button size="sm" variant="outline" className="lg:hidden" aria-expanded={arranging}
+      onClick={() => setArranging(!arranging)}>{arranging ? 'Done reordering' : 'Reorder documents'}</Button>}
+    <div className={arranging && onMove ? 'space-y-1' : 'hidden space-y-1 lg:block'}>
       <p className="px-2 text-xs font-medium text-muted-foreground">Package documents</p>
-      {members.map((member, index) => <div key={member.id}>
-        {groupAt(index) && groupAt(index) !== groupAt(index - 1) && <p className="px-2 pt-3 text-xs font-medium">{groupAt(index)}</p>}
-        <button type="button"
-        disabled={disabled} aria-current={selectedId === member.id ? 'true' : undefined}
-        className={`flex w-full min-w-0 items-start gap-2 rounded-md px-2 py-2.5 text-left text-sm disabled:opacity-50 ${selectedId === member.id ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'}`}
-        onClick={() => onSelect(member.id)}>
-        {member.kind !== 'native' ? <Paperclip className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <FileText className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
-        <span className="min-w-0 break-words"><span className="font-medium">{index + 1}. {packageDocumentName(revision, member)}</span><span className="block text-xs text-muted-foreground">{memberKind(member)}</span></span>
-      </button></div>)}
+      {sortable && onMove ? <PackageDocumentOrder key={revision.id} ids={members.map(member => member.id)}
+        labels={new Map(members.map(member => [member.id, packageDocumentName(revision, member)]))}
+        disabled={disabled} onMove={onMove}>{rows}</PackageDocumentOrder> : rows}
     </div>
   </nav>;
 }

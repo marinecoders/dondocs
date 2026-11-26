@@ -787,7 +787,11 @@ function PackageDialog({
     setCitationReorder(null);
     const result = await preparePackageCitationReorder(record, value, await getExportDeploymentPolicy(), operation.current?.signal);
     assertOperationCurrent();
+    setWorkspaceSection('documents');
     setCitationReorder(result);
+    requestAnimationFrame(() => {
+      if (active.current) focusPackageDestination(dialogRoot.current, 'data-package-panel', 'citation-reorder');
+    });
   }
   async function reorderMembers(members: PackageMember[]) {
     if (revision?.citations) await prepareCitationReorder({ kind: "members", order: members.map(member => member.id) });
@@ -946,7 +950,8 @@ function PackageDialog({
   const comparedSource = comparison?.source;
   return <>
     <Dialog open onOpenChange={value => { if (!value) close(); }}>
-      <DialogContent fullscreen showCloseButton={false} ref={dialogRoot} className="package-workspace-dialog" aria-busy={busy} data-package-id={record?.id} data-revision-id={revision?.id}>
+      <DialogContent fullscreen showCloseButton={false} ref={dialogRoot}
+        onEscapeKeyDown={event => { if (dialogRoot.current?.querySelector('[data-package-reordering="true"]')) event.preventDefault(); }} className="package-workspace-dialog" aria-busy={busy} data-package-id={record?.id} data-revision-id={revision?.id}>
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
         {editorSurface && record && nativeEditorMember && copy && copy.documentId === currentId && <Suspense fallback={<p role="status">Opening document…</p>}>
           <PackageNativeDocumentEditor key={copy.documentId} record={record} member={nativeEditorMember} documentId={copy.documentId}
@@ -1344,7 +1349,18 @@ function PackageDialog({
                 </div>
               )}</div></details>
               <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
-              <PackageMemberNavigation revision={revision} members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} onSelect={inspectMember} />
+              <PackageMemberNavigation revision={revision} members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} onSelect={inspectMember}
+                onMove={editable && !revision.templateState && !pendingPackageEdits ? (from, to, keyboard) => {
+                  const members = [...revision.members];
+                  const start = members.findIndex(member => member.id === from), end = members.findIndex(member => member.id === to);
+                  if (start < 0 || end < 0 || start === end) return;
+                  members.splice(end, 0, members.splice(start, 1)[0]);
+                  void run(async () => {
+                    await reorderMembers(members);
+                    if (keyboard && !revision.citations) requestAnimationFrame(() =>
+                      dialogRoot.current?.querySelector<HTMLButtonElement>(`[data-package-order-handle="${CSS.escape(from)}"]`)?.focus({ preventScroll: true }));
+                  });
+                } : undefined} />
               <ol className="min-w-0 space-y-3">
                 {revision.members.map((member, index) => {
                   const route = endorsementRoutes?.get(member.id);
