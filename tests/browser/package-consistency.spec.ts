@@ -28,7 +28,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   }, theme);
   await page.goto('/');
   let dialog = await packages(page);
-  await expandPackageTools(dialog);
+  await dialog.getByText('Start with a reviewed worksheet', { exact: true }).click();
   const starter = await packageTool(dialog, 'Administrative request starter');
   await starter.getByRole('button', { name: 'Start an administrative request', exact: true }).click();
   for (const [label, value] of Object.entries({ Requester: 'Alex Example', Organization: 'Fictional Training Unit', Recipient: 'Training Officer', 'Request subject': 'Coordination check', 'Request date': '2026-11-17', SSIC: '1500', 'Printed signature name': 'A. EXAMPLE', 'Requested action and justification': 'Request fictional training to exercise package checks.' })) {

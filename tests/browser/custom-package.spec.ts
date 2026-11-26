@@ -8,6 +8,13 @@ test('assembles a custom letter and two PDFs and preserves their order on reload
   let workspace = await openPackageWorkspace(page);
   await newPackage(workspace);
   const custom = workspace.getByRole('group', { name: 'Custom package', exact: true });
+  const search = workspace.getByRole('searchbox', { name: 'Search actions' });
+  await search.fill('participation');
+  await expect(workspace.getByRole('button', { name: 'Start training participation' })).toBeVisible();
+  await expect(workspace.getByRole('button', { name: 'Start administrative request' })).toHaveCount(0);
+  await search.fill('no-matching-action');
+  await workspace.getByRole('button', { name: 'Clear search' }).click();
+  await expect(workspace.getByRole('button', { name: 'Start administrative request' })).toBeVisible();
   await custom.getByLabel('Package name').fill('Training correspondence');
   await custom.getByRole('button', { name: 'Create package' }).click();
   await workspace.getByRole('button', { name: 'Add letter', exact: true }).click();

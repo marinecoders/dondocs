@@ -18,7 +18,7 @@ async function exportPackage(page: Page, dialog: Locator) {
 async function createRequest(dialog: Locator, person: string, subject: string, signature: string) {
   await newPackage(dialog);
   await expandPackageTools(dialog);
-  const quick = dialog.locator('summary').filter({ hasText: /^Other starters/ });
+  const quick = dialog.locator('summary').filter({ hasText: /^Start with a reviewed worksheet/ });
   if (!await dialog.getByRole('region', { name: 'Administrative request starter', exact: true }).isVisible()) await quick.click();
   const starter = await packageTool(dialog, 'Administrative request starter');
   await starter.getByRole('button', { name: 'Start an administrative request', exact: true }).click();
