@@ -79,3 +79,16 @@ export function evidenceSubmissionWorksheet(): Promise<MaintainedWorksheet> {
     { id: 'notes', definition: { ...text('Record description'), multiline: true }, height: 190 },
   ]);
 }
+
+export function counselingWorksheet(): Promise<MaintainedWorksheet> {
+  return worksheet('dondocs_developmental_counseling', 'Developmental counseling record', [
+    { id: 'marine', definition: text('Marine receiving counseling') },
+    { id: 'senior', definition: text('Counselor') },
+    { id: 'date', definition: { kind: 'date', label: 'Session date', requiredAt: 'export' } },
+    { id: 'session', definition: { kind: 'singleChoice', label: 'Session type', requiredAt: 'export',
+      options: [{ id: 'initial', label: 'Initial counseling' }, { id: 'follow-up', label: 'Follow-up counseling' }] } },
+    { id: 'topics', definition: { ...text('Subjects discussed and progress since last session'), multiline: true }, height: 110 },
+    { id: 'goals', definition: { ...text('Agreed targets, actions and responsibilities'), multiline: true }, height: 110 },
+    { id: 'next', definition: { kind: 'date', label: 'Next session date, if scheduled' } },
+  ]);
+}

@@ -142,3 +142,12 @@ it('selects the required documents for dependency-application', async () => {
   expect(template.members[0].completion?.blankSha256).toBe(createHash('sha256')
     .update(Buffer.from(template.members[0].blankPdf!.data, 'base64')).digest('hex'));
 });
+
+it('selects the required documents for developmental-counseling', async () => {
+  serveOfficialForms();
+  const template = await maintainedPackageAction('developmental-counseling');
+  const selected = (values: Record<string, string | boolean>) => listConditionalPackageInstances(template, { version: 1, groups: {}, values })
+    .filter(member => member.condition === true).map(member => member.memberKey);
+  expect(selected({ session: 'initial', prior: true, signed: false })).toEqual(['counseling']);
+  expect(selected({ session: 'follow-up', prior: true, signed: true })).toEqual(['counseling', 'prior-record', 'acknowledgment']);
+});

@@ -13,6 +13,9 @@ interface ActionListing {
 }
 
 const actions = [
+  { id: 'developmental-counseling', build: async () => (await import('./recipes/developmentalCounseling')).developmentalCounseling(),
+    name: 'Developmental counseling', startLabel: 'Start developmental counseling', startWithDocuments: true, kind: 'Forms-led',
+    description: 'Record the discussion, agreed targets and next session, with an optional prior record or signed acknowledgment.' },
   { id: 'dependency-application', build: async () => (await import('./recipes/dependencyApplication')).dependencyApplication(),
     name: 'Dependency application', startLabel: 'Start dependency application', startWithDocuments: true, kind: 'Forms-led',
     description: 'Prepare NAVMC 10922 and supporting records for a marriage, birth, or loss of dependency.' },
