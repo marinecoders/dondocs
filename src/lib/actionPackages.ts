@@ -576,7 +576,8 @@ export async function namePackageDocument(record: ActionPackage, memberId: strin
 
 export function commitPackageMetadata(record: ActionPackage, changes: Pick<PackageRevision, 'documentNames' | 'bindings'>, signal?: AbortSignal, isCurrent?: () => boolean) {
   const current = getPackageRevision(record);
-  const revision = { ...current, ...changes, id: newPackageId("revision"), parentId: current.id, createdAt: Date.now() };
+  // A binding decision changes delivery readiness. Retained exports belong to the revision that prepared them.
+  const revision = { ...current, ...changes, outputs: changes.bindings ? [] : current.outputs, id: newPackageId("revision"), parentId: current.id, createdAt: Date.now() };
   const workingCopies = record.workingCopies?.map(copy => copy.revisionId === current.id
     ? { ...copy, revisionId: revision.id } : copy);
   return commitActionPackage(record, { ...record, ...(workingCopies && { workingCopies }),
