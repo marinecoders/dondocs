@@ -1,3 +1,4 @@
+import { packageFormSigningAction } from '@/lib/packageOfficialForms';
 import { packageDocumentName } from '@/lib/actionPackages';
 import type { PreparedPackageAssembly } from '@/lib/actionPackageAssembly';
 import type { PackageRevision } from '@/lib/actionPackages';
@@ -33,12 +34,26 @@ export function PackageExportFindings({ results, revision, onNavigate, editable 
   onNavigate(destination: PackageDestination): void;
 }) {
   const findings = results.flatMap(result => result.readiness.findings);
-  const names = new Map(revision.members.map(member => [member.id, packageDocumentName(revision, member)]));
+  const members = new Map(revision.members.map(member => [member.id, member]));
   return <div className="space-y-4">
-    {findings.map((finding, index) => <div key={index} className="flex items-start justify-between gap-4 text-sm">
-      <p role={finding.severity === 'error' ? 'alert' : undefined} className="break-words">{finding.memberId && `${names.get(finding.memberId) ?? 'Document'}: `}{finding.message}</p>
-      {finding.memberId && <Button variant="link" size="sm" className="h-auto shrink-0 p-0" onClick={() => onNavigate({ section: 'documents', memberId: finding.memberId, revisionId: revision.id, correction: editable ? finding.correction : undefined })}>{editable && finding.correction ? finding.correction.label : 'Open document'}</Button>}
-    </div>)}
+    {findings.map((finding, index) => {
+      const member = finding.memberId ? members.get(finding.memberId) : undefined;
+      const signatures = editable && member && packageFormSigningAction(member) ? Object.entries(finding.signatureLabels ?? {}) : [];
+      const name = member && packageDocumentName(revision, member);
+      const message = member && finding.message.startsWith(member.label + ': ')
+        ? finding.message.slice(member.label.length + 2) : finding.message;
+      return <div key={index} className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+        <p role={finding.severity === 'error' ? 'alert' : undefined} className="break-words">{name && `${name}: `}{message}</p>
+        {signatures.map(([field, label]) => <Button key={field} variant="link" size="sm"
+          onClick={() => onNavigate({ memberId: finding.memberId, revisionId: revision.id, signatureField: field })}>
+          Review {label}
+        </Button>)}
+        {finding.memberId && (!signatures.length || finding.correction) && <Button variant="link" size="sm" className="h-auto shrink-0 p-0"
+          onClick={() => onNavigate({ section: 'documents', memberId: finding.memberId, revisionId: revision.id, correction: editable ? finding.correction : undefined })}>
+          {editable && finding.correction ? finding.correction.label : 'Open document'}
+        </Button>}
+      </div>;
+    })}
     <PackageContentFindings reviews={results.flatMap(result => result.reviews)} />
   </div>;
 }

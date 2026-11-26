@@ -1693,7 +1693,7 @@ function PackageDialog({
 
                   {pdfOutput?.prepared === prepared && <PackagePreparedPdf output={pdfOutput} draft={reviewMode === 'draft'}
                     onSendOriginals={() => { cancelExport(); setSignedSelectionOwner(selectionOwner); setDeliveryFormat('recipient'); }} hasSignedOriginal={revision.members.some(member => member.kind === 'original' && member.signedOriginal)} />}
-                  <PackageExportFindings editable={editable} results={[prepared, ...otherReviews]} revision={revision} onNavigate={followDestination} />
+                  <PackageExportFindings editable={editable} results={[prepared, ...otherReviews]} revision={revision} onNavigate={openDeliveryFinding} />
 
                   <div className="flex flex-wrap gap-2"><Button
                     disabled={

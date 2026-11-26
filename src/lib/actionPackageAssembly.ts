@@ -95,6 +95,7 @@ import { capturePackageRenderProvenance } from "./packageRenderProvenance";
 import type { PackageOutput, PackageRevision } from "./actionPackages";
 
 export interface PackageFinding {
+  signatureLabels?: Record<string, string>;
   correction?: import('./packageDestinations').PackageCorrection;
   memberId?: string;
   message: string;
@@ -247,8 +248,8 @@ export async function preparePackageAssembly(
     try { reviews.push({ member: "Package requirements", review: reviewPackageRequirements(revision.requirements, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : "Package requirements could not be reviewed."); }
   }
-  const workflowFinding = (message: string, memberId?: string, correction?: PackageFinding['correction']) =>
-    findings.push({ message, memberId, correction, severity: options.draftPdf ? 'warning' : 'error' });
+  const workflowFinding = (message: string, memberId?: string, correction?: PackageFinding['correction'], signatureLabels?: Record<string, string>) =>
+    findings.push({ message, memberId, correction, signatureLabels, severity: options.draftPdf ? 'warning' : 'error' });
   if (purpose === 'pdf') {
     for (const member of revision.members.filter(item => item.required)) {
       officialFormCompletionIssues(member, undefined, (message, correction) => workflowFinding(message, member.id, correction));
@@ -271,7 +272,7 @@ export async function preparePackageAssembly(
       severity: purpose === 'portable' || !finding.required ? 'warning' : 'error' });
   for (const item of requirements.items) if (["missing", "unknown", "invalid"].includes(item.state)) {
     if (item.state === 'invalid') error(`${item.label}: ${item.message}`, item.memberId);
-    else workflowFinding(`${item.label}: ${item.message}`, item.memberId, item.corrections?.[0]);
+    else workflowFinding(`${item.label}: ${item.message}`, item.memberId, item.corrections?.[0], item.signatureLabels);
   }
   findings.push(...(await packageBindingReadiness(revision)).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? "warning" as const : "error" as const })));
   const completeness = (message: string, memberId?: string) => findings.push({ message, memberId, severity: purpose === "portable" ? "warning" as const : "error" as const });

@@ -32,6 +32,7 @@ export function PackageDeliveryFindings({ revision, documents, findings, onNavig
     const needsIntake = item.fromIntake || (item.state === 'unknown' && revision.templateState) || (!member && slot);
     const target: PackageDestination = needsIntake ? { panel: 'intake', intakeSlot: slot?.key }
       : member ? { memberId: member.id } : { panel: 'requirements', requirementId: item.id };
+    const labels = new Map(items.flatMap(finding => Object.entries(finding.signatureLabels ?? {})));
     const fields = new Set(items.flatMap(finding => finding.signatureFields ?? []));
     const action = target.memberId ? 'Open document' : target.panel === 'requirements' ? 'Review requirement' : slot && !member ? 'Open intake slot' : 'Review intake';
     const messages = new Set(items.flatMap(finding => {
@@ -44,7 +45,7 @@ export function PackageDeliveryFindings({ revision, documents, findings, onNavig
     const handoff = member && fields.size > 0 && revision.signing?.handoffs.slice().reverse().find(entry =>
       entry.target.kind === 'member' && entry.target.id === member.id && entry.target.revisionId === member.revisionId && !entry.returns?.length);
     if (!signingAvailable && member && fields.size) {
-      messages.add('Outstanding signatures: ' + Array.from(fields, field => packageSignatureFieldLabel(member, field)).join(', ') + '.');
+      messages.add('Outstanding signatures: ' + Array.from(fields, field => (labels.get(field) || packageSignatureFieldLabel(member, field))).join(', ') + '.');
     }
     return <li key={key} className="space-y-1 py-3">
       <p className="font-medium">{target.memberId ? member?.label : item.label}</p>
@@ -58,7 +59,7 @@ export function PackageDeliveryFindings({ revision, documents, findings, onNavig
       </p>}
       {signingAvailable && member && Array.from(fields, field => {
         return <Button type="button" key={field} size="sm" variant="link" disabled={disabled}
-          onClick={() => onNavigate({ revisionId: revision.id, memberId: member.id, signatureField: field })}>Review {packageSignatureFieldLabel(member, field)}</Button>;
+          onClick={() => onNavigate({ revisionId: revision.id, memberId: member.id, signatureField: field })}>Review {labels.get(field) || packageSignatureFieldLabel(member, field)}</Button>;
       })}
     </li>;
   })}</ul>;

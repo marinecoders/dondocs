@@ -31,7 +31,7 @@ export function OfficialFormSigning({ record, initialField, onSave, onAttach }: 
   const selectInspection = (value: OfficialInspection) => {
     const available = value.fields.filter(item => !item.locked && !item.signed);
     setInspection(value);
-    setField(previous => available.some(item => item.name === previous) ? previous : available[0]?.name ?? '');
+    setField(previous => previous && !available.some(item => item.name === previous) ? '' : previous || available[0]?.name || '');
     setReviewed(false); setFinalize(false);
   };
 
@@ -93,10 +93,12 @@ export function OfficialFormSigning({ record, initialField, onSave, onAttach }: 
         </li>)}</ul>
         {!inspection.fields.some(item => item.signed) && <p className="text-sm text-muted-foreground">If a signer will use Acrobat, have them sign there first. Open their signed PDF in the signing workspace to countersign in DonDocs.</p>}
         {inspection.fields.some(item => item.signed) && <p className="text-sm text-muted-foreground">Certificate chains are checked offline. Current revocation status may be unavailable.</p>}
-        {selected && <><label className="grid gap-1 text-sm">Signature field<select className="rounded border bg-background p-2" value={field}
-          onChange={e => { setField(e.target.value); setReviewed(false); }}>{inspection.fields.filter(item => !item.locked && !item.signed)
-            .map(item => <option key={item.name} value={item.name}>{item.label}</option>)}</select></label>
-          {selected.lockAction && <details className="text-sm"><summary>Fields locked by this signature</summary>
+        {inspection.fields.some(item => !item.locked && !item.signed) && <label className="grid gap-1 text-sm">Signature field<select className="rounded border bg-background p-2" value={field}
+          onChange={e => { setField(e.target.value); setReviewed(false); setFinalize(false); }}>
+          {!selected && <option value="" disabled>Select an available signature field</option>}
+          {inspection.fields.filter(item => !item.locked && !item.signed)
+            .map(item => <option key={item.name} value={item.name}>{item.label}</option>)}</select></label>}
+        {selected && <>{selected.lockAction && <details className="text-sm"><summary>Fields locked by this signature</summary>
             <p>{selected.lockAction === 'All' ? 'All fields' : selected.lockAction === 'Exclude' ? 'All fields except the following' : 'The following fields'}</p>
             <ul>{selected.lockFields.map(name => <li key={name}>{name}</li>)}</ul></details>}
           {identities.length > 0 && <label className="grid gap-1 text-sm">Signing certificate<select className="rounded border bg-background p-2" value={certificate} onChange={e => { setCertificate(e.target.value); setReviewed(false); }}>
