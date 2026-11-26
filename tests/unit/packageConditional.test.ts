@@ -616,7 +616,7 @@ it('uses an exact saved PDF in another recipe slot and checks its active complet
 
 it('captures a returned original against its saved slot without finishing unrelated intake', async () => {
   const { readFile } = await import('node:fs/promises');
-  const { attachPackageSlotFile } = await import('@/lib/packageSlotFiles');
+  const { attachPackageSlotFiles } = await import('@/lib/packageSlotFiles');
   const { startConditionalPackage } = await import('@/lib/packageConditional');
   const { portableResourceDigest } = await import('@/lib/portableResources');
   const source = template();
@@ -627,13 +627,13 @@ it('captures a returned original against its saved slot without finishing unrela
   const initial = await startConditionalPackage(source, policy, undefined, () => true);
   const revision = getPackageRevision(initial);
   const slot = revision.templateState!.instances.find(item => item.memberKey === 'returned')!;
-  await expect(attachPackageSlotFile(initial, revision.id, slot.memberId, blank, false)).rejects.toThrow('blank form');
+  await expect(attachPackageSlotFiles(initial, revision.id, slot.memberId, [blank], false)).rejects.toThrow('blank form');
   const original = await file('source-cropped.pdf');
-  const next = await attachPackageSlotFile(initial, revision.id, slot.memberId, original, true);
+  const next = await attachPackageSlotFiles(initial, revision.id, slot.memberId, [original], true);
   const member = getPackageRevision(next).members.find(item => item.id === slot.memberId);
   expect(member).toMatchObject({ kind: 'original', signedOriginal: true, original: { name: original.name } });
   expect(getPackageRevision(next).templateState?.pending).toBe(true);
-  await expect(attachPackageSlotFile(next, revision.id, slot.memberId, original, false)).rejects.toThrow('current editable');
+  await expect(attachPackageSlotFiles(next, revision.id, slot.memberId, [original], false)).rejects.toThrow('current editable');
 });
 
 it('appends independent evidence PDFs, transfers both originals and keeps the slot when its first file is removed', async () => {

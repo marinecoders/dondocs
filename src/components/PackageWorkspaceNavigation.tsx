@@ -67,6 +67,9 @@ export function PackageMemberNavigation({ revision, members, selectedId, disable
   onSelect(id: string): void;
 }) {
   if (!members.length) return null;
+  const participants = new Map(revision.information?.participants.map(person => [person.id, person.label]));
+  const owners = new Map(revision.templateState?.instances.map(slot => [slot.memberId, slot.participantId]));
+  const groupAt = (index: number) => participants.get(owners.get(members[index]?.id) ?? '');
   return <nav aria-label="Package documents" className="min-w-0 space-y-2 lg:sticky lg:top-0 lg:self-start">
     <label className="block text-sm lg:hidden">Document to inspect
       <select aria-label="Document to inspect" className="mt-1 w-full min-w-0 rounded border bg-background p-2"
@@ -76,13 +79,15 @@ export function PackageMemberNavigation({ revision, members, selectedId, disable
     </label>
     <div className="hidden space-y-1 lg:block">
       <p className="px-2 text-xs font-medium text-muted-foreground">Package documents</p>
-      {members.map((member, index) => <button key={member.id} type="button"
+      {members.map((member, index) => <div key={member.id}>
+        {groupAt(index) && groupAt(index) !== groupAt(index - 1) && <p className="px-2 pt-3 text-xs font-medium">{groupAt(index)}</p>}
+        <button type="button"
         disabled={disabled} aria-current={selectedId === member.id ? 'true' : undefined}
         className={`flex w-full min-w-0 items-start gap-2 rounded-md px-2 py-2.5 text-left text-sm disabled:opacity-50 ${selectedId === member.id ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'}`}
         onClick={() => onSelect(member.id)}>
         {member.kind !== 'native' ? <Paperclip className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <FileText className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
         <span className="min-w-0 break-words"><span className="font-medium">{index + 1}. {packageDocumentName(revision, member)}</span><span className="block text-xs text-muted-foreground">{memberKind(member)}</span></span>
-      </button>)}
+      </button></div>)}
     </div>
   </nav>;
 }

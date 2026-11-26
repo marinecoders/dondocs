@@ -327,3 +327,17 @@ test('fills a new evidence slot from an original already in the package without 
   const resource = exported.data.portableResources.entries.find((entry: { path: string }) => entry.path === 'assets/' + originals[0].original.id);
   expect(Buffer.from(resource.data, 'base64')).toEqual(bytes);
 });
+
+test('shows missing evidence in Documents before the first file is supplied', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing' }).click();
+  const dialog = await packages(page);
+  const panel = await start(dialog, 'evidence submission');
+  await panel.getByRole('button', { name: 'Save package draft', exact: true }).click();
+  await expect(panel.getByText('Intake saved; document changes not applied.', { exact: true })).toBeVisible();
+  await packageSection(dialog, 'Documents');
+  const requirements = dialog.getByRole('list', { name: 'Document requirements' });
+  await expect(requirements.getByText('Original supporting PDF', { exact: true })).toBeVisible();
+  await requirements.getByRole('button', { name: 'Add files' }).click();
+  await expect(panel.getByLabel('PDF for Original supporting PDF')).toBeVisible();
+});
