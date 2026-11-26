@@ -107,3 +107,22 @@ test('reviews the current candidate, preserves approved pages on cancel, and exp
   const entries: { name: string; data: string }[] = JSON.parse(exported.toString()).portableResources.entries;
   expect(entries.find(entry => entry.name === 'copy.pdf')?.data).toEqual(second.buffer.toString('base64'));
 });
+
+test('preserves a print-permitted original and rejects an opening password at intake', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing' }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newPackage(workspace);
+  const custom = workspace.getByRole('group', { name: 'Custom package' });
+  await custom.getByLabel('Package name').fill('Protected originals');
+  await custom.getByRole('button', { name: 'Create package' }).click();
+  const upload = workspace.getByLabel('Add original PDF', { exact: true });
+  await upload.setInputFiles('tests/fixtures/permission-pdfs/opening-password.pdf');
+  await expect(workspace.getByText(/requires an opening password/)).toBeVisible();
+  const path = 'tests/fixtures/permission-pdfs/owner-aes.pdf';
+  await upload.setInputFiles(path);
+  await expect(workspace.getByText('Ready for the combined PDF.')).toBeVisible();
+  const portable = await downloadPackageExport(page, workspace, 'Export editable package', 'Download editable package');
+  const entries: { name: string; data: string }[] = JSON.parse(portable.toString()).portableResources.entries;
+  expect(entries.find(entry => entry.name === 'owner-aes.pdf')?.data).toEqual((await readFile(path)).toString('base64'));
+});
