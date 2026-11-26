@@ -113,6 +113,13 @@ class Handler(BaseHTTPRequestHandler):
             self.reply(422, {"error": "Could not qualify this PDF revision for signing."})
 
 
+def helper_command(executable):
+    if executable:
+        return [str(executable.resolve(strict=True))]
+    script = Path(__file__).resolve().parents[1] / "cac-signing/windows/helper.py"
+    return [sys.executable, str(script.resolve(strict=True))]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--origin", required=True)
@@ -120,13 +127,9 @@ def main():
     parser.add_argument("--ca-bundle", required=True, type=Path)
     parser.add_argument("--font", type=Path, help="Installed Times New Roman regular font")
     args = parser.parse_args()
-    if args.helper:
-        helper = [str(args.helper.resolve(strict=True))]
-    elif sys.platform == "win32":
-        script = Path(__file__).resolve().parents[1] / "cac-signing/windows/helper.py"
-        helper = [sys.executable, str(script.resolve(strict=True))]
-    else:
+    if not args.helper and sys.platform != "win32":
         parser.error("--helper is required on this platform")
+    helper = helper_command(args.helper)
     font = args.font
     if font is None and sys.platform == "win32" and os.environ.get("SystemRoot"):
         font = Path(os.environ["SystemRoot"]) / "Fonts/times.ttf"

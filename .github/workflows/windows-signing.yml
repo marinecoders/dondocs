@@ -1,0 +1,49 @@
+name: Windows signing
+
+on:
+  push:
+    branches: [main, feat/windows-cac-signing]
+    paths: &signing_paths
+      - '.github/workflows/windows-signing.yml'
+      - 'companion/cac-signing/windows/**'
+      - 'companion/official-form-signing/**'
+      - 'src/components/Official*Sign*.tsx'
+      - 'src/services/forms/signingBridge.ts'
+      - 'src/lib/officialSigning.ts'
+      - 'src/data/officialPdfEditions.json'
+      - 'public/templates/NAVMC11811*/**'
+      - 'tests/windows-signing/**'
+  pull_request:
+    paths: *signing_paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-signing-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  qualify:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+          cache: npm
+      - run: python -m pip install -r companion/official-form-signing/requirements.txt
+      - name: Check native signing providers
+        run: python -m unittest discover -s companion/cac-signing/windows
+      - run: npm ci
+      - run: npx playwright install chromium
+      - run: node scripts/default-classification-config.mjs
+      - name: Exercise the signing workspace
+        run: npx playwright test --config tests/windows-signing/playwright.config.ts
