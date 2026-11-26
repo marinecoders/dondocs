@@ -7,7 +7,8 @@ import {
   retainPackageMemberTemplates,
   validatePackageMemberTemplates,
 } from "./actionPackageTemplates";
-import { PDFDocument } from "pdf-lib";
+import { validatePackageOriginalPdf } from './packageOriginalPdf';
+export { validatePackageOriginalPdf } from './packageOriginalPdf';
 import type { CapturedDocument } from "./capturedDocument";
 import { copyCapturedDocument } from "./capturedDocument";
 import { buildDraftFileFromSnapshot } from "./draftFile";
@@ -61,23 +62,6 @@ export async function readPackageAsset(
       `Missing or corrupt saved file: ${asset.name}. Restore an intact package or workspace backup.`,
     );
   return data.slice(0);
-}
-/** Inspect originals without rewriting their preserved bytes or signatures. */
-export async function validatePackageOriginalPdf(data: ArrayBuffer): Promise<void> {
-  if (await identifyOfficialOriginal(data)) {
-    // Restricted official forms may be readable and signable in Acrobat. Inspect with PDF.js
-    // using its normal empty-password handling, retaining the original bytes for transfer.
-    const [{ pdfjs }, { HARDENED_PDF_OPTIONS }] = await Promise.all([import('react-pdf'), import('@/components/pdf/pdfConfig')]);
-    const task = pdfjs.getDocument({ data: new Uint8Array(data.slice(0)), password: '', ...HARDENED_PDF_OPTIONS });
-    try {
-      if ((await task.promise).numPages < 1) throw new Error('The official PDF has no pages.');
-    } finally { await task.destroy(); }
-    return;
-  }
-  if ((await PDFDocument.load(data)).getPageCount() < 1)
-    throw new Error(
-      "An original PDF must contain at least one page. Choose a PDF with pages before adding or restoring this package.",
-    );
 }
 export async function readPackageMemberDraft(member: NativePackageMember, read: typeof readPackageAsset = readPackageAsset) {
   const bytes = await read(member.draft);

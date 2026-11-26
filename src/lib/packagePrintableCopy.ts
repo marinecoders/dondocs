@@ -2,6 +2,7 @@ import { getExportDeploymentPolicySync } from '@/config/classification';
 import { newAttachmentId } from './attachments';
 import { getPackageRevision, newPackageId, reviseActionPackage, type ActionPackage, type PackageMember } from './actionPackages';
 import { portableResourceDigest } from './portableResources';
+import { inspectPackageOriginal } from './packageOriginalPdf';
 import { loadAssemblyPdf } from '@/services/pdf/assemblyPdf';
 
 // Cache successful checks by content only. An aborted or failed render can be retried.
@@ -11,6 +12,7 @@ export async function checkPackagePrintablePdf(data: ArrayBuffer, signal?: Abort
   const digest = await portableResourceDigest(data);
   signal?.throwIfAborted();
   if (!checked.has(digest)) {
+    if (!(await inspectPackageOriginal(data)).printable) throw new Error('Printing is restricted for this original.');
     const { pdf } = await loadAssemblyPdf(data, signal);
     if (!pdf.getPageCount()) throw new Error('The printable PDF has no pages.');
     signal?.throwIfAborted();

@@ -1,6 +1,7 @@
 import { PDFDocument } from 'pdf-lib';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { assemblePackage, preparePackageAssembly, type PackageGeneratedPdfKey, type PreparedPackageAssembly } from './actionPackageAssembly';
+import { inspectPackageOriginal } from './packageOriginalPdf';
 import { readPackageAsset } from './actionPackageAssets';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, packageAssets, type ActionPackage } from './actionPackages';
 import { getBatchOutput, idbComparePackageJob, idbReadPackageJobs, putBatchOutput, type StoredAttachment } from './documentsDb';
@@ -61,7 +62,7 @@ export async function preparePackageJob(record: ActionPackage, revisionId: strin
       readIds.add(asset.id); retainedBytes += asset.size;
     }
     const bytes = await readPackageAsset(asset); check(options.signal, options.isCurrent);
-    if (asset.type === 'application/pdf' && (await PDFDocument.load(bytes)).getPageCount() > 500) throw new Error('A captured PDF exceeds the 500-page job limit. Use a smaller delivery.');
+    if (asset.type === 'application/pdf' && (await inspectPackageOriginal(bytes)).pages > 500) throw new Error('A captured PDF exceeds the 500-page job limit. Use a smaller delivery.');
     return bytes;
   } });
   check(options.signal, options.isCurrent);
