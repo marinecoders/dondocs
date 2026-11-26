@@ -50,12 +50,14 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
     return () => { current = false; };
   }, [revision, visible]);
   const choice = purpose === 'recipient' ? choices?.find(item => selection.choiceId ? item.id === selection.choiceId : scope === 'complete' && item.complete) : undefined;
+  const loadingChoices = purpose === 'recipient' && !!revision.templateState?.hasDeliveryChoices && !choices;
+  const unavailableChoice = !!selection.choiceId && !choice;
   const label = choice && selection.label === 'Selected documents' ? choice.label : selection.label;
   const memberIds = choice?.memberIds ?? revision.members.filter(member => scope === 'complete' || selection.memberIds.includes(member.id)).map(member => member.id);
   const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
   const [findings, setFindings] = useState<PackageRequirementFinding[]>([]);
   useEffect(() => {
-    if (!visible || !recheck || disabled || purpose !== 'recipient') return;
+    if (!visible || !recheck || disabled || purpose !== 'recipient' || loadingChoices || unavailableChoice) return;
     const controller = new AbortController();
     void assertDeliveryRequirements(revision, scope === 'selected' ? choice?.memberIds ?? selection.memberIds : undefined, controller.signal, choice)
       .then(() => { if (!controller.signal.aborted) setFindings([]); })
@@ -64,7 +66,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
         else setError(cause instanceof Error ? cause.message : 'Readiness check failed.');
       } });
     return () => controller.abort();
-  }, [visible, recheck, revision, selection.memberIds, scope, purpose, disabled, choice]);
+  }, [visible, recheck, revision, selection.memberIds, scope, purpose, disabled, choice, loadingChoices, unavailableChoice]);
   const [reviewCount, setReviewCount] = useState(10), [fileCount, setFileCount] = useState(25);
   const preparedPolicy = useRef<string | undefined>(undefined);
   const mounted = useRef(false), running = useRef(false), generation = useRef(0), callback = useRef(onPreparedChange);
@@ -123,7 +125,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
         }}>
         <option value="complete">{choices?.find(item => item.complete)?.label ?? 'Complete package'}</option>
         {choices?.filter(item => !item.complete).map(item => <option key={item.id} value={'choice/' + item.id}>{item.label}</option>)}
-        {selection.choiceId && !choice && <option value={'choice/' + selection.choiceId} disabled>Unavailable for this revision</option>}
+        {selection.choiceId && !choice && <option value={'choice/' + selection.choiceId} disabled>{loadingChoices && !choiceError ? 'Loading delivery choice…' : 'Unavailable for this revision'}</option>}
         <option value="selected">Selected files only</option>
       </select></label>}
       </div>
@@ -140,7 +142,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
           <span>Tag supported correspondence PDFs (experimental)<span className="block text-xs text-muted-foreground">Logical reading order and table headings are included. Original files keep their existing accessibility.</span></span>
         </label>}
       </div></details>
-      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length && !choice || !!selection.choiceId && !choice || !!revision.templateState?.hasDeliveryChoices && purpose === 'recipient' && !choices} onClick={() => void perform(async (current, operationSignal) => {
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length && !choice || unavailableChoice || loadingChoices} onClick={() => void perform(async (current, operationSignal) => {
         const policy = await getExportDeploymentPolicy();
         const value = await preparePackageDelivery(record, revision.id, { label, purpose, scope, memberIds, choiceId: choice?.id, taggedNativePdfs: canTagNativePdfs && taggedNativePdfs }, policy, ports, operationSignal, current);
         if (current()) { preparedPolicy.current = policy.status === 'ready' ? JSON.stringify(policy.policy) : undefined; setFindings([]); setPrepared(value); setApproved(false); setReviewCount(10); setFileCount(25); callback.current?.(value); }
