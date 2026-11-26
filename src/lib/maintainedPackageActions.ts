@@ -13,6 +13,9 @@ interface ActionListing {
 }
 
 const actions = [
+  { id: 'okinawa-tla', build: async () => (await import('./recipes/okinawaTla')).okinawaTla(),
+    name: 'Okinawa TLA claim', startLabel: 'Start Okinawa TLA claim', startWithDocuments: true, kind: 'Mixed evidence',
+    description: 'Assemble one lodging claim period with the signed local request, paid receipts and the records for arrival or departure.' },
   { id: 'okinawa-cola', build: async () => (await import('./recipes/okinawaCola')).okinawaCola(),
     name: 'Okinawa overseas COLA', startLabel: 'Start Okinawa overseas COLA', startWithDocuments: true, kind: 'Forms-led',
     description: 'Prepare the member and command sections of NAVMC 11106 for an Okinawa claim and attach the supporting orders and arrival records.' },

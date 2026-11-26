@@ -50,3 +50,11 @@ test('opens the official COLA form in the package editor', async ({ page }) => {
   if (await preview.isVisible()) await preview.click();
   await expect(editor.locator('[data-pdf-layer="active"] canvas').first()).toBeVisible();
 });
+
+test('opens the saved Okinawa filing guide inside a TLA claim', async ({ page }) => {
+  const workspace = await startPackage(page, 'Okinawa TLA claim');
+  await workspace.getByRole('button', { name: /Okinawa TLA - Arrival and departure filing guides/ }).click();
+  const reader = page.getByRole('dialog', { name: /Okinawa TLA - Arrival and departure filing guides/ });
+  await expect(reader.locator('canvas').first()).toBeVisible();
+  await expect(reader.getByRole('button', { name: 'Download original' })).toBeVisible();
+});
