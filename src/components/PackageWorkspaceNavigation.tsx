@@ -66,7 +66,7 @@ export function PackageMemberNavigation({ revision, members, selectedId, disable
   selectedId?: string;
   disabled: boolean;
   onSelect(id: string): void;
-  onMove?(from: string, to: string): void;
+  onMove?(from: string, to: string, keyboard: boolean): void;
 }) {
   const [arranging, setArranging] = useState(false);
   if (!members.length) return null;

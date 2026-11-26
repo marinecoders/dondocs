@@ -17,7 +17,7 @@ const documentUnderPointer: CollisionDetection = args => {
 };
 
 export function PackageDocumentOrder({ ids, labels, disabled, onMove, children }: {
-  ids: string[]; labels: ReadonlyMap<string, string>; disabled: boolean; onMove(from: string, to: string): void; children: ReactNode;
+  ids: string[]; labels: ReadonlyMap<string, string>; disabled: boolean; onMove(from: string, to: string, keyboard: boolean): void; children: ReactNode;
 }) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
@@ -27,8 +27,8 @@ export function PackageDocumentOrder({ ids, labels, disabled, onMove, children }
     onDragOver: ({ over }) => over ? 'Drop at position ' + (ids.indexOf(String(over.id)) + 1) + ', ' + name(over.id) + '.' : 'Outside the document list.',
     onDragEnd: ({ active, over }) => over ? name(active.id) + ' dropped at position ' + (ids.indexOf(String(over.id)) + 1) + '.' : 'Order unchanged.',
     onDragCancel: () => 'Order unchanged.',
-  } }} collisionDetection={documentUnderPointer} onDragEnd={({ active, over }) => {
-    if (!disabled && over && active.id !== over.id) onMove(String(active.id), String(over.id));
+  } }} collisionDetection={documentUnderPointer} onDragEnd={({ active, over, activatorEvent }) => {
+    if (!disabled && over && active.id !== over.id) onMove(String(active.id), String(over.id), activatorEvent instanceof KeyboardEvent);
   }}><SortableContext items={ids} strategy={verticalListSortingStrategy}>{children}</SortableContext></DndContext>;
 }
 
@@ -36,7 +36,7 @@ export function PackageOrderRow({ id, label, disabled, children }: { id: string;
   const { setNodeRef, setActivatorNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({ id, disabled });
   return <div ref={setNodeRef}><div data-package-reordering={isDragging || undefined} style={{ transform: CSS.Transform.toString(transform), transition }}
     className={`flex items-center rounded-md bg-background ${isDragging ? 'relative z-10 shadow-md ring-1 ring-border' : ''}`}>
-    <button type="button" ref={setActivatorNodeRef} {...attributes} {...listeners} aria-label={'Reorder ' + label}
+    <button type="button" ref={setActivatorNodeRef} data-package-order-handle={id} {...attributes} {...listeners} aria-label={'Reorder ' + label}
       disabled={disabled} className="shrink-0 touch-none cursor-grab rounded p-1.5 text-muted-foreground hover:bg-accent focus-visible:ring-2 active:cursor-grabbing">
       <GripVertical aria-hidden="true" className="size-4" />
     </button>

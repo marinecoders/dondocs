@@ -41,6 +41,15 @@ test('assembles a custom letter and two PDFs and preserves their order on reload
   await source.focus(); await page.keyboard.press('Space');
   await expect(source).toHaveAttribute('aria-pressed', 'true'); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Escape');
   await expect(workspace).toHaveAttribute('data-revision-id', revision!);
+  for (const [arrow, position] of [['ArrowDown', 3], ['ArrowUp', 2]] as const) {
+    await source.focus(); await page.keyboard.press('Space');
+    await expect(source).toHaveAttribute('aria-pressed', 'true');
+    await page.keyboard.press(arrow);
+    await expect(workspace.getByRole('status').filter({ hasText: 'Drop at position ' + position })).toBeAttached();
+    await page.keyboard.press('Space');
+    await expect(sidebar.getByRole('button', { name: new RegExp(position + '[.] Second[.]pdf') })).toBeVisible();
+    await expect(source).toBeFocused();
+  }
   await expect(await packageHeading(workspace, '2. Second.pdf')).toBeVisible();
   await page.reload();
   workspace = await openPackageWorkspace(page);
