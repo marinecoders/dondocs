@@ -45,3 +45,29 @@ it('routes document and package findings for the selected saved revision only', 
   expect(screen.queryByText('Confirm this record.')).toBeNull();
   expect(await screen.findByText(member.label)).toBeVisible();
 });
+
+it('opens the exact missing signature and keeps read-only corrections on the saved document', async () => {
+  const pdf = await PDFDocument.create(); pdf.addPage();
+  const original = await captureOriginalPackageMember({ name: 'Training.pdf', data: new Uint8Array(await pdf.save()).buffer }, 'enclosure', false);
+  if (original.kind !== 'original') throw new Error('Expected original PDF');
+  const member = { ...original, officialFormId: 'navmc_118_11', signedOriginal: true };
+  const revision = { id: 'reviewed', createdAt: 1, members: [member], outputs: [] };
+  const field = 'page[0].SignatureField1[0]';
+  const finding: requirements.PackageRequirementFinding = { id: 'signed', memberId: member.id, kind: 'document',
+    state: 'missing', label: 'Required signature', message: 'Awaiting signature', signatureFields: [field], signatureLabels: { [field]: 'Certifying official' } };
+  vi.spyOn(requirements, 'assertDeliveryRequirements').mockRejectedValue(new requirements.PackageDeliveryBlocked([finding]));
+  const action = { id: 'requirement-signed', kind: 'evidence' as const, blocking: true, label: finding.label, message: finding.message,
+    destination: { panel: 'requirements' as const, memberId: member.id } };
+  const result = { operation: 'pdf' as const, readyForOperation: false, computedBlockers: 1, pendingTasks: 0, actions: [action] };
+  const props = { revision, active: true, format: 'pdf' as const, canSign: true, disabled: false, pdfDisabled: false,
+    checks: { result, error: undefined }, onFormat: vi.fn(), onPrepare: vi.fn(), onOpenDocument: vi.fn(), onNavigate: vi.fn() };
+  const view = render(<PackageExportOptions {...props} />);
+  const next = within(screen.getByRole('group', { name: 'Next delivery action' }));
+  fireEvent.click(await next.findByRole('button', { name: 'Review Certifying official' }));
+  expect(props.onNavigate).toHaveBeenLastCalledWith({ revisionId: revision.id, memberId: member.id, signatureField: field });
+  view.rerender(<PackageExportOptions {...props} canSign={false} checks={{ ...props.checks, result: { ...result, actions: [
+    { ...action, destination: { memberId: member.id, correction: { kind: 'replace', label: 'Replace PDF' } } },
+  ] } }} />);
+  fireEvent.click(next.getByRole('button', { name: 'Open document' }));
+  expect(props.onNavigate).toHaveBeenLastCalledWith({ revisionId: revision.id, memberId: member.id, section: 'documents' });
+});

@@ -96,7 +96,7 @@ it('prepares an exact selected delivery while viewing a saved review without mis
     const value = await openReview(...args); await heldReview; return value;
   });
   await workspaceSection(dialog, 'Delivery', user);
-  await user.click(within(dialog).getByRole('button', { name: 'Send selected files' }));
+  await user.click(within(dialog).getByRole('button', { name: 'Download selected files (.zip)' }));
   await within(dialog).findByRole('button', { name: 'Prepare selected delivery' });
   await workspaceSection(dialog, 'Review', user);
   await user.click(within(dialog).getByRole('button', { name: 'Open review Captured delivery review' }));
