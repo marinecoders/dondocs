@@ -103,7 +103,11 @@ export async function buildPortableActionPackage(
 export async function parsePortableActionPackage(json: string) {
   if (new TextEncoder().encode(json).byteLength > MAX_PACKAGE_FILE_BYTES)
     throw new Error("This editable package exceeds the 100 MB transfer limit.");
-  const envelope = envelopeSchema.parse(JSON.parse(json));
+  const input = JSON.parse(json);
+  // Current exports contain one revision. Keep the existing bound for older transfer files.
+  if (Array.isArray(input?.package?.revisions) && input.package.revisions.length > 200)
+    throw new Error("Editable package files can contain at most 200 revisions. Export the selected version.");
+  const envelope = envelopeSchema.parse(input);
   if (
     envelope.package.reviewRounds !== undefined ||
     envelope.package.reviewApplications !== undefined ||

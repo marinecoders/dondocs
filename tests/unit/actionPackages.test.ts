@@ -19,6 +19,7 @@ import {
 } from "@/lib/actionPackageAssets";
 import {
   createActionPackage,
+  commitActionPackage,
   getPackageRevision,
   listActionPackages,
   reviseActionPackage,
@@ -1262,4 +1263,24 @@ it("reports a retained zero-page original as incomplete before assembly", async 
   expect(prepared.readiness.findings).toContainEqual(expect.objectContaining({ severity: "error", message: expect.stringMatching(/at least one page/) }));
   await expect(assemblePackage(prepared, { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }))
     .rejects.toThrow(/Resolve package readiness findings/);
+});
+
+it("keeps an earlier marked original readable after version 200 and reload", async () => {
+  const bytes = await pdfBytes();
+  const original = await captureOriginalPackageMember({ name: "original.pdf", data: bytes }, "basic-letter", true);
+  if (original.kind !== "original") throw new Error("Expected a captured original PDF");
+  const prototype = await createActionPackage("Long-running action");
+  const first = { ...getPackageRevision(prototype), members: [original] };
+  const revisions = Array.from({ length: 200 }, (_, i) => ({
+    ...first, id: `revision-${i + 1}`, ...(i > 0 && { parentId: `revision-${i}` }),
+  }));
+  const record = await commitActionPackage(null, { ...prototype, id: "package-long-history", revisions, currentRevisionId: "revision-200" });
+  const saved = await reviseActionPackage(record, []);
+  const [restored] = await listActionPackages(saved.id);
+  expect(restored.revisions).toHaveLength(201);
+  expect(getPackageRevision(restored).parentId).toBe("revision-200");
+  expect(getPackageRevision(restored, "revision-1").members).toEqual([original]);
+  expect(await readPackageAsset(original.original)).toEqual(bytes);
+  const portable = await buildPortableActionPackage(restored, "revision-1");
+  expect((await parsePortableActionPackage(portable)).record.revisions).toHaveLength(1);
 });
