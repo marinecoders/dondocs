@@ -11,6 +11,10 @@ function hasValue(value: Answer) {
   return typeof value === 'string' ? !!value.trim() : Array.isArray(value) ? value.length > 0 : typeof value === 'boolean';
 }
 
+export function missingAnswerGroups(groups: FormCompletion['answerGroups'], answered: ReadonlySet<string>) {
+  return groups?.filter(group => !group.alternatives.some(row => row.every(field => answered.has(field)))) ?? [];
+}
+
 export function missingPackageSignatures(member: PackageMember, rule?: FormCompletion) {
   return rule?.signatureFields?.filter(field => member.kind !== 'original' || !member.signedOriginal ||
     !hasInspectedSignature(member.original.sha256, field)) ?? [];
@@ -32,6 +36,14 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
       const match = Object.entries(definition.fields).find(([, field]) => field.sourceIds?.includes(name));
       if (!match || match[1].requiredAt !== 'export' && !hasValue(answers[match[0]]))
         add('Complete the required field: ' + (match?.[1].label ?? name) + '.', match ? fieldTarget(match[0]) : undefined);
+    }
+    if (rule?.answerGroups?.length) {
+      const answered = new Set(Object.entries(definition.fields).flatMap(([key, field]) =>
+        hasValue(answers[key]) && answers[key] !== false ? field.sourceIds ?? [] : []));
+      for (const group of missingAnswerGroups(rule.answerGroups, answered)) {
+        const key = Object.keys(definition.fields).find(key => definition.fields[key].sourceIds?.includes(group.alternatives[0][0]));
+        add(group.label, key ? fieldTarget(key) : undefined);
+      }
     }
     for (const issue of validateAnswers(definition, answers, rows)) if (issue.severity === 'error') add(issue.message, fieldTarget(issue.path));
   } else if (member.kind !== 'native' && (rule?.blankSha256 === member.original.sha256 ||
