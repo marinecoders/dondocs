@@ -31,7 +31,7 @@ export async function conditionalRelease(): Promise<MaintainedRecipe> {
         { id: 'request', label: 'Preparing the request' }, { id: 'approved', label: 'Release approved' },
         { id: 'disapproved', label: 'Release disapproved' }, { id: 'completed', label: 'Enlisted or appointed' },
       ] }),
-    ], { requirements: [
+    ], { revision: '2', requirements: [
       { id: 'endorsement-authority', kind: 'confirmation', label: 'Confirm the O-5 or O-6 commanding officer endorsed the request, or the general officer for a G-level command',
         operations: ['pdf'] },
       { id: 'request-signed', memberKey: 'request', kind: 'document', label: 'Member and recruiter signatures',
