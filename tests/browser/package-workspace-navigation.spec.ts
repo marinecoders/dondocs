@@ -30,9 +30,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
       await (await selectSavedTemplate(dialog, action)).click();
       await expect(back).toBeEnabled();
       await page.keyboard.press('Escape');
-      await expect(dialog).toBeHidden();
-      dialog = await openPackageWorkspace(page);
-      await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
+      await expect(dialog.getByRole('button', { name: 'New package', exact: true })).toBeFocused();
       await newPackage(dialog);
       await (await selectSavedTemplate(dialog, action)).click();
       await expect(dialog.getByRole('button', { name: 'Back to actions', exact: true })).toBeEnabled();
@@ -69,6 +67,8 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     await back.click();
     await confirmation.getByRole('button', { name: 'Discard changes', exact: true }).click();
     await expect(dialog.getByRole('heading', { name: /^(Package templates|Start from an action)$/ })).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(dialog.getByRole('button', { name: 'New package', exact: true })).toBeFocused();
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
   });

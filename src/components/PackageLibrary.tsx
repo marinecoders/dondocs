@@ -27,7 +27,7 @@ export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate, on
   return <section aria-labelledby="package-library-title" className="space-y-7">
     <div className="flex items-center justify-between gap-4">
       <h1 id="package-library-title" className="text-2xl font-semibold tracking-tight">Packages</h1>
-      <Button disabled={!loaded || disabled} onClick={onCreate}>New package</Button>
+      <Button data-new-package disabled={!loaded || disabled} onClick={onCreate}>New package</Button>
     </div>
     {onResume && <Button variant="outline" disabled={!loaded || disabled} onClick={onResume}>Resume unfinished action</Button>}
     {!loaded ? <p role="status" className="text-sm text-muted-foreground">Loading packages…</p> : records.length === 0 ?

@@ -293,3 +293,15 @@ it('offers a single action beside saved, unapplied intake and opens a read-only 
   expect((await listActionPackages())[0].currentRevisionId).toBe(saved.currentRevisionId);
   expect(screen.queryByRole('button', { name: 'Review document updates' })).toBeNull();
 });
+
+it('inspects recipe contents without creating a package or staging intake', async () => {
+  const user = userEvent.setup();
+  render(<Harness workspace />);
+  const training = screen.getByRole('heading', { name: 'Training participation' }).closest('article')!;
+  await user.click(within(training).getByRole('button', { name: 'Package contents for Training participation' }));
+  await within(training).findByText('Included at start');
+  expect(screen.getByLabelText('Intake dirty state')).toHaveTextContent('false');
+  expect(await listActionPackages()).toEqual([]);
+  await user.click(within(training).getByRole('button', { name: 'Package contents for Training participation' }));
+  expect(within(training).queryByText('Included at start')).toBeNull();
+});
