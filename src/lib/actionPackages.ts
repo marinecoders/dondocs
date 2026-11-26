@@ -92,6 +92,7 @@ const originalSchema = z
     ...common,
     kind: z.literal("original"),
     original: packageAssetSchema,
+    evidenceSlotId: id.optional(),
     printableCopy: z.object({
       sourceSha256: digest,
       asset: packageAssetSchema.extend({ type: z.literal('application/pdf') }),
@@ -724,6 +725,29 @@ export async function reviseActionPackage(
     ...(current.assembly ? { assembly: current.assembly } : {}),
     ...(current.scans ? { scans: current.scans } : {}),
   };
+  // Removing the first file must keep the remaining evidence attached to its
+  // requirement. Preserve each actual document ID, including review history.
+  if (revision.templateState && revision.members.some(member => member.kind === 'original' && member.evidenceSlotId)) {
+    const present = new Set(revision.members.map(member => member.id));
+    revision.templateState = { ...revision.templateState, instances: revision.templateState.instances.map(slot => ({ ...slot })) };
+    for (const slot of revision.templateState.instances) {
+      if (present.has(slot.memberId)) continue;
+      const siblings = revision.members.filter(member => member.kind === 'original' && member.evidenceSlotId === slot.memberId);
+      const first = siblings[0];
+      if (!first || first.kind !== 'original') continue;
+      const oldId = slot.memberId;
+      slot.memberId = first.id;
+      delete slot.generatedDigest;
+      delete first.evidenceSlotId;
+      first.revisionId = newPackageId('member-revision');
+      for (const sibling of siblings.slice(1)) if (sibling.kind === 'original') {
+        sibling.evidenceSlotId = first.id;
+        sibling.revisionId = newPackageId('member-revision');
+      }
+      if (revision.requirements) revision.requirements = { ...revision.requirements, items: revision.requirements.items.map(item =>
+        item.kind === 'document' && item.memberId === oldId && !item.memberRevisionId ? { ...item, memberId: first.id } : item) };
+    }
+  }
   const staged = [...(stagedAttachments ?? [])];
   if (revision.members.some(member => member.role === 'endorsement')) {
     const { stagePackageEndorsements } = await import('./packageEndorsementDrafts');

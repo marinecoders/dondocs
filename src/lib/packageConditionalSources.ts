@@ -42,6 +42,14 @@ function stateMatches(template: PackageTemplateV2, value: PackageConditionalStat
     if (!question || !!question.groupId !== !!fact.participantId)
       throw new Error('A saved action value does not belong to this template.');
   }
+  for (const member of revision.members) {
+    if (member.kind !== 'original' || !member.evidenceSlotId) continue;
+    const slot = state.instances.find(item => item.memberId === member.evidenceSlotId);
+    const declaration = template.members.find(item => item.key === slot?.memberKey);
+    if (declaration?.kind !== 'attachment' || !declaration.multipleFiles || member.id === member.evidenceSlotId ||
+        !revision.members.some(owner => owner.kind === 'original' && owner.id === member.evidenceSlotId))
+      throw new Error('A supporting PDF does not belong to a declared evidence group.');
+  }
   for (const instance of state.instances) {
     const blueprint = template.members.find(member => member.key === instance.memberKey);
     if (!blueprint || !!blueprint.repeatGroupId !== !!instance.participantId || blueprint.required !== instance.required)

@@ -635,3 +635,21 @@ it('captures a returned original against its saved slot without finishing unrela
   expect(getPackageRevision(next).templateState?.pending).toBe(true);
   await expect(attachPackageSlotFile(next, revision.id, slot.memberId, original, false)).rejects.toThrow('current editable');
 });
+
+it('appends independent evidence PDFs, transfers both originals and keeps the slot when its first file is removed', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const source = template();
+  const key = packageTemplateInstanceKey('receipts');
+  source.members.push({ key: 'receipts', kind: 'attachment', label: 'Receipts', required: true, role: 'enclosure', multipleFiles: true });
+  const receipt = async (name: string) => ({ name, data: new Uint8Array(await readFile('tests/fixtures/permission-pdfs/' + name)).buffer, signedOriginal: false });
+  const first = await receipt('source.pdf'), second = await receipt('source-cropped.pdf');
+  const initial = await prepareConditionalPackage({ template: source, answers: answers(), attachments: { [key]: first } }, policy);
+  let { record } = await applyPreparedConditionalPackage(initial, policy, true);
+  const plan = await prepareConditionalPackage({ template: source, answers: answers(), record, attachments: { [key + '/second']: second } }, policy);
+  record = (await applyPreparedConditionalPackage(plan, policy, true)).record;
+  const restored = await parsePortableActionPackage(await buildPortableActionPackage(record));
+  const members = getPackageRevision(restored.record).members;
+  expect(members.slice(-2).map(item => item.kind === 'original' && item.original.name)).toEqual([first.name, second.name]);
+  const promoted = await reviseActionPackage(record, members.filter(member => member.id !== members.at(-2)!.id));
+  expect(getPackageRevision(promoted).templateState!.instances.find(item => item.key === key)?.memberId).toBe(members.at(-1)!.id);
+});

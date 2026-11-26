@@ -1,3 +1,4 @@
+import { evidenceUploadSlot } from '@/lib/packageEvidenceFiles';
 import { PackagePdfCompatibility } from './PackagePdfCompatibility';
 import { matchesPackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
 import { PackageRevisionPicker } from './PackageRevisionPicker';
@@ -227,7 +228,7 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
     (input ?? heading.current)?.scrollIntoView({ block: 'center' });
     focusedDeliveryRequest.current = destination.requestId;
   }, [destination, record, revision, template, loading, open, viewDisabled, questionTarget]);
-  const hasInactiveFiles = Object.keys(attachments).some(key => !files.slots.some(slot => slot.key === key));
+  const hasInactiveFiles = Object.keys(attachments).some(key => !files.slots.some(slot => slot.key === evidenceUploadSlot(key)));
   function token(): Token { return { generation: generation.current, owner: owner.current, signal: signal() }; }
   function current(capture: Token): boolean {
     return alive.current && enabled.current && capture.generation === generation.current && capture.owner === owner.current && capture.signal === signal() && !capture.signal?.aborted && isCurrent();
@@ -290,7 +291,13 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
   }
   function removeFile(key: string) {
     invalidate();
-    setAttachments(previous => { const next = { ...previous }; delete next[key]; return next; });
+    setAttachments(previous => {
+      const next = { ...previous };
+      delete next[key];
+      const first = Object.keys(next).find(candidate => evidenceUploadSlot(candidate) === key);
+      if (first) { next[key] = next[first]; delete next[first]; }
+      return next;
+    });
     setAttachmentLabels(previous => { const next = { ...previous }; delete next[key]; return next; });
   }
   function decide<T extends string>(set: (value: Record<string, T>) => void, values: Readonly<Record<string, T>>, key: string, value: T | undefined) {
@@ -370,17 +377,28 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
               setAttachments(previous => ({ ...previous, [slot.key]: { name: source.label, reuse: { memberId: source.memberId, revisionId: source.revisionId } } }));
               setAttachmentLabels(previous => ({ ...previous, [slot.key]: slot.label }));
             }} />}
-          <label className="block break-words">{slot.label}<input data-intake-slot={slot.key} aria-label={`PDF for ${slot.label}`} className="mt-1 block w-full min-w-0 text-xs file:mr-2 file:max-w-full file:whitespace-normal" type="file" accept=".pdf,application/pdf" disabled={locked}
+          <label className="block break-words">{slot.label}<input data-intake-slot={slot.key} aria-label={`PDF for ${slot.label}`} className="mt-1 block w-full min-w-0 text-xs file:mr-2 file:max-w-full file:whitespace-normal" type="file" multiple={slot.multipleFiles} accept=".pdf,application/pdf" disabled={locked}
             onChange={event => {
-              const file = event.target.files?.[0]; event.target.value = '';
-              if (file) void perform(async capture => {
-                if (!/\.pdf$/i.test(file.name) || file.size < 1 || file.size > 25 * 1024 * 1024) throw new Error('Choose a nonempty PDF no larger than 25 MB.');
-                const total = Object.entries(attachments).reduce((sum, [key, value]) => sum + (key === slot.key || 'reuse' in value ? 0 : value.data.byteLength), file.size);
+              const files = Array.from(event.target.files ?? []); event.target.value = '';
+              if (files.length) void perform(async capture => {
+                if (files.some(file => !/\.pdf$/i.test(file.name) || file.size < 1 || file.size > 25 * 1024 * 1024)) throw new Error('Choose PDFs up to 25 MB each.');
+                const total = Object.entries(attachments).reduce((sum, [key, value]) => sum + (!slot.multipleFiles && key === slot.key || 'reuse' in value ? 0 : value.data.byteLength), files.reduce((sum, file) => sum + file.size, 0));
                 if (total > MAX_TEMPLATE_ACTION_BYTES) throw new Error('Selected action files exceed the combined 64 MB limit.');
-                const data = await file.arrayBuffer();
-                if (current(capture)) { invalidate(); setAttachments(previous => ({ ...previous, [slot.key]: { name: file.name, data, signedOriginal: false } })); setAttachmentLabels(previous => ({ ...previous, [slot.key]: slot.label })); }
+                const additions: Record<string, ConditionalPdfChoice> = {};
+                for (const [index, file] of files.entries()) {
+                  const key = slot.multipleFiles && (saved || selected || index > 0) ? slot.key + '/' + crypto.randomUUID() : slot.key;
+                  additions[key] = { name: file.name, data: await file.arrayBuffer(), signedOriginal: false };
+                }
+                if (current(capture)) {
+                  invalidate();
+                  setAttachments(previous => ({ ...previous, ...additions }));
+                  setAttachmentLabels(previous => ({ ...previous, ...Object.fromEntries(Object.keys(additions).map(key => [key, slot.label])) }));
+                }
               });
             }} /></label>
+          {Object.entries(attachments).filter(([key]) => evidenceUploadSlot(key) === slot.key && key !== slot.key).map(([key, file]) =>
+            <div key={key} className="flex items-center justify-between"><span>{file.name}</span>
+              <Button size="sm" variant="ghost" disabled={locked} onClick={() => removeFile(key)}>Remove {file.name}</Button></div>)}
           {selected && <><p className="break-words">Selected: {selected.name}</p>
             {'data' in selected && <PackagePdfCompatibility source={selected.data} />}
             {'signedOriginal' in selected && <label className="flex items-start gap-2"><input type="checkbox" disabled={locked} checked={selected.signedOriginal} onChange={event => {
@@ -393,7 +411,7 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
       {hasInactiveFiles && <section aria-label="Inactive selected PDFs" className="min-w-0 space-y-3 rounded border p-3 text-sm">
         <h4 className="font-medium">Inactive selected PDFs</h4>
         <p>These selected files are outside the current branch. Remove them or restore the relevant answers before applying.</p>
-        {Object.entries(attachments).filter(([key]) => !files.slots.some(slot => slot.key === key)).map(([key, file]) => <div key={key} className="min-w-0 space-y-2">
+        {Object.entries(attachments).filter(([key]) => !files.slots.some(slot => slot.key === evidenceUploadSlot(key))).map(([key, file]) => <div key={key} className="min-w-0 space-y-2">
           <p className="break-words">{attachmentLabels[key] ?? 'Supporting PDF'}: {file.name}</p>
           <Button className={buttonClass} variant="outline" disabled={locked} aria-label={`Remove inactive PDF ${attachmentLabels[key] ?? key}: ${file.name}`} onClick={() => removeFile(key)}>Remove inactive selection {file.name}</Button>
         </div>)}

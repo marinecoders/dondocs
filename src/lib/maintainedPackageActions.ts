@@ -65,7 +65,7 @@ async function evidence(): Promise<PackageTemplateV2> {
     { requirements: [{ id: 'supporting-record', label: 'Original supporting PDF', kind: 'document', operations: ['review', 'pdf'], memberKey: 'supporting-record' }] }),
     members: [await native('letter', 'Transmittal letter', letter('Please consider the documents described in the accompanying DonDocs submission index.'), headerLinks),
       await native('submission-index', 'DonDocs submission index', worksheetSession(sheet), { subject: 'subject', submitter: 'requester', organization: 'organization', recipient: 'recipient', date: 'date', ssic: 'ssic', category: 'category', notes: 'notes' }, { worksheet: sheet }),
-      { key: 'supporting-record', kind: 'attachment', label: 'Original supporting PDF', role: 'supporting-document', required: true }],
+      { key: 'supporting-record', kind: 'attachment', label: 'Original supporting PDF', role: 'supporting-document', required: true, multipleFiles: true }],
   };
 }
 export type MaintainedRecipe = Omit<PackageTemplateV2, 'members'> & {
