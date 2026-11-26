@@ -216,6 +216,7 @@ function PackageDialog({
   }
   const [resumeWorkspace] = useState(activePackageWorkspace);
   const [savedWorkspace] = useState(readPackageWorkspaceContext);
+  const [libraryResume, setLibraryResume] = useState(savedWorkspace);
   const [unfinishedAction, setUnfinishedAction] = useState(readPackageNewActionContext);
   const [actionToResume, setActionToResume] = useState<PackageNewActionContext>();
   const [libraryOpen, setLibraryOpen] = useState(false);
@@ -706,6 +707,7 @@ function PackageDialog({
     setActivePackageWorkspace(null);
     if (creating && !pendingPackageEdits) setCreating(false);
     setUnfinishedAction(readPackageNewActionContext());
+    setLibraryResume(readPackageWorkspaceContext());
     setLibraryOpen(true);
     if (creating) requestAnimationFrame(() => dialogRoot.current?.querySelector<HTMLButtonElement>('[data-new-package]')?.focus());
     setError('');
@@ -1002,6 +1004,15 @@ function PackageDialog({
               <div hidden={!library} className="package-workspace-page">
                 {pendingPackageEdits && <div role="status" className="mb-7 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm"><span>Finish your edits before opening another package.</span><Button variant="outline" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
                 <PackageLibrary records={records} loaded={loaded} disabled={busy || pendingPackageEdits} onOpen={select} onCreate={() => startNewPackage()}
+                  lastWorkspace={libraryResume} onContinue={(value, location) => {
+                    select(value);
+                    const saved = value.revisions.find(item => item.id === location.revisionId);
+                    const target = saved ?? getPackageRevision(value);
+                    setRevisionId(target.id);
+                    setWorkspaceSection(location.section);
+                    setActiveMemberId(target.members.find(member => member.id === location.memberId)?.id ?? null);
+                    if (!saved) setNotice('The previous version is unavailable. Opened the current package.');
+                  }}
                   onResume={unfinishedAction ? () => startNewPackage(unfinishedAction) : undefined} />
                 <details className="mt-10 border-t pt-5"><summary className="text-sm">Advanced</summary><div className="mt-5 space-y-5"><details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Maintain package templates{templateDirty ? " · editing separate revision" : ""}</summary>

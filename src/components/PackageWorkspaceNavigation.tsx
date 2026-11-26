@@ -3,12 +3,8 @@ import { PackageDocumentOrder, PackageOrderRow } from './PackageDocumentOrder';
 import { useState, type ReactNode } from 'react';
 import { FileText, Files, History, Paperclip } from 'lucide-react';
 import type { ActionPackage, PackageMember, PackageRevision } from '@/lib/actionPackages';
-import type { PackageWorkspaceSection } from '@/lib/packageWorkspaceContext';
+import { packageSectionLabels as sectionLabels, type PackageWorkspaceSection } from '@/lib/packageWorkspaceContext';
 import { Button } from './ui/button';
-
-const sectionLabels: Record<PackageWorkspaceSection, string> = {
-  overview: 'Overview', documents: 'Documents', review: 'Review', delivery: 'Delivery',
-};
 
 export function PackageWorkspaceNavigation({ active, hasPackage, disabled, onNavigate }: {
   active: PackageWorkspaceSection;
