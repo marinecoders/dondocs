@@ -408,3 +408,41 @@ test('reads across separate originals in package order and restores their own pa
   await workspace.getByRole('button', { name: /1\. First original/ }).click();
   await expect(pageNumber).toHaveValue('3');
 });
+
+test('Review can open a correction, advance with the draft saved, and return to its issue list', async ({ page, context }) => {
+  await context.addInitScript(() => localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused' } })));
+  await page.goto('/');
+  const workspace = await openPackageWorkspace(page);
+  await newBlankPackage(workspace, 'Review corrections');
+  await packageSection(workspace, 'Documents');
+  for (let index = 0; index < 2; index++) {
+    await openAddDocuments(workspace);
+    await workspace.getByRole('button', { name: 'Add letter', exact: true }).click();
+    await expect(workspace.locator('li[id^="package-member-"]')).toHaveCount(index + 1);
+  }
+  await packageSection(workspace, 'Review');
+  const issues = workspace.locator('details').filter({ has: page.locator('summary', { hasText: 'Before PDF delivery' }) }).last();
+  await issues.locator('summary').first().click();
+  await issues.getByRole('button', { name: 'Complete addressing', exact: true }).first().click();
+  const editor = page.getByRole('dialog').filter({ has: page.getByRole('combobox', { name: 'Package document', exact: true }) });
+  await expect(editor.getByRole('button', { name: 'Back to Review' })).toBeVisible();
+  const picker = editor.getByLabel('Package document', { exact: true });
+  const section = editor.getByLabel('Document section', { exact: true });
+  const original = await picker.inputValue();
+  const position = async () => [await picker.inputValue(), await section.inputValue()];
+  const start = await position();
+  const subject = editor.getByRole('textbox', { name: 'Subject', exact: true });
+  await subject.fill('REVIEWED DOCUMENT');
+  await editor.getByRole('button', { name: 'Next issue' }).click();
+  await expect.poll(position).not.toEqual(start);
+  await expect(editor.getByRole('button', { name: 'Back to Review' })).toBeVisible();
+  await editor.getByRole('button', { name: 'Back to Review' }).click();
+  await expect(workspace.getByRole('heading', { name: 'Review', exact: true })).toBeVisible();
+  await expect(issues.locator('summary').first()).toBeInViewport();
+  await expect(issues).toHaveAttribute('open', '');
+  await packageSection(workspace, 'Documents');
+  await workspace.getByRole('button', { name: 'Edit document', exact: true }).click();
+  await picker.selectOption(original);
+  await section.selectOption('addressing');
+  await expect(subject).toHaveValue('REVIEWED DOCUMENT');
+});

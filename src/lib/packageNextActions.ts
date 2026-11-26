@@ -28,6 +28,16 @@ export interface PackageNextAction {
   taskId?: string;
   overdue?: boolean;
 }
+/** Readiness inspection numbers can move after an earlier finding is corrected. */
+export function reviewIssueKey(action: PackageNextAction): string {
+  const target = action.destination;
+  if (!target) return action.id;
+  const correction = packageCorrectionKey(target);
+  if (correction) return 'correction:' + correction;
+  if (action.kind === 'inspection' && action.id.startsWith('readiness-')) return JSON.stringify([target.memberId, action.message]);
+  return action.id;
+}
+
 export function nextPackageCorrection(actions: PackageNextAction[], previous: string): PackageWorkDestination | undefined {
   const destinations = new Map<string, PackageWorkDestination>();
   for (const action of actions) {
