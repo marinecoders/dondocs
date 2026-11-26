@@ -215,5 +215,22 @@
       "supplementalInfo": "form1[0].SuppInfo[0]",
       "continuation": "form1[0].ProcAct[0]"
     }
+  },
+  {
+    "formId": "navmc11106",
+    "edition": "1989-01",
+    "label": "NAVMC 11106 - Application for Cost-of-Living Allowances",
+    "format": "hybrid",
+    "directory": "navmc/11106/1989-01",
+    "file": "original.pdf",
+    "length": 176189,
+    "sha256": "8d2bfef56dbc0a1ad75337968724b0a3ea4d92a19faad8875307c27ca13b2485",
+    "definitionSha256": "406af4fccb781663b1ea2b49268c42f26c9df8cf7d45bbaef7aa9a57825705a1",
+    "pageSizes": [
+      [
+        612,
+        792
+      ]
+    ]
   }
 ]

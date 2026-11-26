@@ -37,3 +37,16 @@ test('saves counseling topics inside the package and restores them after reload'
   await page.reload();
   await expect(topics).toHaveValue('Practice the shift handoff.');
 });
+
+test('opens the official COLA form in the package editor', async ({ page }) => {
+  const workspace = await startPackage(page, 'Okinawa overseas COLA');
+  await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
+  const editor = page.getByRole('dialog', { name: 'Okinawa overseas COLA', exact: true });
+  const member = editor.getByLabel('Member name (last, first, middle initial)', { exact: false });
+  await member.fill('EXAMPLE, MARINE');
+  await editor.getByRole('button', { name: 'Save changes', exact: true }).click();
+  await expect(editor.getByText('Saved to package', { exact: true })).toBeVisible();
+  const preview = editor.getByRole('button', { name: 'Show preview' });
+  if (await preview.isVisible()) await preview.click();
+  await expect(editor.locator('[data-pdf-layer="active"] canvas').first()).toBeVisible();
+});
