@@ -1,3 +1,4 @@
+import { usePackageChecks } from '@/components/usePackageChecks';
 import { PackagePreparedPdf } from './PackagePreparedPdf';
 import { PackagePrintableCopyField } from './PackagePrintableCopyField';
 import { setPackagePrintableCopy } from '@/lib/packagePrintableCopy';
@@ -20,7 +21,7 @@ import { configuredApprovalOrigin } from '@/lib/packageApprovalOrigin';
 import { PackageReviewControls } from "./PackageReviewControls";
 import { PackageMemberNavigation, PackageWorkspaceNavigation } from "./PackageWorkspaceNavigation";
 import { PackageLibrary } from "./PackageLibrary";
-import { PackageNextActions } from "./PackageNextActions";
+import { DocumentPdfChecks, PackageNextActions } from "./PackageNextActions";
 import { PackageBlankPdfs } from "./PackageBlankPdfs";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
 import { PackageExportOptions } from "./PackageExportOptions";
@@ -339,7 +340,9 @@ function PackageDialog({
       ? openedReview?.baseline ?? getPackageRevision(record, revisionId || record.currentRevisionId)
       : null, [record, openedReview, revisionId]);
   const endorsementRoutes = useMemo(() => revision && packageEndorsementRoutes(revision), [revision]);
-  const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, reviewApplications: undefined, fieldReviewApplications: undefined, workingCopies: undefined } : record;
+  const readRecord: ActionPackage | undefined = useMemo(() => record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, reviewApplications: undefined, fieldReviewApplications: undefined, workingCopies: undefined } : record, [record, openedReview]);
+  const packageChecks = usePackageChecks(readRecord, revision, !!openedReview);
+  const pdfBlockers = packageChecks.result?.actions.filter(action => action.blocking) ?? [];
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
@@ -980,7 +983,7 @@ function PackageDialog({
                 </header>
                 {pendingPackageEdits && !(workspaceSection === 'overview' && editingIntake && intakeDirty) && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
                 <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
-                  {record && revision && <PackageNextActions quiet={editingIntake || informationDirty} record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
+                  {record && revision && <PackageNextActions checks={packageChecks} quiet={editingIntake || informationDirty} record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
                   {creating && !creatingAction && <fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 space-y-3">
           <legend className="text-sm font-medium">Custom package</legend>
           <div className="flex flex-wrap items-end gap-2">
@@ -1378,6 +1381,8 @@ function PackageDialog({
                             onClick={() => void openMemberSigning(member)}>{signingAction}</Button>}
                         </div>}
                       </header>
+                      {selectedMember?.id === member.id && <DocumentPdfChecks editable={editable} actions={pdfBlockers.filter(action => action.destination?.memberId === member.id)}
+                        onNavigate={followDestination} disabled={busy || pendingPackageEdits} />}
 
                       {editable && member.kind === 'original' && revision.requirements?.items.some(rule =>
                         rule.kind === 'document' && rule.memberId === member.id && rule.completion?.reviewedScan) &&
@@ -1664,7 +1669,7 @@ function PackageDialog({
                   </fieldset>
                   <fieldset hidden={workspaceSection !== 'delivery'} disabled={busy || pendingPackageEdits && !signingDirty && !assemblyDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Export</h2>
-                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "draft", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions active={workspaceSection === 'delivery' && !formSigning} canSign={editable} onNavigate={openDeliveryFinding} revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { setDeliveryFormat(format); setPrepared(null); setOriginal(null); setPdfUrl(''); setError(''); setNotice(''); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
+                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "draft", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions checks={packageChecks} active={workspaceSection === 'delivery' && !formSigning} canSign={editable} onNavigate={openDeliveryFinding} revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { setDeliveryFormat(format); setPrepared(null); setOriginal(null); setPdfUrl(''); setError(''); setNotice(''); }} onPrepare={() => void run(() => review(deliveryFormat === 'draft' ? 'draft' : deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
                     <div ref={preparedResultRef} tabIndex={-1} className="outline-none">{prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
