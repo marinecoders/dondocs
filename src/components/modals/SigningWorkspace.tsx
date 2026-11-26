@@ -17,14 +17,14 @@ import { SigningReturnReview } from '@/components/SigningReturnReview';
 import { confirmSigningDisclosure } from '@/components/signingDisclosure';
 import { signingRecordDisclosure } from '@/lib/signingDisclosure';
 
-export default function SigningWorkspace({ open, onOpenChange, initialRecordId, initialField, beforeSign, onCorrect, onAttach }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string; initialField?: string; beforeSign?: BeforeOfficialSignature; onCorrect?: SigningCorrection; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
+export default function SigningWorkspace({ open, onOpenChange, initialRecordId, initialField, initialReturnFile, initialHandoffId, beforeSign, onCorrect, onAttach }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string; initialField?: string; initialReturnFile?: File; initialHandoffId?: string; beforeSign?: BeforeOfficialSignature; onCorrect?: SigningCorrection; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
   return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="flex max-h-[95dvh] max-w-5xl flex-col overflow-hidden sm:max-w-5xl">
     <DialogHeader><DialogTitle>Signing workspace</DialogTitle><DialogDescription>Review the PDF revision, select a signature field, and save the signed original.</DialogDescription></DialogHeader>
-    {open && <SigningRecords key={initialRecordId} initialRecordId={initialRecordId} initialField={initialField} beforeSign={beforeSign} onCorrect={onCorrect} onAttach={onAttach} />}
+    {open && <SigningRecords initialHandoffId={initialHandoffId} initialReturnFile={initialReturnFile} key={initialRecordId} initialRecordId={initialRecordId} initialField={initialField} beforeSign={beforeSign} onCorrect={onCorrect} onAttach={onAttach} />}
   </DialogContent></Dialog>;
 }
 
-function SigningRecords({ initialRecordId, initialField, beforeSign, onCorrect, onAttach }: { initialRecordId?: string; initialField?: string; beforeSign?: BeforeOfficialSignature; onCorrect?: SigningCorrection; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
+function SigningRecords({ initialRecordId, initialField, initialReturnFile, initialHandoffId, beforeSign, onCorrect, onAttach }: { initialRecordId?: string; initialField?: string; initialReturnFile?: File; initialHandoffId?: string; beforeSign?: BeforeOfficialSignature; onCorrect?: SigningCorrection; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
   const [records, setRecords] = useState<OfficialSigningRecord[]>([]);
   const [selected, setSelected] = useState(initialRecordId ?? '');
   const [error, setError] = useState('');
@@ -56,9 +56,9 @@ function SigningRecords({ initialRecordId, initialField, beforeSign, onCorrect, 
         <option value="">PDF handoffs and placement</option>
         {records.map(item => <option key={item.id} value={item.id}>{item.filename} · Revision {item.revisions.length}</option>)}
       </select></label>}
-    {record ? <OfficialFormSigning key={record.id} record={record} beforeSign={beforeSign} onCorrect={onCorrect} initialField={record.id === initialRecordId ? initialField : undefined} onAttach={onAttach}
+    {record ? <OfficialFormSigning initialReturnFile={initialRecordId === record.id ? initialReturnFile : undefined} key={record.id} record={record} beforeSign={beforeSign} onCorrect={onCorrect} initialField={record.id === initialRecordId ? initialField : undefined} onAttach={onAttach}
       onSave={saved => setRecords(rows => rows.map(item => item.id === saved.id ? saved : item))} />
-      : loaded && !onAttach ? <SigningEditor initialRecordId={selected || undefined} /> : <p role="status">{loaded ? 'This signing file is unavailable.' : 'Opening signing records…'}</p>}
+      : loaded && !onAttach ? <SigningEditor initialHandoffId={selected === initialRecordId ? initialHandoffId : undefined} initialReturnFile={selected === initialRecordId ? initialReturnFile : undefined} initialRecordId={selected || undefined} /> : <p role="status">{loaded ? 'This signing file is unavailable.' : 'Opening signing records…'}</p>}
     {record && !onAttach && <Button variant="ghost" size="sm" onClick={async () => {
       if (!await showAppConfirm({ title: 'Remove this signing file?', message: 'Download any revisions you need before removing the local signing file.', confirmLabel: 'Remove file' })) return;
       try {
@@ -69,7 +69,7 @@ function SigningRecords({ initialRecordId, initialField, beforeSign, onCorrect, 
   </div>;
 }
 
-function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
+function SigningEditor({ initialRecordId, initialHandoffId, initialReturnFile }: { initialRecordId?: string; initialHandoffId?: string; initialReturnFile?: File }) {
   const [records, setRecords] = useState<SigningRecord[]>([]);
   const [unreadable, setUnreadable] = useState<UnreadableSigningRecord[]>([]);
   const [record, setRecord] = useState<SigningRecord | null>(null);
@@ -262,7 +262,8 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
           setNotice('Signing record removed from this browser.');
         })}>Remove saved signing record</Button>
       </section>
-      <SigningReturnReview key={record.revision} record={record} onSaved={next => {
+      <SigningReturnReview initialFile={initialRecordId === record.id ? initialReturnFile : undefined}
+        initialHandoffId={initialRecordId === record.id ? initialHandoffId : undefined} key={record.revision} record={record} onSaved={next => {
         setRecord(next);setRecords(all => [next, ...all.filter(value => value.id !== next.id)]);setReviewed(false);
         setNotice('Returned PDF associated with the saved handoff. Signer authenticity and approval remain unverified.');
       }} />

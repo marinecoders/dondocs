@@ -28,8 +28,8 @@ const assessmentText = {
   inconclusive: 'The file could not be matched conclusively to this handoff. Review both documents and confirm the association yourself.',
 };
 
-export function SigningReturnReview({ record, onSaved }: { record: SigningRecord; onSaved(record: SigningRecord): void }) {
-  const [handoffId, setHandoffId] = useState(record.handoffs?.at(-1)?.id ?? '');
+export function SigningReturnReview({ record, onSaved, initialHandoffId, initialFile }: { initialHandoffId?: string; initialFile?: File; record: SigningRecord; onSaved(record: SigningRecord): void }) {
+  const [handoffId, setHandoffId] = useState(initialHandoffId ?? record.handoffs?.at(-1)?.id ?? '');
   const [candidate, setCandidate] = useState<SigningReturnCandidate | null>(null);
   const [preview, setPreview] = useState<'handoff' | 'return'>('return');
   const [reviewed, setReviewed] = useState(false), [acceptMismatch, setAcceptMismatch] = useState(false);
@@ -46,6 +46,15 @@ export function SigningReturnReview({ record, onSaved }: { record: SigningRecord
     try { await operation(isCurrent); }
     catch (cause) { if (isCurrent()) setError(signingErrorMessage(cause)); }
     finally { working.current = false;if (isCurrent()) setBusy(false); }
+  }
+  function inspectFile(file: File) {
+    if (!handoff || working.current || (record.returns?.length ?? 0) >= 10) return;
+    setCandidate(null);setReviewed(false);setAcceptMismatch(false);setRetainedId('');
+    void run(async isCurrent => {
+      if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a returned PDF no larger than 20 MB.');
+      const prepared = await prepareSigningReturn(record, handoffId, new Uint8Array(await file.arrayBuffer()), file.name);
+      if (isCurrent()) { setCandidate(prepared);setPreview('return'); }
+    });
   }
   function downloadRetained() {
     if (!retained || !retainedReviewed || working.current) return;
@@ -70,14 +79,11 @@ export function SigningReturnReview({ record, onSaved }: { record: SigningRecord
     <label className="block text-sm">Return belongs to handoff<select className="ml-2 max-w-full rounded border p-2" disabled={busy} value={handoffId} onChange={event => {
       setHandoffId(event.target.value);setCandidate(null);setReviewed(false);setAcceptMismatch(false);setError('');
     }}>{(record.handoffs ?? []).map((value, index) => <option key={value.id} value={value.id}>Handoff {index + 1} · {new Date(value.createdAt).toLocaleString()}</option>)}</select></label>
+    {initialFile && initialHandoffId === handoffId && !candidate && <Button disabled={busy || !handoff || (record.returns?.length ?? 0) >= 10}
+      onClick={() => inspectFile(initialFile)}>Compare returned PDF · {initialFile.name}</Button>}
     <label className="block text-sm">Returned PDF<input className="mt-1 block w-full" type="file" accept="application/pdf,.pdf" disabled={busy || !handoff || (record.returns?.length ?? 0) >= 10} onChange={event => {
       const file = event.target.files?.[0];event.target.value = '';if (!file) return;
-      setCandidate(null);setReviewed(false);setAcceptMismatch(false);setRetainedId('');
-      void run(async isCurrent => {
-        if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a returned PDF no larger than 20 MB.');
-        const prepared = await prepareSigningReturn(record, handoffId, new Uint8Array(await file.arrayBuffer()), file.name);
-        if (isCurrent()) { setCandidate(prepared);setPreview('return'); }
-      });
+      inspectFile(file);
     }} /></label>
     {candidate && handoff && <div className="space-y-3">
       <p role="status" className="text-sm">{assessmentText[candidate.evidence.assessment]}</p>

@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import { capturedReturnHandoffs } from '@/lib/packageReturnCandidates';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
@@ -52,6 +53,20 @@ async function captured() {
   const prepared = await preparePackageSigningHandoff(record, record.currentRevisionId, target, signingRecord, signingRecord.handoffs![0].id, policy);
   return { initial: record, target, signingRecord, record: await capturePackageSigningHandoff(prepared, policy, true) };
 }
+
+it('matches returned files only against exact retained handoffs in the selected revision', async () => {
+  const { initial, record } = await captured();
+  const revision = getPackageRevision(record), entry = revision.signing!.handoffs[0];
+  const { bytes } = await getPackageSigningPdf(entry);
+  const returned = new Uint8Array(bytes.length + 5);
+  returned.set(bytes);
+  const match = (source: ArrayBuffer) => capturedReturnHandoffs(revision, source, new AbortController().signal);
+  expect(await match(bytes.slice().buffer)).toEqual([entry]);
+  expect(await match(returned.buffer)).toEqual([entry]);
+  expect(await capturedReturnHandoffs(getPackageRevision(initial), returned.buffer, new AbortController().signal)).toEqual([]);
+  returned[17] ^= 1;
+  expect(await match(returned.buffer)).toEqual([]);
+});
 
 it('opens only a reviewed privately captured exact source without changing the package or source bytes', async () => {
   const { record, target } = await fixture(), source = getPackageRevision(record).members[0]; expect(source.kind).toBe('original');

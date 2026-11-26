@@ -11,10 +11,11 @@ import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 
 export type BeforeOfficialSignature = (field: string, bytes: ArrayBuffer) => Promise<void>;
 export type SigningCorrection = (target: PackageDestination, signatureField: string) => void;
-type Props = { onCorrect?: SigningCorrection; initialField?: string; beforeSign?: BeforeOfficialSignature; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
+type Props = { initialReturnFile?: File; onCorrect?: SigningCorrection; initialField?: string; beforeSign?: BeforeOfficialSignature; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
   onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> };
 
-export function OfficialFormSigning({ record, initialField, beforeSign, onCorrect, onSave, onAttach }: Props) {
+export function OfficialFormSigning({ record, initialField, initialReturnFile, beforeSign, onCorrect, onSave, onAttach }: Props) {
+  const [pendingReturn, setPendingReturn] = useState(initialReturnFile);
   const [code, setCode] = useState('');
   const [inspection, setInspection] = useState<OfficialInspection>();
   const [identities, setIdentities] = useState<Awaited<ReturnType<typeof signingIdentities>>>([]);
@@ -63,6 +64,16 @@ export function OfficialFormSigning({ record, initialField, beforeSign, onCorrec
     try { await work(controller.signal); }
     catch (cause) { if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : 'The operation failed.'); }
     finally { active.current = null; if (!controller.signal.aborted) setBusy(false); }
+  }
+  function importReturn(file: File) {
+    return run(async signal => {
+      if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF up to 20 MB.');
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      await confirmSigningDisclosure({ pdfs: [{ bytes, label: file.name }] }, () => !signal.aborted, { action: 'inspect' });
+      const result = await inspectOfficialPdf(bytes, code.trim(), signal, latest);
+      const next = await saveOfficialRevision(record.filename, bytes, () => !signal.aborted, record);
+      signal.throwIfAborted(); onSave(next); selectInspection(result); setPendingReturn(undefined); setMessage('Returned signature verified and saved.');
+    });
   }
   async function pair(signal: AbortSignal) {
     const bytes = await officialRevisionBytes(record);
@@ -142,17 +153,11 @@ export function OfficialFormSigning({ record, initialField, beforeSign, onCorrec
       </div>}
       <div className="flex flex-wrap items-center gap-2">
         <Button variant="outline" onClick={() => download(record.revisions.length - 1)}>Download official PDF</Button>
-        {inspected && <label className="cursor-pointer rounded border px-3 py-2 text-sm">Return signed PDF
+        {pendingReturn && <Button disabled={!inspected || busy} onClick={() => void importReturn(pendingReturn)}>Verify returned PDF · {pendingReturn.name}</Button>}
+        {inspected && !pendingReturn && <label className="cursor-pointer rounded border px-3 py-2 text-sm">Return signed PDF
           <input className="sr-only" type="file" accept="application/pdf,.pdf" onChange={e => {
             const file = e.target.files?.[0]; e.target.value = '';
-            if (file) void run(async signal => {
-              if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF up to 20 MB.');
-              const bytes = new Uint8Array(await file.arrayBuffer());
-              await confirmSigningDisclosure({ pdfs: [{ bytes, label: file.name }] }, () => !signal.aborted, { action: 'inspect' });
-              const result = await inspectOfficialPdf(bytes, code.trim(), signal, latest);
-              const next = await saveOfficialRevision(record.filename, bytes, () => !signal.aborted, record);
-              signal.throwIfAborted(); onSave(next); selectInspection(result); setMessage('Returned signature verified and saved.');
-            });
+            if (file) void importReturn(file);
           }} /></label>}
         {onAttach && record.revisions.length > 1 && inspected && inspection?.fields.some(item => item.signed) && <Button onClick={() => void run(async signal => {
           // Local signing checks the changes made by its own writer; imported returns

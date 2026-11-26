@@ -52,6 +52,24 @@ export async function parsePackageReviewTransfer(json: string) {
   return { payload, record, round, memberReviews: round.memberReviews ?? [], resources,
     digest: await reviewPayloadDigest(payload) };
 }
+/** Read only the routing keys. The application preview still verifies the full return and baseline. */
+export function matchPackageReturnRound(json: string, owner: ActionPackage): PackageReviewRound {
+  bounded(json);
+  let header: unknown;
+  try { header = JSON.parse(json); }
+  catch { throw new Error('Choose a valid DonDocs package feedback return.'); }
+  const route = z.object({
+    kind: z.literal('dondocs-package-review-return'),
+    package: z.object({ id: z.string(), reviewRounds: z.tuple([z.object({ id: z.string() })]) }),
+  }).safeParse(header);
+  if (!route.success) throw new Error('Choose a DonDocs package feedback return.');
+  if (route.data.package.id !== owner.id) throw new Error('This return belongs to a different package. Open its case in Packages.');
+  const round = owner.reviewRounds?.find(item => item.id === route.data.package.reviewRounds[0].id && item.ownerPackageId === owner.id);
+  if (!round) throw new Error('The original review round is unavailable in this package.');
+  assertActivePackageReview(round);
+  return round;
+}
+
 /** PR112 consumes this detached validated envelope and stages any application itself. */
 export async function parsePackageReviewReturn(json: string, owner: ActionPackage, roundId: string) {
   const parsed = await parsePackageReviewTransfer(json);

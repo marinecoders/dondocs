@@ -20,9 +20,9 @@ vi.mock('@/config/classification', async original => ({ ...await original<typeof
   getExportDeploymentPolicySync: () => currentPolicy.value }));
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
-function View({ initial }: { initial: ActionPackage }) {
+function View({ initial, matchRound = false }: { initial: ActionPackage; matchRound?: boolean }) {
   const [record, setRecord] = useState(initial), [busy, setBusy] = useState(false), [error, setError] = useState('');
-  return <><p role="status">{error}</p><PackageReviewApplicationPanel key={record.sequence} record={record} round={record.reviewRounds![0]} busy={busy}
+  return <><p role="status">{error}</p><PackageReviewApplicationPanel key={record.sequence} record={record} round={matchRound ? undefined : record.reviewRounds![0]} busy={busy}
     signal={() => undefined} isCurrent={() => true} onApply={setRecord} run={async action => { setBusy(true); try { await action(); } catch (cause) { setError(String(cause)); } finally { setBusy(false); } }} /></>;
 }
 it('shows exact conflict context, requires explicit choices and applies one revision; policy failure invalidates the displayed plan safely', async () => {
@@ -36,7 +36,7 @@ it('shows exact conflict context, requires explicit choices and applies one revi
   session.formData.subject = 'SYNTHETIC LATEST SUBJECT';
   const updated = await capturePackageMember(captureDocumentRevision({ documentId: 'application-ui-source', epoch: 0, editSequence: 1, capturedAt: 200 }, { ...session, endItems: [], publicationTables: {} }), native.label, native.role, native);
   const latest = await reviseActionPackage(owner, [updated]);
-  const user = userEvent.setup(); render(<View initial={latest} />);
+  const user = userEvent.setup(); render(<View initial={latest} matchRound />);
   const file = new File([json], 'synthetic-return.json', { type: 'application/json' });
   await user.upload(screen.getByLabelText('Import package feedback return'), file);
   await screen.findByText('Latest saved content: SYNTHETIC LATEST SUBJECT');
