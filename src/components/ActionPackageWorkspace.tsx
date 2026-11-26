@@ -445,7 +445,7 @@ function PackageDialog({
   const [advanceFrom, setAdvanceFrom] = useState<{ packageId: string; correction: string }>();
   const followLatest = useRef(followDestination);
   useLayoutEffect(() => { followLatest.current = followDestination; });
-  const returnSigner = useRef<{ packageId: string; memberId: string; field: string } | undefined>(undefined);
+  const returnSigner = useRef<{ packageId: string; memberId: string; field?: string } | undefined>(undefined);
   const signingLauncher = useRef(openMemberSigning);
   useLayoutEffect(() => { signingLauncher.current = openMemberSigning; });
   useEffect(() => {
@@ -963,6 +963,10 @@ function PackageDialog({
         </Suspense>}
         {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
           <PackageFormEditor returnToSigner={!!editingFinding?.signatureField} key={record.id + '/' + formMember.id} record={record} member={formMember} correction={editingFinding?.memberId === formMember.id ? editingFinding.correction : undefined} onFinishFinding={editingFinding?.memberId === formMember.id ? finishFinding : undefined} ports={ports} exportGate={exportGate}
+            onSign={async field => {
+              returnSigner.current = { packageId: record.id, memberId: formMember.id, field };
+              await openMemberEditor();
+            }}
             onFieldReview={reviewEditorField} onSave={onEditorSave} navigationError={error}
             onSharedDetails={() => {
               openMemberEditor();

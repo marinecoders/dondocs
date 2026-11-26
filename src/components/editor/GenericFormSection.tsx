@@ -132,12 +132,13 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
 }
 
 
-export function FormSectionFields({ instance, section, issues, onChange, prefix = '' }: {
+export function FormSectionFields({ instance, section, issues, onChange, onSign, prefix = '' }: {
   instance: FormInstance;
   section: FormInstance['definition']['sections'][number];
   issues: ReturnType<typeof validateAnswers>;
   onChange(key: string, value: FormInstance['answers'][string]): void;
   prefix?: string;
+  onSign?(field?: string): void;
 }) {
   const definition = instance.definition;
   return (<div className={section.editor === 'checklist' ? 'flex flex-col gap-density-2' : 'flex flex-col gap-density-4'}>
@@ -148,6 +149,10 @@ export function FormSectionFields({ instance, section, issues, onChange, prefix 
           <FormAnswerControl
             id={`${prefix}answer-${key}`}
             field={definition.fields[key]}
+            onSign={onSign && (() => {
+              const ids = definition.fields[key].sourceIds;
+              onSign(ids?.length === 1 ? ids[0] : undefined);
+            })}
             value={instance.answers[key]}
             error={issues.filter(issue => issue.path === key).map(issue => issue.message).join('; ')}
             onChange={value => onChange(key, value)}
