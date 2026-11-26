@@ -632,13 +632,15 @@ test("package-name validation preserves Unicode and blocks overlong commits", as
   await modal.getByRole("button", { name: "Create package", exact: true }).click();
   expect(await selectedPackageId(modal)).not.toBe('');
   const id = await selectedPackageId(modal);
-  await packageSection(modal, 'Overview', true);
+  await packageSection(modal, 'Overview');
+  await modal.getByText("Rename package", { exact: true }).click();
   await name.fill("B".repeat(121));await expect(modal.getByRole("button", { name: "Rename", exact: true })).toBeDisabled();
   await page.reload();
   modal = await openPackageWorkspace(page);
   await choosePackageById(modal, id);
   name = modal.getByRole("textbox", { name: "Package name", exact: true });
-  await packageSection(modal, 'Overview', true);
+  await packageSection(modal, 'Overview');
+  await modal.getByText("Rename package", { exact: true }).click();
   await expect(name).toHaveValue(unicode);await expect(modal).toHaveAttribute('data-package-id', id);
   await showPackageLibrary(modal); await expect(modal.locator('button[data-package-id]')).toHaveCount(1);
 });

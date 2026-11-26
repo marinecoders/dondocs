@@ -1,7 +1,13 @@
-import { useState } from 'react';
-import type { ActionPackage } from '@/lib/actionPackages';
+import { useMemo, useState } from 'react';
+import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
 import { getPackageRevision } from '@/lib/actionPackages';
 import { Button } from './ui/button';
+
+function caseReference(revision: PackageRevision) {
+  const fact = revision.information?.facts.find(item => !item.participantId && item.label.trim().toLowerCase() === 'case reference');
+  const value = fact?.value ?? revision.templateState?.answers.values.caseReference;
+  return typeof value === 'string' ? value.trim() : '';
+}
 
 export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate, onResume }: {
   records: readonly ActionPackage[];
@@ -12,8 +18,12 @@ export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate, on
   onResume?(): void;
 }) {
   const [query, setQuery] = useState('');
-  const filtered = [...records].sort((a, b) => getPackageRevision(b).createdAt - getPackageRevision(a).createdAt)
-    .filter(record => record.name.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
+  const rows = useMemo(() => records.map(record => {
+    const revision = getPackageRevision(record);
+    return { record, revision, reference: caseReference(revision) };
+  }).sort((a, b) => b.revision.createdAt - a.revision.createdAt), [records]);
+  const search = query.trim().toLocaleLowerCase();
+  const filtered = rows.filter(({ record, reference }) => [record.name, reference].some(value => value.toLocaleLowerCase().includes(search)));
   return <section aria-labelledby="package-library-title" className="space-y-7">
     <div className="flex items-center justify-between gap-4">
       <h1 id="package-library-title" className="text-2xl font-semibold tracking-tight">Packages</h1>
@@ -27,13 +37,12 @@ export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate, on
             onChange={event => setQuery(event.target.value)} />
         </label>
         <ul className="divide-y" aria-label="Saved packages">
-          {filtered.map(record => {
-            const revision = getPackageRevision(record);
+          {filtered.map(({ record, revision, reference }) => {
             return <li key={record.id}>
               <button type="button" data-package-id={record.id} disabled={disabled} onClick={() => onOpen(record)}
                 className="flex w-full items-center justify-between gap-6 py-5 text-left hover:bg-accent/30 disabled:opacity-50">
                 <span className="min-w-0"><span className="block break-words text-sm font-medium">{record.name}</span>
-                  <span className="mt-1 block text-xs text-muted-foreground">{revision.members.length} document{revision.members.length === 1 ? '' : 's'}{record.archived ? ' · Archived' : ''}</span>
+                  <span className="mt-1 block text-xs text-muted-foreground">{reference && <>Case reference {reference} · </>}{revision.members.length} document{revision.members.length === 1 ? '' : 's'}{record.archived ? ' · Archived' : ''}</span>
                 </span>
                 <span className="shrink-0 text-xs text-muted-foreground">{new Date(revision.createdAt).toLocaleDateString()}</span>
               </button>
