@@ -131,3 +131,12 @@ it('updates the remaining linked form and preserves an already signed official m
     expect(Buffer.compare(Buffer.from(portable.resources.get('assets/' + signedMember.original.id)!.data), signed)).toBe(0);
   } finally { vi.restoreAllMocks(); vi.unstubAllGlobals(); }
 }, 45_000);
+
+it('rejects missing and mismatched official editions when starting a recipe slot', async () => {
+  const { officialFormBlueprint } = await import('@/lib/packageOfficialForms');
+  const member = { key: 'entry', role: 'supporting-document' as const, required: true, formId: 'navmc_118_11' };
+  await expect(officialFormBlueprint({ ...member, completion: { expectedForm: { id: member.formId, edition: 'unavailable' } } }))
+    .rejects.toThrow('official form edition is unavailable');
+  await expect(officialFormBlueprint({ ...member, completion: { expectedForm: { id: 'navmc10132', edition: '2023-08' } } }))
+    .rejects.toThrow('different official form');
+});

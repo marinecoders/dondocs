@@ -1,7 +1,7 @@
 import { FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
 import { identifyOfficialOriginal, officialEdition, nativeSigningFormId, officialFormChoices } from '@/services/forms/nativeCatalog';
-import { loadDefinition } from '@/services/forms/packages';
+import { loadPackageFormDefinition } from './packageFormFields';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { captureDocumentRevision } from './capturedDocument';
 import { capturePackageMember, readPackageAsset } from './actionPackageAssets';
@@ -14,14 +14,16 @@ import type { PackageTemplateV2 } from './packageTemplateSchema';
 
 export const packageOfficialForms = officialFormChoices;
 
-async function officialFormStarter(formId: string, catalogLabel?: string) {
-  const edition = officialEdition(formId);
+async function officialFormStarter(formId: string, catalogLabel?: string, pinnedEdition?: string) {
+  const edition = officialEdition(formId, pinnedEdition);
+  if (pinnedEdition && !edition) throw new Error("This official form edition is unavailable.");
   const builtin = Object.hasOwn(FORM_TYPE_LABELS, formId);
   const label = edition?.label ?? (builtin ? formTypeLabel(formId) : catalogLabel);
   if (!label) throw new Error('This form is unavailable.');
   const session = createBlankSession(formId);
+  if (edition?.format === 'xfa' && session.forms) session.forms.officialPdfEdition = edition.edition;
   if (edition?.format === 'acroform' || !builtin && !edition) {
-    const definition = edition ? await loadDefinition(edition.directory) : await (await import('@/services/formRegistry')).configForFormType(formId);
+    const definition = edition ? await loadPackageFormDefinition(edition) : await (await import('@/services/formRegistry')).configForFormType(formId);
     if (!definition || definition.formId !== formId || edition && definition.nativePdfEdition !== edition.edition)
       throw new Error('The form definition does not match the selected edition.');
     delete session.forms;
@@ -44,7 +46,9 @@ type NativeStarter = Extract<PackageTemplateV2['members'][number], { kind: 'nati
 export type OfficialFormMembership = Pick<NativeStarter, 'key' | 'role' | 'required' | 'when' | 'repeatGroupId' | 'links' | 'blankPdf' | 'completion'> & { formId: string; facts?: Record<string, string> };
 export async function officialFormBlueprint(input: OfficialFormMembership): Promise<NativeStarter> {
   const { formId, facts, ...membership } = input;
-  const { label, session, captured } = await officialFormStarter(formId);
+  const expected = membership.completion?.expectedForm;
+  if (expected && expected.id !== formId) throw new Error('The recipe specifies a different official form for this slot.');
+  const { label, session, captured } = await officialFormStarter(formId, undefined, expected?.edition);
   const templates = await captureExportFormTemplates(captured);
   if (!templates) throw new Error('The official form templates are unavailable.');
   const pages = Object.fromEntries(Object.entries(copyFormExportTemplates(templates)).map(([file, data]) =>

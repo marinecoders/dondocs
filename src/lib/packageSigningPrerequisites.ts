@@ -3,22 +3,27 @@ import type { PackageRevision } from './actionPackages';
 import { resolveConditionalPackageRequirements } from './packageConditionalRequirements';
 import { packageBindingReadiness } from './packageFieldBindings';
 import { missingAnswerGroups } from './packageFormCompletion';
-import { readAnsweredPdfFields } from '@/services/forms/readRequiredPdfFields';
+import { missingPdfSelections, readPdfAnswerStates } from '@/services/forms/readRequiredPdfFields';
 
 /** Evaluate the chosen signer against the exact bytes about to reach the card. */
 export async function checkPackageSigningPrerequisites(revision: PackageRevision, memberId: string, field: string, bytes: ArrayBuffer) {
   const [unresolved] = await packageBindingReadiness(revision, memberId);
   if (unresolved) throw new PackageSigningRequirementError(unresolved.message, { bindingId: unresolved.bindingId, memberId });
   const requirements = revision.templateState ? await resolveConditionalPackageRequirements(revision) : revision.requirements;
-  const groups = [];
+  const groups = [], selections = [];
   for (const item of requirements?.items ?? []) {
     if (item.kind !== 'document' || item.memberId !== memberId || item.condition === 'inactive') continue;
     const applicable = item.completion?.answerGroups?.filter(group => group.beforeSignatures?.includes(field)) ?? [];
-    if (applicable.length && item.condition === 'unknown') throw new PackageSigningRequirementError('Complete the package details for ' + item.label + ' before signing.', { panel: 'intake', section: 'overview' });
+    const requiredSelections = item.completion?.pdfSelections ?? [];
+    if ((applicable.length || requiredSelections.length) && item.condition === 'unknown') throw new PackageSigningRequirementError('Complete the package details for ' + item.label + ' before signing.', { panel: 'intake', section: 'overview' });
     groups.push(...applicable);
+    selections.push(...requiredSelections);
   }
-  if (!groups.length) return;
-  const answered = await readAnsweredPdfFields(bytes);
+  if (!groups.length && !selections.length) return;
+  const fields = await readPdfAnswerStates(bytes);
+  const invalid = missingPdfSelections(fields, selections);
+  if (invalid.length) throw new PackageSigningRequirementError(invalid.map(item => item.label).join(' '), { memberId });
+  const { answered } = fields;
   const missing = missingAnswerGroups(groups, answered);
   if (!missing.length) return;
   const member = revision.members.find(item => item.id === memberId);

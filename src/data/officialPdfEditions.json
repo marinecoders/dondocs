@@ -54,6 +54,9 @@
         612,
         792
       ]
-    ]
+    ],
+    "signatureFieldIds": {
+      "signing_authority": "Signing_authority"
+    }
   }
 ]

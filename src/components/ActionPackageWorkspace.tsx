@@ -413,6 +413,8 @@ function PackageDialog({
     if (!record || !editable || busy || pendingPackageEdits || !packageFormSigningAction(member)) return;
     return run(async () => {
       const signal = operation.current!.signal;
+      const { checkMemberSigningSelections } = await import('@/lib/packageRequirements');
+      await checkMemberSigningSelections(getPackageRevision(record, revisionId || record.currentRevisionId), member, signal);
       const documentId = await signingMemberKey(record.id, member);
       let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId);
       if (!saved) {
@@ -422,7 +424,8 @@ function PackageDialog({
         const current = () => active.current && !signal.aborted;
         const { confirmSigningDisclosure } = await import('./signingDisclosure');
         await confirmSigningDisclosure({ pdfs: [source], metadata: source.metadata }, current, { action: 'sign' });
-        const edition = member.kind === 'native' && officialEdition(memberSigningFormId(member) ?? '');
+        const edition = member.kind === 'native' && officialEdition(memberSigningFormId(member) ?? '',
+          member.session.genericForm?.definition.nativePdfEdition ?? member.session.forms?.officialPdfEdition);
         const bytes = edition ? bindUnsignedFormPdf(source.bytes, edition.length, documentId) : source.bytes;
         saved = await saveOfficialRevision(source.label, bytes, current, undefined,
           { documentId, epoch: 0, editSequence: 0, capturedAt: Date.now() });

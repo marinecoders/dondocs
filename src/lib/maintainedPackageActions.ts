@@ -70,20 +70,37 @@ async function evidence(): Promise<PackageTemplateV2> {
       { key: 'supporting-record', kind: 'attachment', label: 'Original supporting PDF', role: 'supporting-document', required: true, multipleFiles: true }],
   };
 }
+type RecipeMember = PackageTemplateV2['members'][number] | (OfficialFormMembership & { kind: 'official-form' });
+
 export type MaintainedRecipe = Omit<PackageTemplateV2, 'members'> & {
-  members: Array<PackageTemplateV2['members'][number] | (OfficialFormMembership & { kind: 'official-form' })>;
+  members: Array<RecipeMember & { reference?: { id: string; edition: string } }>;
 };
 
 export async function resolveMaintainedRecipe(recipe: MaintainedRecipe): Promise<PackageTemplateV2> {
   const members: PackageTemplateV2['members'] = [];
   const originals = new Map<string, NativeBlueprint>();
-  for (const member of recipe.members) {
+  const blanks = new Map<string, ReturnType<typeof import('./packageBlankForms').loadPackageBlank>>();
+  const declarations = await Promise.all(recipe.members.map(async ({ reference, ...member }) => {
+    if (!reference) return member;
+    if (member.blankPdf) throw new Error('Choose one source for the reference PDF on ' + member.key + '.');
+    const key = JSON.stringify([reference.id, reference.edition]);
+    let loaded = blanks.get(key);
+    if (!loaded) {
+      loaded = import('./packageBlankForms').then(({ loadPackageBlank }) => loadPackageBlank(reference.id, reference.edition));
+      blanks.set(key, loaded);
+    }
+    const blank = await loaded;
+    return { ...member, blankPdf: blank.blankPdf, completion: { ...member.completion, ...blank.completion } };
+  }));
+  for (const member of declarations) {
     if (member.kind !== 'official-form') {
       members.push(member);
       continue;
     }
     const { formId, facts, ...membership } = member;
-    const original = originals.get(formId);
+    const expected = membership.completion?.expectedForm;
+    const sourceKey = JSON.stringify([formId, expected?.id, expected?.edition]);
+    const original = originals.get(sourceKey);
     if (original) {
       const { memberCompletion, memberFactLinks } = await import('./packageOfficialForms');
       const { validatePackageDraft } = await import('./actionPackageDraft');
@@ -94,7 +111,7 @@ export async function resolveMaintainedRecipe(recipe: MaintainedRecipe): Promise
     } else {
       const { officialFormBlueprint } = await import('./packageOfficialForms');
       const blueprint = await officialFormBlueprint(member);
-      originals.set(formId, blueprint);
+      originals.set(sourceKey, blueprint);
       members.push(blueprint);
     }
   }

@@ -1,3 +1,4 @@
+import { isEndorsement } from './endorsement';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { createBlankSession, type SerializedSession } from '@/stores/documentStore';
 import type { PackageBindingTarget } from './packageBindingTargets';
@@ -52,8 +53,12 @@ export function documentSource(id: string, label: string, when?: PackageTemplate
   ] });
 }
 
+export function answeredEquals(questionId: string, value: string | boolean): PackageTemplateCondition {
+  return { op: 'all', conditions: [{ op: 'answered', questionId }, equals(questionId, value)] };
+}
+
 export function receivedDocument(questionId: string): PackageTemplateCondition {
-  return { op: 'all', conditions: [{ op: 'answered', questionId }, equals(questionId, 'original')] };
+  return answeredEquals(questionId, 'original');
 }
 
 export function documentSourceCondition(stage: PackageTemplateCondition, id: string, source: 'draft' | 'original'): PackageTemplateCondition {
@@ -73,4 +78,17 @@ export async function correspondenceMember(input: {
   session.formData.subject = input.subject ?? '';
   const member = await native(input.key, input.label, session, input.facts ?? {}, { when: input.when });
   return { ...member, role: input.role, ...(input.endorses && { endorses: input.endorses }) };
+}
+
+/** A draft that must contain user-written text before delivery. */
+export async function writtenCorrespondence(input: {
+  key: string; label: string; when?: PackageTemplateCondition; docType?: string;
+  facts?: Record<string, string>; endorses?: string;
+}): Promise<NativeBlueprint> {
+  const docType = input.docType ?? 'naval_letter';
+  const member = await correspondenceMember({
+    ...input, docType, role: isEndorsement(docType) ? 'endorsement' : 'supporting-document',
+    subject: input.label.toUpperCase(),
+  });
+  return { ...member, completion: { writtenContent: true } };
 }
