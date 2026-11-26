@@ -5,6 +5,7 @@ import type { ReviewReturnConflict } from '@/lib/reviewCommentMerge';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageReviewRound } from '@/lib/actionPackages';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
+import { matchPackageReturnRound } from '@/lib/packageReviewTransfer';
 import { MAX_PACKAGE_FILE_BYTES } from '@/lib/actionPackageTransfer';
 import { previewPackageReviewReturn, inspectPackageReviewApplication, preparePackageReviewApplication, applyPreparedPackageReviewApplication,
   type PackageReviewReturnPreview, type PackageFeedbackChoices, type PackageReviewApplicationPlan, type PreparedPackageReviewApplication } from '@/lib/packageReviewApplication';
@@ -22,9 +23,11 @@ function DiscussionValue({ value }: { value: ReviewReturnConflict['baseline'] })
 
 export function PackageReviewApplicationPanel({ record, round, busy, run, onApply, isCurrent, signal, workspace = false }: {
   workspace?: boolean;
-  record: ActionPackage; round: PackageReviewRound; busy: boolean; run(action: () => Promise<void>): Promise<void>;
+  record: ActionPackage; round?: PackageReviewRound; busy: boolean; run(action: () => Promise<void>): Promise<void>;
   onApply(record: ActionPackage): void; isCurrent(): boolean; signal(): AbortSignal | undefined;
 }) {
+  const [matchedRound, setMatchedRound] = useState<PackageReviewRound>();
+  const selectedRound = round ?? matchedRound;
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<PackageReviewReturnPreview | null>(null), [choices, setChoices] = useState<PackageFeedbackChoices>({});
   const [selectedRanges, setSelectedRanges] = useState<Record<string, { context: string; start: number; end: number }>>({});
@@ -50,13 +53,18 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
     <p className="text-xs text-muted-foreground">Compare the reviewed baseline, returned proposals and latest saved package. Each application creates one new package revision. Source documents remain separate.</p>
     <label className="block text-sm">Import package feedback return<input aria-label="Import package feedback return" type="file" accept=".json" className="block max-w-full" disabled={busy}
       onChange={event => { const file = event.target.files?.[0]; event.target.value = ''; if (file) void run(async () => {
-        setError(null); setPrepared(null); setApproved(false); setPlan(null); setPreview(null); setChoices({});
+        setError(null); setPrepared(null); setApproved(false); setPlan(null); setPreview(null); setChoices({}); setMatchedRound(undefined); setSelectedRanges({});
         if (file.size > MAX_PACKAGE_FILE_BYTES) throw new Error('Package review files are limited to 100 MB.');
-        const value = await previewPackageReviewReturn(await file.text(), record, round.id, await getExportDeploymentPolicy());
+        const json = await file.text();
+        const target = matchPackageReturnRound(json, record);
+        if (round && round.id !== target.id) throw new Error('This feedback belongs to another review round. Return to the package and import it there.');
+        const value = await previewPackageReviewReturn(json, record, target.id, await getExportDeploymentPolicy());
         if (!isCurrent()) return;
-        setPreview(value); setPlan(inspectPackageReviewApplication(value, {}, getExportDeploymentPolicySync()));
+        setMatchedRound(target); setPreview(value); setPlan(inspectPackageReviewApplication(value, {}, getExportDeploymentPolicySync()));
       }); }} /></label>
     {plan && <div ref={planResult} tabIndex={-1} className="space-y-4 outline-none">
+      {selectedRound && <p className="text-sm">{record.name} · {selectedRound.label} · {selectedRound.revisionId === record.currentRevisionId
+        ? 'Reviewed version is current' : 'The package has a newer saved version'}</p>}
       {plan.previews.map(member => <article key={member.memberId} className="space-y-2 rounded border p-2">
         <h4 className="font-medium break-words">{member.label} · {member.status}</h4>
         <p className="text-xs break-all">Reviewed member revision: {member.baseline.revisionId}<br />Current member revision: {member.current?.revisionId ?? 'Removed'}</p>
@@ -154,8 +162,8 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
       })}>Apply feedback as new package revision</Button>
     </div>}
     {(preview || prepared) && <Button variant="outline" disabled={busy} onClick={() => { setPreview(null); setPrepared(null); setPlan(null); setChoices({}); setApproved(false); }}>Cancel feedback application</Button>}
-    {!!record.reviewApplications?.length && <div className="space-y-1 text-xs"><p>Saved feedback applications</p>{record.reviewApplications.filter(item => item.roundId === round.id).map(item => <details key={item.id}><summary className="break-all">Return {item.returnId} · New revision {item.revisionId}</summary>{item.feedback.map(child => <details key={child.binding.memberId} open className="space-y-1 border-l pl-2">
-      <summary>Returned feedback for {round.baseline.members.find(member => member.id === child.binding.memberId)?.label ?? child.binding.memberId}</summary>
+    {selectedRound && !!record.reviewApplications?.length && <div className="space-y-1 text-xs"><p>Saved feedback applications</p>{record.reviewApplications.filter(item => item.roundId === selectedRound.id).map(item => <details key={item.id}><summary className="break-all">Return {item.returnId} · New revision {item.revisionId}</summary>{item.feedback.map(child => <details key={child.binding.memberId} open className="space-y-1 border-l pl-2">
+      <summary>Returned feedback for {selectedRound.baseline.members.find(member => member.id === child.binding.memberId)?.label ?? child.binding.memberId}</summary>
       {child.comments.threads.map(thread => <DiscussionValue key={thread.id} value={thread} />)}
       {!child.comments.threads.length && <p>No returned discussion.</p>}
       {child.suggestions?.proposals.map(proposal => <div key={proposal.id} className="space-y-1">

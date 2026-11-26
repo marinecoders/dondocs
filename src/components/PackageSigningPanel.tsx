@@ -15,6 +15,7 @@ import type { ExportReview } from '@/lib/preparedExport';
 
 const SigningWorkspace = lazy(() => import('./modals/SigningWorkspace'));
 interface Props {
+  matchedReturn?: { handoffId: string; file: File };
   record: ActionPackage; revision: PackageRevision; disabled: boolean; busy: boolean;
   run(action: () => Promise<void>): Promise<void>;
   onApply(record: ActionPackage): void; onDirtyChange?(dirty: boolean): void;
@@ -29,7 +30,7 @@ function PrivacyReview({ reviews }: { reviews: readonly ExportReview[] }) {
 }
 
 /** Package associations own captured files; the existing signing editor handles placements and external returns. */
-export function PackageSigningPanel({ record, revision, disabled, busy, run, onApply, onDirtyChange, isCurrent, signal, destination, onNavigate }: Props) {
+export function PackageSigningPanel({ record, revision, disabled, busy, run, onApply, onDirtyChange, isCurrent, signal, destination, onNavigate, matchedReturn }: Props) {
   const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}:${record.archived}:${disabled}`;
   const content = useRef<HTMLElement>(null), handledDestination = useRef<number | null>(null);
   const [inspection, setInspection] = useState<PackageSigningFinding[] | null>(null);
@@ -80,6 +81,8 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
     catch (cause) { if (current()) setError(cause instanceof Error ? cause.message : 'The package signing operation could not start.'); }
     finally { running.current = false; if (mounted.current) setPending(false); }
   }
+  const matchedHandoff = retainedReview && retainedReview.entry.id === matchedReturn?.handoffId
+    && retainedReview.entry.signingRecordId === workspaceId ? retainedReview.entry : undefined;
   return <section ref={content} tabIndex={-1} data-package-panel="signing" aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3">
     <h3 id={heading} className="sr-only">Package signing</h3>
     <p className="text-sm text-muted-foreground">Prepare an exact saved PDF in the signing workspace, then capture the handoff and its signer assignments with this package.</p>
@@ -157,6 +160,7 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
         <p className="break-all text-xs">Exact handoff SHA-256: {entry.pdfs.handoff.sha256}</p>
         {entry.returns?.map((returned, returnIndex) => <p key={returned.id} className="break-words text-xs">Return {returnIndex + 1}: {returned.returnedAsset.name} · {returned.assessment} · associated, signer authenticity unverified</p>)}
         <Button className={buttonClass} variant="outline" disabled={busy || pending || dirty} onClick={() => void perform(async current => {
+          setRetainedReview(null); setRetainedReviewed(false);
           const policy = await getExportDeploymentPolicy();
           if (policy.status !== 'ready') throw new Error(policy.message);
           const reviews = await reviewPackageSigningCapture(entry, policy);
@@ -252,6 +256,8 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
         </div>}
       </fieldset>}
     </div>}
-    {workspaceId && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><SigningWorkspace open initialRecordId={workspaceId} onOpenChange={value => { if (!value) setWorkspaceId(''); }} /></Suspense>}
+    {workspaceId && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><SigningWorkspace open initialRecordId={workspaceId}
+      initialReturnFile={matchedHandoff ? matchedReturn?.file : undefined}
+      initialHandoffId={matchedHandoff?.handoffId} onOpenChange={value => { if (!value) setWorkspaceId(''); }} /></Suspense>}
   </section>;
 }

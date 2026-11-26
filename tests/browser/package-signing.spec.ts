@@ -109,9 +109,15 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   expect(manifest.package).toMatchObject({ id: 'package_signing_browser', revisionId: 'revision_signing_source', sourceSha256: fixture.sha256, signerAuthenticity: 'unverified' });
   expect(createHash('sha256').update(handoffBytes).digest('hex')).toBe(manifest.pdfSha256);
   const handedPdf = await PDFDocument.load(handoffBytes); expect(handedPdf.getPageCount()).toBe(1); expect(handedPdf.getForm().getFields()).toHaveLength(1);
+  await packageSection(dialog, 'Review');
+  await dialog.getByText('Import returned work', { exact: true }).click();
+  await dialog.getByLabel('Match returned signed PDF').setInputFiles({ name: 'Synthetic associated return.pdf', mimeType: 'application/pdf', buffer: handoffBytes });
+  await dialog.getByRole('button', { name: /^Inspect handoff ·/ }).click();
+  await capturedHandoff(panel);
+  await panel.getByRole('checkbox', { name: /^I reviewed every retained source and handoff page/ }).check();
   await panel.getByRole('button', { name: 'Open captured signing workspace', exact: true }).click();
   workspace = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
-  await workspace.getByLabel('Returned PDF', { exact: true }).setInputFiles({ name: 'Synthetic associated return.pdf', mimeType: 'application/pdf', buffer: handoffBytes });
+  await workspace.getByRole('button', { name: 'Compare returned PDF · Synthetic associated return.pdf', exact: true }).click();
   await expect(workspace.getByText(/^This is the unchanged handoff PDF\./)).toBeVisible();
   await workspace.getByRole('checkbox', { name: /^I compared every page and the signer assignments/ }).check();
   await workspace.getByRole('checkbox', { name: /^I understand this file is unchanged, differs/ }).check();

@@ -115,6 +115,7 @@ const PackageJobsPanel = lazy(() => import("./PackageJobsPanel").then(module => 
 const PackageDeliveryPanel = lazy(() => import("./PackageDeliveryPanel").then(module => ({ default: module.PackageDeliveryPanel })));
 const PackageAssemblyPanel = lazy(() => import("./PackageAssemblyPanel").then(module => ({ default: module.PackageAssemblyPanel })));
 const PackageOutputNavigation = lazy(() => import("./PackageOutputNavigation").then(module => ({ default: module.PackageOutputNavigation })));
+const PackageSignedReturnPicker = lazy(() => import('./PackageSignedReturnPicker').then(module => ({ default: module.PackageSignedReturnPicker })));
 const OfficialSigningWorkspace = lazy(() => import('./modals/SigningWorkspace'));
 const PackageSigningPanel = lazy(() => import("./PackageSigningPanel").then(module => ({ default: module.PackageSigningPanel })));
 const PackageScanPanel = lazy(() => import("./PackageScanPanel").then(module => ({ default: module.PackageScanPanel })));
@@ -271,7 +272,8 @@ function PackageDialog({
   const [consistencyDirty, setConsistencyDirty] = useState(false);
   const [workDirty, setWorkDirty] = useState(false);
   const [formLocation, setFormLocation] = useState(() => readFormLocation('active'));
-  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; documentId: string; base: string; initialField?: string }>();
+  const [externalReturn, setExternalReturn] = useState<{ packageId: string; revisionId: string; handoffId: string; file: File }>();
+  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; documentId: string; base: string; initialField?: string; returnedFile?: File }>();
   const [signingDirty, setSigningDirty] = useState(false);
   const [assemblyDirty, setAssemblyDirty] = useState(false);
   useEffect(() => { if (!assemblyDirty) setError(previous => previous === "Save or discard assembly settings before closing this package." ? "" : previous); }, [assemblyDirty]);
@@ -423,14 +425,15 @@ function PackageDialog({
   const missingRetainedOutput = !!selectedRetainedOutputId && !selectedRetainedOutput;
   const selectionOwner = `${record?.id ?? ''}:${record?.sequence ?? ''}:${revision?.id ?? ''}:${openedReview?.id ?? ''}`;
   useLayoutEffect(() => { destinationOwner.current = selectionOwner; }, [selectionOwner]);
-  function openMemberSigning(member: PackageMember, initialField?: string) {
+  function openMemberSigning(member: PackageMember, initialField?: string, returned?: { recordId: string; file: File }) {
     if (!record || !editable || busy || pendingPackageEdits || !packageFormSigningAction(member)) return;
     return run(async () => {
       const signal = operation.current!.signal;
       const { checkMemberSigningSelections } = await import('@/lib/packageRequirements');
       await checkMemberSigningSelections(getPackageRevision(record, revisionId || record.currentRevisionId), member, signal);
       const documentId = await signingMemberKey(record.id, member);
-      let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId);
+      let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId && (!returned || entry.id === returned.recordId));
+      if (returned && !saved) throw new Error('The matched signing revision changed. Choose the returned PDF again.');
       if (!saved) {
         const policy = await getExportDeploymentPolicy();
         const release = await exportGate.acquireWhenAvailable(signal);
@@ -445,7 +448,7 @@ function PackageDialog({
           { documentId, epoch: 0, editSequence: 0, capturedAt: Date.now() });
       }
       signal.throwIfAborted();
-      setFormSigning({ id: saved.id, initialField, memberId: member.id, revisionId: member.revisionId, documentId, base: saved.revisions[0].sha256 });
+      setFormSigning({ id: saved.id, initialField, returnedFile: returned?.file, memberId: member.id, revisionId: member.revisionId, documentId, base: saved.revisions[0].sha256 });
     });
   }
   const [deliveryReturnPackage, setDeliveryReturnPackage] = useState<string>();
@@ -725,6 +728,7 @@ function PackageDialog({
     preparedResultRef.current?.focus({ preventScroll: true });
   }, [prepared, pdfUrl, workspaceSection, library]);
   function select(value: ActionPackage) {
+    setExternalReturn(undefined);
     setAddFor(undefined);
     setReviewCopyRequest(null);
     if (value.id !== selectedId) setReviewIssue(undefined);
@@ -1376,11 +1380,22 @@ function PackageDialog({
                     origin={configuredApprovalOrigin} canStart={editable} disabled={busy || pendingPackageEdits} />
                 </Suspense></div>
               </details>}
-              {openedReview?.ownerPackageId === record.id && <Suspense fallback={<p>Loading feedback application…</p>}>
-                <PackageReviewApplicationPanel workspace key={`${record.id}:${record.sequence}:${openedReview.id}`} record={record} round={openedReview} busy={busy || typedDirty} run={run}
-                  signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
-                  onApply={next => { update(next); setOpenedReview(null); setRevisionId(next.currentRevisionId); }} />
-              </Suspense>}
+              {(!openedReview && editable || openedReview?.ownerPackageId === record.id) && <details key={openedReview?.id ?? 'return'} open={openedReview ? true : undefined}>
+                <summary className="cursor-pointer text-sm font-medium">Import returned work</summary>
+                <Suspense fallback={<p>Loading feedback application…</p>}>
+                  <PackageReviewApplicationPanel workspace key={record.id + '/' + record.sequence + '/' + (openedReview?.id ?? '')} record={record} round={openedReview ?? undefined} busy={busy || typedDirty} run={run}
+                    signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
+                    onApply={next => { update(next); setOpenedReview(null); setRevisionId(next.currentRevisionId); }} />
+                </Suspense>
+                {!openedReview && (revision.members.some(packageFormSigningAction) || !!revision.signing?.handoffs.length) && <Suspense fallback={<p role="status">Opening signed returns…</p>}>
+                  <PackageSignedReturnPicker key={record.id + '/' + revision.id} packageId={record.id} revision={revision} disabled={busy || pendingPackageEdits}
+                    onHandoff={(handoffId, file) => {
+                      setExternalReturn({ packageId: record.id, revisionId: revision.id, handoffId, file });
+                      followDestination({ signingId: handoffId, revisionId: revision.id });
+                    }}
+                    onOpen={(member, recordId, file) => void openMemberSigning(member, undefined, { recordId, file })} />
+                </Suspense>}
+              </details>}
               </div>
                     {openedReview && <Suspense fallback={<p>Loading member review…</p>}>
                 <PackageMemberReviewPanel workspace key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty} signal={() => operation.current?.signal}
@@ -2032,7 +2047,7 @@ function PackageDialog({
           <summary className="cursor-pointer text-sm font-medium">Package signing{signingDirty ? " · awaiting capture" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package signing…</p>}>
 
-            <PackageSigningPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+            <PackageSigningPanel matchedReturn={externalReturn?.packageId === readRecord.id && externalReturn.revisionId === revision.id && externalReturn.handoffId === destination?.signingId ? externalReturn : undefined} record={readRecord} revision={revision} disabled={!editable || typedDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
@@ -2057,7 +2072,7 @@ function PackageDialog({
         </Dialog>
       </DialogContent>
     </Dialog>
-    {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialRecordId={formSigning.id} initialField={formSigning.initialField}
+    {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialReturnFile={formSigning.returnedFile} initialRecordId={formSigning.id} initialField={formSigning.initialField}
               onCorrect={(target, signatureField) => {
                 setFormSigning(undefined);
                 followDestination({ ...target, revisionId: revision.id, signatureField });
