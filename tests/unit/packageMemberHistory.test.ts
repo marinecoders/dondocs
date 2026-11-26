@@ -3,7 +3,7 @@ import { PDFDocument } from 'pdf-lib';
 import { expect, it, vi } from 'vitest';
 import { captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
 import { createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
-import { packageMemberHistory, reviseUnsignedPackagePdf } from '@/lib/packageMemberHistory';
+import { packageMemberHistory, replacePackagePdf } from '@/lib/packageMemberHistory';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 
@@ -18,8 +18,8 @@ it('replaces one original in place, preserving both copies and rejecting stale a
   const first = await captureOriginalPackageMember({ name: 'same.pdf', data: blank }, 'basic-letter', false);
   const second = await captureOriginalPackageMember({ name: 'same.pdf', data: blank }, 'enclosure', false);
   const record = await reviseActionPackage(await createActionPackage('Replacement'), [first, second]);
-  await expect(reviseUnsignedPackagePdf(record, first, new File([blank], 'copy.pdf'))).rejects.toThrow('already saved');
-  await reviseUnsignedPackagePdf(record, first, new File([filled], 'filled.pdf'));
+  await expect(replacePackagePdf(record, first, new File([blank], 'copy.pdf'), false)).rejects.toThrow('already saved');
+  await replacePackagePdf(record, first, new File([filled], 'filled.pdf'), false);
   const [saved] = await listActionPackages(record.id);
   const members = getPackageRevision(saved).members;
   expect(members[0]).toMatchObject({ id: first.id, role: first.role, label: first.label });
@@ -30,5 +30,17 @@ it('replaces one original in place, preserving both copies and rejecting stale a
     if (entry.member.kind !== 'original') throw new Error('Expected a PDF');
     expect(await readPackageAsset(entry.member.original)).toEqual([blank, filled][index]);
   }
-  await expect(reviseUnsignedPackagePdf(saved, first, new File([filled], 'stale.pdf'))).rejects.toThrow('current unsigned PDF');
+  await expect(replacePackagePdf(saved, first, new File([filled], 'stale.pdf'), false)).rejects.toThrow('current PDF');
+});
+
+it('prepares multiple custom originals in order without assigning two main documents', async () => {
+  const { preparePackageUploads } = await import('@/lib/packageSlotFiles');
+  const pdf = await PDFDocument.create();
+  pdf.addPage();
+  const bytes = Uint8Array.from(await pdf.save());
+  const files = ['first.pdf', 'second.pdf'].map(name => new File([bytes], name));
+  const { members, attachments } = await preparePackageUploads(files, 'basic-letter', false);
+  expect(members.map(member => [member.label, member.role])).toEqual([['first.pdf', 'basic-letter'], ['second.pdf', 'supporting-document']]);
+  expect(attachments.map(asset => asset.data.byteLength)).toEqual([bytes.length, bytes.length]);
+  await expect(preparePackageUploads([...files, new File(['invalid'], 'third.pdf')], 'enclosure', false)).rejects.toThrow();
 });

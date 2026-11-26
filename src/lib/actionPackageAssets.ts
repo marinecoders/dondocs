@@ -13,6 +13,7 @@ import type { CapturedDocument } from "./capturedDocument";
 import { copyCapturedDocument } from "./capturedDocument";
 import { buildDraftFileFromSnapshot } from "./draftFile";
 import {
+  newAttachmentId,
   loadAttachment,
   persistAttachment,
   withAttachmentStaging,
@@ -182,6 +183,15 @@ export async function capturePackageMember(
     };
   });
 }
+export async function preparePackagePdfAsset(name: string, data: ArrayBuffer, signedOriginal: boolean, blankSha256?: string) {
+  if (!/\.pdf$/i.test(name) || !data.byteLength || data.byteLength > 25 * 1024 * 1024) throw new Error('Choose a PDF up to 25 MB.');
+  await validatePackageOriginalPdf(data);
+  const sha256 = await portableResourceDigest(data);
+  if (sha256 === blankSha256) throw new Error('This is the blank form. Attach the completed original.');
+  const original = { id: newAttachmentId(), type: 'application/pdf', name, size: data.byteLength, sha256 };
+  return { original, officialFormId: signedOriginal ? await identifyOfficialOriginal(data) : undefined, attachment: { ...original, data } };
+}
+
 export async function captureOriginalPackageMember(
   file: { name: string; data: ArrayBuffer },
   role: PackageMember["role"],

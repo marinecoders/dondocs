@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, packageHeading, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
+import { packageTool, openPackagePreparation, importPackage, packageSection, packageHeading, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Page, type Locator } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -14,7 +14,8 @@ async function packages(page: Page) {
 }
 async function section(dialog: Locator, title: string) {
   await expect(dialog).toHaveAttribute('aria-busy', 'false');
-  await packageSection(dialog, title === 'Search captured package' ? 'Overview' : title === 'Recipient delivery' ? 'Delivery' : 'Documents', true);
+  if (title === 'Recipient delivery') return packageTool(dialog, title);
+  await packageSection(dialog, title === 'Search captured package' ? 'Overview' : 'Documents', true);
   const summary = dialog.locator('summary:visible').filter({ hasText: new RegExp(`^${title}`) }).first(), details = summary.locator('..');
   await summary.scrollIntoViewIfNeeded(); await expect(summary).toBeInViewport();
   if (await details.getAttribute('open') === null) await summary.click();

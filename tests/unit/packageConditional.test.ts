@@ -628,10 +628,15 @@ it('captures a returned original against its saved slot without finishing unrela
   const revision = getPackageRevision(initial);
   const slot = revision.templateState!.instances.find(item => item.memberKey === 'returned')!;
   await expect(attachPackageSlotFiles(initial, revision.id, slot.memberId, [blank], false)).rejects.toThrow('blank form');
+  const key = packageTemplateInstanceKey('returned');
+  await expect(prepareConditionalPackage({ template: source, answers: answers(),
+    attachments: { [key]: { name: blank.name, data: await blank.arrayBuffer(), signedOriginal: false } } }, policy)).rejects.toThrow('blank form');
   const original = await file('source-cropped.pdf');
   const next = await attachPackageSlotFiles(initial, revision.id, slot.memberId, [original], true);
   const member = getPackageRevision(next).members.find(item => item.id === slot.memberId);
   expect(member).toMatchObject({ kind: 'original', signedOriginal: true, original: { name: original.name } });
+  const { replacePackagePdf } = await import('@/lib/packageMemberHistory');
+  await expect(replacePackagePdf(next, member!, blank, false)).rejects.toThrow('blank form');
   expect(getPackageRevision(next).templateState?.pending).toBe(true);
   await expect(attachPackageSlotFiles(next, revision.id, slot.memberId, [original], false)).rejects.toThrow('current editable');
 });
@@ -652,4 +657,24 @@ it('appends independent evidence PDFs, transfers both originals and keeps the sl
   expect(members.slice(-2).map(item => item.kind === 'original' && item.original.name)).toEqual([first.name, second.name]);
   const promoted = await reviseActionPackage(record, members.filter(member => member.id !== members.at(-2)!.id));
   expect(getPackageRevision(promoted).templateState!.instances.find(item => item.key === key)?.memberId).toBe(members.at(-1)!.id);
+});
+
+it('reviews a replacement in intake and preserves the previous signed evidence revision', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const source = template();
+  const key = packageTemplateInstanceKey('return');
+  source.members.push({ key: 'return', kind: 'attachment', label: 'Returned PDF', required: true, role: 'enclosure' });
+  const original = async (name: string, signedOriginal: boolean) => ({
+    name, signedOriginal, data: new Uint8Array(await readFile('tests/fixtures/permission-pdfs/' + name)).buffer,
+  });
+  const first = await original('source.pdf', true);
+  const second = await original('source-cropped.pdf', false);
+  const initial = await prepareConditionalPackage({ template: source, answers: answers(), attachments: { [key]: first } }, policy);
+  const { record } = await applyPreparedConditionalPackage(initial, policy, true);
+  const previous = getPackageRevision(record).members.at(-1)!;
+  const plan = await prepareConditionalPackage({ template: source, answers: answers(), record, attachments: { [key]: second } }, policy);
+  expect(plan.changes.find(change => change.key === key)).toMatchObject({ state: 'replace', memberId: previous.id, message: expect.stringContaining(first.name + ' with ' + second.name) });
+  const next = (await applyPreparedConditionalPackage(plan, policy, true)).record;
+  expect(getPackageRevision(next).members.at(-1)).toMatchObject({ id: previous.id, signedOriginal: false, original: { name: second.name } });
+  expect(getPackageRevision(next, record.currentRevisionId).members.at(-1)).toMatchObject({ id: previous.id, signedOriginal: true, original: { name: first.name } });
 });
