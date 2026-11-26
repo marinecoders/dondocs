@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import type { PackageFormValues } from '@/lib/packageFormEditing';
+import { isEditableOfficialForm, packageFormValues, type PackageFormValues } from '@/lib/packageFormEditing';
 import type { PackageMember } from '@/lib/actionPackages';
 import { readPackageAsset } from '@/lib/actionPackageAssets';
 import { renderPackageRecipientMember } from '@/lib/packageNativeDelivery';
@@ -18,8 +18,9 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
   packageId: string; revisionId: string; originalOnly?: boolean; positionId?: string; formPreview?: PackageFormValues; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
 }) {
   const copy = member.kind === 'original' && !originalOnly ? member.printableCopy?.asset : undefined;
-  const [showOriginalOf, setShowOriginalOf] = useState('');
-  const printable = copy && showOriginalOf !== member.revisionId ? copy : undefined;
+  const [choice, setChoice] = useState<{ revisionId: string; original: boolean }>();
+  const showOriginal = choice?.revisionId === member.revisionId ? choice.original : member.kind === 'original' && member.signedOriginal;
+  const printable = showOriginal ? undefined : copy;
   const owner = `${packageId}:${revisionId}:${member.id}:${member.revisionId}:${printable?.sha256 ?? 'original'}`;
   const [result, setResult] = useState<{ owner: string; slow?: boolean; url?: string; image?: boolean; text?: string; error?: string }>();
   const [attempt, setAttempt] = useState(0);
@@ -40,10 +41,11 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
       if (policy.status !== 'ready') throw new Error(policy.message);
       let bytes: ArrayBuffer, type: string, text: string | undefined;
       if (member.kind === 'native') {
-        const release = await exportGate.acquireWhenAvailable(controller.signal);
         // The viewer paints native AcroForm appearances. XFA needs its printable rendition.
-        const mode = formPreview?.kind === 'configured' ? 'editable' : 'printable';
-        try { ({ bytes } = await renderPackageRecipientMember(member, policy, latestPorts.current, readPackageAsset, controller.signal, undefined, mode, formPreview)); }
+        const answers = formPreview ?? (isEditableOfficialForm(member) ? packageFormValues(member) : undefined);
+        const mode = answers?.kind === 'configured' ? 'editable' : 'printable';
+        const release = await exportGate.acquireWhenAvailable(controller.signal);
+        try { ({ bytes } = await renderPackageRecipientMember(member, policy, latestPorts.current, readPackageAsset, controller.signal, undefined, mode, answers)); }
         finally { release(); }
         type = 'application/pdf';
       } else {
@@ -71,7 +73,7 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
   const shown = result?.owner === owner ? result : undefined;
   return <section aria-label={`Preview of ${member.label}`} className="min-w-0">
     {active && copy && <label className="mb-2 block text-sm">Preview file <select className="rounded border bg-background px-2 py-1"
-      value={printable ? 'print' : 'original'} onChange={event => setShowOriginalOf(event.target.value === 'original' ? member.revisionId : '')}>
+      value={printable ? 'print' : 'original'} onChange={event => setChoice({ revisionId: member.revisionId, original: event.target.value === 'original' })}>
       <option value="print">Printable copy · {copy.name}</option><option value="original">Original · {member.kind === 'original' && member.original.name}</option>
     </select></label>}
     {/* Keep document controls in place when the asynchronous preview arrives. */}

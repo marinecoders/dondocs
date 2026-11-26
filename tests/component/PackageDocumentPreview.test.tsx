@@ -3,6 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PackageDocumentPreview } from '@/components/PackageDocumentPreview';
+import { packageFormFixture } from '../_helpers/packageFormReviewFixture';
 import { createExportGate } from '@/lib/exportController';
 import { capturePackageMember } from '@/lib/actionPackageAssets';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
@@ -89,4 +90,14 @@ it('can restart a slow preview and ignores the canceled result', async () => {
     expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
     expect(screen.queryByText('Still preparing Training letter…')).toBeNull();
   } finally { vi.useRealTimers(); }
+});
+
+it('previews the saved configured form answers when no editor is open', async () => {
+  const { member } = await packageFormFixture();
+  vi.mocked(renderPackageRecipientMember).mockResolvedValue(renderedMember());
+  render(<PackageDocumentPreview packageId="package" revisionId="saved" member={member} active ports={ports} exportGate={createExportGate()} />);
+  await screen.findByLabelText('Rendered preview');
+  expect(vi.mocked(renderPackageRecipientMember).mock.calls[0].slice(6)).toEqual(['editable', {
+    kind: 'configured', answers: member.session.genericForm!.answers, rows: member.session.genericForm!.rows,
+  }]);
 });
