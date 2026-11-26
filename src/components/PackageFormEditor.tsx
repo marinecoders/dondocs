@@ -41,6 +41,7 @@ type Props = Pick<ComponentProps<typeof PackageDocumentPreview>, 'ports' | 'expo
   onSave(next: ActionPackage): void;
   onNavigate(memberId?: string): void | Promise<void>;
   correction?: PackageDestination['correction'];
+  reviewIssue?: boolean;
   onFinishFinding?(advance: boolean): Promise<void>;
   returnToSigner?: boolean;
   onSharedDetails(): void;
@@ -48,7 +49,7 @@ type Props = Pick<ComponentProps<typeof PackageDocumentPreview>, 'ports' | 'expo
   navigationError?: string;
 };
 
-export default function PackageFormEditor({ record, member, onFieldReview, onSave, onNavigate, onSharedDetails, onSign, ports, exportGate, navigationError, correction, onFinishFinding, returnToSigner }: Props) {
+export default function PackageFormEditor({ record, member, onFieldReview, onSave, onNavigate, onSharedDetails, onSign, ports, exportGate, navigationError, correction, reviewIssue, onFinishFinding, returnToSigner }: Props) {
   const editor = usePackageFormEditor(record, member, onSave);
   const titleId = useId();
   const [mobilePreview, setMobilePreview] = useState(false);
@@ -93,11 +94,11 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
   return <Dialog open onOpenChange={open => { if (!open) void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate()); }}>
     <DialogContent onKeyDown={event => handlePackageSaveShortcut(event, save)} fullscreen showCloseButton={false} aria-labelledby={titleId} className="flex flex-col gap-0">
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-4 py-3">
-        <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate())}><ArrowLeft />{returnToSigner ? 'Back to signing' : onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
+        <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate())}><ArrowLeft />{returnToSigner ? 'Back to signing' : onFinishFinding ? (reviewIssue ? 'Back to Review' : 'Back to Delivery') : 'Back to package'}</Button>
         <div className="min-w-0"><DialogTitle id={titleId}>{record.name}</DialogTitle><DialogDescription>Package form editor</DialogDescription></div>
         <PackageDocumentSwitcher history={record.revisions} revision={revision} memberId={member.id} disabled={leaving}
           onSelect={id => void navigate(() => onNavigate(id))} />
-        {onFinishFinding && !returnToSigner && <Button size="sm" disabled={leaving} onClick={() => void navigate(() => onFinishFinding(true))}>Next item</Button>}
+        {onFinishFinding && !returnToSigner && <Button size="sm" disabled={leaving} onClick={() => void navigate(() => onFinishFinding(true))}>{reviewIssue ? 'Next issue' : 'Next item'}</Button>}
         <PackageEditorSaveControls phase={editor.phase} disabled={leaving} unavailable={!editor.ready} onSave={save} />
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
         {sign && <Button variant="outline" size="sm" disabled={leaving || !editor.ready} onClick={() => sign()}>{signingAction}</Button>}

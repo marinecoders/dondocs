@@ -29,6 +29,8 @@ import { attachPackageSlotFiles, preparePackageUploads } from '@/lib/packageSlot
 import { PackageRecipeDocuments } from "./PackageRecipeDocuments";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
 import { PackageExportOptions, type PackageExportFormat } from "./PackageExportOptions";
+import { PackageReviewIssues } from './PackageReviewIssues';
+import { reviewIssueKey, type PackageNextAction } from '@/lib/packageNextActions';
 import { PackageExportFindings } from "./PackageExportFindings";
 import { readPackageNewActionContext, type PackageNewActionContext } from '@/lib/packageNewActionContext';
 import './package-workspace.css';
@@ -446,6 +448,18 @@ function PackageDialog({
     });
   }
   const [deliveryReturnPackage, setDeliveryReturnPackage] = useState<string>();
+  const [reviewIssue, setReviewIssue] = useState<{ packageId: string; id: string; advancing?: boolean }>();
+  const reviewingIssue = !!reviewIssue && reviewIssue.packageId === record?.id;
+  function openReviewIssue(action: PackageNextAction) {
+    if (!record || !action.destination || busy || pendingPackageEdits) return;
+    setReviewIssue({ packageId: record.id, id: reviewIssueKey(action) });
+    followDestination(action.destination);
+  }
+  function returnToReview(advance: boolean) {
+    setDeliveryReturnPackage(undefined);
+    navigate('review');
+    setReviewIssue(advance && reviewIssue ? { ...reviewIssue, advancing: true } : undefined);
+  }
   const [editingFinding, setEditingFinding] = useState<PackageDestination>();
   const [advanceFrom, setAdvanceFrom] = useState<{ packageId: string; correction: string }>();
   const followLatest = useRef(followDestination);
@@ -460,6 +474,24 @@ function PackageDialog({
     const member = revision?.members.find(item => item.id === request.memberId);
     if (member && record?.id === request.packageId) void signingLauncher.current(member, request.field);
   }, [record, revision, editorMember, busy, pendingPackageEdits]);
+  useEffect(() => {
+    if (!reviewIssue?.advancing || !reviewingIssue || !packageChecks.result || workspaceSection !== 'review' || library || busy || pendingPackageEdits) return;
+    const targets = new Map(packageChecks.result.actions.filter(action => action.blocking && action.destination)
+      .map(action => [reviewIssueKey(action), action]));
+    const remaining = [...targets.values()];
+    const index = remaining.findIndex(action => reviewIssueKey(action) === reviewIssue.id);
+    const next = remaining[(index + 1) % remaining.length];
+    const frame = requestAnimationFrame(() => {
+      if (!next || reviewIssueKey(next) === reviewIssue.id) {
+        setReviewIssue(undefined);
+        setNotice(next ? 'This issue still needs attention.' : 'No further actionable PDF issues.');
+        return;
+      }
+      setReviewIssue({ packageId: reviewIssue.packageId, id: reviewIssueKey(next) });
+      followLatest.current(next.destination!);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [reviewIssue, reviewingIssue, packageChecks.result, workspaceSection, library, busy, pendingPackageEdits]);
   async function finishFinding(advance: boolean) {
     if (record && editingFinding?.signatureField && editingFinding.memberId) {
       returnSigner.current = { packageId: record.id, memberId: editingFinding.memberId, field: editingFinding.signatureField };
@@ -469,6 +501,7 @@ function PackageDialog({
     await openMemberEditor();
     setEditingFinding(undefined);
     setPrepared(null);
+    if (reviewingIssue) { returnToReview(advance); return; }
     navigate('delivery');
     const previous = editingFinding && packageCorrectionKey(editingFinding);
     if (advance && record && previous) setAdvanceFrom({ packageId: record.id, correction: previous });
@@ -579,6 +612,7 @@ function PackageDialog({
   function navigate(section: PackageWorkspaceSection) {
     setAddFor(undefined);
     setAdvanceFrom(undefined);
+    setReviewIssue(undefined);
     if (!pendingPackageEdits) setDestination(undefined);
     if (section !== 'overview') setFieldReviewPackage('');
     setLibraryOpen(false);
@@ -692,6 +726,7 @@ function PackageDialog({
   function select(value: ActionPackage) {
     setAddFor(undefined);
     setReviewCopyRequest(null);
+    if (value.id !== selectedId) setReviewIssue(undefined);
     setLibraryOpen(false);
     setCreating(false);
     setDestination(undefined);
@@ -712,6 +747,7 @@ function PackageDialog({
     setRenderComparison(null);
   }
   function showLibrary() {
+    setReviewIssue(undefined);
     setActivePackageWorkspace(null);
     if (creating && !pendingPackageEdits) setCreating(false);
     setUnfinishedAction(readPackageNewActionContext());
@@ -995,10 +1031,10 @@ function PackageDialog({
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
         {editorSurface && record && nativeEditorMember && copy && copy.documentId === currentId && <Suspense fallback={<p role="status">Opening document…</p>}>
           <PackageNativeDocumentEditor key={copy.documentId} record={record} member={nativeEditorMember} documentId={copy.documentId}
-            {...editorSurface} onFinishFinding={editingFinding?.memberId === nativeEditorMember.id ? finishFinding : undefined} navigationError={error} disabled={busy} onFieldReview={reviewEditorField} onSave={onEditorSave} onNavigate={openMemberEditor} />
+            {...editorSurface} reviewIssue={reviewingIssue} onFinishFinding={editingFinding?.memberId === nativeEditorMember.id ? finishFinding : undefined} navigationError={error} disabled={busy} onFieldReview={reviewEditorField} onSave={onEditorSave} onNavigate={openMemberEditor} />
         </Suspense>}
         {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
-          <PackageFormEditor returnToSigner={!!editingFinding?.signatureField} key={record.id + '/' + formMember.id} record={record} member={formMember} correction={editingFinding?.memberId === formMember.id ? editingFinding.correction : undefined} onFinishFinding={editingFinding?.memberId === formMember.id ? finishFinding : undefined} ports={ports} exportGate={exportGate}
+          <PackageFormEditor reviewIssue={reviewingIssue} returnToSigner={!!editingFinding?.signatureField} key={record.id + '/' + formMember.id} record={record} member={formMember} correction={editingFinding?.memberId === formMember.id ? editingFinding.correction : undefined} onFinishFinding={editingFinding?.memberId === formMember.id ? finishFinding : undefined} ports={ports} exportGate={exportGate}
             onSign={async field => {
               returnSigner.current = { packageId: record.id, memberId: formMember.id, field };
               await openMemberEditor();
@@ -1020,7 +1056,11 @@ function PackageDialog({
         <div className="package-workspace-layout" style={library || creating ? { gridTemplateColumns: 'minmax(0, 1fr)' } : undefined}>
           <aside hidden={library || creating} className="package-workspace-sidebar">
             <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record && !library && !creating} disabled={busy || library || creating} onNavigate={navigate} />
-            {record && !library && deliveryReturnPackage === record.id && workspaceSection !== 'delivery' &&
+            {reviewingIssue && !library && workspaceSection !== 'review' && <div className="flex flex-wrap gap-1">
+              <Button variant="link" disabled={busy || pendingPackageEdits} onClick={() => returnToReview(false)}>Back to Review</Button>
+              <Button variant="outline" size="sm" disabled={busy || pendingPackageEdits} onClick={() => returnToReview(true)}>Next issue</Button>
+            </div>}
+            {!reviewingIssue && record && !library && deliveryReturnPackage === record.id && workspaceSection !== 'delivery' &&
               <Button variant="link" disabled={busy || pendingPackageEdits} onClick={() => navigate('delivery')}>Return to delivery</Button>}
             {record && !library && <Button variant="ghost" className="package-workspace-history" onClick={() => setHistoryOpen(true)}>Version history</Button>}
           </aside>
@@ -1289,6 +1329,7 @@ function PackageDialog({
                   <fieldset hidden={workspaceSection !== 'review'} disabled={busy || pendingPackageEdits && !typedDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Review</h2>
                     <div ref={reviewRef} tabIndex={-1} className="scroll-mt-4 space-y-4">
+              {editable && !openedReview && <PackageReviewIssues actions={pdfBlockers} disabled={busy || pendingPackageEdits} onOpen={openReviewIssue} />}
               <PackageReviewControls workspace record={record} disabled={busy || typedDirty} opened={openedReview} onExit={() => select(record)}
                 onStart={() => void run(async () => {
                   if (revision.templateState) {

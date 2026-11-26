@@ -32,11 +32,12 @@ interface Props extends PackageEditorSurface {
   navigationError: string;
   onFieldReview?(target: PackageDestination): void;
   onSave(next: ActionPackage): void;
+  reviewIssue?: boolean;
   onFinishFinding?(advance: boolean): Promise<void>;
   onNavigate(memberId?: string): void | Promise<void>;
 }
 
-export default function PackageNativeDocumentEditor({ record, member, onFieldReview, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate, onFinishFinding }: Props) {
+export default function PackageNativeDocumentEditor({ record, member, onFieldReview, documentId, disabled, navigationError, setEditorHost, preview, onSave, onNavigate, reviewIssue, onFinishFinding }: Props) {
   const revision = useMemo(() => getPackageRevision(record), [record]);
   const key = record.id + '/' + member.id;
   const latest = useRef({ record, member, onSave });
@@ -151,11 +152,11 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
   return <Dialog open onOpenChange={open => { if (!open) void navigate(undefined, onFinishFinding ? false : undefined); }}>
     <DialogContent onKeyDown={event => handlePackageSaveShortcut(event, save)} fullscreen showCloseButton={false} className="flex min-w-0 flex-col gap-0">
       <header className="flex flex-wrap items-center gap-3 border-b px-4 py-3">
-        <Button variant="ghost" size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, onFinishFinding ? false : undefined)}><ArrowLeft />{onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
+        <Button variant="ghost" size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, onFinishFinding ? false : undefined)}><ArrowLeft />{onFinishFinding ? (reviewIssue ? 'Back to Review' : 'Back to Delivery') : 'Back to package'}</Button>
         <div><DialogTitle>{record.name}</DialogTitle><DialogDescription>{packageDocumentName(revision, member)}</DialogDescription></div>
         <PackageDocumentSwitcher history={record.revisions} revision={revision} memberId={member.id} disabled={disabled || navigating}
           onSelect={id => void navigate(id)} />
-        {onFinishFinding && <Button size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, true)}>Next item</Button>}
+        {onFinishFinding && <Button size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, true)}>{reviewIssue ? 'Next issue' : 'Next item'}</Button>}
         <PackageEditorSaveControls phase={status} disabled={disabled || navigating} onSave={save} />
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setShowPreview(!showPreview)}>{showPreview ? 'Show fields' : 'Show preview'}</Button>
       </header>
