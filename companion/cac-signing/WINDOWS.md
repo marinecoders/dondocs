@@ -1,30 +1,35 @@
-# Windows CAC signing proposal
+# Windows CAC signing
 
-A Windows user should be able to open a signature requirement in Packages, review the exact PDF field, connect their CAC, approve the signature, and save the signed original back to that package member. Standalone forms should use the same helper. The first implementation target is Windows 11 x64, an interactive user session, and an RSA signing certificate on a CAC exposed through the Microsoft Smart Card Key Storage Provider.
+DonDocs uses the same local signing workspace for standalone official forms, correspondence, and package members. The Windows helper uses the existing bridge and runs in the interactive user’s session. The implementation targets x64 Windows 11 and RSA document-signing certificates exposed by the Microsoft smart-card providers.
 
-## Reuse the current signing path
+## Run from a checkout
 
-| Component | Responsibility |
-| --- | --- |
-| DonDocs web app | Select the package member, revision and field. Display the PDF and collect the user's signing choice. |
-| Local Python bridge | Pair with one DonDocs origin, check the edition and field locks, prepare the PDF signature, call the helper and verify the result. The existing DoD trust policy also applies on Windows. |
-| Proposed Windows executable | Implement the existing [list and sign contract](README.md). Discover a card-backed identity, show native consent and ask its provider to sign. |
-| Windows smart-card provider | Handle reader communication, PIN entry and the private-key operation. |
+Install Python 3.12 x64, connect the CAC reader, and obtain your organization’s DoD CA bundle in PEM format. Include the issuing intermediates and the applicable pinned DoD root. From the repository root, run in PowerShell:
 
-The browser already calls the loopback bridge, which accepts a helper path. The first prototype can use a Windows executable via the existing `--helper` argument. Keep PDF manipulation, certificate trust and package rules in their existing owners. For distribution, provide a signed per-user launcher that starts the bridge, selects the installed helper and font, and displays its pairing code. Verify the available font, trust bundle and managed-device installation permissions before packaging.
+```powershell
+py -3.12 -m venv .venv
+& .\.venv\Scripts\python.exe -m pip install -r .\companion\official-form-signing\requirements.txt
+& .\.venv\Scripts\python.exe .\companion\official-form-signing\bridge.py --origin https://dondocs.marines.dev --ca-bundle 'C:\path\to\dod-ca-certificates.pem'
+```
 
-## First prototype
+Replace the bundle path. To use a local build, supply its exact origin, including the port. The bridge reads Times New Roman from the Windows Fonts directory by default. Use `--font` if it is installed elsewhere. Leave the terminal open while signing. Ctrl+C stops the bridge.
 
-1. **Discover certificates without prompting for a PIN.** Start with a read-only `list` command. Windows can leave a public certificate in the user's Personal store after card removal. Match candidate certificates to a present reader/card and its smart-card provider. Exclude software keys and unrelated hardware such as TPMs. Use the existing lowercase SHA-256 fingerprint of the DER certificate. Return available public issuers for chain building. An unplugged reader should yield no available signing identity. Windows certificate propagation can be controlled by Group Policy. [Certificate propagation](https://learn.microsoft.com/en-us/windows/security/identity-protection/smart-cards/smart-card-certificate-propagation-service) · [Smart-card minidriver overview](https://learn.microsoft.com/en-us/windows-hardware/drivers/smartcard/smart-card-minidriver-overview)
-2. **Sign through an interactive Windows helper.** A small C# executable can call the Windows certificate and CNG APIs. Start with the Microsoft smart-card KSP. Handle legacy CSP-only cards as an explicit compatibility case to measure on target machines. Validate the same metadata and stdin limits as the Mac helper. Display the purpose, certificate fingerprint and digest of the exact input in a native confirmation. Reacquire the selected card identity after consent. Hash the input once with SHA-256 and request an RSA PKCS#1 v1.5 signature. Verify the result with the selected public certificate before returning the raw bytes on stdout. Keep PIN handling in the provider and never silently switch identities. [Certificate key acquisition](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecertificateprivatekey) · [Signing a digest](https://learn.microsoft.com/en-us/windows/win32/api/ncrypt/nf-ncrypt-ncryptsignhash)
-3. **Exercise the package editor.** Start with the existing bridge pairing flow on Edge. Verify that browser permissions and managed-device policy permit access to the local bridge. On cancel, card removal, or an unavailable reader, keep the current package revision and allow retry. Map the helper results to the existing exit codes. Update the bridge's Mac-specific diagnostics and the setup instructions. A user should see the signed revision in Packages only after existing verification succeeds.
+## Sign in DonDocs
 
-## Qualification
+1. On Page 11 or the UPB, open **Download → Sign official form**. For standalone correspondence, choose **Download → Sign correspondence with CAC** to append a signature sheet to the reviewed PDF. In Packages, open the member’s signing action or select its outstanding signature in Delivery. The signing workspace can also reopen a supported PDF.
+2. Review the field and page. Click **Connect CAC**, enter the pairing code from the terminal, and allow the browser’s local-network permission if prompted. The bridge listens on the loopback interface at port 47993 and accepts requests from the configured origin.
+3. Choose the document-signing certificate and the intended field. Review locking options, approve the native prompt, and enter the PIN in the Windows provider if requested. The helper rechecks the selected certificate after consent and verifies the returned signature. DonDocs verifies the PDF revision before accepting it.
+4. Download the signed original or transfer the portable package to retain its signatures. A combined package PDF is a printable copy. Generic PDFs with manually placed boxes use the existing external signing handoff.
 
-| Environment | Evidence to collect |
-| --- | --- |
-| Mac, available now | Run the existing official-form regression suite with synthetic identities and saved fixtures. It covers the PDF logic shared by both platforms. |
-| Windows runner, no card | Build the executable. Exercise JSON and binary pipes, SHA-256 and padding against a synthetic key through a test double, cancellation and empty discovery. Put a software certificate in a disposable store and verify the production discovery path excludes it. Test bridge startup with Windows paths containing spaces. |
-| Windows 11 device with a real CAC | Discover the signing certificate with the card inserted, then remove and swap cards between selection and approval. Exercise cancellation at both consent and PIN prompts. Sign Page 11 and the UPB through Packages and verify the selected field, locks, earlier signatures and signed bytes after reopening the package. Compare a returned file in desktop Acrobat. Repeat under the browser and reader policy used on the intended deployment. |
+## Verification
 
-The five existing official-form tests passed on macOS with pyHanko 0.38.2 while preparing this proposal. Windows executable, provider, browser and live-card qualification are pending. Keep real cardholder certificates, PINs, pairing codes and signed personnel documents out of test artifacts.
+The helper discovers certificates in the inserted card’s reader-scoped store. The card provider performs the private-key operation. The bridge uses its configured DoD bundle to validate the chain offline, so revocation status can be unavailable. [Microsoft smart-card architecture](https://learn.microsoft.com/en-us/windows/security/identity-protection/smart-cards/smart-card-architecture) · [Smart-card certificate store](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptgetprovparam)
+
+From the repository root run the helper tests with the same virtual environment:
+
+```powershell
+& .\.venv\Scripts\python.exe -m unittest discover -s companion/cac-signing/windows
+& .\.venv\Scripts\python.exe -m unittest discover -s companion/official-form-signing
+```
+
+Windows Python under Wine exercised reader discovery without a card, bridge pairing, PDF field inspection, and RSA signing and verification with synthetic keys through CNG and legacy CryptoAPI. Chromium exercised the standalone and package workflows. A real Windows 11 PC remains necessary to qualify reader discovery with an inserted CAC, provider PIN prompts, card removal and replacement, and managed-browser permission. On that PC, sign a synthetic Page 11 and UPB, countersign a permitted second field, and reopen the portable package to verify the signed original. Compare the returned signatures in Acrobat, including the field names and lock state.

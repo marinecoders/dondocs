@@ -1,8 +1,8 @@
 # Official form signing bridge
 
-Run this optional local adapter on the Mac that holds the CAC. DonDocs sends the selected PDF revision to loopback. The adapter checks its official edition, reads native field locks, prepares the PDF signature, and invokes the DonDocs CAC executable for card access and native approval. It verifies the incremental result before returning the file. Certificate-chain checks use the supplied DoD CA bundle offline. Revocation information can be unavailable.
+Run this local adapter on the computer that holds the CAC. For Windows, follow the [PowerShell setup and qualification instructions](../cac-signing/WINDOWS.md). DonDocs sends the selected PDF revision to loopback. The adapter checks its official edition, reads native field locks, prepares the PDF signature, and invokes the DonDocs CAC executable for card access and native approval. It verifies the incremental result before returning the file. Certificate-chain checks use the supplied DoD CA bundle offline. Revocation information can be unavailable.
 
-From this directory, create a Python 3.12 virtual environment, install `requirements.txt`, and run:
+On macOS, from this directory, create a Python 3.12 virtual environment, install `requirements.txt`, and run:
 
 ```sh
 python bridge.py --origin http://127.0.0.1:4399 \

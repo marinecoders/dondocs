@@ -1,6 +1,8 @@
 # DonDocs CAC signing companion
 
-A macOS command-line executable for applications that need a signature from a
+The Windows helper implements this same subprocess contract. See [Windows setup and qualification](WINDOWS.md).
+
+On macOS, use the command-line executable for applications that need a signature from a
 connected PIV-compatible CAC. Build it with `swift build -c release` and invoke
 `.build/release/DonDocsCAC` as a subprocess.
 

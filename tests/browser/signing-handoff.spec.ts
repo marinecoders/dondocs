@@ -170,3 +170,21 @@ test('keeps healthy records usable while damaged entries can be recovered and ex
   await expect(dialog.getByRole('heading', { name: 'Unreadable signing records', exact: true })).not.toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Add signature box', exact: true })).toBeEnabled();
 });
+
+test('opens a standalone correspondence revision and its signature sheet for local CAC signing', async ({ page }) => {
+  await page.goto('/');
+  const preview = page.getByRole('button', { name: 'Preview', exact: true });
+  const mobile = await preview.getAttribute('aria-haspopup') === 'dialog';
+  if (mobile || await preview.getAttribute('aria-pressed') !== 'true') await preview.click();
+  await expect(page.locator('[data-pdf-layer="active"] canvas').first()).toBeVisible({ timeout: 60_000 });
+  if (mobile) await page.getByRole('button', { name: 'Close preview', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('SYNTHETIC CAC CORRESPONDENCE');
+  await page.getByRole('textbox', { name: 'Paragraph 1', exact: true }).fill('Review this training letter before signing.');
+  await page.getByRole('button', { name: 'Download', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Sign correspondence with CAC', exact: true }).click();
+  const panel = page.getByRole('region', { name: 'Official form signatures' });
+  await expect(panel.getByRole('button', { name: 'Connect CAC' })).toBeVisible({ timeout: 90_000 });
+  await panel.getByRole('button', { name: 'Review signature location' }).click();
+  await expect(panel.getByRole('combobox', { name: 'PDF signature location' })).toHaveValue('Signing_authority');
+  await expect(panel.getByText('Page 2 of 2')).toBeVisible();
+});

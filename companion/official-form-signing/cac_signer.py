@@ -1,4 +1,4 @@
-"""pyHanko signer backed by a macOS PIV token, with native consent."""
+"""pyHanko signer backed by a local CAC helper, with native consent."""
 
 import asyncio
 import json
@@ -70,11 +70,11 @@ def eligible_certificate(row):
 
 class CACSigner(signers.Signer):
     def __init__(self, helper, field, revision, ca_bundle, fingerprint):
-        self.helper = helper
+        self.helper = [helper] if isinstance(helper, (str, Path)) else helper
         self.field = field
         self.revision = revision
         try:
-            result = subprocess.run([helper, "list"], capture_output=True, check=True, timeout=15)
+            result = subprocess.run([*self.helper, "list"], capture_output=True, check=True, timeout=15)
             candidates = {}
             for row in json.loads(result.stdout):
                 certificate = eligible_certificate(row)
@@ -84,7 +84,7 @@ class CACSigner(signers.Signer):
                         raise ValueError("Certificate fingerprint mismatch")
                     candidates[observed] = (row, certificate)
         except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
-            raise CACError("Could not read the CAC signing certificate from macOS.") from error
+            raise CACError("Could not read the CAC signing certificate from the local companion.") from error
         if fingerprint not in candidates:
             raise CACError("No document-signing certificate found. Insert your CAC and try again.")
         self.fingerprint = fingerprint
@@ -110,18 +110,20 @@ class CACSigner(signers.Signer):
             return bytes(signature_size)
         try:
             result = subprocess.run(
-                [self.helper, "sign", json.dumps({
+                [*self.helper, "sign", json.dumps({
                     "version": 1, "certificateSHA256": self.fingerprint,
                     "purpose": f"{self.field} · PDF {self.revision}",
                 })],
                 input=data, capture_output=True, timeout=105,
             )
         except subprocess.TimeoutExpired as error:
-            raise CACError("CAC approval timed out. Try again and respond to the macOS prompt.") from error
+            raise CACError("CAC approval timed out. Try again and respond to the local approval prompt.") from error
         except OSError as error:
             raise CACError("The local CAC companion could not be started.") from error
         if result.returncode == 2:
             raise CACError("CAC signing canceled.")
+        if result.returncode == 3:
+            raise CACError("The selected CAC is unavailable. Reinsert it and reconnect.")
         if result.returncode or len(result.stdout) != signature_size:
-            raise CACError("The CAC could not sign. Check the card and the macOS approval prompt.")
+            raise CACError("The CAC could not sign. Check the card and the local approval prompt.")
         return result.stdout

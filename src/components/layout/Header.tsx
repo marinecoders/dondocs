@@ -62,7 +62,7 @@ const FormalNavalEmailDialog = lazy(() => import('@/components/modals/FormalNava
 
 interface HeaderProps {
   wordReviewExport?: WordReviewExportOptions;
-  onPrepareSigning?: () => void;
+  onPrepareSigning?: (intent?: 'cac') => void;
   onDownloadPdf?: () => void;
   onDownloadTaggedPdf?: () => void;
   onDownloadTex?: () => void;
@@ -366,7 +366,9 @@ export function Header({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => { setCapturedSigningId(undefined);setSigningOpen(true); }}>Signing workspace</DropdownMenuItem>
-              {onPrepareSigning && <DropdownMenuItem disabled={isPdfGenerating || !capabilityAvailable(output.pdf)} onClick={onPrepareSigning}>{officialForm ? 'Sign official form' : 'Prepare current draft for signing'}</DropdownMenuItem>}
+              {onPrepareSigning && !isFormsMode && <DropdownMenuItem disabled={isPdfGenerating || !capabilityAvailable(output.pdf)}
+                onClick={() => onPrepareSigning('cac')}>Sign correspondence with CAC</DropdownMenuItem>}
+              {onPrepareSigning && <DropdownMenuItem disabled={isPdfGenerating || !capabilityAvailable(output.pdf)} onClick={() => onPrepareSigning()}>{officialForm ? 'Sign official form' : 'Prepare current draft for signing'}</DropdownMenuItem>}
               <DropdownMenuItem
                 onClick={handleDownloadPdf}
                 disabled={isPdfGenerating || !capabilityAvailable(output.pdf)}

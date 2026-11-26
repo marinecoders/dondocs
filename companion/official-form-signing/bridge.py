@@ -4,6 +4,9 @@ import json
 import logging
 import secrets
 import subprocess
+import socket
+import sys
+import os
 from hashlib import sha256
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
@@ -15,6 +18,14 @@ from official_pdf import official_profile, inspect_return, inspect_revision, sig
 
 PORT = 47993
 MAX_PDF = 20 * 1024 * 1024
+
+
+class LoopbackServer(HTTPServer):
+    def server_bind(self):
+        if sys.platform == "win32":
+            self.allow_reuse_address = False
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -62,7 +73,7 @@ class Handler(BaseHTTPRequestHandler):
             if self.path == "/identities":
                 if size:
                     raise ValueError("Unexpected certificate request body.")
-                cmd = subprocess.run([self.server.helper, "list"], capture_output=True, check=True, timeout=15)
+                cmd = subprocess.run([*self.server.helper, "list"], capture_output=True, check=True, timeout=15)
                 rows = []
                 for row in json.loads(cmd.stdout):
                     cert = eligible_certificate(row)
@@ -105,20 +116,32 @@ class Handler(BaseHTTPRequestHandler):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--origin", required=True)
-    parser.add_argument("--helper", required=True, type=Path)
+    parser.add_argument("--helper", type=Path, help="Native CAC executable (Windows uses its bundled helper by default)")
     parser.add_argument("--ca-bundle", required=True, type=Path)
-    parser.add_argument("--font", required=True, type=Path)
+    parser.add_argument("--font", type=Path, help="Installed Times New Roman regular font")
     args = parser.parse_args()
+    if args.helper:
+        helper = [str(args.helper.resolve(strict=True))]
+    elif sys.platform == "win32":
+        script = Path(__file__).resolve().parents[1] / "cac-signing/windows/helper.py"
+        helper = [sys.executable, str(script.resolve(strict=True))]
+    else:
+        parser.error("--helper is required on this platform")
+    font = args.font
+    if font is None and sys.platform == "win32" and os.environ.get("SystemRoot"):
+        font = Path(os.environ["SystemRoot"]) / "Fonts/times.ttf"
+    if font is None:
+        parser.error("--font is required on this platform")
     origin = urlsplit(args.origin)
     if (origin.scheme not in ("http", "https") or not origin.hostname or origin.username or origin.password
         or origin.path or origin.query or origin.fragment
         or origin.scheme == "http" and origin.hostname not in ("localhost", "127.0.0.1")):
         parser.error("Choose the exact HTTPS DonDocs origin or an HTTP localhost origin.")
     logging.disable(logging.CRITICAL)
-    with HTTPServer(("127.0.0.1", PORT), Handler) as server:
-        server.origin, server.helper, server.bundle = args.origin, args.helper.resolve(strict=True), args.ca_bundle
+    with LoopbackServer(("127.0.0.1", PORT), Handler) as server:
+        server.origin, server.helper, server.bundle = args.origin, helper, args.ca_bundle
         server.context = dod_validation_context(args.ca_bundle)
-        server.style = certificate_stamp_style(args.font.resolve(strict=True))
+        server.style = certificate_stamp_style(font.resolve(strict=True))
         server.token = secrets.token_urlsafe(32)
         print(f"Pair {server.origin} with this code: {server.token}", flush=True)
         server.serve_forever()

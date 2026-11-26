@@ -16,7 +16,7 @@ from pyhanko.sign.validation.status import SignatureCoverageLevel
 
 from page11 import SLOTS, add_signature_slots, replaced_xfa_print_page, xfa_fingerprints
 
-EDITIONS = json.loads((Path(__file__).resolve().parents[2] / "src/data/officialPdfEditions.json").read_text())
+EDITIONS = json.loads((Path(__file__).resolve().parents[2] / "src/data/officialPdfEditions.json").read_text(encoding="utf-8"))
 PAGE11_LABELS = dict(zip(SLOTS, ("Article 137, left", "Survivor Benefit Plan", "Article 137, center")))
 
 

@@ -1238,7 +1238,10 @@ function App() {
             <Header
               onDownloadTaggedPdf={handleDownloadTaggedPdf}
               wordReviewExport={{ gate: exportGate, renderer: { compile, convertDocx: convertLatexToDocx } }}
-              onPrepareSigning={() => { useUIStore.getState().setValidationVisible(true);requestExport('pdf', undefined, 'signing'); }}
+              onPrepareSigning={intent => {
+                useUIStore.getState().setValidationVisible(true);
+                requestExport('pdf', undefined, intent ?? 'signing');
+              }}
               onDownloadPdf={handleDownloadPdf}
               onDownloadTex={handleDownloadTex}
               onDownloadDocx={handleDownloadDocx}
