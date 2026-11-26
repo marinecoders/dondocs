@@ -173,7 +173,7 @@ it('retains an inactive selected PDF until it is explicitly removed and writes n
   await waitFor(() => expect(include).toBeEnabled()); await user.selectOptions(include, 'true');
   const pdf = await PDFDocument.create(); pdf.addPage([612, 792]);
   await user.upload(screen.getByLabelText('PDF for Supporting PDF', { exact: true }), new File([new Uint8Array(await pdf.save())], 'synthetic.pdf', { type: 'application/pdf' }));
-  await screen.findByText('Selected: synthetic.pdf');
+  await screen.findByText('Staged · synthetic.pdf');
   expect(await idbGetAllAttachments()).toEqual([]);
   await user.selectOptions(include, 'false');
   const inactive = screen.getByRole('region', { name: 'Inactive selected PDFs' });

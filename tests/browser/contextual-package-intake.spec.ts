@@ -264,7 +264,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     original.addPage([612, 792]).drawText('SYNTHETIC ORIGINAL SUPPORTING RECORD', { x: 55, y: 720, size: 14, font });
     const originalBytes = Buffer.from(await original.save());
     await panel.getByLabel('PDF for Original supporting PDF', { exact: true }).setInputFiles({ name: 'supporting-record.pdf', mimeType: 'application/pdf', buffer: originalBytes });
-    await expect(panel.getByText('Selected: supporting-record.pdf', { exact: true })).toBeVisible();
+    await expect(panel.getByText('Staged · supporting-record.pdf', { exact: true })).toBeVisible();
     await apply(panel);
     dialog = await finishPrintedName(page, dialog, 'Transmittal letter', 'EXAMPLE');
     const complete = await portable(page, dialog), revision = complete.data.package.revisions[0];

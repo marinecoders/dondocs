@@ -4,7 +4,7 @@ import type { PackageAsset } from '@/lib/actionPackages';
 import { checkPackagePrintablePdf } from '@/lib/packagePrintableCopy';
 
 /** Intake passes the selected file; saved members read their exact captured asset. */
-export function PackagePdfCompatibility({ source }: { source: ArrayBuffer | PackageAsset }) {
+export function PackagePdfCompatibility({ source, warningsOnly = false }: { source: ArrayBuffer | PackageAsset; warningsOnly?: boolean }) {
   const [result, setResult] = useState<{ source: typeof source; message: string }>();
   useEffect(() => {
     const controller = new AbortController();
@@ -24,6 +24,7 @@ export function PackagePdfCompatibility({ source }: { source: ArrayBuffer | Pack
     })();
     return () => controller.abort();
   }, [source]);
+  if (warningsOnly && result?.source === source && result.message === 'Ready for the combined PDF.') return null;
   return <p role="status" className="text-sm text-muted-foreground">{result?.source !== source ? 'Checking PDF for assembly…'
     : result.message}</p>;
 }
