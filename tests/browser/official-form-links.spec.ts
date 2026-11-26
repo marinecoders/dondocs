@@ -45,7 +45,7 @@ test('shares a Marine identity with selected forms and reviews subsequent local 
   await packageSection(workspace, 'Documents');
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
   const editor = page.getByRole('dialog', { name: 'Identity sharing', exact: true });
-  const picker = editor.getByRole('combobox', { name: 'Package form' });
+  const picker = editor.getByRole('combobox', { name: 'Package document' });
   await picker.selectOption({ label: '1. Page 11' });
   await expect(editor.getByLabel('Last Name', { exact: true })).toHaveValue('De La Cruz');
   await expect(editor.getByLabel('First Name', { exact: true })).toHaveValue('Ana Maria');

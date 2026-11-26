@@ -1,4 +1,6 @@
 import { packageDocumentName } from '@/lib/actionPackages';
+import { usePackageEditorNavigation } from './usePackageEditorNavigation';
+import { PackageDocumentSwitcher } from './PackageDocumentSwitcher';
 import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import { lazy, Suspense, useMemo, useLayoutEffect, useEffect, useRef, useState } from 'react';
@@ -42,7 +44,6 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
   const dirty = useRef(recovered);
   const [status, setStatus] = useState<'saved' | 'pending' | 'saving' | 'error'>(recovered ? 'pending' : 'saved');
   const [error, setError] = useState('');
-  const [navigating, setNavigating] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const operation = useRef<AbortController | null>(null);
   const running = useRef<Promise<boolean> | null>(null);
@@ -121,18 +122,20 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
     return () => { unsubscribeDocument(); unsubscribeForm(); clearTimeout(timer.current); controller.abort(); window.removeEventListener('beforeunload', warn); };
   }, [documentId, key]);
 
-  async function navigate(id?: string, finish?: boolean) {
-    if (disabled || navigating) return;
-    setNavigating(true);
+  const { navigate: switchDocument, navigating, navigationError: switchError } = usePackageEditorNavigation(() => {
     // Commit a buffered native input before comparing the active revision.
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
-    if (await flush()) {
+    return flush();
+  });
+
+  function navigate(id?: string, finish?: boolean) {
+    if (disabled) return;
+    return switchDocument(async () => {
       const section = useEditorOutlineStore.getState().activeId;
       if (section) rememberFormLocation(key + '/section', section);
       if (finish !== undefined && onFinishFinding) await onFinishFinding(finish);
       else await onNavigate(id);
-    }
-    setNavigating(false);
+    });
   }
   const activePreview = preview.documentId === documentId && preview.url;
   return <Dialog open onOpenChange={open => { if (!open) void navigate(undefined, onFinishFinding ? false : undefined); }}>
@@ -140,16 +143,15 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
       <header className="flex flex-wrap items-center gap-3 border-b px-4 py-3">
         <Button variant="ghost" size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, onFinishFinding ? false : undefined)}><ArrowLeft />{onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
         <div><DialogTitle>{record.name}</DialogTitle><DialogDescription>{packageDocumentName(revision, member)}</DialogDescription></div>
-        <label className="text-sm">Package document<select aria-label="Package document" className="ml-2 max-w-full rounded-md border bg-background px-2 py-1.5" value={member.id} disabled={disabled || navigating} onChange={event => void navigate(event.target.value)}>
-          {revision.members.map((item, index) => <option key={item.id} value={item.id}>{index + 1}. {packageDocumentName(revision, item)}</option>)}
-        </select></label>
+        <PackageDocumentSwitcher revision={revision} memberId={member.id} disabled={disabled || navigating}
+          onSelect={id => void navigate(id)} />
         {onFinishFinding && <Button size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, true)}>Next item</Button>}
         <span className="ml-auto text-sm text-muted-foreground" role="status">{{ saved: 'Saved to package', pending: 'Editing draft', saving: 'Saving…', error: 'Save needs attention' }[status]}</span>
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setShowPreview(!showPreview)}>{showPreview ? 'Show fields' : 'Show preview'}</Button>
         {status === 'error' && <Button size="sm" disabled={disabled || navigating} onClick={() => void flush()}>Retry save</Button>}
       </header>
       {onFieldReview && <PackageLinkedFieldTools record={record} onSave={next => { latest.current.record = next; onSave(next); }} member={member} revision={revision} disabled={disabled || navigating || status !== 'saved'} onReview={target => { if (!dirty.current) onFieldReview(target); }} />}
-      {(error || navigationError) && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{error || navigationError}</p>}
+      {(error || switchError || navigationError) && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{error || switchError || navigationError}</p>}
       <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-2">
         <div className={(showPreview ? 'hidden lg:block ' : '') + 'min-h-0 min-w-0'} inert={disabled || navigating || undefined} ref={owned ? setEditorHost : undefined} />
         <aside aria-label="Document preview" className={(showPreview ? '' : 'hidden lg:block ') + 'min-h-0 min-w-0 border-l'}>
