@@ -468,6 +468,8 @@ function PackageDialog({
       void openMemberSigning(member, target.signatureField);
     } else followDestination(target);
   }
+  const documentsIntake = workspaceSection === 'documents' && destination?.panel === 'intake' &&
+    destination.section === 'documents' && destination.packageId === record?.id && destination.revisionId === revision?.id;
   function followDestination(target: PackageDestination) {
     if (!active.current || destinationOwner.current !== selectionOwner || !record || !revision) return;
     if (busy || pendingPackageEdits) { setError("Save or discard package edits before following a finding."); return; }
@@ -548,6 +550,7 @@ function PackageDialog({
   }, [record, revision, selectedMember?.id, workspaceSection]);
   function navigate(section: PackageWorkspaceSection) {
     setAdvanceFrom(undefined);
+    if (!pendingPackageEdits) setDestination(undefined);
     if (section !== 'overview') setFieldReviewPackage('');
     setLibraryOpen(false);
     setWorkspaceSection(section);
@@ -559,7 +562,7 @@ function PackageDialog({
           : starterDirty ? 'request-starter' : intakeDirty ? 'intake' : requirementsDirty ? 'requirements'
             : consistencyDirty ? 'consistency' : 'work';
     setLibraryOpen(rosterDirty || templateDirty);
-    setWorkspaceSection(typedDirty ? 'review' : signingDirty || assemblyDirty ? 'delivery' : evidenceDirty || scanDirty ? 'documents' : 'overview');
+    setWorkspaceSection(typedDirty ? 'review' : signingDirty || assemblyDirty ? 'delivery' : evidenceDirty || scanDirty || intakeDirty && documentsIntake ? 'documents' : 'overview');
     requestAnimationFrame(() => {
       if (active.current) focusPackageDestination(dialogRoot.current, 'data-package-panel', panel);
     });
@@ -986,7 +989,14 @@ function PackageDialog({
                   {record && revision && revision.id !== record.currentRevisionId && !openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => changeRevision(record.currentRevisionId)}><ArrowLeft aria-hidden="true" className="size-4" />Back to current version</Button>}
                   {record && openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => { select(record); mainScroll.current?.scrollTo?.({ top: 0 }); }}><ArrowLeft aria-hidden="true" className="size-4" />Back to current package</Button>}
                 </header>
-                {pendingPackageEdits && !(workspaceSection === 'overview' && editingIntake && intakeDirty) && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
+                {pendingPackageEdits && !((workspaceSection === 'overview' || documentsIntake) && editingIntake && intakeDirty) && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
+                <div hidden={workspaceSection !== 'overview' && !documentsIntake} className="mb-5 empty:hidden">
+                  {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
+          <PackageIntakePanel workspace destination={destination} resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction} onEditingChange={setEditingIntake}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense>}
+                </div>
                 <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
                   {record && revision && <PackageNextActions checks={packageChecks} quiet={editingIntake || informationDirty} record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
                   {creating && !creatingAction && <fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 space-y-3">
@@ -1016,11 +1026,7 @@ function PackageDialog({
             </Button>
           </div>
                     </fieldset>}
-                  {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel workspace destination={destination} resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
-            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction} onEditingChange={setEditingIntake}
-            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense>}
+
                   <div hidden={!creating || creatingAction} className="space-y-7">
 
                     <details><summary className="cursor-pointer text-sm font-medium">Saved templates and imports</summary><div className="mt-5 space-y-5"><fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 space-y-4">
@@ -1248,13 +1254,13 @@ function PackageDialog({
                     <h2 className="text-base font-medium">Documents</h2>
                     {workspaceSection === 'documents' && record && revision?.templateState && !library &&
                       <PackageRecipeDocuments key={revision.id} record={readRecord!} revisionId={revision.id}
-                        onIntakeSlot={editable ? intakeSlot => followDestination({ panel: 'intake', intakeSlot }) : undefined}
+                        onIntakeSlot={editable ? intakeSlot => followDestination({ section: 'documents', panel: 'intake', intakeSlot }) : undefined}
                         onOpen={memberId => followDestination({ memberId })}
                         onAttach={editable ? (memberId, files, signed) => void run(async () => {
                           update(await attachPackageSlotFiles(record, revision.id, memberId, files, signed, operation.current?.signal));
                           setActiveMemberId(memberId);
                         }) : undefined}
-                        onCompleteDetails={editable ? intakeQuestion => followDestination({ panel: 'intake', intakeQuestion }) : undefined} />}
+                        onCompleteDetails={editable ? intakeQuestion => followDestination({ section: 'documents', panel: 'intake', intakeQuestion }) : undefined} />}
                     <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
               <details data-add-package-document key={record.id + revision.members.length} hidden={!editable} open={!revision.members.length && !revision.templateState || undefined}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
                 <div className="space-y-2 rounded border p-3">

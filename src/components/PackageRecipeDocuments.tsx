@@ -22,7 +22,7 @@ export function PackageRecipeDocuments({ record, revisionId, onCompleteDetails, 
   const revision = useMemo(() => getPackageRevision(record, revisionId), [record, revisionId]);
   const [signed, setSigned] = useState<Record<string, boolean>>({});
   const [slots, setSlots] = useState<{key: string; memberId?: string; label: string; multiple: boolean; blank?: Blank}[]>([]);
-  const [question, setQuestion] = useState<string>();
+  const [question, setQuestion] = useState<{ key: string; label: string }>();
   const [blanks, setBlanks] = useState<Blank[]>([]);
   const [selected, setSelected] = useState<Blank>();
   const [url, setUrl] = useState('');
@@ -59,7 +59,8 @@ export function PackageRecipeDocuments({ record, revisionId, onCompleteDetails, 
         if (blank && !rows.some(row => row.blank?.data === blank.data) && !unique.some(item => item.name === blank.name && item.data === blank.data)) unique.push(blank);
       }
       const next = nextMembershipQuestion(template.program, answers, template.members);
-      setQuestion(next && intakeQuestionKey(next));
+      const definition = next && template.program.questions.find(item => item.id === next.questionId);
+      setQuestion(next && definition ? { key: intakeQuestionKey(next), label: definition.label } : undefined);
       setBlanks(unique);
     }).catch(() => { if (active) setError('The saved package forms could not be opened.'); });
     return () => { active = false; };
@@ -76,7 +77,7 @@ export function PackageRecipeDocuments({ record, revisionId, onCompleteDetails, 
   }
 
   return <>
-    {question && onCompleteDetails && <Button size="sm" variant="outline" onClick={() => onCompleteDetails(question)}>Complete package details</Button>}
+    {question && onCompleteDetails && <Button size="sm" variant="outline" onClick={() => onCompleteDetails(question.key)}>{question.label}</Button>}
     {slots.length > 0 && <ul aria-label="Document requirements" className="divide-y">
       {slots.map(row => {
         const memberId = row.memberId;
