@@ -21,6 +21,12 @@ export const formCompletionSchema = z.object({
     alternatives: z.array(z.array(z.string().trim().min(1).max(250)).min(1).max(12)).min(1).max(32),
     beforeSignatures: z.array(z.string().trim().min(1).max(250)).min(1).max(32).optional(),
   }).strict()).min(1).max(20).optional(),
+  pdfSelections: z.array(z.object({
+    field: z.string().min(1).max(250), label,
+    expected: z.union([z.boolean(), z.array(z.string().min(1).max(500)).min(1).max(16)]),
+    initialize: z.literal(true).optional(),
+  }).strict()).min(1).max(32).optional(),
+  deliveryBlockReason: label.optional(),
   reviewedScan: z.literal(true).optional(),
   writtenContent: z.literal(true).optional(),
   blankSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),

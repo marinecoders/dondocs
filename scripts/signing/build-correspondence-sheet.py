@@ -24,9 +24,10 @@ canvas.rect(72, 570, 250, 60)
 canvas.save()
 writer = PdfWriter(clone_from=PdfReader(stream))
 page = writer.pages[0]
+authority_field = 'Signing_authority'
 widget = DictionaryObject({
     NameObject('/Type'): NameObject('/Annot'), NameObject('/Subtype'): NameObject('/Widget'),
-    NameObject('/FT'): NameObject('/Sig'), NameObject('/T'): TextStringObject('Signing_authority'),
+    NameObject('/FT'): NameObject('/Sig'), NameObject('/T'): TextStringObject(authority_field),
     NameObject('/TU'): TextStringObject('Signing authority'), NameObject('/F'): NumberObject(4),
     NameObject('/Rect'): RectangleObject([72,570,322,630]), NameObject('/P'): page.indirect_reference,
 })
@@ -39,5 +40,5 @@ pdf = target.read_bytes()
 p = root / 'src/data/officialPdfEditions.json'
 rows = [r for r in json.loads(p.read_text()) if r['formId'] != 'package_correspondence']
 rows.append(dict(formId='package_correspondence', edition='1', label='Correspondence signature', format='acroform',
-                 directory=directory, file=target.name, length=len(pdf), sha256=sha256(pdf).hexdigest(), pageSizes=[[612,792]]))
+                 directory=directory, file=target.name, length=len(pdf), sha256=sha256(pdf).hexdigest(), pageSizes=[[612,792]], signatureFieldIds={'signing_authority': authority_field}))
 p.write_text(json.dumps(rows,indent=2)+'\n')

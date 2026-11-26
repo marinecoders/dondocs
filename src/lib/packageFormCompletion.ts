@@ -21,6 +21,7 @@ export function missingPackageSignatures(member: PackageMember, rule?: FormCompl
 }
 
 export function officialFormCompletionIssues(member: PackageMember, rule?: FormCompletion, onIssue?: (message: string, correction?: import('./packageDestinations').PackageCorrection) => void): string[] {
+  if (rule?.deliveryBlockReason) return [rule.deliveryBlockReason];
   const issues: string[] = [];
   const add = (message: string, correction?: import('./packageDestinations').PackageCorrection) => { issues.push(message); onIssue?.(message, correction); };
   if (member.kind === 'native' && member.session.genericForm) {
@@ -32,6 +33,14 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
     if (definition.nativePdfEdition && !Object.values(answers).some(hasValue) &&
         !Object.values(rows).flat().some(row => Object.values(row.answers).some(hasValue)))
       add('The official form is still blank.', { kind: 'edit', label: 'Fill form' });
+    for (const selection of rule?.pdfSelections ?? []) {
+      const field = Object.entries(definition.fields).find(([, item]) => item.sourceIds?.includes(selection.field));
+      const value = field && (answers[field[0]] ?? field[1].initialValue);
+      const valid = typeof selection.expected === 'boolean'
+        ? field?.[1].kind === 'boolean' && (value ?? false) === selection.expected
+        : field?.[1].kind === 'singleChoice' && typeof value === 'string' && selection.expected.includes(value);
+      if (!valid) add(selection.label, field ? fieldTarget(field[0]) : undefined);
+    }
     for (const name of rule?.requiredPdfFields ?? []) {
       const match = Object.entries(definition.fields).find(([, field]) => field.sourceIds?.includes(name));
       if (!match || match[1].requiredAt !== 'export' && !hasValue(answers[match[0]]))

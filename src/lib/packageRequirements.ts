@@ -67,8 +67,17 @@ export async function inspectPackageRequirements(revision: PackageRevision, oper
 async function inspectResolvedRequirements(revision: PackageRevision, requirements: PackageRequirements | undefined, operation: PackageRequirementOperation, options: InspectionOptions): Promise<PackageRequirementsInspection> {
   const originalsNeeded = new Set(requirements?.items.flatMap(item =>
     operation === 'pdf' && item.kind === 'document' && item.condition === 'active' && item.operations.includes(operation)
-    && (item.completion?.expectedForm || item.completion?.requiredPdfFields?.length || item.completion?.answerGroups?.length) && item.memberId ? [item.memberId] : []));
-  const answeredByMember = new Map<string, Promise<Set<string>>>();
+    && (item.completion?.answerGroups?.length || item.completion?.expectedForm || item.completion?.requiredPdfFields?.length || item.completion?.pdfSelections?.length) && item.memberId ? [item.memberId] : []));
+  const answeredByMember = new Map<string, ReturnType<typeof import('@/services/forms/readRequiredPdfFields').readPdfAnswerStates>>();
+  const readAnswers = (member: PackageMember, bytes: ArrayBuffer) => {
+    const key = member.kind === 'original' ? member.original.sha256 : member.revisionId;
+    let pending = answeredByMember.get(key);
+    if (!pending) {
+      pending = import('@/services/forms/readRequiredPdfFields').then(reader => reader.readPdfAnswerStates(bytes));
+      answeredByMember.set(key, pending);
+    }
+    return pending;
+  };
   const knownPeople = new Set([...(revision.information?.participants.map(person => person.id) ?? []),
     ...Object.values(revision.templateState?.answers.groups ?? {}).flatMap(people => people.map(person => person.id)),
     ...Object.values(revision.templateState?.appliedAnswers?.groups ?? {}).flatMap(people => people.map(person => person.id))]);
@@ -106,24 +115,17 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
         if (rule?.expectedForm && !await matchesExpectedForm(member, rule.expectedForm, originalBytes)) {
           issues.push('This slot needs the maintained form and edition named in the recipe.');
           if (member.kind === 'original' && !member.signedOriginal) corrections.push({ kind: 'replace', label: 'Replace PDF' });
-        } else if ((rule?.requiredPdfFields?.length || rule?.answerGroups?.length) && originalBytes) {
-          let answered = answeredByMember.get(member.id);
-          if (!answered) {
-            const { readAnsweredPdfFields } = await import('@/services/forms/readRequiredPdfFields');
-            answered = readAnsweredPdfFields(originalBytes);
-            answeredByMember.set(member.id, answered);
+        } else if ((rule?.requiredPdfFields?.length || rule?.answerGroups?.length || rule?.pdfSelections?.length) && originalBytes) {
+          const fields = await readAnswers(member, originalBytes);
+          issues.push(...missingAnswerGroups(rule.answerGroups, fields.answered).map(group => group.label));
+          if (rule.pdfSelections?.length) {
+            const { missingPdfSelections } = await import('@/services/forms/readRequiredPdfFields');
+            issues.push(...missingPdfSelections(fields, rule.pdfSelections).map(selection => selection.label));
           }
-          const fields = await answered;
-          const missing = (rule.requiredPdfFields ?? []).filter(field => !fields.has(field));
-          for (const group of missingAnswerGroups(rule.answerGroups, fields)) {
-            issues.push(group.label);
-            if (member.kind === 'original' && !member.signedOriginal) corrections.push({ kind: 'replace', label: 'Replace PDF' });
-          }
-          if (missing.length) {
-            issues.push('The saved PDF is missing required answers: ' + missing.join(', ') + '.');
-            if (member.kind === 'original' && !member.signedOriginal) corrections.push({ kind: 'replace', label: 'Replace PDF' });
-          }
-        } else if ((rule?.requiredPdfFields?.length || rule?.answerGroups?.length) && !(member.kind === 'native' && member.session.genericForm)) {
+          const missing = (rule.requiredPdfFields ?? []).filter(field => !fields.answered.has(field));
+          if (missing.length) issues.push('The saved PDF is missing required answers: ' + missing.join(', ') + '.');
+          if (issues.length && member.kind === 'original' && !member.signedOriginal) corrections.push({ kind: 'replace', label: 'Replace PDF' });
+        } else if ((rule?.requiredPdfFields?.length || rule?.answerGroups?.length || rule?.pdfSelections?.length) && !(member.kind === 'native' && member.session.genericForm)) {
           issues.push('The required fields cannot be verified on this document.');
         }
         const signatureFields = missingPackageSignatures(member, rule);
@@ -148,6 +150,15 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
   }
   return { operation, ready: items.every(item => ['satisfied', 'inactive', 'not-required'].includes(item.state)), items };
 }
+export async function checkMemberSigningSelections(revision: PackageRevision, member: PackageMember, signal: AbortSignal) {
+  if (!revision.templateState && !revision.requirements) return;
+  const rules = await (await import('./packageConditionalRequirements')).resolveConditionalPackageRequirements(revision);
+  const selections = rules?.items.flatMap(item =>
+    item.kind === 'document' && item.condition === 'active' && item.memberId === member.id && item.completion?.pdfSelections?.length
+      ? [{ expectedForm: item.completion.expectedForm, pdfSelections: item.completion.pdfSelections }] : []);
+  if (selections?.length) await verifyRevisionForEvidence(member, selections, { signal });
+}
+
 /** Validate a proposed reuse with the same byte, field and signature checks used for final delivery. */
 export async function verifyRevisionForEvidence(member: PackageMember, rules: FormCompletion[], options: InspectionOptions = {}) {
   if (!rules.length) {

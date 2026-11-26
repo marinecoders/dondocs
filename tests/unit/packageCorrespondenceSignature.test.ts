@@ -1,3 +1,4 @@
+import { packageFormFields } from '@/lib/packageFormFields';
 import { readFile } from 'node:fs/promises';
 import { PDFDocument } from 'pdf-lib';
 import { expect, it } from 'vitest';
@@ -15,7 +16,8 @@ it('puts both letter pages before the maintained signature field and preserves t
   expect(await identifyOfficialOriginal(bytes.buffer)).toBe('package_correspondence');
   const result = await PDFDocument.load(bytes);
   expect(result.getPages().map(page => page.getWidth())).toEqual([500, 620, 612]);
-  const widget = result.getForm().getSignature('Signing_authority').acroField.getWidgets()[0];
+  const field = await packageFormFields({ id: 'package_correspondence', edition: '1' });
+  const widget = result.getForm().getSignature(field('signing_authority')).acroField.getWidgets()[0];
   expect(widget.P()).toEqual(result.getPage(2).ref);
   await expect(prepareCorrespondenceSignature(source, source)).rejects.toThrow('changed');
 });

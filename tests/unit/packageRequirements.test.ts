@@ -302,3 +302,13 @@ it('only offers and resolves members of the selected package revision and its av
     expect(() => resolvePackageRevisionSource(partial, source(original.revisionId))).toThrow('unavailable');
   }
 });
+
+it('prevents final PDF delivery for a prohibited disposition while retaining the editable working record', async () => {
+  const revision = getPackageRevision(await fixture());
+  const message = 'This disposition cannot be delivered.';
+  revision.requirements = requirements(slot({ memberId: revision.members[0].id, completion: { deliveryBlockReason: message } }));
+  const inspection = await inspectPackageRequirements(revision, 'pdf');
+  expect(inspection.ready).toBe(false);
+  expect(inspection.items[0].message).toBe(message);
+  expect((await inspectPackageRequirements(revision, 'portable')).ready).toBe(true);
+});
