@@ -2,8 +2,13 @@ import { getExportDeploymentPolicySync } from '@/config/classification';
 import { newAttachmentId } from './attachments';
 import { getPackageRevision, newPackageId, reviseActionPackage, type ActionPackage, type PackageMember } from './actionPackages';
 import { portableResourceDigest } from './portableResources';
+import { officialEdition } from '@/services/forms/nativeCatalog';
 import { inspectPackageOriginal } from './packageOriginalPdf';
 import { loadAssemblyPdf } from '@/services/pdf/assemblyPdf';
+
+export function needsOfficialPrintableCopy(member: Extract<PackageMember, { kind: 'original' }>) {
+  return !member.printableCopy && !!member.officialFormId && officialEdition(member.officialFormId)?.format === 'xfa';
+}
 
 // Cache successful checks by content only. An aborted or failed render can be retried.
 const checked = new Set<string>();

@@ -1,8 +1,7 @@
 import { packageQuestionFindings, type PackageQuestionFinding } from './packageQuestionFindings';
 import { canLeadRecipeEndorsements, endorsementLinkIssue, packageEndorsementRoutes } from './packageEndorsements';
 import { ENDORSEMENT_ORDINALS } from './appendedEndorsement';
-import { officialEdition } from '@/services/forms/nativeCatalog';
-import { checkPackagePrintablePdf } from './packagePrintableCopy';
+import { checkPackagePrintablePdf, needsOfficialPrintableCopy } from './packagePrintableCopy';
 import { officialFormCompletionIssues } from './packageFormCompletion';
 import { saveGeneratedPdf } from '@/services/pdf/generatedPdfMetadata';
 import { directiveIssues } from './directiveFormats';
@@ -382,7 +381,7 @@ export async function preparePackageAssembly(
         if (copy) reviews.push({ member: member.label + ' · Printable copy', review: await reviewOriginal(printable, copy.name, policy) });
         if (purpose === 'pdf') {
           try {
-            if (!copy && member.officialFormId && officialEdition(member.officialFormId)?.format === 'xfa')
+            if (needsOfficialPrintableCopy(member))
               throw new Error('Use editable package or recipient delivery to retain this signed XFA form.');
             await checkPackagePrintablePdf(printable, options.signal);
           } catch (cause) {

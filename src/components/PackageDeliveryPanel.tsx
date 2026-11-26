@@ -93,7 +93,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
   }
   return <section aria-labelledby={heading} className="min-w-0 max-w-4xl space-y-4 border-t pt-4 text-sm" aria-busy={pending}>
     <h3 id={heading} className="font-medium">Recipient delivery</h3>
-    <p className="text-xs text-muted-foreground">{purpose === 'editable' ? 'This editable ZIP includes saved answers and embedded attachments for the selected documents.' : 'Select the files to include in the recipient’s ZIP.'}</p>
+    <p className="text-xs text-muted-foreground">{purpose === 'editable' ? 'This editable ZIP includes saved answers and embedded attachments for the selected documents.' : 'The ZIP includes the selected documents. Original files retain their signatures.'}</p>
     {error && <p role="alert" className="break-words text-destructive">{error}</p>}
     {findings.length > 0 && <><p role="alert">{findings.length} delivery {findings.length === 1 ? 'item needs' : 'items need'} attention.</p>
       <PackageDeliveryFindings canSign={canSign} revision={revision} findings={findings} onNavigate={target => onNavigate?.(target)} disabled={locked || !onNavigate} /></>}
