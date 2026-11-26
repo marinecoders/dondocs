@@ -14,7 +14,11 @@ export async function okinawaCola(): Promise<MaintainedRecipe> {
       question('coverage', 'Who is the claim for?', 'choice', { options: [
         { id: 'mem', label: 'Member only' }, { id: 'both', label: 'Member and dependents' }, { id: 'dep', label: 'Dependents only' },
       ] }),
-    ], { requirements: [
+    ], { revision: '2', requirements: [
+      { id: 'dependent-details', memberKey: 'application', kind: 'document', label: 'Dependent details', when: dependents,
+        operations: ['pdf'], completion: { expectedForm: edition, answerGroups: [{ label: 'Complete the name, relationship and date of birth for a dependent.',
+          alternatives: [2, 3, 4, 5, 6, 7].map(row => [field('NameDep' + row), field('RelatnshpDep' + row), field('DateDepBrth' + row)]),
+          beforeSignatures: [field('SigMem'), field('SigCO')] }] } },
       { id: 'certification', memberKey: 'application', kind: 'document', label: 'Member and commanding officer certifications',
         operations: ['pdf'], completion: { expectedForm: edition, requiredPdfFields: [field('NameComndOffcr'), field('DateApplcEffct')],
           signatureFields: [field('SigMem'), field('SigCO')] } },
