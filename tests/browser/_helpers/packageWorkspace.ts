@@ -182,7 +182,7 @@ export async function packageTool(dialog: Locator, name: string | RegExp) {
   const section = typeof name === 'string' ? sections[name] : 'Overview';
   if (section && await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).isVisible()) await packageSection(dialog, section);
   if (name === 'Recipient delivery' || name === 'Captured delivery contents') {
-    const files = dialog.getByRole('button', { name: 'Send selected files', exact: true });
+    const files = dialog.getByRole('button', { name: 'Download selected files (.zip)', exact: true });
     if (await files.getAttribute('aria-pressed') !== 'true') await files.click();
     await expect(dialog.getByRole('region', { name: 'Recipient delivery', exact: true })).toBeVisible();
   }

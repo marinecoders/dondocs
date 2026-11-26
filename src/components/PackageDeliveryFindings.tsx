@@ -20,7 +20,9 @@ export function PackageDeliveryFindings({ revision, documents, findings, onNavig
   const groups = new Map<string, PackageRequirementFinding[]>();
   for (const item of findings) {
     const byDocument = item.memberId && members.has(item.memberId) && !item.fromIntake && !(item.state === 'unknown' && revision.templateState);
-    const key = byDocument ? 'document:' + item.memberId : 'item:' + item.id;
+    const intakeSlot = item.memberId && slots.get(item.memberId);
+    const key = byDocument ? 'document:' + item.memberId
+      : intakeSlot && !members.has(intakeSlot.memberId) ? 'slot:' + intakeSlot.key : 'item:' + item.id;
     const group = groups.get(key);
     if (group) group.push(item);
     else groups.set(key, [item]);
@@ -37,7 +39,7 @@ export function PackageDeliveryFindings({ revision, documents, findings, onNavig
     const action = target.memberId ? 'Open document' : target.panel === 'requirements' ? 'Review requirement' : slot && !member ? 'Open intake slot' : 'Review intake';
     const messages = new Set(items.flatMap(finding => {
       const details = finding.documentIssues ?? [finding.message];
-      return target.memberId && finding.label !== member?.label
+      return finding.label !== (target.memberId ? member?.label : item.label)
         ? details.map(message => finding.label + ' — ' + message) : details;
     }));
     const corrections = canSign && target.memberId ? [...new Map(items.flatMap(item => item.corrections ?? []).map(action => [JSON.stringify(action), action])).values()] : [];

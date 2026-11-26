@@ -180,3 +180,19 @@ it('groups issues on the same document and opens each exact signature field once
   await userEvent.click(screen.getByRole('button', { name: 'Open document' }));
   expect(navigate).toHaveBeenLastCalledWith({ revisionId: revision.id, memberId: member.id });
 });
+
+it('offers one intake action per missing slot and preserves the individual findings', async () => {
+  const revision = getPackageRevision(await fixture());
+  const slot = { key: 'missing-slot', memberId: 'unfilled', memberKey: 'training', label: 'Training attachment', required: true, condition: 'unknown' } as const;
+  const common = { kind: 'document', state: 'unknown', memberId: slot.memberId, fromIntake: true } as const;
+  const navigate = vi.fn();
+  render(<PackageDeliveryFindings revision={revision} documents={{ members: new Map(), slots: new Map([[slot.memberId, slot]]) }}
+    onNavigate={navigate} disabled={false} findings={[
+      { ...common, id: 'rule', label: 'Training attachment', message: 'Choose the stage.' },
+      { ...common, id: 'membership', label: 'Evidence requirement', message: 'Confirm applicability.' },
+    ]} />);
+  expect(screen.getByText('Choose the stage.')).toBeVisible();
+  expect(screen.getByText(/Evidence requirement.*Confirm applicability/)).toBeVisible();
+  await userEvent.click(screen.getByRole('button', { name: 'Open intake slot' }));
+  expect(navigate).toHaveBeenCalledWith({ revisionId: revision.id, panel: 'intake', intakeSlot: slot.key });
+});

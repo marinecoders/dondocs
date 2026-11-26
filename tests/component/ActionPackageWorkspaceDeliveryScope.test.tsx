@@ -39,13 +39,13 @@ it('ignores a late delivery-scope cleanup from the previously selected owner', a
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
   await within(dialog).findByRole('heading', { name: first.name, level: 1 });
   await workspaceSection(dialog, 'Delivery', user);
-  await user.click(within(dialog).getByRole('button', { name: 'Send selected files' }));
+  await user.click(within(dialog).getByRole('button', { name: 'Download selected files (.zip)' }));
 
   await user.click(await within(dialog).findByRole('button', { name: `Prepare controller scope ${first.name}` }));
   await waitFor(() => expect(screen.getByTestId('controller-delivery-scope')).toHaveTextContent(`${first.name} selected scope`));
   const lateCleanup = controls.callbacks.get(first.id)!;
   await openSavedPackage(dialog, second, user); await workspaceSection(dialog, 'Delivery', user);
-  await user.click(within(dialog).getByRole('button', { name: 'Send selected files' }));
+  await user.click(within(dialog).getByRole('button', { name: 'Download selected files (.zip)' }));
   await user.click(await within(dialog).findByRole('button', { name: `Prepare controller scope ${second.name}` }));
   await waitFor(() => expect(screen.getByTestId('controller-delivery-scope')).toHaveTextContent(`${second.name} selected scope`));
   act(() => lateCleanup(null));
