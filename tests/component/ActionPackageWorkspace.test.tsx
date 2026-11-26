@@ -287,12 +287,12 @@ it("checks retained raw draft text before editable package download while allowi
   const dialog = screen.getByRole("dialog", { name: "Action packages" });
   await openSavedPackage(dialog, record, user);
   await workspaceSection(dialog, "Delivery", user);
-  await user.click(within(dialog).getByRole("button", { name: "Editable package" }));
+  await user.click(within(dialog).getByRole("button", { name: "Continue editing" }));
   await user.click(within(dialog).getByRole("button", { name: "Prepare editable package" }));
   await within(dialog).findByRole("heading", { name: "Editable package" });
   expect(within(dialog).getByRole("button", { name: "Download editable package" })).toBeDisabled();
   await user.click(within(dialog).getByRole("button", { name: "Back to export options" }));
-  await user.click(within(dialog).getByRole("button", { name: "PDF" }));
+  await user.click(within(dialog).getByRole("button", { name: "Read or print a PDF" }));
   await user.click(within(dialog).getByRole("button", { name: "Prepare PDF" }));
   await within(dialog).findByRole("button", { name: "Download PDF" });
   expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(record);
@@ -722,7 +722,9 @@ it("cancels a held package member write before its parent CAS", async () => {
   const dialog = screen.getByRole("dialog", { name: "Action packages" });
   await openSavedPackage(dialog, record, user);
   await workspaceSection(dialog, "Review", user);
-  await user.click(within(dialog).getByRole("button", { name: "New review copy" }));
+  const startReview = within(dialog).getByRole("button", { name: "New review copy" });
+  await waitFor(() => expect(startReview).toBeEnabled(), { timeout: 15_000 });
+  await user.click(startReview);
   const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" });
   await within(dialog).findByRole("button", { name: "Download review copy" }, { timeout: 15_000 });
   await waitFor(() => expect(within(nav).getByRole("button", { name: member.label })).toBeEnabled());
@@ -881,8 +883,10 @@ it.each([false, true])('queues PDF assembly behind a preview lease (cancel: %s)'
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
   await within(dialog).findByRole('heading', { name: record.name, level: 1 });
   await workspaceSection(dialog, 'Delivery', user);
-  await user.click(within(dialog).getByRole('button', { name: 'Prepare PDF' }));
-  const download = await within(dialog).findByRole('button', { name: 'Download PDF' });
+  const prepare = within(dialog).getByRole('button', { name: 'Prepare PDF' });
+  await waitFor(() => expect(prepare).toBeEnabled());
+  await user.click(prepare);
+  const download = await within(dialog).findByRole('button', { name: 'Download PDF' }, { timeout: 15_000 });
   expect(download).toBeDisabled();
   await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Cancel operation' })).toBeVisible());
   expect(within(dialog).queryByRole('alert')).toBeNull();

@@ -43,7 +43,7 @@ function PackageReviewTransferView({ record, round, busy, run, onImport, isCurre
     });
   }, [autoPrepareRoundId, busy, record, round]);
   if (directDownload && record && !round) return null;
-  return <section aria-label="Portable package reviews" className="space-y-3 rounded border p-3">
+  return <section data-package-review-entry={round ? true : undefined} tabIndex={-1} aria-label="Portable package reviews" className="space-y-3 rounded border p-3">
     <h3 className="font-medium">{directDownload ? round && record && round.ownerPackageId === record.id ? 'Review copy' : round ? 'Return feedback' : 'Import a review copy' : 'Package reviewer files'}</h3>
     {!directDownload && <p className="text-xs text-muted-foreground">Reviewer copies include the exact captured package, originals, retained files and review discussion. Open them in an independent browser to collect feedback. Returns identify this exact round and member; reviewer names are self-entered.</p>}
     <label hidden={directDownload && !!record} className="block text-sm">Import package reviewer copy<input aria-label="Import package reviewer copy" type="file" accept=".json" disabled={busy} className="block max-w-full"

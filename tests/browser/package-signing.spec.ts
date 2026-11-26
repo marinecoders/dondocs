@@ -147,7 +147,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await panel.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`package-signing-${theme}-${width}px.png`) });
   await packageSection(dialog, 'Delivery');
-  await dialog.getByRole('button', { name: 'Editable package', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Continue editing', exact: true }).click();
   await dialog.getByRole('button', { name: 'Prepare editable package', exact: true }).click();
   await expect(dialog.getByRole('button', { name: 'Cancel export', exact: true })).toBeVisible();
   if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();

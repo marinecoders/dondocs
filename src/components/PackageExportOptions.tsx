@@ -13,7 +13,7 @@ import { Button } from './ui/button';
 
 export type PackageExportFormat = 'pdf' | 'draft' | 'editable' | 'recipient';
 
-export function PackageExportOptions({ revision, checks, format, disabled, pdfDisabled, active, canSign, onNavigate, onFormat, onPrepare, onOpenDocument }: {
+export function PackageExportOptions({ revision, checks, format, disabled, pdfDisabled, active, canSign, onNavigate, onFormat, onPrepare, onOpenDocument, onReviewCopy }: {
   revision: PackageRevision;
   checks?: ReturnType<typeof usePackageChecks>;
   active: boolean;
@@ -25,6 +25,7 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
   onFormat(format: PackageExportFormat): void;
   onPrepare(): void;
   onOpenDocument(id: string): void;
+  onReviewCopy?(): void;
 }) {
   const signed = revision.members.some(member => member.kind === 'original' && member.signedOriginal);
   const inspect = active && format === 'pdf';
@@ -87,13 +88,17 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
   }
   const reviewItems = (items: PackageRequirementFinding[]) => <PackageDeliveryFindings documents={documents} revision={revision} findings={items} onNavigate={onNavigate} disabled={disabled} canSign={canSign} />;
   return <div className="max-w-4xl space-y-5">
-    <div role="group" aria-label="File format" className="flex flex-wrap gap-2">
-      {(['pdf', 'recipient', 'editable'] as const).map(value => {
-        const selected = format === value || value === 'pdf' && format === 'draft';
-        return <Button key={value} variant={selected ? 'secondary' : 'outline'} aria-pressed={selected}
-          disabled={disabled} onClick={() => onFormat(value)}>{value === 'recipient' ? 'Download selected files (.zip)' : value === 'editable' ? 'Editable package' : 'PDF'}</Button>;
-      })}
-    </div>
+    <fieldset className="space-y-2">
+      <legend className="text-sm font-medium">What does the recipient need to do?</legend>
+      <div className="flex flex-wrap gap-2">
+        {([['pdf', 'Read or print a PDF'], ['recipient', 'Receive original files'], ['editable', 'Continue editing']] as const).map(([value, label]) => {
+          const selected = format === value || value === 'pdf' && format === 'draft';
+          return <Button key={value} variant={selected ? 'secondary' : 'outline'} aria-pressed={selected}
+            disabled={disabled} onClick={() => onFormat(value)}>{label}</Button>;
+        })}
+        {onReviewCopy && <Button variant="outline" disabled={disabled} onClick={onReviewCopy}>Review and return feedback</Button>}
+      </div>
+    </fieldset>
     {format !== 'recipient' && <>
     <div className="flex flex-wrap items-center gap-4">
       {firstDestination && firstAction && !pdfDisabled ? <div role="group" aria-label="Next delivery action" className="flex flex-wrap items-center gap-3">

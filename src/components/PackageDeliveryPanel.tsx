@@ -55,6 +55,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
   const label = choice && selection.label === 'Selected documents' ? choice.label : selection.label;
   const memberIds = choice?.memberIds ?? revision.members.filter(member => scope === 'complete' || selection.memberIds.includes(member.id)).map(member => member.id);
   const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
+  const includedIds = new Set(prepared?.members.map(member => member.id));
   const [findings, setFindings] = useState<PackageRequirementFinding[]>([]);
   useEffect(() => {
     if (!visible || !recheck || disabled || purpose !== 'recipient' || loadingChoices || unavailableChoice) return;
@@ -150,7 +151,11 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
     </fieldset>
     {prepared && <section aria-label="Captured delivery contents" className="min-w-0 space-y-3 border-t pt-3">
       <h4 className="break-words font-medium">{prepared.packageName}</h4>
-      <p>{prepared.members.length} included documents · {prepared.excludedMembers} excluded · {prepared.files.length} captured files</p>
+      <p>{prepared.members.length} included {prepared.members.length === 1 ? 'document' : 'documents'} · {prepared.excludedMembers} excluded · {prepared.files.length} captured {prepared.files.length === 1 ? 'file' : 'files'}</p>
+      {prepared.excludedMembers > 0 && <details><summary className="cursor-pointer">Excluded documents ({prepared.excludedMembers})</summary>
+        <ul>{revision.members.filter(member => !includedIds.has(member.id)).map(member =>
+          <li key={member.id}>{packageDocumentName(revision, member)}</li>)}</ul>
+      </details>}
       {prepared.notices.map((notice, index) => <p key={index} className="break-words text-xs text-muted-foreground">{notice}</p>)}
       <ul className="min-w-0 space-y-2">{prepared.files.slice(0, fileCount).map(file => <li key={file.id} className="break-all rounded border p-2 text-xs">{file.name} · {file.size.toLocaleString()} bytes<details className="mt-1 text-muted-foreground"><summary className="cursor-pointer">File checksum</summary><p className="mt-1 font-mono">{file.sha256}</p></details></li>)}</ul>
       {prepared.files.length > fileCount && <Button variant="outline" disabled={locked} onClick={() => setFileCount(value => value + 25)}>Show more included files</Button>}

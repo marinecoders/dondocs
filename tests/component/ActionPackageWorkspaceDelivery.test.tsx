@@ -49,7 +49,7 @@ it('cancels a prepared export and returns to the options without downloading or 
   const record = await fixture(), dialog = await open(record), user = userEvent.setup();
   const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
   await workspaceSection(dialog, 'Delivery', user);
-  await user.click(within(dialog).getByRole('button', { name: 'Editable package' }));
+  await user.click(within(dialog).getByRole('button', { name: 'Continue editing' }));
   await user.click(within(dialog).getByRole('button', { name: 'Prepare editable package' }));
   await within(dialog).findByRole('button', { name: 'Download editable package' });
   await user.click(within(dialog).getByRole('button', { name: 'Cancel export' }));
@@ -67,7 +67,7 @@ it.each(['original', 'editable'])('rechecks deployment before downloading a prev
     await expandDetails(dialog, user);
     const card = (await within(dialog).findByRole('heading', { name: '2. Synthetic retained.txt' })).closest('li')!;
     await user.click(within(card).getByRole('button', { name: 'Download unchanged original' }));
-  } else { await workspaceSection(dialog, 'Delivery', user); await user.click(within(dialog).getByRole('button', { name: 'Editable package' })); await user.click(within(dialog).getByRole('button', { name: 'Prepare editable package' })); }
+  } else { await workspaceSection(dialog, 'Delivery', user); await user.click(within(dialog).getByRole('button', { name: 'Continue editing' })); await user.click(within(dialog).getByRole('button', { name: 'Prepare editable package' })); }
   await within(dialog).findByRole('button', { name: /Download (editable package|reviewed unchanged original)/ });
   policy = publicPolicy;
   await user.click(within(dialog).getByRole('button', { name: mode === 'original' ? 'Download reviewed unchanged original' : 'Download editable package' }));
@@ -77,7 +77,7 @@ it.each(['original', 'editable'])('rechecks deployment before downloading a prev
 it('rechecks deployment after the actual editable payload has been built', async () => {
   const record = await restrictedFixture(), dialog = await open(record), user = userEvent.setup();
   const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
-  await workspaceSection(dialog, 'Delivery', user); await user.click(within(dialog).getByRole('button', { name: 'Editable package' })); await user.click(within(dialog).getByRole('button', { name: 'Prepare editable package' }));
+  await workspaceSection(dialog, 'Delivery', user); await user.click(within(dialog).getByRole('button', { name: 'Continue editing' })); await user.click(within(dialog).getByRole('button', { name: 'Prepare editable package' }));
   await within(dialog).findByRole('button', { name: /Download (editable package|reviewed unchanged original)/ });
   const build = transfers.buildPortableActionPackage;
   vi.spyOn(transfers, 'buildPortableActionPackage').mockImplementation(async (...args) => {
@@ -96,7 +96,7 @@ it('prepares an exact selected delivery while viewing a saved review without mis
     const value = await openReview(...args); await heldReview; return value;
   });
   await workspaceSection(dialog, 'Delivery', user);
-  await user.click(within(dialog).getByRole('button', { name: 'Download selected files (.zip)' }));
+  await user.click(within(dialog).getByRole('button', { name: 'Receive original files' }));
   await within(dialog).findByRole('button', { name: 'Prepare selected delivery' });
   await workspaceSection(dialog, 'Review', user);
   await user.click(within(dialog).getByRole('button', { name: 'Open review Captured delivery review' }));

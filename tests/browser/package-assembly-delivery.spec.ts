@@ -93,7 +93,7 @@ for (const width of [1440, 320]) {
     await expect(dialog.getByRole('heading', { name: 'PRIVATE source package', exact: true, level: 1 })).toBeVisible(); const delivery = await section(dialog, 'Recipient delivery');
     await delivery.getByLabel('Delivery name', { exact: true }).fill('Public selected delivery'); await delivery.getByLabel('Delivery purpose', { exact: true }).selectOption('recipient'); await delivery.getByLabel('Include PRIVATE supporting file', { exact: true }).uncheck();
     await delivery.getByRole('button', { name: 'Prepare selected delivery', exact: true }).click();
-    const captured = delivery.getByRole('region', { name: 'Captured delivery contents', exact: true }); await expect(captured).toContainText('1 included documents · 1 excluded · 1 captured files');
+    const captured = delivery.getByRole('region', { name: 'Captured delivery contents', exact: true }); await expect(captured).toContainText('1 included document · 1 excluded · 1 captured file');
     await captured.getByRole('button', { name: 'Preview document-1.pdf', exact: true }).click(); await expect(captured.getByRole('region', { name: 'Captured delivery file preview', exact: true }).locator('canvas').first()).toBeVisible();
     await expect(captured.getByRole('button', { name: 'Open in browser tab', exact: true })).toHaveCount(0);
     await expect(captured.getByRole('button', { name: 'Download reviewed delivery package', exact: true })).toBeEnabled();
@@ -119,7 +119,7 @@ test('delivery ZIP recovers its exact selected original in a fresh browser conte
   await delivery.getByLabel('Include PRIVATE excluded support', { exact: true }).uncheck();
   await delivery.getByRole('button', { name: 'Prepare selected delivery', exact: true }).click();
   const captured = delivery.getByRole('region', { name: 'Captured delivery contents', exact: true });
-  await expect(captured).toContainText('1 included documents · 1 excluded · 1 captured files');
+  await expect(captured).toContainText('1 included document · 1 excluded · 1 captured file');
   await expect(captured.getByRole('button', { name: 'Download reviewed delivery bundle', exact: true })).toBeEnabled();
   const bundle = await download(page, () => captured.getByRole('button', { name: 'Download reviewed delivery bundle', exact: true }).click());
   const zip = await JSZip.loadAsync(bundle), manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));

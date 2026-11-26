@@ -33,7 +33,7 @@ it('prepares exact scope, requires review, downloads captured bytes and clears i
   await user.click(screen.getByLabelText('Include Second excluded.pdf'));
   await user.click(screen.getByRole('button', { name: 'Prepare selected delivery' }));
   const contents = await screen.findByRole('region', { name: 'Captured delivery contents' });
-  expect(contents).toHaveTextContent('1 included documents · 1 excluded');
+  expect(contents).toHaveTextContent('1 included document · 1 excluded');
   expect(screen.getByRole('button', { name: 'Download reviewed delivery package' })).toBeDisabled();
   await user.click(screen.getByRole('checkbox', { name: /^I reviewed every included document/ }));
   await user.click(screen.getByRole('button', { name: 'Download reviewed delivery package' }));
