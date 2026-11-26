@@ -10,7 +10,7 @@ import { unfilled } from '@/lib/requiredField';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { bodyTableText, bodyTableLiteral } from './bodyTableText';
 import { toTitleCase } from '@/lib/titleCase';
-import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
+import { closingTailStart, hasBottomSignature, printableCorrespondenceParagraphs } from '@/lib/correspondenceClosing';
 import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
 import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
 import { documentOutputConfig, jointMemoHeading } from '@/lib/documentOutputConfig';
@@ -1117,6 +1117,9 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
       hintIndex = 0;
       store = { ...store, paragraphs: [{ level: 0, text: '' }, ...store.paragraphs] };
     }
+  }
+  if (!isTechnicalPublication(store.docType)) {
+    store = { ...store, paragraphs: printableCorrespondenceParagraphs(store.paragraphs, hintIndex) };
   }
   const crossReferences = publicationReferences(store.paragraphs, store.publicationTables);
   const bodyText = store.docType === 'i_type' ? (text: string) => publicationReferenceText(text, crossReferences) : processBodyText;

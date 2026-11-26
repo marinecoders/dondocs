@@ -1,3 +1,4 @@
+import { printableCorrespondenceParagraphs } from '@/lib/correspondenceClosing';
 import { usesDlaLetterhead } from '@/lib/dlaLetterhead';
 import { taggedReferenceUrl } from './links';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
@@ -31,6 +32,7 @@ export function taggedLetterhead(source: TaggedCorrespondenceSource) {
 /** Conservative, visible support boundaries. Unsupported source stays editable;
  * a tagged request must stop rather than silently return an ordinary PDF. */
 export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, resolvedLevel = source.formData.classLevel ?? 'unclassified'): string[] {
+  source = { ...source, paragraphs: printableCorrespondenceParagraphs(source.paragraphs) };
   const issues: string[] = [];
   if (windowEnvelopeLayout(source.docType, source.formData)) issues.push('Use standard PDF for the window-envelope layout. Tagged geometry has separate qualification.');
   if (usesDlaLetterhead(source.docType, source.formData)) issues.push('DLA letterhead uses standard PDF output.');

@@ -18,6 +18,22 @@ const untag = (source: string) => source.replace(/\\leavevmode(?=\\pdfliteral di
 const flatten = (nodes: readonly PdfSemanticNode[]): PdfSemanticNode[] => nodes.flatMap(node => [node, ...flatten(node.children ?? [])]);
 
 describe('owned tagged correspondence projection', () => {
+  it('omits unused closing rows from the PDF body and tag tree without editing the draft', () => {
+    const source = fixture();
+    const expected = prepareTaggedCorrespondence(source);
+    const body = generateAllLatexFiles(source).texFiles['body.tex'];
+    source.paragraphs.push({ level: 0, text: '' }, { level: 1, text: '  ' });
+    expect(taggedCorrespondenceIssues(source)).toEqual([]);
+    const tagged = prepareTaggedCorrespondence(source);
+    expect(tagged.plan.nodes).toEqual(expected.plan.nodes);
+    expect(untag(tagged.files['body.tex'] as string)).toBe(body);
+    expect(generateAllLatexFiles(source).texFiles['body.tex']).toBe(body);
+    expect(source.paragraphs).toHaveLength(5);
+    source.paragraphs.push({ level: 0, header: 'Final heading', text: '' });
+    expect(generateAllLatexFiles(source).texFiles['body.tex']).toContain('Final Heading');
+    expect(taggedCorrespondenceIssues(source)).toContain('Remove empty body paragraphs before tagged export.');
+  });
+
   it('keeps body typography byte-identical after removing invisible source points', () => {
     const source = fixture();
     const normal = generateAllLatexFiles(source);
@@ -73,7 +89,7 @@ describe('owned tagged correspondence projection', () => {
     ['portion marking', (source: TaggedCorrespondenceSource) => { source.paragraphs[0].portionMarking = 'S'; }],
     ['enclosure', (source: TaggedCorrespondenceSource) => { source.enclosures.push({ title: 'Original PDF' }); }],
     ['unsafe hyperlink', (source: TaggedCorrespondenceSource) => { source.formData.includeHyperlinks = true; source.references[0].url = 'javascript:alert(1)'; }],
-    ['empty row', (source: TaggedCorrespondenceSource) => { source.paragraphs.push({ text: '', level: 0 }); }],
+    ['empty interior row', (source: TaggedCorrespondenceSource) => { source.paragraphs.splice(1, 0, { text: '', level: 0 }); }],
     ['hierarchy jump', (source: TaggedCorrespondenceSource) => { source.paragraphs[1].level = 3; }],
     ['headerless table', (source: TaggedCorrespondenceSource) => { source.paragraphs[0].bodyTable = { rows: [['Header'], ['Value']], headerRows: 0 }; }],
   ])('blocks %s rather than silently falling back', (_name, change) => {
