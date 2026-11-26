@@ -31,7 +31,7 @@ import { PackageExportFindings } from "./PackageExportFindings";
 import { readPackageNewActionContext, type PackageNewActionContext } from '@/lib/packageNewActionContext';
 import './package-workspace.css';
 import { ArrowLeft, X } from 'lucide-react';
-import { readPackageWorkspaceContext, rememberPackageWorkspaceContext, type PackageWorkspaceSection } from "@/lib/packageWorkspaceContext";
+import { activePackageWorkspace, setActivePackageWorkspace, readPackageWorkspaceContext, rememberPackageWorkspaceContext, type PackageWorkspaceSection } from "@/lib/packageWorkspaceContext";
 import { startPackageReview, openPackageReview, transitionPackageReview } from "@/lib/packageReviewRounds";
 import type { PackageReviewRound } from "@/lib/actionPackages";
 import type { ExportGate } from "@/lib/exportController";
@@ -155,7 +155,7 @@ export function ActionPackageWorkspace({
   const open = useUIStore(state => state.actionPackagesOpen);
   const setOpen = useUIStore(state => state.setActionPackagesOpen);
   useEffect(() => {
-    if (readFormLocation('active')) setOpen(true);
+    if (readFormLocation('active') || activePackageWorkspace()) setOpen(true);
   }, [setOpen]);
   useEffect(() => {
     if (open) void loadRetainedPdfViewer().catch(() => {});
@@ -165,7 +165,7 @@ export function ActionPackageWorkspace({
       editorSurface={editorSurface}
       ports={ports}
       exportGate={exportGate}
-      onClose={() => setOpen(false)}
+      onClose={() => { setActivePackageWorkspace(null); setOpen(false); }}
     />
   ) : null;
 }
@@ -214,6 +214,7 @@ function PackageDialog({
     rememberFormLocation('active', '');
     onClose();
   }
+  const [resumeWorkspace] = useState(activePackageWorkspace);
   const [savedWorkspace] = useState(readPackageWorkspaceContext);
   const [unfinishedAction, setUnfinishedAction] = useState(readPackageNewActionContext);
   const [actionToResume, setActionToResume] = useState<PackageNewActionContext>();
@@ -545,9 +546,11 @@ function PackageDialog({
     target?.focus({ preventScroll: true }); target?.scrollIntoView?.({ block: "start" });
   }, [destination, editable, record?.id, revision?.id]);
   useEffect(() => {
-    if (record && revision) rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: revision.id,
-      memberId: selectedMember?.id ?? null, section: workspaceSection });
-  }, [record, revision, selectedMember?.id, workspaceSection]);
+    if (!record || !revision || library || creating) return;
+    const context = { version: 1 as const, packageId: record.id, revisionId: revision.id, memberId: selectedMember?.id ?? null, section: workspaceSection };
+    rememberPackageWorkspaceContext(context);
+    setActivePackageWorkspace(context);
+  }, [record, revision, selectedMember?.id, workspaceSection, library, creating]);
   function navigate(section: PackageWorkspaceSection) {
     setAdvanceFrom(undefined);
     if (!pendingPackageEdits) setDestination(undefined);
@@ -601,7 +604,9 @@ function PackageDialog({
           const explicit = records.find(record => record.id === requestedPackageId);
           const restoredForm = readFormLocation('active');
           const resumeForm = !requestedPackageId && records.find(r => restoredForm.startsWith(r.id + '/'));
-          const requested = explicit || resumeForm;
+          const restored = !requestedPackageId && !resumeForm && records.find(r => r.id === resumeWorkspace?.packageId);
+          const requested = explicit || resumeForm || restored;
+          if (!requested && resumeWorkspace) setActivePackageWorkspace(null);
           if (requested) {
             setCreating(false);
             setCreatingAction(false);
@@ -610,10 +615,11 @@ function PackageDialog({
             setSelectedId(requested.id);
             if (requestedRevisionId && !requested.revisions.some(revision => revision.id === requestedRevisionId))
               throw new Error("The reviewed package revision is no longer available. Reopen the share and review it again.");
-            setRevisionId(requestedRevisionId ?? requested.currentRevisionId);
+            const resumeRevision = restored && requested.revisions.find(item => item.id === resumeWorkspace?.revisionId);
+            setRevisionId(requestedRevisionId ?? (resumeRevision ? resumeRevision.id : requested.currentRevisionId));
             const returningToDocument = explicit && savedWorkspace?.packageId === explicit.id && savedWorkspace.revisionId === requestedRevisionId && savedWorkspace.section === 'documents';
-            setWorkspaceSection(returningToDocument ? "documents" : "overview");
-            setActiveMemberId(returningToDocument ? savedWorkspace.memberId : null);
+            setWorkspaceSection(restored ? resumeWorkspace!.section : returningToDocument ? "documents" : "overview");
+            setActiveMemberId(restored && resumeRevision && resumeRevision.members.some(item => item.id === resumeWorkspace?.memberId) ? resumeWorkspace!.memberId : returningToDocument ? savedWorkspace.memberId : null);
             if (resumeForm) {
               setWorkspaceSection('documents');
               setActiveMemberId(restoredForm.slice(requested.id.length + 1));
@@ -638,7 +644,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, consistencyDirty, workDirty, pendingPackageEdits, savedWorkspace]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, consistencyDirty, workDirty, pendingPackageEdits, savedWorkspace, resumeWorkspace]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -677,6 +683,7 @@ function PackageDialog({
     setRenderComparison(null);
   }
   function showLibrary() {
+    setActivePackageWorkspace(null);
     if (creating && !pendingPackageEdits) setCreating(false);
     setUnfinishedAction(readPackageNewActionContext());
     setLibraryOpen(true);

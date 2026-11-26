@@ -109,10 +109,11 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
     await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
     await choosePackageById(dialog, fixture.package.id);
     expect(await packageVersion(dialog)).not.toBe(savedRevision);
+    const currentRevision = await dialog.getAttribute('data-revision-id');
     await page.reload();
     dialog = await openPackageWorkspace(page);
-    await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
-    await choosePackageById(dialog, fixture.package.id);
+    await expect(dialog).toHaveAttribute('data-package-id', fixture.package.id);
+    await expect(dialog).toHaveAttribute('data-revision-id', currentRevision!);
     await packageVersion(dialog, savedRevision);
     await expect(dialog.getByText(/Historical/)).toBeVisible();
     await inspectPackageMember(dialog, original.id);
@@ -214,3 +215,21 @@ for (const width of [1440, 320]) test(`document preview reserves its final heigh
   for (const height of loadingHeights) expect(Math.abs(height - readyHeight)).toBeLessThanOrEqual(1);
 });
 
+
+test('refresh restores the open tab and Back to packages clears that route', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing' }).click();
+  const dialog = await openPackageWorkspace(page);
+  await newPackage(dialog);
+  const custom = dialog.getByRole('group', { name: 'Custom package' });
+  await custom.getByLabel('Package name').fill('Return location');
+  await custom.getByRole('button', { name: 'Create package' }).click();
+  await packageSection(dialog, 'Delivery');
+  await page.reload();
+  await expect(dialog.getByRole('heading', { name: 'Return location' })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Delivery', exact: true })).toHaveAttribute('aria-current', 'location');
+  await dialog.getByRole('button', { name: 'Back to packages' }).click();
+  await page.reload();
+  await openPackageWorkspace(page);
+  await expect(dialog.getByRole('heading', { name: 'Packages', exact: true, level: 1 })).toBeVisible();
+});

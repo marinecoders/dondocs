@@ -8,8 +8,10 @@ export async function openPackageWorkspace(page: Page) {
     return dialog;
   }
   const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true })
-    .or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
+  const launcher = page.getByRole('button', { name: 'Open workspace', exact: true })
+    .or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first();
+  await expect(dialog.or(drawer).or(launcher).first()).toBeVisible();
+  if (!await dialog.isVisible() && !await drawer.isVisible()) await launcher.click();
   // Wait for the launcher transition before choosing the mobile or desktop path.
   await expect(drawer.or(dialog)).toBeVisible();
   if (await drawer.isVisible()) {
@@ -245,6 +247,7 @@ export async function expectSelectedPackageMemberKind(dialog: Locator, kind: str
 }
 
 export async function openAddDocuments(workspace: Locator) {
+  await expect(workspace).toHaveAttribute('aria-busy', 'false');
   const closed = workspace.locator('details[data-add-package-document]:not([open]) > summary');
   if (await closed.isVisible()) await closed.click();
 }
