@@ -124,6 +124,18 @@ export async function versionCount(dialog: Locator) {
   return count;
 }
 
+export async function blockedPackagePdf(dialog: Locator) {
+  await packageSection(dialog, 'Delivery');
+  const back = dialog.getByRole('button', { name: 'Back to export options', exact: true });
+  if (await back.isVisible()) await back.click();
+  await dialog.getByRole('button', { name: 'PDF', exact: true }).click();
+  const action = dialog.getByRole('group', { name: 'Next delivery action' });
+  await expect(action.getByRole('button')).toBeEnabled();
+  await expect(dialog.getByRole('button', { name: 'Prepare PDF', exact: true })).toHaveCount(0);
+  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toHaveCount(0);
+  return action;
+}
+
 export async function preparePackageExport(dialog: Locator, mode: 'pdf' | 'editable' | 'saved' | 'preview') {
   await packageSection(dialog, 'Delivery');
   const back = dialog.getByRole('button', { name: 'Back to export options', exact: true });

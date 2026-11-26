@@ -1,4 +1,4 @@
-import { openPackagePreparation, inspectPackageMember, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, preparePackageExport, packageTool, downloadPackageExport, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
+import { blockedPackagePdf, openPackagePreparation, inspectPackageMember, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, preparePackageExport, packageTool, downloadPackageExport, openPackageWorkspace, choosePackageById } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator, type TestInfo } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -257,9 +257,8 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     await requirements.getByRole('combobox', { name: 'Requirement operation', exact: true }).selectOption('portable');
     await requirements.getByRole('button', { name: 'Check evidence requirements', exact: true }).click();
     await expect(requirements.getByText(/^Editable transfer requirement checks complete\./)).toBeVisible();
-    await preparePackageExport(dialog, 'pdf');
-  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
-    await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
+    const action = await blockedPackagePdf(dialog);
+    await expect(action).toContainText('Original supporting PDF');
     panel = await continueIntake(dialog);
     const original = await PDFDocument.create(), font = await original.embedFont(StandardFonts.Helvetica);
     original.addPage([612, 792]).drawText('SYNTHETIC ORIGINAL SUPPORTING RECORD', { x: 55, y: 720, size: 14, font });
