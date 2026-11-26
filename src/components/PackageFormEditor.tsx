@@ -90,7 +90,7 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-4 py-3">
         <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate())}><ArrowLeft />{returnToSigner ? 'Back to signing' : onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
         <div className="min-w-0"><DialogTitle id={titleId}>{record.name}</DialogTitle><DialogDescription>Package form editor</DialogDescription></div>
-        <PackageDocumentSwitcher revision={revision} memberId={member.id} disabled={leaving}
+        <PackageDocumentSwitcher history={record.revisions} revision={revision} memberId={member.id} disabled={leaving}
           onSelect={id => void navigate(() => onNavigate(id))} />
         {onFinishFinding && !returnToSigner && <Button size="sm" disabled={leaving} onClick={() => void navigate(() => onFinishFinding(true))}>Next item</Button>}
         <span className="ml-auto text-sm text-muted-foreground" role="status">{({ opening: 'Opening form…', saved: 'Saved to package', saving: 'Saving…', pending: 'Editing draft', error: 'Save needs attention' })[editor.phase]}</span>

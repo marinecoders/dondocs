@@ -1,6 +1,7 @@
 import { packageDocumentName } from '@/lib/actionPackages';
 import { PackageDocumentOrder, PackageOrderRow } from './PackageDocumentOrder';
-import { useState, type ReactNode } from 'react';
+import { packageNavigationNames } from '@/lib/packageNavigationNames';
+import { useMemo, useState, type ReactNode } from 'react';
 import { FileText, Files, History, Paperclip } from 'lucide-react';
 import type { ActionPackage, PackageMember, PackageRevision } from '@/lib/actionPackages';
 import { packageSectionLabels as sectionLabels, type PackageWorkspaceSection } from '@/lib/packageWorkspaceContext';
@@ -56,8 +57,9 @@ function memberKind(member: PackageMember): string {
   return member.session.documentCategory === 'forms' ? 'Editable form' : 'Editable document';
 }
 
-export function PackageMemberNavigation({ revision, members, selectedId, disabled, onSelect, onMove }: {
+export function PackageMemberNavigation({ revision, history, members, selectedId, disabled, onSelect, onMove }: {
   revision: PackageRevision;
+  history?: readonly PackageRevision[];
   members: readonly PackageMember[];
   selectedId?: string;
   disabled: boolean;
@@ -65,6 +67,8 @@ export function PackageMemberNavigation({ revision, members, selectedId, disable
   onMove?(from: string, to: string, keyboard: boolean): void;
 }) {
   const [arranging, setArranging] = useState(false);
+  const names = useMemo(() => packageNavigationNames(revision, history), [revision, history]);
+  const name = (member: PackageMember) => names.get(member.id) ?? packageDocumentName(revision, member);
   if (!members.length) return null;
   const participants = new Map(revision.information?.participants.map(person => [person.id, person.label]));
   const owners = new Map(revision.templateState?.instances.map(slot => [slot.memberId, slot.participantId]));
@@ -76,9 +80,9 @@ export function PackageMemberNavigation({ revision, members, selectedId, disable
       className={`flex w-full min-w-0 items-start gap-2 rounded-md px-2 py-2.5 text-left text-sm disabled:opacity-50 ${selectedId === member.id ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'}`}
       onClick={() => onSelect(member.id)}>
       {member.kind !== 'native' ? <Paperclip className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <FileText className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
-      <span className="min-w-0 break-words"><span className="font-medium">{index + 1}. {packageDocumentName(revision, member)}</span><span className="block text-xs text-muted-foreground">{memberKind(member)}</span></span>
+      <span className="min-w-0 break-words"><span className="font-medium">{index + 1}. {name(member)}</span><span className="block text-xs text-muted-foreground">{memberKind(member)}</span></span>
     </button>;
-    if (sortable) return <PackageOrderRow key={member.id} id={member.id} label={packageDocumentName(revision, member)} disabled={disabled}>{row}</PackageOrderRow>;
+    if (sortable) return <PackageOrderRow key={member.id} id={member.id} label={name(member)} disabled={disabled}>{row}</PackageOrderRow>;
     return <div key={member.id}>
         {groupAt(index) && groupAt(index) !== groupAt(index - 1) && <p className="px-2 pt-3 text-xs font-medium">{groupAt(index)}</p>}
         {row}
@@ -88,15 +92,16 @@ export function PackageMemberNavigation({ revision, members, selectedId, disable
     <label className="block text-sm lg:hidden">Document to inspect
       <select aria-label="Document to inspect" className="mt-1 w-full min-w-0 rounded border bg-background p-2"
         value={selectedId ?? ''} disabled={disabled} onChange={event => onSelect(event.target.value)}>
-        {members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {packageDocumentName(revision, member)} · {memberKind(member)}</option>)}
+        {members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {name(member)} · {memberKind(member)}</option>)}
       </select>
     </label>
     {onMove && members.length > 1 && <Button size="sm" variant="outline" className="lg:hidden" aria-expanded={arranging}
       onClick={() => setArranging(!arranging)}>{arranging ? 'Done reordering' : 'Reorder documents'}</Button>}
     <div className={arranging && onMove ? 'space-y-1' : 'hidden space-y-1 lg:block'}>
       <p className="px-2 text-xs font-medium text-muted-foreground">Package documents</p>
+      {revision.templateState && members.length > 1 && <p className="px-2 text-xs text-muted-foreground">Document order follows the package recipe.</p>}
       {sortable && onMove ? <PackageDocumentOrder key={revision.id} ids={members.map(member => member.id)}
-        labels={new Map(members.map(member => [member.id, packageDocumentName(revision, member)]))}
+        labels={names}
         disabled={disabled} onMove={onMove}>{rows}</PackageDocumentOrder> : rows}
     </div>
   </nav>;

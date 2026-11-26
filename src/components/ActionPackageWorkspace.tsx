@@ -226,6 +226,8 @@ function PackageDialog({
   const [signedSelectionOwner, setSignedSelectionOwner] = useState<string>();
   const [deliveryFormat, setDeliveryFormat] = useState<PackageExportFormat>('pdf');
   const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>("overview");
+  const [addFor, setAddFor] = useState<{ packageId: string; revisionId: string; id: string; label: string }>();
+  const [previousOrder, setPreviousOrder] = useState<{ packageId: string; revisionId: string; memberIds: string[] }>();
   const [readerEntry, setReaderEntry] = useState<{ member: PackageMember; edge: "first" | "last" }>();
   const [activeMemberId, setActiveMemberId] = useState<string | null>(null);
   const overviewRef = useRef<HTMLDivElement>(null);
@@ -353,6 +355,7 @@ function PackageDialog({
   const pdfBlockers = packageChecks.result?.actions.filter(action => action.blocking) ?? [];
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
+  const scopedAdd = addFor?.packageId === record?.id && addFor?.revisionId === revision?.id ? addFor : undefined;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
   const hasMain = revision?.members.some(member => member.role === 'basic-letter') || !!revision?.templateState?.primaryMemberKey;
   const explicitRole = hasMain && requestedRole === 'basic-letter' ? undefined : requestedRole;
@@ -574,6 +577,7 @@ function PackageDialog({
     setActivePackageWorkspace(context);
   }, [record, revision, selectedMember?.id, workspaceSection, library, creating]);
   function navigate(section: PackageWorkspaceSection) {
+    setAddFor(undefined);
     setAdvanceFrom(undefined);
     if (!pendingPackageEdits) setDestination(undefined);
     if (section !== 'overview') setFieldReviewPackage('');
@@ -600,6 +604,7 @@ function PackageDialog({
     target?.focus({ preventScroll: true });
   }, [workspaceSection, selectedMember?.id, library, selectedId, creating]);
   function inspectMember(memberId: string) {
+    setAddFor(undefined);
     setReaderEntry(undefined);
     setActiveMemberId(memberId); setWorkspaceSection("documents");
     const target = document.getElementById(`package-member-${memberId}`);
@@ -685,6 +690,7 @@ function PackageDialog({
     preparedResultRef.current?.focus({ preventScroll: true });
   }, [prepared, pdfUrl, workspaceSection, library]);
   function select(value: ActionPackage) {
+    setAddFor(undefined);
     setReviewCopyRequest(null);
     setLibraryOpen(false);
     setCreating(false);
@@ -771,16 +777,23 @@ function PackageDialog({
       if (active.current) setBusy(false);
     }
   }
-  async function modify(members: PackageMember[], staged?: readonly import("@/lib/documentsDb").StoredAttachment[]) {
+  async function modify(members: PackageMember[], staged?: readonly import("@/lib/documentsDb").StoredAttachment[], didSave?: (next: ActionPackage) => void) {
     if (!record) return;
     const added = members.find(member => !revision?.members.some(previous => previous.id === member.id));
     const ordered = added?.role === 'basic-letter' ? [added, ...members.filter(item => item.id !== added.id)] : members;
-    update(await reviseActionPackage(record, ordered, operation.current?.signal, undefined, undefined, undefined, staged));
+    const next = await reviseActionPackage(record, ordered, operation.current?.signal, undefined, undefined, undefined, staged);
+    update(next);
     if (added) {
       setSigned(false);
       setActiveMemberId(added.id);
-      setWorkspaceSection('documents');
+      if (scopedAdd) {
+        setAddFor(undefined);
+        setWorkspaceSection('overview');
+        setDestination({ packageId: next.id, revisionId: next.currentRevisionId, section: 'overview', panel: 'requirements',
+          requirementId: scopedAdd.id, addedEvidenceId: added.id, requestId: ++destinationSequence.current });
+      } else setWorkspaceSection('documents');
     }
+    didSave?.(next);
   }
   async function addBlankDocument(type: string, label: string, memberRole: PackageMember['role']) {
     if (!revision) return;
@@ -802,9 +815,12 @@ function PackageDialog({
       if (active.current) focusPackageDestination(dialogRoot.current, 'data-package-panel', 'citation-reorder');
     });
   }
+  function rememberPreviousOrder(next: ActionPackage) {
+    if (revision) setPreviousOrder({ packageId: next.id, revisionId: next.currentRevisionId, memberIds: revision.members.map(member => member.id) });
+  }
   async function reorderMembers(members: PackageMember[]) {
     if (revision?.citations) await prepareCitationReorder({ kind: "members", order: members.map(member => member.id) });
-    else await modify(members);
+    else await modify(members, undefined, rememberPreviousOrder);
   }
   async function review(mode: typeof reviewMode) {
     if (!record || !revision) return;
@@ -957,6 +973,18 @@ function PackageDialog({
 
   }
   const comparedSource = comparison?.source;
+  const packageSearch = readRecord && revision && <details data-package-find className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">{workspaceSection === 'documents' ? 'Find in package' : 'Search captured package'}</summary>
+          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening captured package search…</p>}>
+            <PackageSearchPanel record={readRecord} revision={revision} disabled={pendingPackageEdits} busy={busy} run={run} onNavigate={target => {
+                const details = documentsRef.current?.querySelector<HTMLDetailsElement>('[data-package-find]');
+                if (details) details.open = false;
+                followDestination(target);
+              }}
+              delivery={deliverySearch?.owner === selectionOwner ? deliverySearch.scope : undefined}
+              signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>;
   return <>
     <Dialog open onOpenChange={value => { if (!value) close(); }}>
       <DialogContent fullscreen showCloseButton={false} ref={dialogRoot}
@@ -1177,6 +1205,12 @@ function PackageDialog({
                   {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <details open={requirementsDirty || destination?.panel === 'requirements' && destination.revisionId === revision.id}><summary className="cursor-pointer text-sm">Requirements</summary><div className="mt-4"><Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
           <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || intakeDirty || informationDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setRequirementsDirty}
+            onAddEvidence={editable && !pendingPackageEdits ? (id, label) => {
+              navigate('documents');
+              setRole('supporting-document');
+              setAddFor({ id, label, revisionId: revision.id, packageId: record.id });
+              requestAnimationFrame(() => documentsRef.current?.querySelector<HTMLInputElement>('[aria-label="Search documents to add"]')?.focus());
+            } : undefined}
             destination={destination}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense></div></details>}
@@ -1213,14 +1247,7 @@ function PackageDialog({
               onNavigate={followDestination} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
-          <summary className="cursor-pointer text-sm font-medium">Search captured package</summary>
-          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening captured package search…</p>}>
-            <PackageSearchPanel record={readRecord} revision={revision} disabled={pendingPackageEdits} busy={busy} run={run} onNavigate={followDestination}
-              delivery={deliverySearch?.owner === selectionOwner ? deliverySearch.scope : undefined}
-              signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-          </Suspense></div>
-        </details>}
+{workspaceSection === 'overview' && packageSearch}
                     {record && revision && <fieldset disabled={busy || pendingPackageEdits} className="space-y-4"><legend className="mb-4 text-sm font-medium">Package settings</legend><Button variant="outline" disabled={!!openedReview} onClick={() => setShareOpen(true)}>Share encrypted package</Button>
 <div className="flex flex-wrap gap-2">
                 <Button
@@ -1336,7 +1363,8 @@ function PackageDialog({
                         }) : undefined}
                         onCompleteDetails={editable ? intakeQuestion => followDestination({ section: 'documents', panel: 'intake', intakeQuestion }) : undefined} />}
                     <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
-              <details data-add-package-document key={record.id + revision.members.length} hidden={!editable} open={!revision.members.length && !revision.templateState || undefined}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
+{workspaceSection === 'documents' && packageSearch}
+              <details data-add-package-document key={record.id + revision.members.length} hidden={!editable} open={!!scopedAdd || !revision.members.length && !revision.templateState || undefined}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
                 <div className="space-y-2 rounded border p-3">
                   <label className="block text-sm">
                     New member role
@@ -1354,6 +1382,8 @@ function PackageDialog({
                       ))}
                     </select>
                   </label>
+                  {scopedAdd && <div className="flex items-center gap-2 text-sm"><span>Adding evidence for {scopedAdd.label}</span>
+                    <Button variant="link" size="sm" onClick={() => { setAddFor(undefined); followDestination({ panel: 'requirements', requirementId: scopedAdd.id }); }}>Cancel</Button></div>}
                   <PackageDocumentPicker docs={docs} currentId={currentId}
                     onCorrespondence={(type, label) => void run(() => addBlankDocument(type, label, !explicitRole && type === 'coordination_page' ? 'coordination-sheet' : role))}
                     onForm={(id, label) => void run(async () => { const member = await createOfficialFormMember(id, role, label); await modify([...revision.members, member]); })}
@@ -1370,7 +1400,7 @@ function PackageDialog({
                       Add original PDF
                       <input
                         aria-label="Add original PDF"
-                        type="file" multiple
+                        type="file" multiple={!scopedAdd}
                         accept="application/pdf,.pdf"
                         className="sr-only"
                         onChange={event => {
@@ -1394,8 +1424,16 @@ function PackageDialog({
                   </>} />
                 </div>
               )}</div></details>
+              {editable && previousOrder?.packageId === record.id && previousOrder.revisionId === revision.id && <Button variant="link" size="sm" disabled={busy || pendingPackageEdits} onClick={() => {
+                const byId = new Map(revision.members.map(member => [member.id, member]));
+                const restored = previousOrder.memberIds.map(id => byId.get(id)!);
+                void run(async () => {
+                  if (revision.citations) await prepareCitationReorder({ kind: 'members', order: previousOrder.memberIds });
+                  else { await modify(restored); setPreviousOrder(undefined); }
+                });
+              }}>Undo document reorder</Button>}
               <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
-              <PackageMemberNavigation revision={revision} members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} onSelect={inspectMember}
+              <PackageMemberNavigation history={readRecord?.revisions} revision={revision} members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} onSelect={inspectMember}
                 onMove={editable && !revision.templateState && !pendingPackageEdits ? (from, to, keyboard) => {
                   const members = [...revision.members];
                   const start = members.findIndex(member => member.id === from), end = members.findIndex(member => member.id === to);
@@ -1754,7 +1792,15 @@ function PackageDialog({
                 onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
 <PackageCitationReorder key={`reorder-${record.id}:${revision.id}:${record.sequence}`} record={record} revision={revision} editable={editable} prepared={citationReorder}
                 onPrepare={value => void run(() => prepareCitationReorder(value))} onDiscard={() => setCitationReorder(null)}
-                onChange={action => void run(async () => update(await action(operation.current?.signal)))} /></div></details>
+                onChange={action => void run(async () => {
+                  const next = await action(operation.current?.signal);
+                  if (citationReorder?.kind === 'members') {
+                    const ordered = getPackageRevision(next).members;
+                    if (previousOrder?.revisionId === revision.id && previousOrder.memberIds.every((id, index) => ordered[index]?.id === id)) setPreviousOrder(undefined);
+                    else rememberPreviousOrder(next);
+                  }
+                  update(next);
+                })} /></div></details>
                   </fieldset>
                   <fieldset hidden={workspaceSection !== 'delivery'} disabled={busy || pendingPackageEdits && !signingDirty && !assemblyDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Export</h2>

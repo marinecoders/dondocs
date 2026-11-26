@@ -25,3 +25,14 @@ it('shows user-declared signing status and routes an original member without imp
   await userEvent.setup().click(button);
   expect(select).toHaveBeenCalledWith('original');
 });
+
+it('keeps the copy number when identical documents are reordered', () => {
+  const original = { id: 'first', revisionId: 'one', kind: 'original' as const, label: 'Statement', role: 'enclosure' as const, required: true, signedOriginal: false,
+    original: { id: 'file', name: 'blank.pdf', type: 'application/pdf' as const, size: 1, sha256: '0'.repeat(64) } };
+  const duplicate = { ...original, id: 'second', revisionId: 'two' };
+  const baseline = { id: 'baseline', createdAt: 1, members: [original, duplicate], outputs: [] };
+  const revision = { ...baseline, id: 'reordered', members: [duplicate, original] };
+  render(<PackageMemberNavigation revision={revision} history={[baseline, revision]} members={revision.members} disabled={false} onSelect={vi.fn()} />);
+  expect(screen.getByRole('button', { name: /1\. Statement · Copy 2/ })).toBeVisible();
+  expect(screen.getByRole('button', { name: /2\. Statement · Copy 1/ })).toBeVisible();
+});
