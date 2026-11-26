@@ -134,6 +134,9 @@ it('only links to a visible question that can decide membership for the correct 
   expect(nextMembershipQuestion(value, input, members)?.questionId).toBe('where');
   input.values.where = 'HQ';
   expect(nextMembershipQuestion(value, input, members)).toEqual({ questionId: 'person_name', scope: { groupId: 'people', participantId: 'two' } });
+  delete input.groups.people[0].answers.person_name;
+  expect(nextMembershipQuestion(value, input, members, 'two')?.scope?.participantId).toBe('two');
+  input.groups.people[0].answers.person_name = 'Training';
   input.groups.people[1].answers.person_name = 'Other';
   expect(nextMembershipQuestion(value, input, members)).toBeUndefined();
   delete input.values.where;

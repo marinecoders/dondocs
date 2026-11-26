@@ -164,7 +164,7 @@ function evaluator(program: PackageTemplateProgram, answers: PackageTemplateAnsw
 }
 /** Find a question the user can answer to decide an unresolved member condition. */
 export function nextMembershipQuestion(program: PackageTemplateProgram, answers: PackageTemplateAnswers,
-  members: readonly { when?: PackageTemplateCondition; repeatGroupId?: string }[]): Pick<PackageTemplateQuestionInstance, 'questionId' | 'scope'> | undefined {
+  members: readonly { when?: PackageTemplateCondition; repeatGroupId?: string }[], participantId?: string): Pick<PackageTemplateQuestionInstance, 'questionId' | 'scope'> | undefined {
   const runtime = evaluator(program, answers);
   function unresolved(rule: PackageTemplateCondition, scope?: PackageTemplateScope): ReturnType<typeof nextMembershipQuestion> {
     if (runtime.condition(rule, scope) !== 'unknown') return;
@@ -187,6 +187,7 @@ export function nextMembershipQuestion(program: PackageTemplateProgram, answers:
     const group = member.repeatGroupId;
     const scopes = group ? (answers.groups[group] ?? []).map(person => ({ groupId: group, participantId: person.id })) : [undefined];
     for (const scope of scopes) {
+      if (participantId && scope?.participantId !== participantId) continue;
       const next = unresolved(member.when, scope);
       if (next) return next;
     }

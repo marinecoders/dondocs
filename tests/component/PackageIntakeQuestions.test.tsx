@@ -30,12 +30,12 @@ it('focuses the first question when no other field is being edited', () => {
   expect(screen.getByRole('textbox', { name: 'Subject' })).toHaveFocus();
 });
 
-it('retains typed package-name input when loading changes intake from disabled to enabled', async () => {
+it.each([undefined, JSON.stringify(['subject', null, null])])('retains keyboard focus during recovery with target %s', async focusQuestion => {
   const user = userEvent.setup();
   const answers = freshPackageTemplateAnswers(program);
   const content = (disabled: boolean) => <>
     <label>Package name<input defaultValue="Current action" /></label>
-    <PackageIntakeQuestions program={program} answers={answers} disabled={disabled} focusFirst onChange={() => undefined} />
+    <PackageIntakeQuestions program={program} answers={answers} disabled={disabled} focusFirst focusQuestion={focusQuestion} onChange={() => undefined} />
   </>;
   const view = render(content(true));
   const name = screen.getByRole('textbox', { name: 'Package name' });

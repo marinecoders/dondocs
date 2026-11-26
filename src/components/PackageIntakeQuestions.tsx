@@ -21,7 +21,7 @@ export function PackageIntakeQuestions({ program, answers, disabled, busy = fals
   const validationPrefix = useId();
   const { evaluation, questions, invalidLabels } = useMemo(() => intakeQuestions(program, answers), [program, answers]);
   const [showAnswered, setShowAnswered] = useState(showAll), [search, setSearch] = useState(''), [page, setPage] = useState(() => {
-    const index = questions.filter(item => item.instance.visibility === true).findIndex(item => item.key === focusQuestion);
+    const index = questions.filter(item => item.instance.visibility === true && (showAll || !item.instance.answered || !item.instance.valid)).findIndex(item => item.key === focusQuestion);
     return Math.max(0, Math.floor(index / 25));
   });
   const [presented, setPresented] = useState(() => new Set<string>());
@@ -33,7 +33,7 @@ export function PackageIntakeQuestions({ program, answers, disabled, busy = fals
     // Recovery can enable these fields after the user has started editing the
     // package name. Do not redirect their next keystroke into a question.
     const active = first.current.ownerDocument.activeElement;
-    if (!focusQuestion && active?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+    if (active?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
       focused.current = true;
       return;
     }
