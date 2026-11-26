@@ -30,7 +30,7 @@ async function withBridge(mode: 'native' | 'synthetic', work: (pairing: string, 
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
-  await page.goto('/');
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
 });
 
 async function openForm(page: Page, pdf: string) {
@@ -83,8 +83,8 @@ test('countersigns the UPB while retaining the first signature and its field loc
   await withBridge('synthetic', async code => {
     await openForm(page, 'public/templates/NAVMC10132 - Unit Punishment Book/original.pdf');
     const panel = await pair(page, code);
-    const field = panel.getByLabel('Signature field', { exact: true });
-    await expect(field.getByRole('option')).toHaveCount(7);
+    const field = panel.getByRole('combobox', { name: 'Signature field', exact: true });
+    await expect(panel.getByRole('listitem').filter({ hasText: 'Available' })).toHaveCount(7);
     for (const name of ['9 NJP AUTHORITY SIGNATURE', '11 APPEAL ADVISEMENT SIGNATURE']) {
       await field.selectOption(name);
       await panel.getByLabel('I reviewed the exact PDF and selected signature field.').check();
@@ -107,7 +107,7 @@ test('signs the selected correspondence draft through its download menu', async 
     await page.getByRole('button', { name: 'Download', exact: true }).click();
     await page.getByRole('menuitem', { name: 'Sign correspondence with CAC', exact: true }).click();
     const panel = await pair(page, code);
-    await expect(panel.getByLabel('Signature field', { exact: true })).toHaveValue('Signing_authority');
+    await expect(panel.getByRole('combobox', { name: 'Signature field', exact: true })).toHaveValue('Signing_authority');
     await panel.getByLabel('I reviewed the exact PDF and selected signature field.').check();
     await panel.getByRole('button', { name: 'Sign with CAC' }).click();
     await expect(panel.getByText('Signed · trusted chain', { exact: true })).toBeVisible();
