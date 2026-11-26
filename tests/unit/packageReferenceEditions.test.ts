@@ -48,3 +48,29 @@ it('keeps each JAGMAN original beside its editable editions and verifies their c
     }
   }
 });
+
+it('resolves a shared reference once and retains the rules and order of its two members', async () => {
+  const { resolveMaintainedRecipe } = await import('@/lib/maintainedPackageActions');
+  const { program } = await import('@/lib/packageRecipeMembers');
+  const bytes = await readFile('public/templates/jagman/a-1-f/5800.7G-CH2/original.pdf');
+  const fetch = vi.fn(async () => new Response(new Uint8Array(bytes)));
+  vi.stubGlobal('fetch', fetch);
+  const reference = { id: 'jagman_a1f', edition: '5800.7G-CH2' };
+  const member = { kind: 'attachment', required: true, role: 'supporting-document', reference } as const;
+  const recipe = { kind: 'dondocs-package-template', version: 2, createdAt: 0, id: 'reference-test', name: 'Reference test', primaryMemberKey: 'first',
+    program: program([]), members: [
+      { ...member, key: 'first', label: 'First copy', completion: { reviewedScan: true as const } },
+      { ...member, key: 'second', label: 'Second copy' },
+    ] } as const;
+  const resolve = () => resolveMaintainedRecipe({ ...recipe, members: [...recipe.members] });
+  fetch.mockResolvedValueOnce(new Response('wrong edition'));
+  await expect(resolve()).rejects.toThrow('does not match');
+  const template = await resolve();
+  expect(fetch).toHaveBeenCalledTimes(2);
+  const [first, second] = template.members;
+  expect(template.members.map(item => item.key)).toEqual(['first', 'second']);
+  expect(first).not.toHaveProperty('reference');
+  expect(first.blankPdf).toEqual(second.blankPdf);
+  expect(first.completion).toEqual({ ...second.completion, reviewedScan: true });
+  expect(second.completion?.blankSha256).toMatch(/^[0-9a-f]{64}$/);
+});

@@ -36,6 +36,12 @@ export async function loadPackageFormDefinition(profile: Edition): Promise<FormD
 export async function packageFormFields(edition: { id: string; edition: string }) {
   const profile = officialEdition(edition.id, edition.edition);
   if (!profile) throw new Error('The requested form edition is unavailable.');
+  // Generated signature sheets publish their slot IDs directly on the pinned catalog entry.
+  const slots: Readonly<Record<string, string>> | undefined = profile.signatureFieldIds;
+  if (slots) return (id: string) => {
+    if (!Object.hasOwn(slots, id)) throw new Error('Unknown signature slot on ' + edition.id + ': ' + id);
+    return slots[id];
+  };
   const definition = await loadPackageFormDefinition(profile);
   return (id: string) => {
     const names = Object.hasOwn(definition.fields, id) && definition.fields[id].sourceIds;

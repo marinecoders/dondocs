@@ -8,6 +8,8 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { FormCatalogStatus } from './editor/FormCatalogStatus';
 
+const formsPageSize = 25;
+const formNumber = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
 const sources = ['Suggested', 'Forms', 'Correspondence', 'My documents', 'Upload'] as const;
 type Source = typeof sources[number];
 interface Choice {
@@ -24,6 +26,7 @@ interface Props {
 export function PackageDocumentPicker({ docs, currentId, onLibrary, onCorrespondence, onForm, upload }: Props) {
   const [source, setSource] = useState<Source>('Suggested');
   const [query, setQuery] = useState('');
+  const [visibleForms, setVisibleForms] = useState(formsPageSize);
   const catalog = useFormCatalog();
   const forms = new Map<string, Choice>();
   for (const form of packageOfficialForms) forms.set(form.id, {
@@ -45,27 +48,31 @@ export function PackageDocumentPicker({ docs, currentId, onLibrary, onCorrespond
     .map(({ meta }) => ({ id: meta.id, title: meta.title, detail: meta.id === currentId ? 'Open in editor' : DOC_TYPE_LABELS[meta.docType] ?? meta.docType,
       action: meta.id === currentId ? 'Capture current document' : 'Add ' + meta.title, select: () => onLibrary(meta.id) }));
   const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  const numberQuery = formNumber(query);
   const groups: [Source, Choice[]][] = [['Correspondence', correspondence], ['Forms', [...forms.values()]], ['My documents', library]];
   const results = groups.filter(([group]) => source === 'Suggested' || group === source).map(([group, choices]) => {
-    const matching = choices.filter(c => terms.every(term => [c.title, c.id, c.detail, c.search].join(' ').toLowerCase().includes(term)));
+    const matching = choices.filter(c => terms.every(term => [c.title, c.id, c.detail, c.search].join(' ').toLowerCase().includes(term)) ||
+      group === 'Forms' && !!numberQuery && [c.id, c.detail].some(id => formNumber(id) === numberQuery));
     const rows = source === 'Suggested' && !terms.length ? group === 'Correspondence' ? matching.filter(c => c.id === 'naval_letter' || c.id === 'coordination_page') : matching.slice(0, 3) : matching;
-    return { group, rows };
+    return { group, rows: group === 'Forms' ? rows.slice(0, visibleForms) : rows, moreForms: group === 'Forms' && rows.length > visibleForms };
   });
   return <div className="min-w-0 space-y-3">
     <div className="flex flex-wrap items-center gap-1" role="group" aria-label="Document source">{sources.map(item =>
       <Button key={item} size="sm" variant={item === source ? 'secondary' : 'ghost'} aria-pressed={item === source}
-        onClick={() => setSource(item)}>{item === 'Suggested' && query.trim() ? 'All results' : item}</Button>)}</div>
+        onClick={() => { setSource(item); setVisibleForms(formsPageSize); }}>{item === 'Suggested' && query.trim() ? 'All results' : item}</Button>)}</div>
     {source !== 'Upload' && <>
       <div className="relative"><Search aria-hidden className="pointer-events-none absolute left-3 top-2.5 size-4 text-muted-foreground" />
-        <Input type="search" className="pl-9" aria-label="Search documents to add" placeholder="Search by name or form number" value={query} onChange={e => setQuery(e.target.value)} /></div>
+        <Input type="search" className="pl-9" aria-label="Search documents to add" placeholder="Search by name or form number" value={query} onChange={e => { setQuery(e.target.value); setVisibleForms(formsPageSize); }} /></div>
       <div className="max-h-72 overflow-y-auto rounded-md border">
-        {results.map(({ group, rows }) => rows.length > 0 && <section key={group} aria-label={group} className="p-1">
+        {results.map(({ group, rows, moreForms }) => rows.length > 0 && <section key={group} aria-label={group} className="p-1">
           <h3 className="px-2 pb-1 pt-2 text-xs font-medium text-muted-foreground">{group}</h3>
           {rows.map(row => <button type="button" key={row.id} aria-label={row.action} onClick={row.select}
             className="flex w-full items-center gap-3 rounded px-2 py-2 text-left text-sm hover:bg-accent focus-visible:outline-ring">
             {group === 'My documents' ? <Files aria-hidden className="size-4 shrink-0 text-muted-foreground" /> : <FilePlus2 aria-hidden className="size-4 shrink-0 text-muted-foreground" />}
             <span className="min-w-0 flex-1 break-words">{row.title}</span><span className="max-w-[40%] text-right text-xs text-muted-foreground">{row.detail}</span>
-          </button>)}</section>)}
+          </button>)}
+          {moreForms && <Button variant="ghost" size="sm" onClick={() => setVisibleForms(count => count + formsPageSize)}>Show more forms</Button>}
+        </section>)}
         {results.every(group => !group.rows.length) && <p role="status" className="p-4 text-sm text-muted-foreground">No matching documents.</p>}
         {(source === 'Forms' || source === 'Suggested') && <FormCatalogStatus />}
       </div>

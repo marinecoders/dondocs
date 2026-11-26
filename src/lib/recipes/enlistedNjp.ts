@@ -1,22 +1,22 @@
 import type { MaintainedRecipe } from '../maintainedPackageActions';
 import type { PackageTemplateCondition } from '../packageTemplateProgram';
 import { correspondenceMember, documentSource, documentSourceCondition, equals, program, question, receivedDocument } from '../packageRecipeMembers';
-import { loadPackageBlank } from '../packageBlankForms';
+import { packageFormFields } from '../packageFormFields';
 
 export async function enlistedNjp(): Promise<MaintainedRecipe> {
-  const [notice, guide, appealRights, adminAction, educationNotice, rightsStatement, reprimand] = await Promise.all([
-    loadPackageBlank('jagman_a1d', '5800.7G-CH2'),
-    loadPackageBlank('jagman_a1f', '5800.7G-CH2'),
-    loadPackageBlank('jagman_a1g', '5800.7G-CH2'),
-    loadPackageBlank('navmc_10274', '2020-07'),
-    loadPackageBlank('jagman_a1e', '5800.7G-CH2'),
-    loadPackageBlank('jagman_a1o', '5800.7G-CH2'),
-    loadPackageBlank('jagman_a1h', '5800.7G-CH2'),
-  ]);
   const upb = { id: 'navmc10132', edition: '2023-08' };
-  const election = '2 DEMAND';
+  const appendixEdition = '5800.7G-CH2';
+  const rights = { id: 'jagman_a1d', edition: '5800.7G-CH2.1' };
+  const education = { id: 'jagman_a1e', edition: '5800.7G-CH2.1' };
+  const appealNotice = { id: 'jagman_a1g', edition: '5800.7G-CH2.1' };
+  const signedLetter = { id: 'package_correspondence', edition: '1' };
+  const [upbField, rightsField, educationField, appealField, letterField] = await Promise.all([
+    packageFormFields(upb), packageFormFields(rights), packageFormFields(education),
+    packageFormFields(appealNotice), packageFormFields(signedLetter),
+  ]);
+  const election = upbField('2_demand');
   const demand = 'I demand trial and refuse non-judicial punishment.';
-  const refusalMarker = '2 ACC REFUSE TO SIGN';
+  const refusalMarker = upbField('2_acc_refuse_to_sign');
   const refused = equals('caseStage', 'refused');
   const refusedSignature: PackageTemplateCondition = { op: 'all', conditions: [refused, equals('refusedSignature', true)] };
   const imposed = equals('caseStage', 'punishment-imposed');
@@ -74,9 +74,9 @@ export async function enlistedNjp(): Promise<MaintainedRecipe> {
       { id: 'closed-without-award', label: 'UPB disposition', memberKey: 'upb', kind: 'document', operations: ['pdf'], when: equals('caseStage', 'closed-no-punishment'),
         completion: { deliveryBlockReason: 'No punishment was imposed. NAVMC 10132 item 6 directs destruction of the UPB. Do not deliver it or enter it in the Marine’s record.' } },
       { id: 'rights-election', label: 'Signed NJP election', memberKey: 'rights-notice', kind: 'document', operations: ['pdf'],
-        when: { op: 'not', condition: refusedSignature }, completion: { expectedForm: { id: 'jagman_a1d', edition: '5800.7G-CH2.1' }, signatureFields: ['Election_Marine', 'Election_witness'] } },
+        when: { op: 'not', condition: refusedSignature }, completion: { expectedForm: rights, signatureFields: [rightsField('Election_Marine'), rightsField('Election_witness')] } },
       { id: 'refusal', label: 'Signed UPB item 2 for referral', memberKey: 'upb', kind: 'document', operations: ['pdf'], when: refused,
-        completion: { expectedForm: upb, signatureFields: ['2 ACC ELECTION AND RIGHTS SIGNATURE'],
+        completion: { expectedForm: upb, signatureFields: [upbField('2_acc_election_and_rights_signature')],
           pdfSelections: [{ field: election, expected: [demand], initialize: true, label: 'Select refusal of NJP in UPB item 2 to match the saved case stage.' }] } },
       { id: 'refusal-marker', label: 'Refusal to sign recorded by the CO', memberKey: 'upb', kind: 'document', operations: ['pdf'], when: refusedSignature,
         completion: { expectedForm: upb, pdfSelections: [{ field: refusalMarker, expected: true, label: 'Mark the refusal to sign in UPB item 2.' }] } },
@@ -84,15 +84,15 @@ export async function enlistedNjp(): Promise<MaintainedRecipe> {
         when: { op: 'all', conditions: [refused, equals('refusedSignature', false)] },
         completion: { expectedForm: upb, pdfSelections: [{ field: refusalMarker, expected: false, label: 'Clear the refusal-to-sign box in UPB item 2 to match the saved answer.' }] } },
       { id: 'appeal-date', label: 'Date of appeal in UPB item 13', memberKey: 'upb', kind: 'document', operations: ['pdf'], when: appeal,
-        completion: { expectedForm: upb, requiredPdfFields: ['13 DATE OF APPEAL IF ANY_af_date'] } },
+        completion: { expectedForm: upb, requiredPdfFields: [upbField('13_date_of_appeal_if_any')] } },
       { id: 'upb-appeal-decision', label: 'Appeal authority decision in UPB item 14', memberKey: 'upb', kind: 'document', operations: ['pdf'], when: decided,
-        completion: { expectedForm: upb, signatureFields: ['14 APPEAL DECISION SIGNATURE'], requiredPdfFields: ['14 APPEAL DECISION', '14 APPEAL DECISION DATE_af_date'] } },
+        completion: { expectedForm: upb, signatureFields: [upbField('14_appeal_decision_signature')], requiredPdfFields: [upbField('14_appeal_decision'), upbField('14_appeal_decision_date')] } },
       { id: 'upb-authority', label: 'UPB punishment and rights acknowledgments', memberKey: 'upb', kind: 'document', operations: ['pdf'], when: imposed,
         completion: { expectedForm: upb, pdfSelections: [{ field: election, expected: [
             'I do not demand trial and will accept non-judicial punishment, subject to my right of appeal.',
           ], label: 'Review UPB item 2. Its election must agree with the punishment-imposed case stage.' }],
-          requiredPdfFields: ['6 PUNISHMENT IMPOSED', '6 PUNISHMENT IMPOSITION DATE'],
-          signatureFields: ['2 ACC ELECTION AND RIGHTS SIGNATURE', '3 RIGHTS ATTEST SIGNATURE', '9 NJP AUTHORITY SIGNATURE', '11 APPEAL ADVISEMENT SIGNATURE', '12 APPEAL INTENT SIGNATURE'] } },
+          requiredPdfFields: [upbField('6_punishment_imposed'), upbField('6_punishment_imposition_date')],
+          signatureFields: [upbField('2_acc_election_and_rights_signature'), upbField('3_rights_attest_signature'), upbField('9_njp_authority_signature'), upbField('11_appeal_advisement_signature'), upbField('12_appeal_intent_signature')] } },
       { id: 'legal-review', label: 'Confirm applicable legal review', kind: 'confirmation', operations: ['review'] },
       { id: 'appeal-enclosures', label: 'Check the appeal enclosures against all applicable Page 11 entries and allied papers', kind: 'confirmation', operations: ['review', 'pdf'], when: appeal },
       { id: 'appeal-notified', label: 'Confirm delivery of the appeal decision to the Marine and completion of UPB item 15', kind: 'confirmation', operations: ['review'], when: decided },
@@ -100,17 +100,17 @@ export async function enlistedNjp(): Promise<MaintainedRecipe> {
       { id: 'victim-notice', label: 'Confirm DD Form 2701 issuance in the victim and witness workflow', kind: 'confirmation', operations: ['review'], when: equals('victimNotice', true) },
     ] }),
     members: [
-      { key: 'upb', kind: 'official-form', formId: 'navmc10132', completion: { expectedForm: upb, requiredPdfFields: ['18 ACCUSED FULL NAME'] }, facts: { '2_acc_refuse_to_sign': 'refusedSignature', '18_accused_full_name': 'marineName', '17_unit': 'unit', '19_accused_rank_grade': 'grade', '20_accused_edipi': 'edipi', '1a_summary': 'allegations' }, role: 'supporting-document', required: true },
-      { key: 'rights-notice', kind: 'official-form', formId: 'jagman_a1d', facts: { marine: 'marineName', accused_name: 'marineName', unit: 'unit', allegation: 'allegations', evidence: 'evidenceIndex' }, ...notice, completion: { ...notice.completion, expectedForm: { id: 'jagman_a1d', edition: '5800.7G-CH2.1' } }, role: 'supporting-document', required: true },
-      { key: 'education-notice', kind: 'official-form', formId: 'jagman_a1e', ...educationNotice, completion: { ...educationNotice.completion, expectedForm: { id: 'jagman_a1e', edition: '5800.7G-CH2.1' }, signatureFields: ['Education_Marine', 'Education_witness'] }, role: 'supporting-document', required: true, when: selected('educationNotice') },
-      { key: 'suspect-statement', kind: 'official-form', formId: 'jagman_a1o', facts: { marine: 'marineName', unit: 'unit', allegation: 'allegations' }, ...rightsStatement, completion: { ...rightsStatement.completion, expectedForm: { id: 'jagman_a1o', edition: '5800.7G-CH2.1' } }, role: 'supporting-document', required: true, when: selected('suspectStatement') },
+      { key: 'upb', kind: 'official-form', formId: 'navmc10132', completion: { expectedForm: upb, requiredPdfFields: [upbField('18_accused_full_name')] }, facts: { '2_acc_refuse_to_sign': 'refusedSignature', '18_accused_full_name': 'marineName', '17_unit': 'unit', '19_accused_rank_grade': 'grade', '20_accused_edipi': 'edipi', '1a_summary': 'allegations' }, role: 'supporting-document', required: true },
+      { key: 'rights-notice', kind: 'official-form', formId: 'jagman_a1d', facts: { marine: 'marineName', accused_name: 'marineName', unit: 'unit', allegation: 'allegations', evidence: 'evidenceIndex' }, reference: { id: 'jagman_a1d', edition: appendixEdition }, completion: { expectedForm: rights }, role: 'supporting-document', required: true },
+      { key: 'education-notice', kind: 'official-form', formId: 'jagman_a1e', reference: { id: 'jagman_a1e', edition: appendixEdition }, completion: { expectedForm: education, signatureFields: [educationField('Education_Marine'), educationField('Education_witness')] }, role: 'supporting-document', required: true, when: selected('educationNotice') },
+      { key: 'suspect-statement', kind: 'official-form', formId: 'jagman_a1o', facts: { marine: 'marineName', unit: 'unit', allegation: 'allegations' }, reference: { id: 'jagman_a1o', edition: appendixEdition }, completion: { expectedForm: { id: 'jagman_a1o', edition: '5800.7G-CH2.1' } }, role: 'supporting-document', required: true, when: selected('suspectStatement') },
       { key: 'written-matters', kind: 'attachment', label: 'Written matters submitted by the Marine', role: 'supporting-document', required: true, when: receivedDocument('mattersSource') },
       await letter('draft-matters', 'Written matters from the Marine', writeMatters),
-      { key: 'proceedings', kind: 'attachment', ...guide, label: 'Summary of proceedings', role: 'supporting-document', required: true, when: documentSourceCondition(imposed, 'proceedingsSource', 'original') },
+      { key: 'proceedings', kind: 'attachment', reference: { id: 'jagman_a1f', edition: appendixEdition }, label: 'Summary of proceedings', role: 'supporting-document', required: true, when: documentSourceCondition(imposed, 'proceedingsSource', 'original') },
       await letter('draft-proceedings', 'Record of NJP proceedings', documentSourceCondition(imposed, 'proceedingsSource', 'draft')),
       { key: 'allied-papers', kind: 'attachment', label: 'Supporting evidence and allied papers', role: 'supporting-document', required: false },
-      { ...await letter('written-censure', 'Written punitive censure', { op: 'all', conditions: [imposed, selected('writtenCensure')] }), ...reprimand, completion: { ...reprimand.completion, writtenContent: true } },
-      { key: 'appeal-rights', kind: 'official-form', formId: 'jagman_a1g', facts: { marine: 'marineName', unit: 'unit', hearing: 'hearingDate', authority: 'appealAuthority' }, ...appealRights, completion: { ...appealRights.completion, expectedForm: { id: 'jagman_a1g', edition: '5800.7G-CH2.1' }, signatureFields: ['Appeal_Marine', 'Appeal_witness'] }, role: 'supporting-document', required: true, when: imposed },
+      { ...await letter('written-censure', 'Written punitive censure', { op: 'all', conditions: [imposed, selected('writtenCensure')] }), reference: { id: 'jagman_a1h', edition: appendixEdition }, completion: { writtenContent: true } },
+      { key: 'appeal-rights', kind: 'official-form', formId: 'jagman_a1g', facts: { marine: 'marineName', unit: 'unit', hearing: 'hearingDate', authority: 'appealAuthority' }, reference: { id: 'jagman_a1g', edition: appendixEdition }, completion: { expectedForm: appealNotice, signatureFields: [appealField('Appeal_Marine'), appealField('Appeal_witness')] }, role: 'supporting-document', required: true, when: imposed },
       { key: 'page-11', kind: 'official-form', formId: 'navmc_118_11', completion: { expectedForm: { id: 'navmc_118_11', edition: '2014-05' } }, facts: { edipi: 'edipi' }, role: 'supporting-document', required: true,
         when: documentSourceCondition(page11, 'page11Source', 'draft') },
       { key: 'received-page-11', kind: 'attachment', label: 'Applicable Page 11 entry', role: 'supporting-document', required: true, when: documentSourceCondition(page11, 'page11Source', 'original') },
@@ -120,10 +120,10 @@ export async function enlistedNjp(): Promise<MaintainedRecipe> {
       await letter('draft-endorsement', 'Forwarding endorsement on NJP appeal', documentSourceCondition(appeal, 'appealSource', 'draft'), 'new_page_endorsement'),
       { key: 'appeal-decision', kind: 'attachment', completion: { reviewedScan: true }, label: 'Signed appeal decision correspondence to the Marine', role: 'supporting-document', required: true, when: documentSourceCondition(decided, 'decisionSource', 'original') },
       { ...await letter('draft-decision', 'Decision on NJP appeal', documentSourceCondition(decided, 'decisionSource', 'draft')),
-        completion: { writtenContent: true, expectedForm: { id: 'package_correspondence', edition: '1' }, signatureFields: ['Signing_authority'] } },
+        completion: { writtenContent: true, expectedForm: signedLetter, signatureFields: [letterField('signing_authority')] } },
       { key: 'record-of-service', kind: 'attachment', label: 'Record of Service', role: 'supporting-document', required: true, when: recordOfService },
       { key: 'suspension', kind: 'attachment', label: 'Suspension or vacation documents', role: 'supporting-document', required: true, when: { op: 'all', conditions: [imposed, equals('includeSuspension', true)] } },
-      { key: 'admin-action', kind: 'official-form', formId: 'navmc_10274', ...adminAction, role: 'supporting-document', required: true, when: equals('adminAction', true) },
+      { key: 'admin-action', kind: 'official-form', formId: 'navmc_10274', reference: { id: 'navmc_10274', edition: '2020-07' }, role: 'supporting-document', required: true, when: equals('adminAction', true) },
     ],
   };
 }
