@@ -233,6 +233,7 @@ function PackageDialog({
   const dialogRoot = useRef<HTMLDivElement>(null), destinationOwner = useRef(''), destinationSequence = useRef(0);
   const [fieldReviewPackage, setFieldReviewPackage] = useState('');
   const [destination, setDestination] = useState<PackageDestinationRequest>();
+  const [guidesHost, setGuidesHost] = useState<HTMLDivElement | null>(null);
   const documentsRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
   const deliveryRef = useRef<HTMLDivElement>(null);
@@ -1281,7 +1282,7 @@ function PackageDialog({
                   <fieldset hidden={workspaceSection !== 'documents'} disabled={busy || pendingPackageEdits && !evidenceDirty && !scanDirty} className="package-workspace-page space-y-7">
                     <h2 className="text-base font-medium">Documents</h2>
                     {workspaceSection === 'documents' && record && revision?.templateState && !library &&
-                      <PackageRecipeDocuments key={revision.id} record={readRecord!} revisionId={revision.id}
+                      <PackageRecipeDocuments guidesHost={guidesHost} key={revision.id} record={readRecord!} revisionId={revision.id}
                         onIntakeSlot={editable ? intakeSlot => followDestination({ section: 'documents', panel: 'intake', intakeSlot }) : undefined}
                         onOpen={memberId => followDestination({ memberId })}
                         onAttach={editable ? (memberId, files, signed) => void run(async () => {
@@ -1637,6 +1638,7 @@ function PackageDialog({
                 })}
               </ol>
               </div>
+              <div ref={setGuidesHost} className="empty:hidden" />
               </div>
                     {comparison && comparedSource && (
                 <section className="space-y-3 rounded border p-3">
