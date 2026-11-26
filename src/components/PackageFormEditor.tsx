@@ -1,4 +1,4 @@
-import { packageDocumentName } from '@/lib/actionPackages';
+import { PackageDocumentSwitcher } from './PackageDocumentSwitcher';
 import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import { useEffect, useId, useRef, useState, type ComponentProps } from 'react';
@@ -96,6 +96,8 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-4 py-3">
         <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate(() => onFinishFinding ? onFinishFinding(false) : onNavigate())}><ArrowLeft />{onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
         <div className="min-w-0"><DialogTitle id={titleId}>{record.name}</DialogTitle><DialogDescription>Package form editor</DialogDescription></div>
+        <PackageDocumentSwitcher revision={revision} memberId={member.id} disabled={leaving}
+          onSelect={id => void navigate(() => onNavigate(id))} />
         {onFinishFinding && <Button size="sm" disabled={leaving} onClick={() => void navigate(() => onFinishFinding(true))}>Next item</Button>}
         <span className="ml-auto text-sm text-muted-foreground" role="status">{({ opening: 'Opening form…', saved: 'Saved to package', saving: 'Saving…', pending: 'Editing draft', error: 'Save needs attention' })[editor.phase]}</span>
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
@@ -113,11 +115,7 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
       </div>}
       <main className="grid min-h-0 flex-1 content-start gap-6 overflow-auto p-4 lg:grid-cols-[minmax(20rem,2fr)_minmax(0,3fr)] lg:content-stretch lg:overflow-hidden">
         <div className={(mobilePreview ? "hidden lg:block " : "") + "min-w-0 space-y-4 lg:overflow-y-auto lg:px-1"}>
-          <label className="block space-y-1 text-sm font-medium">{revision.members.some(m => m.kind !== 'native' || m.session.documentCategory !== 'forms') ? 'Package document' : 'Package form'}
-            <select className={selectClass} value={member.id} disabled={leaving} onChange={event => { const id = event.target.value; void navigate(() => onNavigate(id)); }}>
-              {revision.members.map((m, i) => <option key={m.id} value={m.id}>{i + 1}. {packageDocumentName(revision, m)}</option>)}
-            </select>
-          </label>
+
           <div className="text-sm">
             {sharedLabels.length > 0 && <p className="text-muted-foreground">Shared values: {sharedLabels.join(' · ')}</p>}
             <Button size="sm" variant="link" className="h-auto px-0" disabled={leaving}

@@ -1,4 +1,5 @@
 import { packageDocumentName } from '@/lib/actionPackages';
+import { PackageDocumentSwitcher } from './PackageDocumentSwitcher';
 import { PackageLinkedFieldTools } from './PackageLinkedFieldTools';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import { lazy, Suspense, useMemo, useLayoutEffect, useEffect, useRef, useState } from 'react';
@@ -140,9 +141,8 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
       <header className="flex flex-wrap items-center gap-3 border-b px-4 py-3">
         <Button variant="ghost" size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, onFinishFinding ? false : undefined)}><ArrowLeft />{onFinishFinding ? 'Back to Delivery' : 'Back to package'}</Button>
         <div><DialogTitle>{record.name}</DialogTitle><DialogDescription>{packageDocumentName(revision, member)}</DialogDescription></div>
-        <label className="text-sm">Package document<select aria-label="Package document" className="ml-2 max-w-full rounded-md border bg-background px-2 py-1.5" value={member.id} disabled={disabled || navigating} onChange={event => void navigate(event.target.value)}>
-          {revision.members.map((item, index) => <option key={item.id} value={item.id}>{index + 1}. {packageDocumentName(revision, item)}</option>)}
-        </select></label>
+        <PackageDocumentSwitcher revision={revision} memberId={member.id} disabled={disabled || navigating}
+          onSelect={id => void navigate(id)} />
         {onFinishFinding && <Button size="sm" disabled={disabled || navigating} onClick={() => void navigate(undefined, true)}>Next item</Button>}
         <span className="ml-auto text-sm text-muted-foreground" role="status">{{ saved: 'Saved to package', pending: 'Editing draft', saving: 'Saving…', error: 'Save needs attention' }[status]}</span>
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setShowPreview(!showPreview)}>{showPreview ? 'Show fields' : 'Show preview'}</Button>

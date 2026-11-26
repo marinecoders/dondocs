@@ -87,11 +87,14 @@ test('correspondence edits, previews and recovery stay with the selected package
   await page.goto('/');
   const workspace = await openPackageWorkspace(page);
   await newBlankPackage(workspace, 'Two letters');
-  await capturePackageDocument(workspace);
-  await capturePackageDocument(workspace);
+  for (const count of [1, 2]) {
+    await openAddDocuments(workspace);
+    await workspace.getByRole('button', { name: 'Add letter', exact: true }).click();
+    await expect(workspace.locator('li[id^="package-member-"]')).toHaveCount(count);
+  }
   await workspace.getByRole('button', { name: 'Edit document', exact: true }).click();
   const editor = page.getByRole('dialog', { name: 'Two letters', exact: true });
-  const picker = editor.getByRole('combobox', { name: 'Package document' });
+  const picker = editor.locator('header').getByRole('combobox', { name: 'Package document' });
   const section = editor.getByLabel('Document section', { exact: true });
   const subject = editor.getByRole('textbox', { name: 'Subject', exact: true });
   await expect(picker.locator('option')).toHaveCount(2);
@@ -146,7 +149,7 @@ test('two Unit Punishment Books retain independent answers, previews and recover
   await expect(workspace.locator('li[id^="package-member-"]')).toHaveCount(2);
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
   const editor = page.getByRole('dialog', { name: 'Two form test', exact: true });
-  const picker = editor.getByRole('combobox', { name: 'Package form', exact: true });
+  const picker = editor.locator('header').getByRole('combobox', { name: 'Package document', exact: true });
   const section = editor.getByRole('combobox', { name: 'Form section', exact: true });
   await expect(picker.locator('option')).toHaveCount(2);
   const [first, second] = await picker.locator('option').evaluateAll(opts => opts.map(o => (o as HTMLOptionElement).value));
@@ -267,7 +270,7 @@ test('administrative action forms edit and recover inside the package', async ({
   await capturePackageDocument(workspace);
   await workspace.getByRole('button', { name: 'Edit document', exact: true }).click();
   const editor = page.getByRole('dialog', { name: 'Two action forms', exact: true });
-  const picker = editor.getByRole('combobox', { name: 'Package document' });
+  const picker = editor.locator('header').getByRole('combobox', { name: 'Package document' });
   const action = editor.locator('#actionNo');
   const first = await picker.inputValue();
   const other = await picker.locator('option').evaluateAll(options =>
