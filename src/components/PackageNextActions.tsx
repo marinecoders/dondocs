@@ -5,6 +5,14 @@ import type { PackageNextActions as Findings } from '@/lib/packageNextActions';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import { Button } from './ui/button';
 
+export function AffectedPackageDocuments({ documents }: { documents?: readonly string[] }) {
+  if (!documents?.length) return null;
+  return <details className="mt-1 text-xs text-muted-foreground">
+    <summary className="cursor-pointer">Affects {documents.length} document{documents.length === 1 ? '' : 's'}</summary>
+    <ul>{documents.map((label, index) => <li key={index}>{label}</li>)}</ul>
+  </details>;
+}
+
 export function DocumentPdfChecks({ actions, onNavigate, disabled, editable, inline = false }: {
   inline?: boolean; actions: Findings['actions']; onNavigate(destination: PackageDestination): void; disabled: boolean; editable: boolean;
 }) {
@@ -37,9 +45,9 @@ export function PackageNextActions({ record, revision, checks, disabled, quiet =
     {reviewBaseline && result?.readyForOperation && <p className="text-sm text-muted-foreground">Return to the current package to prepare a new PDF. Saved PDFs remain available in Delivery.</p>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {blockers.slice(0, expanded ? undefined : 3).map(action => <div key={action.id} className="flex items-start justify-between gap-6 text-sm">
-      <p className="min-w-0 break-words">{action.destination?.memberId && revision.documentNames?.[action.destination.memberId] && <strong className="mr-1 font-medium">{revision.documentNames[action.destination.memberId]}:</strong>}{action.message}</p>
+      <div className="min-w-0 break-words"><p>{action.destination?.memberId && revision.documentNames?.[action.destination.memberId] && <strong className="mr-1 font-medium">{revision.documentNames[action.destination.memberId]}:</strong>}{action.message}</p><AffectedPackageDocuments documents={action.affectedDocuments} /></div>
       {action.destination && <Button variant="link" size="sm" className="h-auto shrink-0 p-0" disabled={disabled}
-        onClick={() => onNavigate(action.destination!)}>{!reviewBaseline && !record.archived && record.currentRevisionId === revision.id && action.destination.correction ? action.destination.correction.label : action.destination.section === 'documents' ? 'Open document' : 'Open details'}</Button>}
+        onClick={() => onNavigate(action.destination!)}>{!reviewBaseline && !record.archived && record.currentRevisionId === revision.id && action.destination.correction ? action.destination.correction.label : action.destination.intakeQuestion ? 'Answer question' : action.destination.section === 'documents' ? 'Open document' : 'Open details'}</Button>}
     </div>)}
     {blockers.length > 3 && <Button variant="link" className="h-auto p-0 text-xs" onClick={() => setExpanded(value => !value)}>{expanded ? 'Show fewer' : `Show ${blockers.length - 3} more`}</Button>}
   </section>;

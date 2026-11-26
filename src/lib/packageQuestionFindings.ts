@@ -30,3 +30,30 @@ export function packageQuestionFindings(template: PackageTemplateV2, revision: P
   }
   return byId;
 }
+
+export interface IntakeReviewBlocker {
+  label: string;
+  questionKey?: string;
+  slotKey?: string;
+  documents: string[];
+}
+
+/** Preserve every blocking finding; only merge slots that share an exact scoped answer. */
+export function groupIntakeReviewBlockers(revision: PackageRevision, questions: ReadonlyMap<string, PackageQuestionFinding>,
+  findings: readonly { message: string; memberId?: string }[]): IntakeReviewBlocker[] {
+  const slots = new Map(revision.templateState?.instances.map(slot => [slot.memberId, slot]));
+  const groups = new Map<string, IntakeReviewBlocker>();
+  for (const [index, finding] of findings.entries()) {
+    const question = finding.memberId && questions.get(finding.memberId);
+    const slot = finding.memberId && slots.get(finding.memberId);
+    if (question && slot) {
+      const key = 'question:' + question.key;
+      const group = groups.get(key) ?? { label: question.label, questionKey: question.key, documents: [] };
+      group.documents.push(revision.documentNames?.[slot.memberId] ?? slot.label);
+      groups.set(key, group);
+    } else {
+      groups.set('finding:' + index, { label: finding.message, slotKey: slot ? slot.key : undefined, documents: [] });
+    }
+  }
+  return [...groups.values()];
+}

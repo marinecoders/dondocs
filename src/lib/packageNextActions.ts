@@ -1,7 +1,7 @@
 import { actionPackageSchema, getPackageRevision, type ActionPackage } from './actionPackages';
 import { packageCorrectionKey } from './packageDestinations';
 import { inspectPackageRequirements } from './packageRequirements';
-import { packageQuestionFindings, type PackageQuestionFinding } from './packageQuestionFindings';
+import { groupIntakeReviewBlockers, packageQuestionFindings, type PackageQuestionFinding } from './packageQuestionFindings';
 import { conditionalMembershipFindings, loadConditionalPackageSource } from './packageConditionalSources';
 import { packageBindingReadiness } from './packageFieldBindings';
 import { packageCitationReadiness } from './packageCitationRepair';
@@ -24,6 +24,7 @@ export interface PackageNextAction {
   message: string;
   blocking: boolean;
   destination?: PackageWorkDestination;
+  affectedDocuments?: string[];
   taskId?: string;
   overdue?: boolean;
 }
@@ -79,11 +80,14 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
   try {
     const source = revision.templateState && await loadConditionalPackageSource(revision);
     const questions = source ? packageQuestionFindings(source.template, revision) : new Map<string, PackageQuestionFinding>();
+    const membership = conditionalMembershipFindings(revision);
+    const affected = new Map(groupIntakeReviewBlockers(revision, questions, membership)
+      .filter(item => item.questionKey).map(item => [item.questionKey, item.documents]));
     const ask = (question: PackageQuestionFinding, blocking: boolean) => add({
-      id: 'question-' + question.key, kind: 'intake', label: 'Answer question', message: question.label, blocking,
+      id: 'question-' + question.key, kind: 'intake', label: 'Answer question', message: question.label, blocking, affectedDocuments: affected.get(question.key),
       destination: { section: 'documents', panel: 'intake', intakeQuestion: question.key },
     });
-    for (const [index, finding] of conditionalMembershipFindings(revision).entries()) {
+    for (const [index, finding] of membership.entries()) {
       const question = questions.get(finding.memberId ?? '');
       if (question) { ask(question, operation !== 'portable'); continue; }
       const slot = revision.templateState?.instances.find(item => item.memberId === finding.memberId);
