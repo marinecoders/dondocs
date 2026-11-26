@@ -1,3 +1,4 @@
+import { packageQuestionFindings, type PackageQuestionFinding } from './packageQuestionFindings';
 import { canLeadRecipeEndorsements, endorsementLinkIssue, packageEndorsementRoutes } from './packageEndorsements';
 import { ENDORSEMENT_ORDINALS } from './appendedEndorsement';
 import { officialEdition } from '@/services/forms/nativeCatalog';
@@ -95,6 +96,7 @@ import { capturePackageRenderProvenance } from "./packageRenderProvenance";
 import type { PackageOutput, PackageRevision } from "./actionPackages";
 
 export interface PackageFinding {
+  question?: PackageQuestionFinding;
   signatureLabels?: Record<string, string>;
   correction?: import('./packageDestinations').PackageCorrection;
   memberId?: string;
@@ -214,11 +216,15 @@ export async function preparePackageAssembly(
   const error = (message: string, memberId?: string) =>
     findings.push({ message, memberId, severity: "error" });
   if (policy.status !== "ready") error(policy.message);
+  let questions = new Map<string, PackageQuestionFinding>();
   if (revision.templateState) {
-    const { reviewConditionalPackage, conditionalMembershipFindings } = await import('./packageConditionalSources');
-    try { for (const review of await reviewConditionalPackage(revision, policy, read)) reviews.push({ member: 'Captured action intake and template', review }); }
+    const { reviewConditionalPackage, conditionalMembershipFindings, loadConditionalPackageSource } = await import('./packageConditionalSources');
+    try {
+      const source = await loadConditionalPackageSource(revision, read);
+      if (source) questions = packageQuestionFindings(source.template, revision);
+      for (const review of await reviewConditionalPackage(revision, policy, read)) reviews.push({ member: 'Captured action intake and template', review }); }
     catch (cause) { error(cause instanceof Error ? cause.message : 'The captured action template could not be reviewed.'); }
-    findings.push(...conditionalMembershipFindings(revision).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? 'warning' as const : 'error' as const })));
+    findings.push(...conditionalMembershipFindings(revision).map(finding => ({ ...finding, question: questions.get(finding.memberId ?? ''), severity: options.includeRetainedDraftText ? 'warning' as const : 'error' as const })));
   }
   if (revision.information) {
     try { reviews.push({ member: "Package information", review: reviewPackageInformation(revision.information, policy) }); }
@@ -271,10 +277,12 @@ export async function preparePackageAssembly(
     findings.push({ message: `${finding.label}: ${finding.message}`, memberId: finding.destinations.find(target => target.memberId)?.memberId,
       severity: purpose === 'portable' || !finding.required ? 'warning' : 'error' });
   for (const item of requirements.items) if (["missing", "unknown", "invalid"].includes(item.state)) {
-    if (item.state === 'invalid') error(`${item.label}: ${item.message}`, item.memberId);
+    const question = item.state === 'unknown' ? questions.get(item.id) : undefined;
+    if (question) findings.push({ question, message: question.label, severity: options.draftPdf ? 'warning' : 'error' });
+    else if (item.state === 'invalid') error(`${item.label}: ${item.message}`, item.memberId);
     else workflowFinding(`${item.label}: ${item.message}`, item.memberId, item.corrections?.[0], item.signatureLabels);
   }
-  findings.push(...(await packageBindingReadiness(revision)).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? "warning" as const : "error" as const })));
+  findings.push(...(await packageBindingReadiness(revision)).map(finding => ({ ...finding, question: questions.get(finding.memberId ?? ''), severity: options.includeRetainedDraftText ? "warning" as const : "error" as const })));
   const completeness = (message: string, memberId?: string) => findings.push({ message, memberId, severity: purpose === "portable" ? "warning" as const : "error" as const });
   if (!revision.members.length) completeness("Add a basic letter or main document before PDF assembly.");
   findings.push(...(await packageCitationReadiness(revision)).map(item => ({ ...item, severity: purpose === "portable" ? "warning" as const : item.severity })));

@@ -86,7 +86,7 @@ export function formatPackageFactForField(fact: PackageFact, field: PackageBindi
 }
 
 export type PackageBindingResolution = {
-  state: 'current' | 'changed' | 'missing' | 'unsupported' | 'override';
+  state: 'current' | 'changed' | 'missing' | 'unsupported' | 'override' | 'signed-original';
   binding: PackageFieldBinding;
   label: string;
   message: string;
@@ -99,7 +99,17 @@ export async function resolvePackageFieldBinding(revision: PackageRevision, inpu
   const base = { binding, label: binding.id };
   const member = revision.members.find(member => member.id === binding.memberId);
   if (!member) return { ...base, state: 'missing', message: 'The linked package member is missing. Detach or reconnect this field.' };
-  if (member.kind !== 'native') return { ...base, label: member.label, state: 'unsupported', message: 'Original PDFs do not support linked field edits.' };
+  if (member.kind !== 'native') {
+    const target = binding.target;
+    const formId = target.kind === 'configured-form' ? target.formId : target.kind === 'page11' ? 'navmc_118_11'
+      : target.kind === 'aa-form' ? 'navmc_10274' : 'package_correspondence';
+    if (member.kind === 'original' && member.signedOriginal && member.officialFormId === formId) {
+      if (!revision.information?.facts.some(fact => fact.id === binding.factId))
+        return { ...base, label: member.label, state: 'missing', message: 'The shared package value is missing. Review or detach its link.' };
+      return { ...base, label: member.label, state: 'signed-original', message: 'The signed original retains the field value from signing.' };
+    }
+    return { ...base, label: member.label, state: 'unsupported', message: 'Original PDFs do not support linked field edits.' };
+  }
   const target = await resolvePackageBindingTarget(member.session, binding.target);
   if (target.state !== 'current') return { ...base, label: member.label, ...target };
   const label = `${member.label}: ${target.field.label}`;
@@ -115,11 +125,12 @@ export async function resolvePackageFieldBinding(revision: PackageRevision, inpu
   return { ...result, state: 'current', message: 'This field matches the shared package value.' };
 }
 
-export async function packageBindingReadiness(revision: PackageRevision): Promise<Array<{ memberId: string; bindingId: string; severity: 'error'; message: string }>> {
+export async function packageBindingReadiness(revision: PackageRevision, memberId?: string): Promise<Array<{ memberId: string; bindingId: string; severity: 'error'; message: string }>> {
   const findings: Array<{ memberId: string; bindingId: string; severity: 'error'; message: string }> = [];
   for (const binding of revision.bindings?.items ?? []) {
+    if (memberId && binding.memberId !== memberId) continue;
     const result = await resolvePackageFieldBinding(revision, binding);
-    if (result.state !== 'current' && result.state !== 'override') findings.push({ memberId: binding.memberId,
+    if (result.state !== 'current' && result.state !== 'override' && result.state !== 'signed-original') findings.push({ memberId: binding.memberId,
       bindingId: binding.id, severity: 'error', message: `${result.label}: ${result.message}` });
   }
   return findings;

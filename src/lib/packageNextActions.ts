@@ -1,7 +1,8 @@
 import { actionPackageSchema, getPackageRevision, type ActionPackage } from './actionPackages';
 import { packageCorrectionKey } from './packageDestinations';
 import { inspectPackageRequirements } from './packageRequirements';
-import { conditionalMembershipFindings } from './packageConditionalSources';
+import { packageQuestionFindings, type PackageQuestionFinding } from './packageQuestionFindings';
+import { conditionalMembershipFindings, loadConditionalPackageSource } from './packageConditionalSources';
 import { packageBindingReadiness } from './packageFieldBindings';
 import { packageCitationReadiness } from './packageCitationRepair';
 import { packageReviewRoundStatus } from './packageReviewRounds';
@@ -69,28 +70,42 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
     if (actions.some(prior => prior.id === action.id)) return;
     const duplicate = actions.findIndex(prior => !['task', 'review', 'impact', 'delivery'].includes(prior.kind)
       && !['task', 'review', 'impact', 'delivery'].includes(action.kind)
+      && prior.destination?.intakeQuestion === action.destination?.intakeQuestion
       && prior.message === action.message && prior.destination?.memberId === action.destination?.memberId);
     if (duplicate < 0) actions.push(action);
     else if (actions[duplicate].kind === 'inspection' && action.kind !== 'inspection') actions[duplicate] = action;
   };
-  for (const [index, finding] of conditionalMembershipFindings(revision).entries()) add({
-    id: `intake-${index}`, kind: 'intake', label: 'Resolve saved intake', message: finding.message,
-    blocking: operation !== 'portable', destination: { section: 'overview', panel: 'intake', ...(finding.memberId ? { memberId: finding.memberId } : {}) },
-  });
   let readinessInspected = true;
   try {
+    const source = revision.templateState && await loadConditionalPackageSource(revision);
+    const questions = source ? packageQuestionFindings(source.template, revision) : new Map<string, PackageQuestionFinding>();
+    const ask = (question: PackageQuestionFinding, blocking: boolean) => add({
+      id: 'question-' + question.key, kind: 'intake', label: 'Answer question', message: question.label, blocking,
+      destination: { section: 'documents', panel: 'intake', intakeQuestion: question.key },
+    });
+    for (const [index, finding] of conditionalMembershipFindings(revision).entries()) {
+      const question = questions.get(finding.memberId ?? '');
+      if (question) { ask(question, operation !== 'portable'); continue; }
+      const slot = revision.templateState?.instances.find(item => item.memberId === finding.memberId);
+      add({ id: 'intake-' + index, kind: 'intake', label: 'Resolve saved intake', message: finding.message,
+        blocking: operation !== 'portable', destination: { section: 'overview', panel: 'intake', ...(slot && { intakeSlot: slot.key }) } });
+    }
     for (const finding of (await inspectPackageConsistency(revision, options.signal)).findings) if (['conflict', 'unresolved'].includes(finding.state)) add({
       id: `consistency-${finding.ruleId}`, kind: 'consistency', label: finding.label, message: `${finding.label}: ${finding.message}`,
       blocking: finding.required && operation !== 'portable',
       destination: { section: 'overview', panel: 'consistency', ...(finding.destinations.find(target => target.memberId) ?? finding.destinations[0]) },
     });
     const requirements = await inspectPackageRequirements(revision, operation, { signal: options.signal });
-    for (const finding of requirements.items) if (['missing', 'unknown', 'invalid'].includes(finding.state)) add({
+    for (const finding of requirements.items) if (['missing', 'unknown', 'invalid'].includes(finding.state)) {
+      const question = finding.state === 'unknown' && questions.get(finding.id);
+      if (question) { ask(question, true); continue; }
+      add({
       id: `requirement-${finding.id}`, kind: 'evidence', label: finding.label, message: `${finding.label}: ${finding.message}`, blocking: true,
       destination: finding.memberId && finding.corrections?.length ? { section: 'documents', memberId: finding.memberId, correction: finding.corrections[0] } : { section: 'overview', panel: 'requirements',
         ...(revision.requirements?.items.some(item => item.id === finding.id) ? { requirementId: finding.id } : {}),
         ...(finding.memberId ? { memberId: finding.memberId } : {}) },
     });
+    }
     for (const finding of await packageBindingReadiness(revision)) add({ id: `binding-${finding.bindingId}`, kind: 'field', label: 'Review a linked field',
       message: finding.message, blocking: operation === 'pdf', destination: { section: 'overview', panel: 'information', memberId: finding.memberId, bindingId: finding.bindingId } });
     for (const [index, finding] of (await packageCitationReadiness(revision)).entries()) if (finding.severity === 'error') add({
@@ -115,10 +130,13 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
       });
     } else {
       const assembly = await preparePackageAssembly(record, revision.id, policy, { signal: options.signal, includeRetainedDraftText: operation === 'portable' });
-      for (const [index, finding] of assembly.readiness.findings.entries()) if (finding.severity === 'error') add({
+      for (const [index, finding] of assembly.readiness.findings.entries()) if (finding.severity === 'error') {
+        if (finding.question) { ask(finding.question, true); continue; }
+        add({
         id: `readiness-${index}`, kind: 'inspection', label: 'Resolve a package check', message: finding.message, blocking: true,
         destination: { correction: finding.correction, section: finding.memberId ? 'documents' : 'delivery', ...(finding.memberId ? { memberId: finding.memberId } : {}) },
       });
+      }
     }
   } catch (cause) {
     options.signal?.throwIfAborted(); readinessInspected = false;

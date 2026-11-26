@@ -21,7 +21,7 @@ export function PackageDeliveryFindings({ revision, documents, findings, onNavig
   for (const item of findings) {
     const byDocument = item.memberId && members.has(item.memberId) && !item.fromIntake && !(item.state === 'unknown' && revision.templateState);
     const intakeSlot = item.memberId && slots.get(item.memberId);
-    const key = byDocument ? 'document:' + item.memberId
+    const key = item.question ? 'question:' + item.question.key : byDocument ? 'document:' + item.memberId
       : intakeSlot && !members.has(intakeSlot.memberId) ? 'slot:' + intakeSlot.key : 'item:' + item.id;
     const group = groups.get(key);
     if (group) group.push(item);
@@ -29,6 +29,11 @@ export function PackageDeliveryFindings({ revision, documents, findings, onNavig
   }
   return <ul aria-label="Items to resolve" className="divide-y">{Array.from(groups, ([key, items]) => {
     const item = items[0];
+    if (item.question) {
+      const question = item.question;
+      return <li key={key} className="py-2"><Button size="sm" variant="link" className="h-auto p-0" disabled={disabled}
+        onClick={() => onNavigate({ revisionId: revision.id, section: 'documents', panel: 'intake', intakeQuestion: question.key })}>{question.label}</Button></li>;
+    }
     const member = item.memberId ? members.get(item.memberId) : undefined;
     const slot = item.memberId ? slots.get(item.memberId) : undefined;
     const needsIntake = item.fromIntake || (item.state === 'unknown' && revision.templateState) || (!member && slot);

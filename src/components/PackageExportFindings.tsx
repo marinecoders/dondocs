@@ -33,10 +33,20 @@ export function PackageExportFindings({ results, revision, onNavigate, editable 
   revision: PackageRevision;
   onNavigate(destination: PackageDestination): void;
 }) {
-  const findings = results.flatMap(result => result.readiness.findings);
+  const seen = new Set<string>();
+  const findings = results.flatMap(result => result.readiness.findings).filter(finding => {
+    const key = JSON.stringify([finding.severity, finding.question?.key ?? [finding.memberId, finding.message, finding.correction, finding.signatureLabels]]);
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  });
   const members = new Map(revision.members.map(member => [member.id, member]));
   return <div className="space-y-4">
     {findings.map((finding, index) => {
+      if (finding.question) {
+        const question = finding.question;
+        return <div key={JSON.stringify([finding.severity, question.key])} className="text-sm"><Button variant="link" size="sm" className="h-auto p-0"
+          onClick={() => onNavigate({ revisionId: revision.id, section: 'documents', panel: 'intake', intakeQuestion: question.key })}>{question.label}</Button></div>;
+      }
       const member = finding.memberId ? members.get(finding.memberId) : undefined;
       const signatures = editable && member && packageFormSigningAction(member) ? Object.entries(finding.signatureLabels ?? {}) : [];
       const name = member && packageDocumentName(revision, member);
