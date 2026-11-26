@@ -17,7 +17,7 @@ test('assembles a custom letter and two PDFs and preserves their order on reload
   const navigation = workspace.getByRole('navigation', { name: 'Package workspace', exact: true });
   await expect(navigation.getByRole('button', { name: 'Documents' })).toHaveAttribute('aria-current', 'location');
   await openAddDocuments(workspace);
-  await expect(workspace.getByLabel('New member role')).toHaveValue('supporting-document');
+  await expect(workspace.getByLabel('New member role')).toHaveValue('');
   await workspace.getByLabel('New member role').selectOption('enclosure');
   for (const [index, name] of ['First.pdf', 'Second.pdf'].entries()) {
     await openAddDocuments(workspace);
@@ -89,4 +89,34 @@ test('places the first main letter ahead of existing supporting material', async
   await workspace.getByRole('button', { name: 'Add letter', exact: true }).click();
   await expect(workspace.getByRole('heading', { name: '1. Naval letter' })).toBeVisible();
   await expect(await packageHeading(workspace, '2. Coordination page')).toBeVisible();
+});
+
+test('finds documents by type and form number without leaving the package', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Start writing', exact: true }).click();
+  const draft = { docType: 'naval_letter', documentMode: 'compliant', documentCategory: 'correspondence', formData: { subject: 'LIBRARY FIRST' },
+    paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'letter.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('banner').getByRole('button', { name: 'LIBRARY FIRST', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'New document', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'New correspondence', exact: true }).click();
+  const workspace = await openPackageWorkspace(page);
+  await newPackage(workspace);
+  const custom = workspace.getByRole('group', { name: 'Custom package', exact: true });
+  await custom.getByLabel('Package name').fill('Command correspondence');
+  await custom.getByRole('button', { name: 'Create package' }).click();
+  const search = workspace.getByRole('searchbox', { name: 'Search documents to add' });
+  await search.fill('business letter');
+  await workspace.getByRole('button', { name: /^Add Business Letter/i }).click();
+  await expect(workspace.getByRole('heading', { name: /^1\. Business Letter/i })).toBeVisible();
+  await openAddDocuments(workspace);
+  await search.fill('10132');
+  await workspace.getByRole('button', { name: 'Add Unit Punishment Book', exact: true }).click();
+  await expect(workspace.getByRole('heading', { name: '2. Unit Punishment Book' })).toBeVisible();
+  await openAddDocuments(workspace);
+  await workspace.getByRole('button', { name: 'My documents', exact: true }).click();
+  await workspace.getByRole('button', { name: /Add .*LIBRARY FIRST/i }).click();
+  await expect(workspace.getByRole('heading', { name: /3\..*LIBRARY FIRST/i })).toBeVisible();
+  await expect(workspace.getByRole('navigation', { name: 'Package documents' }).getByRole('button')).toHaveCount(3);
 });
