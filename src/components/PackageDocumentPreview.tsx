@@ -14,8 +14,8 @@ const PdfViewer = lazy(() => import('./pdf/PdfViewer'));
 type Ports = CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> };
 
 /** Read and render the selected captured member; never activate a library document. */
-export function PackageDocumentPreview({ packageId, revisionId, positionId, formPreview, originalOnly, member, active, ports, exportGate }: {
-  packageId: string; revisionId: string; originalOnly?: boolean; positionId?: string; formPreview?: PackageFormValues; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
+export function PackageDocumentPreview({ packageId, revisionId, positionId, entryEdge, onEntered, documentBoundary, formPreview, originalOnly, member, active, ports, exportGate }: {
+  packageId: string; revisionId: string; originalOnly?: boolean; positionId?: string; entryEdge?: 'first' | 'last'; onEntered?(): void; documentBoundary?: import('./pdf/PdfViewer').PdfViewerProps['documentBoundary']; formPreview?: PackageFormValues; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
 }) {
   const copy = member.kind === 'original' && !originalOnly ? member.printableCopy?.asset : undefined;
   const [choice, setChoice] = useState<{ revisionId: string; original: boolean }>();
@@ -80,7 +80,7 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
     {active && <div className="h-[68dvh] min-h-80 overflow-hidden rounded-md border">
       {shown?.error ? <div className="h-full space-y-3 overflow-auto bg-muted p-5"><p role="alert" className="break-words text-sm">{shown.error}</p><Button variant="outline" size="sm" onClick={() => setAttempt(value => value + 1)}>Retry preview</Button></div>
         : shown?.url ? shown.image ? <img src={shown.url} alt={member.label} className="h-full w-full object-contain" />
-          : <Suspense fallback={<p role="status" className="p-5 text-sm">Opening PDF…</p>}><PdfViewer pdfUrl={shown.url} documentId={`package-member:${positionId ?? owner}`} showFullscreen={false} toolbarLabel={formPreview ? "Form preview" : "Saved document preview"} /></Suspense>
+          : <Suspense fallback={<p role="status" className="p-5 text-sm">Opening PDF…</p>}><PdfViewer pdfUrl={shown.url} documentId={`package-member:${positionId ?? (member.kind === 'native' ? packageId + '/' + member.id : packageId + '/' + member.id + '/' + (printable ?? member.original).sha256)}`} entryEdge={entryEdge} onPagePaint={entryEdge ? success => { if (success) onEntered?.(); } : undefined} documentBoundary={documentBoundary} showFullscreen={false} toolbarLabel={formPreview ? "Form preview" : "Saved document preview"} /></Suspense>
           : shown?.text !== undefined ? <pre className="h-full overflow-auto whitespace-pre-wrap break-words bg-muted p-5 font-sans text-sm">{shown.text.slice(0,20000)}</pre>
             : shown?.slow ? <div className="flex h-full flex-col items-center justify-center gap-3 p-5 text-center">
               <p role="status" className="text-sm text-muted-foreground">Still preparing {member.label}…</p>

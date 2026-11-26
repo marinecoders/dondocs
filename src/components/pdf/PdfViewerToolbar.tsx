@@ -55,6 +55,8 @@ interface PdfViewerToolbarProps {
   /** Thumbnail-rail control; null hides the toggle (single-page documents). */
   thumbnails: { open: boolean; toggle: () => void } | null;
   onGoToPage: (page: number) => void;
+  previousDocument?: boolean;
+  nextDocument?: boolean;
   onPrevPage: () => void;
   onNextPage: () => void;
   onZoomIn: () => void;
@@ -203,6 +205,7 @@ export function PdfViewerToolbar({
   fitMode,
   thumbnails,
   onGoToPage,
+  previousDocument, nextDocument,
   onPrevPage,
   onNextPage,
   onZoomIn,
@@ -248,6 +251,10 @@ export function PdfViewerToolbar({
 
   const wideActions = follow ? '@[740px]:flex' : label ? '@[620px]:flex' : '@[520px]:flex';
   const narrowActions = follow ? '@[740px]:hidden' : label ? '@[620px]:hidden' : '@[520px]:hidden';
+  const previousLabel = previousDocument && page === 1 ? 'Go to previous document' : 'Previous page';
+  const nextLabel = nextDocument && page === pageCount ? 'Go to next document' : 'Next page';
+  const atStart = pageCount === 0 || page <= 1 && !previousDocument;
+  const atEnd = pageCount === 0 || page >= pageCount && !nextDocument;
   const pagingLayout = sourceNavigation ? 'hidden @[232px]:flex' : 'flex';
   const zoomLayout = sourceNavigation ? 'hidden @[340px]:flex' : 'flex';
   const touchSource = !!sourceNavigation && !label;
@@ -289,10 +296,10 @@ export function PdfViewerToolbar({
             <PanelLeft className="h-4 w-4" />
           </ToolButton>
         )}
-        <ToolButton label="Previous page" onClick={onPrevPage} disabled={page <= 1}>
+        <ToolButton label={previousLabel} onClick={onPrevPage} disabled={atStart}>
           <ChevronUp className="h-4 w-4" />
         </ToolButton>
-        <ToolButton label="Next page" onClick={onNextPage} disabled={page >= pageCount}>
+        <ToolButton label={nextLabel} onClick={onNextPage} disabled={atEnd}>
           <ChevronDown className="h-4 w-4" />
         </ToolButton>
       </div>
@@ -437,11 +444,11 @@ export function PdfViewerToolbar({
                     <PanelLeft aria-hidden="true" /> {thumbnailsLabel}
                   </DropdownMenuItem>
                 )}
-                <DropdownMenuItem onSelect={onPrevPage} disabled={page <= 1}>
-                  <ChevronUp aria-hidden="true" /> Previous page
+                <DropdownMenuItem onSelect={onPrevPage} disabled={atStart}>
+                  <ChevronUp aria-hidden="true" /> {previousLabel}
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={onNextPage} disabled={page >= pageCount}>
-                  <ChevronDown aria-hidden="true" /> Next page
+                <DropdownMenuItem onSelect={onNextPage} disabled={atEnd}>
+                  <ChevronDown aria-hidden="true" /> {nextLabel}
                 </DropdownMenuItem>
               </>
             )}
