@@ -1,4 +1,5 @@
 import base64
+import ctypes as c
 from ctypes import POINTER, c_uint32, cast, memmove
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
@@ -12,7 +13,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.x509.oid import NameOID
 
-from card_windows import Canceled, Unavailable, WindowsCard, check
+from card_windows import Canceled, DWORD, Unavailable, WindowsCard, check
 from helper import run
 
 
@@ -99,6 +100,26 @@ class WindowsContract(unittest.TestCase):
         with self.assertRaises(InvalidSignature):
             self.sign()
         self.assertEqual(self.out.getvalue(), b"")
+
+    def test_reader_removed_or_reset_does_not_hide_the_next_reader(self):
+        names = c.create_unicode_buffer("First\0Second\0")
+        for first_status in (0x80100009, 0x80100068):
+            with self.subTest(first_status=first_status):
+                card = WindowsCard.__new__(WindowsCard)
+                card.establish = card.release = card.disconnect = lambda *_: 0
+                def list_readers(_ctx, _groups, out, count):
+                    size = c.cast(count, c.POINTER(DWORD))
+                    self.assertEqual(size[0], 0xFFFFFFFF)
+                    c.cast(out, c.POINTER(c.c_void_p))[0] = c.addressof(names)
+                    size[0] = len(names)
+                    return 0
+                card.list_readers = list_readers
+                freed = []
+                card.free_memory = lambda _ctx, ptr: freed.append(ptr.value)
+                card.connect = lambda _ctx, name, *_: first_status if name == "First" else 0
+                card.reader_certificates = lambda name, _: iter([name])
+                self.assertEqual(list(card.certificates()), ["Second"])
+                self.assertEqual(freed, [c.addressof(names)])
 
     def test_status_and_two_pass_signature_buffer(self):
         for code, error in ((0x8010006E, Canceled), (0x80100069, Unavailable), (0x80090020, OSError)):

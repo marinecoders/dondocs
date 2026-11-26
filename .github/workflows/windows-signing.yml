@@ -7,11 +7,18 @@ on:
       - '.github/workflows/windows-signing.yml'
       - 'companion/cac-signing/windows/**'
       - 'companion/official-form-signing/**'
+      - 'src/App.tsx'
+      - 'src/components/layout/Header.tsx'
       - 'src/components/Official*Sign*.tsx'
+      - 'src/hooks/usePreparedExports.ts'
+      - 'src/services/exports/signingDelivery.ts'
+      - 'src/services/pdf/packageCorrespondenceSignature.ts'
       - 'src/services/forms/signingBridge.ts'
       - 'src/lib/officialSigning.ts'
       - 'src/data/officialPdfEditions.json'
       - 'public/templates/NAVMC11811*/**'
+      - 'public/templates/NAVMC10132*/**'
+      - 'public/templates/DonDocs correspondence signature/**'
       - 'tests/windows-signing/**'
   pull_request:
     paths: *signing_paths
@@ -21,7 +28,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: windows-signing-${{ github.event.pull_request.head.ref || github.ref_name }}
+  group: windows-signing-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

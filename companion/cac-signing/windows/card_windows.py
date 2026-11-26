@@ -16,7 +16,10 @@ DWORD, BOOL, HANDLE, PTR, WSTR = c.c_uint32, c.c_int32, c.c_void_p, c.c_void_p, 
 OUT = c.POINTER
 BASE_CSP = "Microsoft Base Smart Card Crypto Provider"
 CARD_KSP = "Microsoft Smart Card Key Storage Provider"
-NO_CARD = {0x8010000C, 0x80100017, 0x80100069, 0x80090016, 0x80090030}
+# A reader can be unplugged, or the card reset or removed between calls.
+NO_CARD = {0x80100009, 0x8010000C, 0x80100017, 0x80100067, 0x80100068,
+           0x80100069, 0x80090016, 0x80090030}
+NO_READERS = {0x8010001D, 0x8010001E, 0x8010002E}  # No service, stopped service, or no readers.
 CANCELED = {1223, 0x800704C7, 0x80090036, 0x80100002, 0x8010006E}
 
 
@@ -67,6 +70,7 @@ class WindowsCard:
         self.establish = function(scard, "SCardEstablishContext", DWORD, DWORD, PTR, PTR, OUT(HANDLE))
         self.release = function(scard, "SCardReleaseContext", DWORD, HANDLE)
         self.list_readers = function(scard, "SCardListReadersW", DWORD, HANDLE, WSTR, PTR, OUT(DWORD))
+        self.free_memory = function(scard, "SCardFreeMemory", DWORD, HANDLE, PTR)
         self.connect = function(scard, "SCardConnectW", DWORD, HANDLE, WSTR, DWORD, DWORD, OUT(HANDLE), OUT(DWORD))
         self.disconnect = function(scard, "SCardDisconnect", DWORD, HANDLE, DWORD)
         self.acquire = function(adv, "CryptAcquireContextW", BOOL, OUT(HANDLE), WSTR, WSTR, DWORD, DWORD)
@@ -89,21 +93,22 @@ class WindowsCard:
     def certificates(self):
         context = HANDLE()
         status = self.establish(0, None, None, c.byref(context))
-        if status == 0x8010001D:  # No smart card service running.
+        if status in NO_READERS:
             return
         check(status)
         with ExitStack() as stack:
             stack.callback(self.release, context)
-            size = DWORD()
-            status = self.list_readers(context, None, None, c.byref(size))
-            if status == 0x8010002E:  # No readers installed.
+            # Ask for one snapshot so hot-plugging cannot invalidate a prior buffer size.
+            names = PTR()
+            size = DWORD(0xFFFFFFFF)  # SCARD_AUTOALLOCATE
+            status = self.list_readers(context, None, c.byref(names), c.byref(size))
+            if status in NO_READERS:
                 return
             check(status)
-            if not 1 <= size.value <= 65536:
+            stack.callback(self.free_memory, context, names)
+            if not names or not 1 <= size.value <= 65536:
                 raise OSError("Invalid reader list")
-            names = c.create_unicode_buffer(size.value)
-            check(self.list_readers(context, None, names, c.byref(size)))
-            for reader in names[:size.value].rstrip("\0").split("\0"):
+            for reader in c.wstring_at(names, size.value).rstrip("\0").split("\0"):
                 if not reader:
                     continue
                 with ExitStack() as resources:
