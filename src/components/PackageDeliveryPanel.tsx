@@ -39,17 +39,18 @@ type ProfileProps = Props & { selection: PackageDeliverySelection; setSelection(
 function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal, isCurrent, onPreparedChange, directDownload = false,
   onNavigate, canSign, visible = true, selection, setSelection, recheck, setRecheck }: ProfileProps) {
   const heading = useId();
-  const { label, purpose, scope, taggedNativePdfs = false } = selection;
+  const { purpose, scope, taggedNativePdfs = false } = selection;
   const [choices, setChoices] = useState<PackageDeliveryChoice[]>();
   const [choiceError, setChoiceError] = useState('');
   useEffect(() => {
-    if (!visible || !revision.templateState?.hasDeliveryChoices) return;
+    if (visible === false || !revision.templateState?.hasDeliveryChoices) return;
     let current = true;
-    void readDeliveryChoices(revision).then(values => { if (current) setChoices(values); })
+    void readDeliveryChoices(revision).then(values => { if (current) { setChoices(values); setChoiceError(''); } })
       .catch(cause => { if (current) setChoiceError(cause instanceof Error ? cause.message : 'Could not load delivery choices.'); });
     return () => { current = false; };
   }, [revision, visible]);
   const choice = purpose === 'recipient' ? choices?.find(item => selection.choiceId ? item.id === selection.choiceId : scope === 'complete' && item.complete) : undefined;
+  const label = choice && selection.label === 'Selected documents' ? choice.label : selection.label;
   const memberIds = choice?.memberIds ?? revision.members.filter(member => scope === 'complete' || selection.memberIds.includes(member.id)).map(member => member.id);
   const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
   const [findings, setFindings] = useState<PackageRequirementFinding[]>([]);

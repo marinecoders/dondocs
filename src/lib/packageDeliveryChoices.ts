@@ -21,13 +21,20 @@ export function resolveDeliveryChoices(template: PackageTemplateV2, revision: Pa
     const slotIds: string[] = [];
     const memberIds: string[] = [];
     if (choice.memberKeys) {
-      for (const key of choice.memberKeys) {
-        const slots = new Set(state.instances.filter(slot => slot.memberKey === key && slot.condition !== false).map(slot => slot.memberId));
-        slotIds.push(...slots);
-        for (const member of revision.members) {
-          if (slots.has(member.kind === 'original' && member.evidenceSlotId || member.id)) memberIds.push(member.id);
-        }
+      const activeSlots = state.instances.filter(slot => slot.condition !== false);
+      const keysBySlot = new Map(activeSlots.map(slot => [slot.memberId, slot.memberKey]));
+      const idsByKey = new Map<string, string[]>();
+      for (const member of revision.members) {
+        const owner = member.kind === 'original' ? member.evidenceSlotId ?? member.id : member.id;
+        const key = keysBySlot.get(owner);
+        if (!key) continue;
+        const group = idsByKey.get(key) ?? [];
+        group.push(member.id);
+        idsByKey.set(key, group);
       }
+      const includedKeys = new Set(choice.memberKeys);
+      slotIds.push(...activeSlots.filter(slot => includedKeys.has(slot.memberKey)).map(slot => slot.memberId));
+      for (const key of choice.memberKeys) memberIds.push(...idsByKey.get(key) ?? []);
     } else {
       memberIds.push(...revision.members.map(member => member.id));
     }
