@@ -5,6 +5,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type { PackageDestination } from '@/lib/packageDestinations';
 import type { PackageRequirementFinding } from '@/lib/packageRequirements';
 import { indexDeliveryDocuments } from '@/lib/packageDeliveryDocuments';
+import { packageFormSigningAction } from '@/lib/packageOfficialForms';
+import { packageSignatureFieldLabel } from '@/lib/packageSignatureFieldLabel';
 import { PackageDeliveryFindings } from './PackageDeliveryFindings';
 import type { PackageRevision } from '@/lib/actionPackages';
 import { Button } from './ui/button';
@@ -52,10 +54,24 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
   const firstAction = (inspect ? checks?.result : undefined)?.actions.find(action => action.blocking && action.destination
     && (action.destination.panel || action.destination.memberId || action.destination.section !== 'delivery'));
   const documents = useMemo(() => indexDeliveryDocuments(revision), [revision]);
-  const firstSlot = firstAction?.destination?.memberId && documents.slots.get(firstAction.destination.memberId);
-  const firstDestination: PackageDestination | undefined = firstSlot && firstAction?.kind === 'intake'
-    ? { panel: 'intake', intakeSlot: firstSlot.key, revisionId: revision.id }
-    : firstAction?.destination;
+  const firstMemberId = firstAction?.destination?.memberId;
+  const firstMember = firstMemberId ? documents.members.get(firstMemberId) : undefined;
+  const firstSlot = firstMemberId ? documents.slots.get(firstMemberId) : undefined;
+  const firstFinding = checked?.findings.find(finding => firstAction?.id === 'requirement-' + finding.id);
+  const signature = canSign && firstMember && packageFormSigningAction(firstMember) && !firstAction?.destination?.correction
+    ? firstFinding?.signatureFields?.[0] : undefined;
+  let firstDestination: PackageDestination | undefined = firstAction?.destination;
+  let actionLabel = firstDestination?.correction?.label ?? firstAction?.label;
+  if (firstSlot && (firstAction?.kind === 'intake' || !firstMember)) {
+    firstDestination = { panel: 'intake', intakeSlot: firstSlot.key };
+    actionLabel = 'Review intake';
+  } else if (signature && firstMember) {
+    firstDestination = { memberId: firstMember.id, signatureField: signature };
+    actionLabel = 'Review ' + (firstFinding?.signatureLabels?.[signature] || packageSignatureFieldLabel(firstMember, signature));
+  } else if (!canSign && firstMember && firstDestination?.correction) {
+    firstDestination = { memberId: firstMember.id, section: 'documents' };
+    actionLabel = 'Open document';
+  }
   const byDocument = new Map<string, PackageRequirementFinding[]>();
   const remaining: PackageRequirementFinding[] = [];
   for (const item of checked?.findings ?? []) {
@@ -82,7 +98,7 @@ export function PackageExportOptions({ revision, checks, format, disabled, pdfDi
     {firstAction && firstDestination && <div aria-label="Next delivery action" role="group" className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
       <span>{firstAction.message}</span>
       <Button variant="link" size="sm" className="h-auto p-0" disabled={disabled}
-        onClick={() => onNavigate(firstDestination)}>{firstDestination.correction?.label ?? firstAction.label}</Button>
+        onClick={() => onNavigate({ revisionId: revision.id, ...firstDestination })}>{actionLabel}</Button>
     </div>}
     <section aria-label="Included documents"><div className="mb-3">
       <h3 className="text-sm font-medium">Included documents</h3><p className="text-xs text-muted-foreground">{format === 'draft' ? 'Draft marked on every page' : format === 'pdf' ? 'Combined PDF · Unsigned' : 'Open in DonDocs'}</p>
