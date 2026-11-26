@@ -23,7 +23,7 @@ import { PackageReviewControls } from "./PackageReviewControls";
 import { PackageMemberNavigation, PackageWorkspaceNavigation } from "./PackageWorkspaceNavigation";
 import { PackageLibrary } from "./PackageLibrary";
 import { DocumentPdfChecks, PackageNextActions } from "./PackageNextActions";
-import { attachPackageSlotFile } from '@/lib/packageSlotFiles';
+import { attachPackageSlotFiles } from '@/lib/packageSlotFiles';
 import { PackageRecipeDocuments } from "./PackageRecipeDocuments";
 import { PackageDocumentPreview } from "./PackageDocumentPreview";
 import { PackageExportOptions, type PackageExportFormat } from "./PackageExportOptions";
@@ -1248,9 +1248,10 @@ function PackageDialog({
                     <h2 className="text-base font-medium">Documents</h2>
                     {workspaceSection === 'documents' && record && revision?.templateState && !library &&
                       <PackageRecipeDocuments key={revision.id} record={readRecord!} revisionId={revision.id}
+                        onIntakeSlot={editable ? intakeSlot => followDestination({ panel: 'intake', intakeSlot }) : undefined}
                         onOpen={memberId => followDestination({ memberId })}
-                        onAttach={editable ? (memberId, file, signed) => void run(async () => {
-                          update(await attachPackageSlotFile(record, revision.id, memberId, file, signed, operation.current?.signal));
+                        onAttach={editable ? (memberId, files, signed) => void run(async () => {
+                          update(await attachPackageSlotFiles(record, revision.id, memberId, files, signed, operation.current?.signal));
                           setActiveMemberId(memberId);
                         }) : undefined}
                         onCompleteDetails={editable ? intakeQuestion => followDestination({ panel: 'intake', intakeQuestion }) : undefined} />}
