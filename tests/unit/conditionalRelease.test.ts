@@ -104,8 +104,8 @@ it('compares the certification copy with the saved request and decision before d
   const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: null, runtime: { status: 'absent' } });
   const revision = getPackageRevision(await startConditionalPackage(template, policy, undefined, () => true));
   const rule = template.members.find(m => m.key === 'notification')!.completion!;
-  expect(rule.signatureFields).toHaveLength(2);
-  // Exercise printed data independently of the two signatures, which these synthetic files lack.
+  expect(rule.signatureFields).toEqual(['member[0]', 'recruiter[0]', 'ao[0]', 'SignatureField1[0]'].map(name => 'form1[0].#subform[0].' + name));
+  // Exercise printed data independently of the four signatures, which these synthetic files lack.
   const { signatureFields: _signatures, ...printed } = rule;
   const definition = compileFormDefinition(JSON.parse(await readFile(directory + '/form.json', 'utf8')));
   const original = await readFile(directory + '/original.pdf');

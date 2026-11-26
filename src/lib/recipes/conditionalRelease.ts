@@ -59,7 +59,9 @@ export async function conditionalRelease(): Promise<MaintainedRecipe> {
       { key: 'decision-form', kind: 'attachment', label: 'Signed DD Form 368 decision', role: 'supporting-document', required: true,
         when: hasDecision, completion: { expectedForm: edition, matchingPdfFields: [{ memberKey: 'request', fields: memberIdentity }], signatureFields: [firstPage + 'ao[0]'] } },
       { key: 'notification', kind: 'attachment', label: 'Completed DD Form 368 with Section III certification',
-        role: 'supporting-document', required: true, when: completed, completion: { expectedForm: edition, signatureFields: [firstPage + 'ao[0]', firstPage + 'SignatureField1[0]'],
+        role: 'supporting-document', required: true, when: completed, completion: { expectedForm: edition, signatureFields: [
+            firstPage + 'member[0]', firstPage + 'recruiter[0]', firstPage + 'ao[0]', firstPage + 'SignatureField1[0]',
+          ],
           requiredPdfFields: [approvedMark, expiration, firstPage + 'TextField2[26]', firstPage + 'signedDate4[0]'],
           uncheckedPdfFields: [disapprovedMark], matchingPdfFields: [
             { memberKey: 'request', fields: memberIdentity },
