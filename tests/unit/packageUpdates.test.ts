@@ -2,11 +2,12 @@ import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createBlankSession } from '@/stores/documentStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { capturePackageMember, readPackageMemberDraft } from '@/lib/actionPackageAssets';
+import { PDFDocument } from 'pdf-lib';
+import { capturePackageMember, readPackageMemberDraft, retainPackageAsset } from '@/lib/actionPackageAssets';
 import { commitActionPackage, createActionPackage, getPackageRevision, listActionPackages, newPackageId,
   reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
 import { idbGetAllAttachments } from '@/lib/documentsDb';
-import { preparePackageUpdate, applyPreparedPackageUpdate, undoPackageUpdate } from '@/lib/packageUpdates';
+import { changeDocumentOverride, preparePackageUpdate, applyPreparedPackageUpdate, undoPackageUpdate } from '@/lib/packageUpdates';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
 import { useUIStore } from '@/stores/uiStore';
@@ -72,6 +73,40 @@ beforeEach(async () => {
 });
 
 describe('captured package update plans', () => {
+  it('keeps and restores only the selected field without modifying either captured document', async () => {
+    const original = await fixture(2, 'Local subject');
+    const revision = getPackageRevision(original);
+    const [selected, sibling] = revision.bindings!.items;
+    const change = (record: ActionPackage, undo?: string) => changeDocumentOverride(
+      record, selected.memberId, selected.id, undo, policy, new AbortController().signal, () => true);
+    const kept = await change(original);
+    const after = getPackageRevision(kept);
+    expect(after.members).toEqual(revision.members);
+    expect(after.information).toEqual(revision.information);
+    expect(after.bindings!.items).toEqual([{ ...selected, mode: 'override', expectedValue: 'Local subject' }, sibling]);
+    await expect(change(kept, revision.id)).rejects.toThrow(/package changed/i);
+    expect(getPackageRevision(await change(kept, after.id)).bindings).toEqual(revision.bindings);
+  });
+
+  it('retains a previously exported PDF on its source revision when a binding changes', async () => {
+    const record = await fixture();
+    const revision = getPackageRevision(record);
+    const member = revision.members[0];
+    const pdf = await PDFDocument.create();
+    pdf.addPage();
+    const asset = await retainPackageAsset('saved.pdf', 'application/pdf', new Uint8Array(await pdf.save()).buffer);
+    const output = { id: 'saved-output', asset, createdAt: 1, renderer: 'test', policyIdentity: 'test',
+      signingStatus: 'unsigned-assembled-derivative' as const, boundaries: [
+        { memberId: member.id, startPage: 1, pageCount: 1, firstPageLabel: '1', numbering: 'continuation' as const },
+      ] };
+    const retained = await commitActionPackage(record, { ...record, sequence: record.sequence + 1,
+      revisions: record.revisions.map(item => item.id === revision.id ? { ...item, outputs: [output] } : item) });
+    const changed = await changeDocumentOverride(retained, member.id, revision.bindings!.items[0].id,
+      undefined, policy, new AbortController().signal, () => true);
+    expect(getPackageRevision(changed).outputs).toEqual([]);
+    expect(getPackageRevision(changed, revision.id).outputs).toEqual([output]);
+  });
+
   it('blocks updates in reviewer copies and preserves exact owner review baselines', async () => {
     const owner = await startPackageReview(await fixture());
     const copy = await parsePackageReviewTransfer(await packageReviewTransferFile(await buildPackageReviewerCopy(owner, owner.reviewRounds![0].id, policy), policy));

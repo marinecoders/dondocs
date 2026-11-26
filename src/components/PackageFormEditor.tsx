@@ -101,7 +101,7 @@ export default function PackageFormEditor({ record, member, onFieldReview, onSav
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
         <Button size="sm" disabled={leaving || editor.phase !== 'pending'} onClick={() => void editor.flush()}>Save changes</Button>
       </header>
-      {onFieldReview && <PackageLinkedFieldTools member={member} revision={revision} disabled={leaving || editor.phase !== 'saved'} onReview={onFieldReview} />}
+      {onFieldReview && <PackageLinkedFieldTools record={record} onSave={onSave} member={member} revision={revision} disabled={leaving || editor.phase !== 'saved'} onReview={onFieldReview} />}
       {navigationError && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{navigationError}</p>}
       {editor.error && <div role="alert" className="flex flex-wrap items-center gap-3 border-b bg-muted px-4 py-2 text-sm">
         {editor.error}

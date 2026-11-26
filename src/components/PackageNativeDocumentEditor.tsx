@@ -148,7 +148,7 @@ export default function PackageNativeDocumentEditor({ record, member, onFieldRev
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setShowPreview(!showPreview)}>{showPreview ? 'Show fields' : 'Show preview'}</Button>
         {status === 'error' && <Button size="sm" disabled={disabled || navigating} onClick={() => void flush()}>Retry save</Button>}
       </header>
-      {onFieldReview && <PackageLinkedFieldTools member={member} revision={revision} disabled={disabled || navigating || status !== 'saved'} onReview={target => { if (!dirty.current) onFieldReview(target); }} />}
+      {onFieldReview && <PackageLinkedFieldTools record={record} onSave={next => { latest.current.record = next; onSave(next); }} member={member} revision={revision} disabled={disabled || navigating || status !== 'saved'} onReview={target => { if (!dirty.current) onFieldReview(target); }} />}
       {(error || navigationError) && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{error || navigationError}</p>}
       <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-2">
         <div className={(showPreview ? 'hidden lg:block ' : '') + 'min-h-0 min-w-0'} inert={disabled || navigating || undefined} ref={owned ? setEditorHost : undefined} />

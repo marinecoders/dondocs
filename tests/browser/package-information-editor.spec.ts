@@ -104,8 +104,18 @@ test('review a local exception and a shared change from the document being edite
     await subject.fill(value); await subject.blur();
     await expect(editor.getByRole('button', { name: action })).toBeEnabled();
     await editor.getByRole('button', { name: action }).click();
-    await expect(panel.getByText(action.startsWith('Keep') ? 'Review the change to keep this value on this document.' : 'Review the shared value and the documents it will update.')).toBeVisible();
-    await apply();
-    await expect(panel.getByText(action.startsWith('Keep') ? 'ORIGINAL SUBJECT' : value, { exact: true }).first()).toBeVisible();
+    if (action === 'Keep for this document') {
+      await expect(editor.getByText(/Document override/)).toBeVisible();
+      await expect(subject).toHaveValue(value);
+      await editor.getByRole('button', { name: 'Undo', exact: true }).click();
+      await expect(editor.getByRole('button', { name: action })).toBeVisible();
+      await editor.getByRole('button', { name: action }).click();
+      await expect(editor.getByText(/Document override/)).toBeVisible();
+      await editor.getByRole('button', { name: 'Back to package' }).click();
+    } else {
+      await expect(panel.getByText('Review the shared value and the documents it will update.')).toBeVisible();
+      await apply();
+      await expect(panel.getByText(value, { exact: true }).first()).toBeVisible();
+    }
   }
 });
