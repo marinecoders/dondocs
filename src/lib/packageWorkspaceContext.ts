@@ -53,3 +53,7 @@ export function setActivePackageWorkspace(value: PackageWorkspaceContext | null)
     else sessionStorage.removeItem(PACKAGE_WORKSPACE_CONTEXT_KEY);
   } catch { /* Navigation storage can be blocked. */ }
 }
+
+export const packageSectionLabels: Record<PackageWorkspaceSection, string> = {
+  overview: 'Overview', documents: 'Documents', review: 'Review', delivery: 'Delivery',
+};
