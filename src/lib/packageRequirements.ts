@@ -1,7 +1,6 @@
 import type { PackageDeliveryChoice } from './packageDeliveryChoices';
-import { missingAnswerGroups } from './packageFormCompletion';
 import { activePackageSignatureLabels, officialSignatureLabels, packageSignatureFieldLabel } from './packageSignatureFieldLabel';
-import { matchesExpectedForm, missingPackageSignatures, officialFormCompletionIssues } from './packageFormCompletion';
+import { matchesExpectedForm, missingAnswerGroups, missingPackageSignatures, officialFormCompletionIssues, scanReviewIssue } from './packageFormCompletion';
 import { resolvePackageRevisionSource } from './packageRevisionSources';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
 import { requirementDeclaration, packageRequirementOperationSchema, packageRequirementsSchema, type FormCompletion, type PackageRequirement, type PackageRequirementOperation, type PackageRequirements } from './packageRequirementsModel';
@@ -108,6 +107,10 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
       let validation = checked.get(member.id);
       if (!validation) { validation = validateMember(member, options.readAsset ?? readPackageAsset, options.signal, originalsNeeded.has(member.id)); checked.set(member.id, validation); }
       const originalBytes = await validation; options.signal?.throwIfAborted();
+      if (operation === 'review' && typeof requirement.completion?.reviewedScan === 'string') {
+        const issue = scanReviewIssue(member, requirement.completion.reviewedScan);
+        if (issue) { items.push({ ...base, state: 'missing', message: issue }); continue; }
+      }
       if (operation === 'pdf') {
         const rule = requirement.completion;
         const corrections: NonNullable<PackageRequirementFinding['corrections']> = [];

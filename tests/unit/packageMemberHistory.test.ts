@@ -17,12 +17,19 @@ it('replaces one original in place, preserving both copies and rejecting stale a
   const filled = await pdf('Filled');
   const first = await captureOriginalPackageMember({ name: 'same.pdf', data: blank }, 'basic-letter', false);
   const second = await captureOriginalPackageMember({ name: 'same.pdf', data: blank }, 'enclosure', false);
+  for (const member of [first, second]) {
+    if (member.kind !== 'original') throw new Error('Expected original PDF');
+    member.signatureReviewSha256 = member.original.sha256;
+    member.signatureReviewStatements = ['I verified both signatures.'];
+  }
   const record = await reviseActionPackage(await createActionPackage('Replacement'), [first, second]);
   await expect(replacePackagePdf(record, first, new File([blank], 'copy.pdf'), false)).rejects.toThrow('already saved');
   await replacePackagePdf(record, first, new File([filled], 'filled.pdf'), false);
   const [saved] = await listActionPackages(record.id);
   const members = getPackageRevision(saved).members;
   expect(members[0]).toMatchObject({ id: first.id, role: first.role, label: first.label });
+  expect(members[0]).not.toHaveProperty('signatureReviewSha256');
+  expect(members[0]).not.toHaveProperty('signatureReviewStatements');
   expect(members[1]).toEqual(second);
   const history = packageMemberHistory(saved, first.id, saved.currentRevisionId);
   expect(history).toHaveLength(2);

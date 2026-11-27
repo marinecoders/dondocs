@@ -1,3 +1,4 @@
+import { scanReviewIssue } from '@/lib/packageFormCompletion';
 import { PackagePdfReplacement } from './PackagePdfReplacement';
 import { usePackageChecks } from '@/components/usePackageChecks';
 import { PackageDocumentPicker } from './PackageDocumentPicker';
@@ -1530,6 +1531,10 @@ function PackageDialog({
                       copy.memberId === member.id &&
                       copy.revisionId === record.currentRevisionId,
                   );
+                  const scanReviews = selectedMember?.id === member.id && member.kind === 'original' ? (revision.requirements?.items ?? []).flatMap(rule =>
+                    rule.kind === 'document' && rule.condition === 'active' && rule.memberId === member.id && rule.completion?.reviewedScan
+                      ? [rule.completion.reviewedScan] : []) : [];
+                  const statements = [...new Set(scanReviews.filter((value): value is string => typeof value === 'string'))];
                   const signingAction = editable && packageFormSigningAction(member);
                   const inPackageEditor = !!editorSurface && member.kind === 'native';
                   const showPreview = loaded && !editorMember && !library && workspaceSection === 'documents' && selectedMember?.id === member.id;
@@ -1578,19 +1583,19 @@ function PackageDialog({
                       {selectedMember?.id === member.id && <DocumentPdfChecks editable={editable} actions={pdfBlockers.filter(action => action.destination?.memberId === member.id)}
                         onNavigate={followDestination} disabled={busy || pendingPackageEdits} />}
 
-                      {editable && member.kind === 'original' && revision.requirements?.items.some(rule =>
-                        rule.kind === 'document' && rule.memberId === member.id && rule.completion?.reviewedScan) &&
+                      {editable && member.kind === 'original' && scanReviews.length > 0 &&
                         <label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={busy || pendingPackageEdits}
-                          checked={member.signatureReviewSha256 === member.original.sha256} onChange={event => {
+                          checked={scanReviews.every(statement => !scanReviewIssue(member, statement))} onChange={event => {
                             const reviewed = event.target.checked;
                             void run(async () => {
                               await readPackageAsset(member.original);
-                              const { signatureReviewSha256: _old, ...previous } = member;
+                              const { signatureReviewSha256: _old, signatureReviewStatements: _statements, ...previous } = member;
                               await modify(revision.members.map(item => item.id === member.id ? { ...previous,
-                                revisionId: crypto.randomUUID(), ...(reviewed && { signatureReviewSha256: member.original.sha256 }) } : item));
+                                revisionId: crypto.randomUUID(), ...(reviewed && { signatureReviewSha256: member.original.sha256,
+                                  ...(statements.length > 0 && { signatureReviewStatements: statements }) }) } : item));
                             });
-                          }} />I reviewed the signature on this exact scan</label>}
-                      {editable && member.kind === 'original' && <PackagePdfReplacement key={member.revisionId} member={member} disabled={busy || pendingPackageEdits}
+                          }} />{statements.length ? statements.join(' ') : 'I reviewed the signature on this exact scan'}</label>}
+                      {editable && member.kind === 'original' && <PackagePdfReplacement key={'replacement-' + member.revisionId} member={member} disabled={busy || pendingPackageEdits}
                         onReplace={(file, signed) => void run(async () => update(await replacePackagePdf(record, member, file, signed, operation.current?.signal)))} />}
                       {selectedMember?.id === member.id && !openedReview && <details>
                         <summary className="cursor-pointer text-sm">Document versions</summary>
@@ -1609,7 +1614,7 @@ function PackageDialog({
                           save a new revision.
                         </p>
                       )}
-{member.kind === 'original' && showPreview ? <PackagePrintableCopyField key={member.revisionId} member={member}
+{member.kind === 'original' && showPreview ? <PackagePrintableCopyField key={'printable-' + member.revisionId} member={member}
                         editable={editable} disabled={busy || pendingPackageEdits} savedPreview={preview} onOriginal={() => void run(() => reviewOriginal(member))}
                         onChange={file => void run(async () => update(await setPackagePrintableCopy(record, member, file, operation.current?.signal)))} /> : preview()}
                       {showPreview && revision.members.length > 1 && <nav aria-label="Read package in order" className="flex items-center justify-between gap-2">

@@ -7,6 +7,13 @@ import { validateAnswers, type Answer } from '@/services/forms/model';
 import type { PackageMember } from './actionPackages';
 import type { FormCompletion } from './packageRequirementsModel';
 
+export function scanReviewIssue(member: PackageMember, statement: FormCompletion['reviewedScan']) {
+  if (!statement) return;
+  if (member.kind === 'original' && member.signatureReviewSha256 === member.original.sha256 &&
+      (statement === true || member.signatureReviewStatements?.includes(statement))) return;
+  return typeof statement === 'string' ? 'Confirm in Documents: ' + statement : 'Review the visible signature on the received PDF in Documents.';
+}
+
 function hasValue(value: Answer) {
   return typeof value === 'string' ? !!value.trim() : Array.isArray(value) ? value.length > 0 : typeof value === 'boolean';
 }
@@ -78,8 +85,8 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
   }
   if (rule?.handwrittenSignature && (member.kind !== 'original' || !member.handwrittenSourceSha256))
     add('Add a handwritten signature to this document.');
-  if (rule?.reviewedScan && (member.kind !== 'original' || member.signatureReviewSha256 !== member.original.sha256))
-    add('Review the visible signature on the received PDF in Documents.');
+  const scanIssue = scanReviewIssue(member, rule?.reviewedScan);
+  if (scanIssue) add(scanIssue);
   if (rule?.writtenContent && member.kind === 'native' && !member.session.paragraphs?.some(p => p.text?.trim()))
     add('Write the body of this case record before delivery.', { kind: 'edit', sectionId: 'body', label: 'Write body' });
   return issues;

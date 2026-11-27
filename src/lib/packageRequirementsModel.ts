@@ -28,7 +28,7 @@ export const formCompletionSchema = z.object({
     initialize: z.literal(true).optional(),
   }).strict()).min(1).max(32).optional(),
   deliveryBlockReason: label.optional(),
-  reviewedScan: z.literal(true).optional(),
+  reviewedScan: z.union([z.literal(true), label]).optional(),
   writtenContent: z.literal(true).optional(),
   blankSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
   handwrittenSignature: z.literal(true).optional(),
