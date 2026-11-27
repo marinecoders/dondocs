@@ -48,7 +48,8 @@ it('resolves both named elections to the published values and reopens a saved li
 });
 
 it('rejects a catalog alias when its target is absent from the verified edition', async () => {
-  const profile = catalog.officialEdition(edition.id, edition.edition)!;
+  const profile = catalog.officialEdition(edition.id, edition.edition);
+  if (!profile?.choiceAliases) throw new Error('Missing qualification fixture');
   vi.spyOn(catalog, 'officialEdition').mockReturnValue({
     ...profile, choiceAliases: { '2_demand': { accept: 'obsolete choice', refuse: 'other obsolete choice' } },
   });
