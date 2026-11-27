@@ -25,3 +25,21 @@ it('allows each signer when their own applicable row is complete', async () => {
   await expect(checkPackageSigningPrerequisites(revision, 'form', 'reviewer', bytes)).rejects.toThrow('Complete one person.');
   await expect(checkPackageSigningPrerequisites(revision, 'form', 'reviewer', await answers(['name2', 'date2']))).resolves.toBeUndefined();
 });
+
+it('checks for a real, empty text field in the revision being signed', async () => {
+  const field = 'Decision date';
+  const revision: PackageRevision = { id: 'revision', createdAt: 0, members: [], outputs: [], requirements: { version: 1, items: [{
+    id: 'date', label: 'Pending decision', memberId: 'form', kind: 'document', operations: ['pdf'], condition: 'active',
+    completion: { pdfSelections: [{ field, expected: null, label: 'Leave decision date empty.' }] },
+  }] } };
+  pdfjs.GlobalWorkerOptions.workerSrc = import.meta.resolve('pdfjs-dist/build/pdf.worker.mjs');
+  const pdf = await PDFDocument.create();
+  const page = pdf.addPage();
+  const check = async () => checkPackageSigningPrerequisites(revision, 'form', 'reviewer', Uint8Array.from(await pdf.save()).buffer);
+  await expect(check()).rejects.toThrow('Leave decision date empty.');
+  const date = pdf.getForm().createTextField(field);
+  date.addToPage(page);
+  await expect(check()).resolves.toBeUndefined();
+  date.setText('2026-01-01');
+  await expect(check()).rejects.toThrow('Leave decision date empty.');
+});

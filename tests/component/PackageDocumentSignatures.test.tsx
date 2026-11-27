@@ -8,7 +8,7 @@ import { PackageDocumentSignatures } from '@/components/PackageDocumentSignature
 const bytes = Uint8Array.of(1, 2, 3);
 const base: PackageRevision = { id: 'revision', createdAt: 1, members: [], outputs: [], requirements: {
   version: 1, items: [{ kind: 'document', label: 'Required signatures', id: 'sign', memberId: 'form', condition: 'active',
-    operations: ['pdf'], completion: { signatureFields: ['Authority', 'Witness'] } }],
+    operations: ['pdf'], completion: { signatureFields: ['Authority', 'Witness'], signatureLabels: { Witness: 'Duty officer' } } }],
 } };
 function member(sha256: string): PackageMember {
   return { id: 'form', revisionId: 'formRev', kind: 'original', label: 'Sample original', role: 'supporting-document',
@@ -45,7 +45,7 @@ it('shows trusted, outstanding and locked fields for the inspected bytes alone',
   expect(screen.getByText(/Authority · Required · Signed · trusted chain/)).toBeVisible();
   expect(screen.getByText(/Closed · Available field · Locked/)).toBeVisible();
   expect(screen.getByText('Signing locks all fields.')).toBeVisible();
-  fireEvent.click(screen.getByRole('button', { name: 'Review signature field: Witness' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Review signature field: Duty officer' }));
   expect(onField).toHaveBeenCalledWith('Witness');
   expect(hasInspectedSignature(sha256, 'Authority')).toBe(true);
   expect(hasInspectedSignature('b'.repeat(64), 'Authority')).toBe(false);

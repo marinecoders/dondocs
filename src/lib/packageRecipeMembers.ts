@@ -1,3 +1,4 @@
+import { officialEdition } from '@/services/forms/nativeCatalog';
 import { isEndorsement } from './endorsement';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { createBlankSession, type SerializedSession } from '@/stores/documentStore';
@@ -82,6 +83,7 @@ export async function correspondenceMember(input: {
 
 /** A draft that must contain user-written text before delivery. */
 export async function writtenCorrespondence(input: {
+  requireAuthoritySignature?: boolean;
   key: string; label: string; when?: PackageTemplateCondition; docType?: string;
   facts?: Record<string, string>; endorses?: string;
 }): Promise<NativeBlueprint> {
@@ -90,5 +92,9 @@ export async function writtenCorrespondence(input: {
     ...input, docType, role: isEndorsement(docType) ? 'endorsement' : 'supporting-document',
     subject: input.label.toUpperCase(),
   });
-  return { ...member, completion: { writtenContent: true } };
+  if (!input.requireAuthoritySignature) return { ...member, completion: { writtenContent: true } };
+  const profile = officialEdition('package_correspondence');
+  const signature = profile?.signatureFieldIds?.signing_authority;
+  if (!profile || !signature) throw new Error('The correspondence signing authority field is unavailable.');
+  return { ...member, completion: { writtenContent: true, expectedForm: { id: profile.formId, edition: profile.edition }, signatureFields: [signature] } };
 }

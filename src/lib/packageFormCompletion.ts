@@ -36,9 +36,11 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
     for (const selection of rule?.pdfSelections ?? []) {
       const field = Object.entries(definition.fields).find(([, item]) => item.sourceIds?.includes(selection.field));
       const value = field && (answers[field[0]] ?? field[1].initialValue);
-      const valid = typeof selection.expected === 'boolean'
-        ? field?.[1].kind === 'boolean' && (value ?? false) === selection.expected
-        : field?.[1].kind === 'singleChoice' && typeof value === 'string' && selection.expected.includes(value);
+      const kind = field?.[1].kind;
+      let valid: boolean;
+      if (selection.expected === null) valid = (kind === 'text' || kind === 'date') && (value == null || typeof value === 'string' && !value.trim());
+      else if (typeof selection.expected === 'boolean') valid = kind === 'boolean' && (value ?? false) === selection.expected;
+      else valid = kind === 'singleChoice' && typeof value === 'string' && selection.expected.includes(value);
       if (!valid) add(selection.label, field ? fieldTarget(field[0]) : undefined);
     }
     for (const name of rule?.requiredPdfFields ?? []) {

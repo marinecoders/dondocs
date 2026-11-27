@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { correspondenceMember, documentSource, documentSourceCondition, equals, program, question } from '@/lib/packageRecipeMembers';
+import { correspondenceMember, writtenCorrespondence, documentSource, documentSourceCondition, equals, program, question } from '@/lib/packageRecipeMembers';
 import { evaluatePackageTemplateCondition } from '@/lib/packageTemplateProgram';
 
 it('selects drafting or an incoming original only when the document is applicable', async () => {
@@ -25,4 +25,12 @@ it('creates correspondence with the editor defaults for its type and rejects unk
   await expect(correspondenceMember({ ...options, docType: 'missing-type' })).rejects.toThrow('correspondence type');
   const linked = await correspondenceMember({ ...options, docType: 'naval_letter', facts: { unitLine1: 'organization' } });
   expect(linked.links?.[0].target).toMatchObject({ field: 'unitLine1', docType: 'naval_letter' });
+});
+
+it('can require an authority signature on a written package letter', async () => {
+  const options = { key: 'letter', label: 'Authorization' };
+  expect((await writtenCorrespondence(options)).completion).toEqual({ writtenContent: true });
+  expect((await writtenCorrespondence({ ...options, requireAuthoritySignature: true })).completion).toEqual({
+    writtenContent: true, expectedForm: { id: 'package_correspondence', edition: '1' }, signatureFields: ['Signing_authority'],
+  });
 });

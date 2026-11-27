@@ -4,6 +4,18 @@ import { portableResourceDigest } from './portableResources';
 import { loadTemplatePage, readRetainedTemplatePage } from '@/services/pdf/loadTemplatePage';
 import type { PackageMember } from './actionPackages';
 
+import type { PackageRequirements } from './packageRequirementsModel';
+
+export function activePackageSignatureLabels(requirements: PackageRequirements | undefined, member: PackageMember) {
+  const labels = new Map<string, string>();
+  for (const rule of requirements?.items ?? []) {
+    if (rule.kind !== 'document' || rule.condition !== 'active' || rule.memberId !== member.id ||
+        !rule.operations.includes('pdf') || rule.memberRevisionId && rule.memberRevisionId !== member.revisionId) continue;
+    for (const [field, label] of Object.entries(rule.completion?.signatureLabels ?? {})) labels.set(field, label);
+  }
+  return labels;
+}
+
 export function packageSignatureFieldLabel(member: PackageMember, field: string): string {
   const definition = member.kind === 'native' ? member.session.genericForm?.definition : undefined;
   const mapped = Object.values(definition?.fields ?? {}).find(entry => entry.sourceIds?.includes(field));

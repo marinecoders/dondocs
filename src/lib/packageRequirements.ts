@@ -1,6 +1,6 @@
 import type { PackageDeliveryChoice } from './packageDeliveryChoices';
 import { missingAnswerGroups } from './packageFormCompletion';
-import { officialSignatureLabels, packageSignatureFieldLabel } from './packageSignatureFieldLabel';
+import { activePackageSignatureLabels, officialSignatureLabels, packageSignatureFieldLabel } from './packageSignatureFieldLabel';
 import { matchesExpectedForm, missingPackageSignatures, officialFormCompletionIssues } from './packageFormCompletion';
 import { resolvePackageRevisionSource } from './packageRevisionSources';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
@@ -134,7 +134,7 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
             ? await officialSignatureLabels(rule.expectedForm).catch(() => undefined) : undefined;
           options.signal?.throwIfAborted();
           const signatureLabels = Object.fromEntries(signatureFields.map(field =>
-            [field, editionLabels?.get(field) || packageSignatureFieldLabel(member, field)]));
+            [field, (rule?.signatureLabels && Object.hasOwn(rule.signatureLabels, field) && rule.signatureLabels[field]) || editionLabels?.get(field) || packageSignatureFieldLabel(member, field)]));
           const messages = signatureFields.length
             ? [...issues, 'Sign or verify: ' + signatureFields.map(field => signatureLabels[field]).join(', ') + '.']
             : issues;
@@ -151,12 +151,16 @@ async function inspectResolvedRequirements(revision: PackageRevision, requiremen
   return { operation, ready: items.every(item => ['satisfied', 'inactive', 'not-required'].includes(item.state)), items };
 }
 export async function checkMemberSigningSelections(revision: PackageRevision, member: PackageMember, signal: AbortSignal) {
-  if (!revision.templateState && !revision.requirements) return;
+  if (!revision.templateState && !revision.requirements) return new Map<string, string>();
   const rules = await (await import('./packageConditionalRequirements')).resolveConditionalPackageRequirements(revision);
-  const selections = rules?.items.flatMap(item =>
-    item.kind === 'document' && item.condition === 'active' && item.memberId === member.id && item.completion?.pdfSelections?.length
-      ? [{ expectedForm: item.completion.expectedForm, pdfSelections: item.completion.pdfSelections }] : []);
-  if (selections?.length) await verifyRevisionForEvidence(member, selections, { signal });
+  const selections: FormCompletion[] = [];
+  for (const item of rules?.items ?? []) {
+    if (item.kind !== 'document' || item.condition !== 'active' || item.memberId !== member.id || !item.completion) continue;
+    const { expectedForm, pdfSelections } = item.completion;
+    if (pdfSelections?.length) selections.push({ expectedForm, pdfSelections });
+  }
+  if (selections.length) await verifyRevisionForEvidence(member, selections, { signal });
+  return activePackageSignatureLabels(rules, member);
 }
 
 /** Validate a proposed reuse with the same byte, field and signature checks used for final delivery. */

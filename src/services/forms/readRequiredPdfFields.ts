@@ -9,6 +9,7 @@ export async function readPdfAnswerStates(bytes: ArrayBuffer) {
     const textValues = new Map<string, string>();
     const checked = new Set<string>(), unchecked = new Set<string>();
     const answered = new Set<string>();
+    const emptyText = new Set<string>();
     for (const [name, entries] of Object.entries(fields ?? {})) {
       // A non-widget parent can share the field name with its visible children.
       const widgets = entries.filter(entry => 'type' in entry && entry.type);
@@ -17,6 +18,8 @@ export async function readPdfAnswerStates(bytes: ArrayBuffer) {
       const values = widgets.map(widget => 'value' in widget ? widget.value : undefined);
       const scalar = values.map(value => Array.isArray(value) && value.length === 1 ? value[0] : value);
       const first = scalar[0];
+      if (widgets.length && widgets.every(widget => 'type' in widget && widget.type === 'text') &&
+          scalar.every(value => value == null || typeof value === 'string' && !value.trim())) emptyText.add(name);
       if (typeof first === 'string' && scalar.every(value => value === first)) textValues.set(name, first);
       if (widgets.length && widgets.every(widget => 'type' in widget && widget.type === 'checkbox' &&
           'value' in widget && typeof widget.value === 'string' && widget.value !== '' && widget.value !== 'Off')) checked.add(name);
@@ -30,7 +33,7 @@ export async function readPdfAnswerStates(bytes: ArrayBuffer) {
           (!button || value !== 'Off'));
       })) answered.add(name);
     }
-    return { answered, checked, unchecked, textValues };
+    return { answered, checked, unchecked, textValues, emptyText };
   } finally { await task.destroy(); }
 }
 
@@ -44,8 +47,8 @@ export async function missingRequiredPdfFields(bytes: ArrayBuffer, names: string
 }
 
 export function missingPdfSelections(fields: Awaited<ReturnType<typeof readPdfAnswerStates>>,
-  selections: readonly { field: string; label: string; expected: boolean | string[] }[]) {
-  return selections.filter(({ field, expected }) => typeof expected === 'boolean'
+  selections: readonly { field: string; label: string; expected: boolean | string[] | null }[]) {
+  return selections.filter(({ field, expected }) => expected === null ? !fields.emptyText.has(field) : typeof expected === 'boolean'
     ? !(expected ? fields.checked : fields.unchecked).has(field)
     : !expected.includes(fields.textValues.get(field) ?? ''));
 }

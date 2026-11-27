@@ -23,7 +23,7 @@ export const formCompletionSchema = z.object({
   }).strict()).min(1).max(20).optional(),
   pdfSelections: z.array(z.object({
     field: z.string().min(1).max(250), label,
-    expected: z.union([z.boolean(), z.array(z.string().min(1).max(500)).min(1).max(16)]),
+    expected: z.union([z.null(), z.boolean(), z.array(z.string().min(1).max(500)).min(1).max(16)]),
     initialize: z.literal(true).optional(),
   }).strict()).min(1).max(32).optional(),
   deliveryBlockReason: label.optional(),
@@ -32,7 +32,9 @@ export const formCompletionSchema = z.object({
   blankSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
   handwrittenSignature: z.literal(true).optional(),
   signatureFields: z.array(z.string().trim().min(1).max(250)).min(1).max(32).optional(),
-}).strict();
+  signatureLabels: z.record(z.string().min(1).max(250), label).optional(),
+}).strict().refine(rule => Object.keys(rule.signatureLabels ?? {}).every(field => rule.signatureFields?.includes(field)),
+  'A signature label must refer to a required signature field.');
 export type FormCompletion = z.infer<typeof formCompletionSchema>;
 export const packageRequirementSchema = z.discriminatedUnion('kind', [
   z.object({ ...common, kind: z.literal('document'), memberId: identity.optional(), memberRevisionId: identity.optional(), completion: formCompletionSchema.optional() }).strict(),

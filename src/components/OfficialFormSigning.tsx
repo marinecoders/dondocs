@@ -12,12 +12,12 @@ import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 
 export type BeforeOfficialSignature = (field: string, bytes: ArrayBuffer) => Promise<void>;
 export type SigningCorrection = (target: PackageDestination, signatureField: string) => void;
-type Props = { initialReturnFile?: File; onCorrect?: SigningCorrection; initialField?: string; beforeSign?: BeforeOfficialSignature; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
+type Props = { initialReturnFile?: File; onCorrect?: SigningCorrection; initialField?: string; signatureLabels?: ReadonlyMap<string, string>; beforeSign?: BeforeOfficialSignature; record: OfficialSigningRecord; onSave(record: OfficialSigningRecord): void;
   onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> };
 
 interface PendingSignature { bytes: Uint8Array; field: string; sourceSha256: string }
 
-export function OfficialFormSigning({ record, initialField, initialReturnFile, beforeSign, onCorrect, onSave, onAttach }: Props) {
+export function OfficialFormSigning({ record, initialField, signatureLabels, initialReturnFile, beforeSign, onCorrect, onSave, onAttach }: Props) {
   const [pendingReturn, setPendingReturn] = useState(initialReturnFile);
   const session = useSyncExternalStore(subscribeSigningSession, currentSigningSession);
   const disconnectPending = useSyncExternalStore(subscribeSigningSession, isDisconnectPending);
@@ -61,7 +61,7 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
   const chooseField = !initialField;
   const selectInspection = (value: OfficialInspection) => {
     const available = value.fields.filter(item => !item.locked && !item.signed);
-    setInspection({ ...value, fields: value.fields.map(item => ({ ...item, label: fieldLabels.current?.get(item.name) || item.label })) });
+    setInspection({ ...value, fields: value.fields.map(item => ({ ...item, label: signatureLabels?.get(item.name) || fieldLabels.current?.get(item.name) || item.label })) });
     setField(previous => {
       if (previous) return available.some(item => item.name === previous) ? previous : '';
       return chooseField && !beforeSign && available.length === 1 ? available[0].name : '';
@@ -155,7 +155,7 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
     {message && <p role="status" className="text-sm">{message}</p>}
     <fieldset disabled={busy} className="space-y-3">
       <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_minmax(15rem,20rem)]">
-        <OfficialSignatureLocation requireChoice={chooseField} key={latest.sha256} initiallyOpen record={record} choice={field}
+        <OfficialSignatureLocation signatureLabels={signatureLabels} requireChoice={chooseField} key={latest.sha256} initiallyOpen record={record} choice={field}
           connected={!!session} inspectedFields={inspected ? inspection?.fields : undefined}
           onChoice={value => { setField(value); setUnavailable(''); setReviewed(false); setFinalize(false); }} />
         <div className="min-w-0 space-y-3">
