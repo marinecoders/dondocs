@@ -19,6 +19,7 @@ export const formCompletionSchema = z.object({
   answerGroups: z.array(z.object({
     label,
     alternatives: z.array(z.array(z.string().trim().min(1).max(250)).min(1).max(12)).min(1).max(32),
+    eachStartedRow: z.literal(true).optional(),
     beforeSignatures: z.array(z.string().trim().min(1).max(250)).min(1).max(32).optional(),
   }).strict()).min(1).max(20).optional(),
   pdfSelections: z.array(z.object({

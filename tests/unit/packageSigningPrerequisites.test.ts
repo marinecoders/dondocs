@@ -43,3 +43,30 @@ it('checks for a real, empty text field in the revision being signed', async () 
   date.setText('2026-01-01');
   await expect(check()).rejects.toThrow('Leave decision date empty.');
 });
+
+it('requires every started row on the exact PDF while leaving unused rows optional', async () => {
+  const alternatives = [['articleA', 'summaryA', 'findingA'], ['articleB', 'summaryB', 'findingB']];
+  const revision: PackageRevision = { id: 'revision', createdAt: 0, members: [], outputs: [], requirements: { version: 1, items: [{
+    id: 'findings', label: 'Findings', memberId: 'form', kind: 'document', operations: ['pdf'], condition: 'active',
+    completion: { answerGroups: [{ label: 'Finish each allegation.', alternatives, eachStartedRow: true, beforeSignatures: ['authority'] }] },
+  }] } };
+  pdfjs.GlobalWorkerOptions.workerSrc = import.meta.resolve('pdfjs-dist/build/pdf.worker.mjs');
+  const check = async (fields: string[]) => checkPackageSigningPrerequisites(revision, 'form', 'authority', await answers(fields));
+  await expect(check([])).rejects.toThrow('Finish each allegation.');
+  await expect(check(alternatives[0])).resolves.toBeUndefined();
+  await expect(check([...alternatives[0], 'findingB'])).rejects.toThrow('Finish each allegation.');
+  await expect(check([...alternatives[0], 'articleB', 'summaryB'])).rejects.toThrow('Finish each allegation.');
+  await expect(check(alternatives.flat())).resolves.toBeUndefined();
+});
+
+it('only enforces PDF rules and checks their assigned revision before signing', async () => {
+  const document = { kind: 'document' as const, id: 'rows', label: 'Rows', memberId: 'form', condition: 'active' as const,
+    completion: { answerGroups: [{ label: 'Finish the row.', alternatives: [['value']], eachStartedRow: true as const, beforeSignatures: ['authority'] }] } };
+  const revision: PackageRevision = { id: 'revision', createdAt: 0, members: [], outputs: [],
+    requirements: { version: 1, items: [{ ...document, operations: ['portable'] }] } };
+  const bytes = await answers([]);
+  const check = () => checkPackageSigningPrerequisites(revision, 'form', 'authority', bytes);
+  await expect(check()).resolves.toBeUndefined();
+  revision.requirements!.items = [{ ...document, operations: ['pdf'], memberRevisionId: 'previous' }];
+  await expect(check()).rejects.toThrow('Review the assigned document revision');
+});

@@ -10,12 +10,16 @@ export async function checkPackageSigningPrerequisites(revision: PackageRevision
   const [unresolved] = await packageBindingReadiness(revision, memberId);
   if (unresolved) throw new PackageSigningRequirementError(unresolved.message, { bindingId: unresolved.bindingId, memberId });
   const requirements = revision.templateState ? await resolveConditionalPackageRequirements(revision) : revision.requirements;
+  const member = revision.members.find(item => item.id === memberId);
   const groups = [], selections = [];
   for (const item of requirements?.items ?? []) {
-    if (item.kind !== 'document' || item.memberId !== memberId || item.condition === 'inactive') continue;
+    if (item.kind !== 'document' || item.memberId !== memberId || item.condition === 'inactive' || !item.operations.includes('pdf')) continue;
     const applicable = item.completion?.answerGroups?.filter(group => group.beforeSignatures?.includes(field)) ?? [];
     const requiredSelections = item.completion?.pdfSelections ?? [];
     if ((applicable.length || requiredSelections.length) && item.condition === 'unknown') throw new PackageSigningRequirementError('Complete the package details for ' + item.label + ' before signing.', { panel: 'intake', section: 'overview' });
+    if ((applicable.length || requiredSelections.length) && item.memberRevisionId && item.memberRevisionId !== member?.revisionId) {
+      throw new PackageSigningRequirementError('Review the assigned document revision for ' + item.label + ' before signing.', { memberId });
+    }
     groups.push(...applicable);
     selections.push(...requiredSelections);
   }
@@ -26,7 +30,6 @@ export async function checkPackageSigningPrerequisites(revision: PackageRevision
   const { answered } = fields;
   const missing = missingAnswerGroups(groups, answered);
   if (!missing.length) return;
-  const member = revision.members.find(item => item.id === memberId);
   const definition = member?.kind === 'native' ? member.session.genericForm?.definition : undefined;
   const row = missing[0].alternatives.reduce((best, row) =>
     row.filter(name => !answered.has(name)).length < best.filter(name => !answered.has(name)).length ? row : best);
