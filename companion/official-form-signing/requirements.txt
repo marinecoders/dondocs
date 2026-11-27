@@ -1,1 +1,2 @@
 pyHanko[opentype,image-support]==0.38.2
+pypdf==7.2.0

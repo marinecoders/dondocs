@@ -1,4 +1,6 @@
 import { PackageSigningRequirementError, type PackageDestination } from '@/lib/packageDestinations';
+import { SignedFormFields } from './SignedFormFields';
+import { readUnlockedFields, editOfficialPdf, type EditableSignedField } from '@/services/forms/signingBridge';
 import { CacSignatureAppearance } from './CacSignatureAppearance';
 import { OfficialSignatureLocation } from './OfficialSignatureLocation';
 import { officialEdition } from '@/services/forms/nativeCatalog';
@@ -25,6 +27,7 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
   const [inspection, setInspection] = useState<OfficialInspection>();
   const [identities, setIdentities] = useState<Awaited<ReturnType<typeof signingIdentities>>>([]);
   const [certificate, setCertificate] = useState('');
+  const [editor, setEditor] = useState<{ digest: string; fields: EditableSignedField[] }>();
   const [field, setField] = useState(initialField ?? '');
   const [unavailable, setUnavailable] = useState('');
   const [finalize, setFinalize] = useState(false);
@@ -136,6 +139,26 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
     signal.throwIfAborted();
     setPending(undefined); onSave(next); selectInspection(result); setMessage('Signed PDF ready.');
   }
+  async function openFields(signal: AbortSignal) {
+    if (!session || !inspected) return;
+    const bytes = await officialRevisionBytes(record);
+    const fields = await readUnlockedFields(bytes, session, signal);
+    signal.throwIfAborted();
+    setEditor({ digest: latest.sha256, fields });
+  }
+  async function saveFields(answers: Record<string, string | boolean>, signal: AbortSignal) {
+    if (!session || !inspected || editor?.digest !== latest.sha256) throw new Error('Reconnect and reopen the signed revision.');
+    const bytes = await officialRevisionBytes(record);
+    const edited = await editOfficialPdf(bytes, answers, session, signal);
+    const result = await inspectOfficialPdf(edited, session, signal);
+    const earlier = inspection!.fields.filter(f => f.signed);
+    if (!earlier.length || result.fields.filter(f => f.signed).length !== earlier.length ||
+        !earlier.every(f => result.fields.some(next => next.name === f.name && next.signed && next.trusted)))
+      throw new Error('The earlier signatures could not be verified.');
+    const next = await saveOfficialRevision(record.filename, edited, () => !signal.aborted, record);
+    signal.throwIfAborted();
+    setEditor(undefined); onSave(next); selectInspection(result); setMessage('Fields saved. Earlier signatures verified.');
+  }
   function download(index: number) {
     const lease = reserveSigningPdfDownload();
     void run(async signal => {
@@ -153,13 +176,17 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
     <header><h3 className="font-medium">{record.filename}</h3><p className="text-sm text-muted-foreground">Official PDF · Revision {record.revisions.length}</p></header>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {message && <p role="status" className="text-sm">{message}</p>}
-    <fieldset disabled={busy} className="space-y-3">
+    {editor?.digest === latest.sha256 && <fieldset disabled={busy}><SignedFormFields fields={editor.fields}
+      onSave={changes => void run(signal => saveFields(changes, signal))} onCancel={() => setEditor(undefined)} /></fieldset>}
+    <fieldset disabled={busy || editor?.digest === latest.sha256} className="space-y-3">
       <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_minmax(15rem,20rem)]">
         <OfficialSignatureLocation signatureLabels={signatureLabels} requireChoice={chooseField} key={latest.sha256} initiallyOpen record={record} choice={field}
           connected={!!session} inspectedFields={inspected ? inspection?.fields : undefined}
           onChoice={value => { setField(value); setUnavailable(''); setReviewed(false); setFinalize(false); }} />
         <div className="min-w-0 space-y-3">
           {inspected && unavailable && <p role="status" className="text-sm">{unavailable}</p>}
+          {signed && profile?.format === 'acroform' && profile.definitionSha256 && inspection?.fields.every(f => !f.signed || f.trusted) &&
+            <Button variant="outline" onClick={() => void run(openFields)}>Edit unlocked fields</Button>}
           {canAttach && !pendingSignature && <Button onClick={() => void run(async signal => {
             // Imported returns pass the stricter comparison before they can enter this record.
             const bytes = await officialRevisionBytes(record);
