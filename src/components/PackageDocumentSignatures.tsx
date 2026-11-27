@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { PackageMember, PackageRevision } from '@/lib/actionPackages';
-import { packageSignatureFieldLabel } from '@/lib/packageSignatureFieldLabel';
+import { activePackageSignatureLabels, packageSignatureFieldLabel } from '@/lib/packageSignatureFieldLabel';
 import { resolveConditionalPackageRequirements } from '@/lib/packageConditionalRequirements';
 import type { PackageRequirements } from '@/lib/packageRequirementsModel';
 import { inspectedOfficialSignatureSlots } from '@/services/forms/signingBridge';
@@ -32,6 +32,7 @@ export function PackageDocumentSignatures({ member, revision, disabled, onField,
   }, [revision]);
   const resolved = legacy?.revision === revision ? legacy : undefined;
   const requirements = revision.requirements ?? resolved?.requirements;
+  const labels = activePackageSignatureLabels(requirements, member);
   const slots = new Map<string, 'Required' | 'Conditional' | 'Available field'>();
   for (const rule of requirements?.items ?? []) {
     if (rule.kind !== 'document' || rule.memberId !== member.id || !rule.operations.includes('pdf') || rule.condition === 'inactive' ||
@@ -62,7 +63,7 @@ export function PackageDocumentSignatures({ member, revision, disabled, onField,
     {inspection?.some(slot => slot.signed && !slot.trusted) && <p className="mt-2">Signature requirements remain open until every signature on this copy has a trusted chain.</p>}
     <ul className="divide-y">{Array.from(slots, ([field, requirement]) => {
       const slot = inspected.get(field);
-      const label = packageSignatureFieldLabel(member, field);
+      const label = labels.get(field) || packageSignatureFieldLabel(member, field);
       const status = slot?.signed ? slot.trusted ? 'Signed · trusted chain' : 'Signed · trust unconfirmed'
         : slot?.locked ? 'Locked' : member.kind !== 'native' && !inspection ? 'Requires inspection' : inspection && !slot ? 'Field not found' : 'Unsigned';
       return <li key={field} className="py-2">

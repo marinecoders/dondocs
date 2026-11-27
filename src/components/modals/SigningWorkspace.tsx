@@ -21,18 +21,31 @@ import { signingRecordDisclosure } from '@/lib/signingDisclosure';
 
 import { SigningNavigationContext, useSigningLeavePrompt, useSigningNavigation } from './useSigningNavigation';
 
-export default function SigningWorkspace({ open, onOpenChange, initialRecordId, initialField, initialReturnFile, initialHandoffId, beforeSign, onCorrect, onAttach, onAttachHandwritten, packageScoped = false }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string; initialField?: string; initialReturnFile?: File; initialHandoffId?: string; beforeSign?: BeforeOfficialSignature; onCorrect?: SigningCorrection; onAttachHandwritten?: AttachHandwritten; packageScoped?: boolean; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
+interface SigningRecordsProps {
+  initialRecordId?: string;
+  initialField?: string;
+  initialReturnFile?: File;
+  initialHandoffId?: string;
+  signatureLabels?: ReadonlyMap<string, string>;
+  packageScoped?: boolean;
+  onAttachHandwritten?: AttachHandwritten;
+  beforeSign?: BeforeOfficialSignature;
+  onCorrect?: SigningCorrection;
+  onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void>;
+}
+
+export default function SigningWorkspace({ open, onOpenChange, ...records }: SigningRecordsProps & { open: boolean; onOpenChange(open: boolean): void }) {
   const navigation = useSigningLeavePrompt();
   return <SigningNavigationContext.Provider value={navigation}><Dialog open={open} onOpenChange={next => {
     if (next) onOpenChange(true);
     else navigation.navigate(() => onOpenChange(false));
   }}><DialogContent className="flex max-h-[95dvh] max-w-5xl flex-col overflow-hidden sm:max-w-5xl">
     <DialogHeader><DialogTitle>Signing workspace</DialogTitle><DialogDescription>Review the PDF revision, select a signature field, and save the signed original.</DialogDescription></DialogHeader>
-    {open && <SigningRecords packageScoped={packageScoped} initialHandoffId={initialHandoffId} initialReturnFile={initialReturnFile} key={initialRecordId} initialRecordId={initialRecordId} initialField={initialField} beforeSign={beforeSign} onCorrect={onCorrect} onAttach={onAttach} onAttachHandwritten={onAttachHandwritten} />}
+    {open && <SigningRecords key={records.initialRecordId} {...records} />}
   </DialogContent></Dialog>{navigation.prompt}</SigningNavigationContext.Provider>;
 }
 
-function SigningRecords({ initialRecordId, initialField, initialReturnFile, initialHandoffId, beforeSign, onCorrect, onAttach, onAttachHandwritten, packageScoped = false }: { initialRecordId?: string; initialField?: string; initialReturnFile?: File; initialHandoffId?: string; beforeSign?: BeforeOfficialSignature; onCorrect?: SigningCorrection; onAttachHandwritten?: AttachHandwritten; packageScoped?: boolean; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
+function SigningRecords({ initialRecordId, initialField, initialReturnFile, initialHandoffId, signatureLabels, beforeSign, onCorrect, onAttach, onAttachHandwritten, packageScoped = false }: SigningRecordsProps) {
   const { navigate } = useSigningNavigation();
   const [records, setRecords] = useState<OfficialSigningRecord[]>([]);
   const [selected, setSelected] = useState(initialRecordId ?? '');
@@ -112,7 +125,7 @@ function SigningRecords({ initialRecordId, initialField, initialReturnFile, init
         <option value="">PDF handoffs and placement</option>
         {records.map(item => <option key={item.id} value={item.id}>{item.filename} · Revision {item.revisions.length}</option>)}
       </select></label>}
-    {record ? <OfficialFormSigning initialReturnFile={initialRecordId === record.id ? initialReturnFile : undefined} key={record.id} record={record} beforeSign={beforeSign} onCorrect={onCorrect} initialField={record.id === initialRecordId ? initialField : undefined} onAttach={onAttach}
+    {record ? <OfficialFormSigning signatureLabels={record.id === initialRecordId ? signatureLabels : undefined} initialReturnFile={initialRecordId === record.id ? initialReturnFile : undefined} key={record.id} record={record} beforeSign={beforeSign} onCorrect={onCorrect} initialField={record.id === initialRecordId ? initialField : undefined} onAttach={onAttach}
       onSave={saved => setRecords(rows => rows.map(item => item.id === saved.id ? saved : item))} />
       : loaded && !onAttach ? <SigningEditor packageScoped={packageScoped} onAttachHandwritten={selected === initialRecordId ? onAttachHandwritten : undefined} key={selected} openedNotice={openedNotice} initialHandoffId={selected === initialRecordId ? initialHandoffId : undefined} initialReturnFile={selected === initialRecordId ? initialReturnFile : undefined} initialRecordId={selected || undefined} /> : <p role="status">{loaded ? 'This signing file is unavailable.' : 'Opening signing records…'}</p>}
     {record && !onAttach && !packageScoped && <Button variant="ghost" size="sm" onClick={async () => {

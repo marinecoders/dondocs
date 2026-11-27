@@ -273,7 +273,7 @@ function PackageDialog({
   const [workDirty, setWorkDirty] = useState(false);
   const [formLocation, setFormLocation] = useState(() => readFormLocation('active'));
   const [externalReturn, setExternalReturn] = useState<{ packageId: string; revisionId: string; handoffId: string; file: File }>();
-  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; documentId: string; base: string; initialField?: string; returnedFile?: File }>();
+  const [formSigning, setFormSigning] = useState<{ id: string; memberId: string; revisionId: string; documentId: string; base: string; signatureLabels: ReadonlyMap<string, string>; initialField?: string; returnedFile?: File }>();
   const [signingDirty, setSigningDirty] = useState(false);
   const [assemblyDirty, setAssemblyDirty] = useState(false);
   useEffect(() => { if (!assemblyDirty) setError(previous => previous === "Save or discard assembly settings before closing this package." ? "" : previous); }, [assemblyDirty]);
@@ -430,7 +430,7 @@ function PackageDialog({
     return run(async () => {
       const signal = operation.current!.signal;
       const { checkMemberSigningSelections } = await import('@/lib/packageRequirements');
-      await checkMemberSigningSelections(getPackageRevision(record, revisionId || record.currentRevisionId), member, signal);
+      const signatureLabels = await checkMemberSigningSelections(getPackageRevision(record, revisionId || record.currentRevisionId), member, signal);
       const documentId = await signingMemberKey(record.id, member);
       let saved = (await officialSigningRecords()).find(entry => entry.sourceRevision?.documentId === documentId && (!returned || entry.id === returned.recordId));
       if (returned && !saved) throw new Error('The matched signing revision changed. Choose the returned PDF again.');
@@ -448,7 +448,7 @@ function PackageDialog({
           { documentId, epoch: 0, editSequence: 0, capturedAt: Date.now() });
       }
       signal.throwIfAborted();
-      setFormSigning({ id: saved.id, initialField, returnedFile: returned?.file, memberId: member.id, revisionId: member.revisionId, documentId, base: saved.revisions[0].sha256 });
+      setFormSigning({ id: saved.id, initialField, signatureLabels, returnedFile: returned?.file, memberId: member.id, revisionId: member.revisionId, documentId, base: saved.revisions[0].sha256 });
     });
   }
   const [deliveryReturnPackage, setDeliveryReturnPackage] = useState<string>();
@@ -2086,7 +2086,7 @@ function PackageDialog({
         </Dialog>
       </DialogContent>
     </Dialog>
-    {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialReturnFile={formSigning.returnedFile} initialRecordId={formSigning.id} initialField={formSigning.initialField}
+    {record && revision && formSigning && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><OfficialSigningWorkspace open initialReturnFile={formSigning.returnedFile} initialRecordId={formSigning.id} initialField={formSigning.initialField} signatureLabels={formSigning.signatureLabels}
               onCorrect={(target, signatureField) => {
                 setFormSigning(undefined);
                 followDestination({ ...target, revisionId: revision.id, signatureField });

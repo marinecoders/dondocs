@@ -1,3 +1,4 @@
+import { activePackageSignatureLabels } from '@/lib/packageSignatureFieldLabel';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
 import type { PackageMember, PackageRevision } from '@/lib/actionPackages';
@@ -8,7 +9,7 @@ import { PackageDocumentSignatures } from '@/components/PackageDocumentSignature
 const bytes = Uint8Array.of(1, 2, 3);
 const base: PackageRevision = { id: 'revision', createdAt: 1, members: [], outputs: [], requirements: {
   version: 1, items: [{ kind: 'document', label: 'Required signatures', id: 'sign', memberId: 'form', condition: 'active',
-    operations: ['pdf'], completion: { signatureFields: ['Authority', 'Witness'] } }],
+    operations: ['pdf'], completion: { signatureFields: ['Authority', 'Witness'], signatureLabels: { Witness: 'Duty officer' } } }],
 } };
 function member(sha256: string): PackageMember {
   return { id: 'form', revisionId: 'formRev', kind: 'original', label: 'Sample original', role: 'supporting-document',
@@ -45,7 +46,7 @@ it('shows trusted, outstanding and locked fields for the inspected bytes alone',
   expect(screen.getByText(/Authority · Required · Signed · trusted chain/)).toBeVisible();
   expect(screen.getByText(/Closed · Available field · Locked/)).toBeVisible();
   expect(screen.getByText('Signing locks all fields.')).toBeVisible();
-  fireEvent.click(screen.getByRole('button', { name: 'Review signature field: Witness' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Review signature field: Duty officer' }));
   expect(onField).toHaveBeenCalledWith('Witness');
   expect(hasInspectedSignature(sha256, 'Authority')).toBe(true);
   expect(hasInspectedSignature('b'.repeat(64), 'Authority')).toBe(false);
@@ -59,4 +60,14 @@ it('keeps a manually accepted content difference distinct from signature verific
   fireEvent.click(screen.getByText('Signatures'));
   expect(screen.getByText('Content differs from the handoff. Association accepted manually.')).toBeVisible();
   expect(screen.queryByText(/Signed · trusted chain/)).toBeNull();
+});
+
+it('uses the catalog label when two active signer roles conflict on the same field', () => {
+  const rule = base.requirements!.items[0];
+  if (rule.kind !== 'document') throw new Error('Expected a document');
+  const alternate = { ...rule, id: 'second', completion: { signatureFields: ['Witness'], signatureLabels: { Witness: 'Alternate officer' } } };
+  const fieldLabels = (rules: typeof base.requirements) => activePackageSignatureLabels(rules, member('a'.repeat(64))).get('Witness');
+  expect(fieldLabels({ version: 1, items: [rule, alternate] })).toBeUndefined();
+  expect(fieldLabels({ version: 1, items: [alternate, rule] })).toBeUndefined();
+  expect(fieldLabels({ version: 1, items: [rule, { ...alternate, condition: 'inactive' }] })).toBe('Duty officer');
 });

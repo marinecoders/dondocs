@@ -22,6 +22,7 @@ async function readLayout(record: OfficialSigningRecord, signal: AbortSignal) {
 
 /** Reads only the saved bytes. Certificate trust and signing permission come from the bridge. */
 interface LocationProps {
+  signatureLabels?: ReadonlyMap<string, string>;
   requireChoice?: boolean;
   initiallyOpen?: boolean;
   record: OfficialSigningRecord;
@@ -39,7 +40,7 @@ export function OfficialSignatureLocation(props: LocationProps) {
   </div>;
 }
 
-function SignatureLocations({ record, choice, onChoice, inspectedFields, requireChoice, connected }: LocationProps) {
+function SignatureLocations({ record, choice, onChoice, inspectedFields, requireChoice, connected, signatureLabels }: LocationProps) {
   const [layout, setLayout] = useState<Awaited<ReturnType<typeof readLayout>>>();
   const [error, setError] = useState('');
   useEffect(() => {
@@ -69,7 +70,7 @@ function SignatureLocations({ record, choice, onChoice, inspectedFields, require
         <option value="" disabled>Select a signature field</option>
         {fields.map(item => {
           const status = 'signed' in item ? item.signed ? 'Signed' : item.locked ? 'Locked' : '' : '';
-          return <option key={item.name} value={item.name} disabled={!!status}>{item.label}{status && ` · ${status}`}</option>;
+          return <option key={item.name} value={item.name} disabled={!!status}>{signatureLabels?.get(item.name) || item.label}{status && ` · ${status}`}</option>;
         })}
       </select>
     </label>}
