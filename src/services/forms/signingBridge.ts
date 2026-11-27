@@ -1,7 +1,10 @@
 import { z } from 'zod';
+import { base64ToUint8Array } from '@/lib/encoding';
+import { MAX_SIGNATURE_GRAPHIC_BYTES } from '@/lib/signatureGraphic';
 import { portableResourceDigest } from '@/lib/portableResources';
 
 const field = z.object({ name: z.string(), label: z.string(), signed: z.boolean(), locked: z.boolean(),
+  width: z.number().positive().max(14400).optional(), height: z.number().positive().max(14400).optional(),
   trusted: z.boolean().nullable(), lockAction: z.string(), lockFields: z.array(z.string()) });
 const inspection = z.object({ formId: z.string(), edition: z.string(), sha256: z.string(), fields: z.array(field) });
 export type OfficialInspection = z.infer<typeof inspection>;
@@ -132,8 +135,21 @@ export async function inspectOfficialPdf(bytes: Uint8Array, token: string, signa
   return result;
 }
 
-export async function signOfficialPdf(bytes: Uint8Array, field: string, certificate: string, finalize: boolean, token: string, signal: AbortSignal) {
-  const response = await request('/sign', token, signal, bytes, { 'X-Field': field, 'X-Certificate': certificate, 'X-Finalize': String(finalize) });
+export async function signOfficialPdf(bytes: Uint8Array, field: string, certificate: string, finalize: boolean, token: string, signal: AbortSignal, graphic?: string) {
+  const headers: Record<string, string> = { 'X-Field': field, 'X-Certificate': certificate, 'X-Finalize': String(finalize) };
+  let body = bytes;
+  if (graphic) {
+    if (graphic.length > 4 * Math.ceil(MAX_SIGNATURE_GRAPHIC_BYTES / 3)) throw new Error('Choose a signature PNG up to 2 MB.');
+    const png = base64ToUint8Array(graphic);
+    if (png.length > MAX_SIGNATURE_GRAPHIC_BYTES) throw new Error('Choose a signature PNG up to 2 MB.');
+    // A distinct media type makes older companions reject a custom appearance explicitly.
+    headers['Content-Type'] = 'application/vnd.dondocs.signature-appearance';
+    body = new Uint8Array(4 + png.length + bytes.length);
+    new DataView(body.buffer).setUint32(0, png.length);
+    body.set(png, 4);
+    body.set(bytes, 4 + png.length);
+  }
+  const response = await request('/sign', token, signal, body, headers);
   if (response.headers.get('Content-Type') !== 'application/pdf') throw new Error('The bridge did not return a signed PDF.');
   return new Uint8Array(await response.arrayBuffer());
 }

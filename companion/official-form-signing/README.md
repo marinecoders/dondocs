@@ -17,6 +17,8 @@ The adapter listens on 127.0.0.1:47993 and accepts the configured origin. Approv
 
 The connection prompt uses the macOS graphical session. The Windows prompt adapter uses an interactive Windows desktop and requires a separately provisioned Windows signing helper. A fresh installation still requires an administrator or user to provision the helper, trust bundle and bridge. Stop a foreground adapter with Ctrl-C. The form catalog lives in `src/data/officialPdfEditions.json` in the same checkout.
 
+The optional drawn or uploaded PNG is fitted inside the signature field alongside the certificate identity and signing time. The bridge validates and decodes the image before signing the incremental PDF revision. To qualify the appearance on another platform, set `DONDOCS_SIGNING_FONT` to an installed Times New Roman Regular font file.
+
 Run `python -m unittest` here for the software-certificate qualification. Physical CAC approval and Acrobat interoperability are separate checks.
 
 ## Qualified workflows

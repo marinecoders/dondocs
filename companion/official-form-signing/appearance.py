@@ -1,7 +1,7 @@
 """Certificate signature appearance for the narrow Page 11 widgets."""
 
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from functools import cache
 from io import BytesIO
 from unicodedata import normalize
@@ -9,10 +9,36 @@ from unicodedata import normalize
 from fontTools import subset
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.scaleUpem import scale_upem
+from PIL import Image, UnidentifiedImageError
 from pyhanko.pdf_utils import generic
+from pyhanko.pdf_utils.images import pil_image
 from pyhanko.pdf_utils.content import ResourceType
 from pyhanko.pdf_utils.font.opentype import GlyphAccumulator
 from pyhanko.stamp import BaseStamp, TextStampStyle
+
+
+MAX_GRAPHIC_BYTES = 2 * 1024 * 1024
+GRAPHIC_CONTENT_TYPE = "application/vnd.dondocs.signature-appearance"
+
+
+def graphic_signing_request(body, style, max_pdf):
+    # u32be PNG length, PNG bytes, then the exact original PDF.
+    size = int.from_bytes(body[:4], "big")
+    if not 0 < size <= MAX_GRAPHIC_BYTES or not 0 < len(body) - size - 4 <= max_pdf:
+        raise ValueError("Invalid signature appearance request.")
+    try:
+        with Image.open(BytesIO(body[4:4 + size]), formats=["PNG"]) as png:
+            if max(png.size) > 1024 or png.is_animated:
+                raise ValueError("Choose a single PNG up to 1024 pixels on each side.")
+            # Only decoded pixels enter the signed PDF. Do not retain image metadata.
+            pixels = png.convert("RGBA")
+            visible = Image.new("RGB", pixels.size, "white")
+            visible.paste(pixels, mask=pixels.getchannel("A"))
+            if visible.convert("L").getextrema()[0] >= 250:
+                raise ValueError("The signature image has no visible ink.")
+    except (UnidentifiedImageError, OSError, Image.DecompressionBombError) as exc:
+        raise ValueError("Choose a valid signature PNG.") from exc
+    return body[4 + size:], replace(style, graphic=visible)
 
 
 def wrap(value, limit, measure):
@@ -33,6 +59,8 @@ def wrap(value, limit, measure):
 def fit_column(paragraphs, width, height, measure, max_size):
     # Fit both dimensions. Longer identities can use additional lines
     # without clipping the certificate name or the signing time.
+    if width <= 0 or height <= 0:
+        raise ValueError("The signature field is too small for its appearance.")
     for tenths in range(int(max_size * 10), 0, -1):
         size = tenths / 10
         lines = [line for text in paragraphs for line in wrap(text, width / size, measure)]
@@ -74,6 +102,8 @@ def certificate_stamp_style(font_file):
 @dataclass(frozen=True)
 class CertificateStampStyle(TextStampStyle):
     font_program: bytes = field(kw_only=True, repr=False)
+
+    graphic: Image.Image | None = field(default=None, kw_only=True, repr=False, compare=False)
 
     def create_stamp(self, writer, box, text_params):
         return CertificateStamp(writer, self, box, text_params)
@@ -118,6 +148,17 @@ class CertificateStamp(BaseStamp):
              details_width, details_width / measure(self.date)),
         )
         commands = [b"0 g"]
+        if self.style.graphic is not None:
+            image = self.style.graphic
+            scale = min(name_width / image.width, (height - 2) / image.height)
+            if scale <= 0:
+                raise ValueError("The signature field is too small for an image.")
+            w, h = image.width * scale, image.height * scale
+            self.set_resource(ResourceType.XOBJECT, generic.pdf_name("/SignatureGraphic"),
+                              pil_image(image, self.writer))
+            commands.append(b"q %.5f 0 0 %.5f %.5f %.5f cm /SignatureGraphic Do Q" %
+                            (w, h, 1 + (name_width - w) / 2, (height - h) / 2))
+            columns = columns[1:]
         for x, paragraphs, column_width, max_size in columns:
             size, lines = fit_column(paragraphs, column_width, height - 2, measure, max_size)
             leading = size * 1.2

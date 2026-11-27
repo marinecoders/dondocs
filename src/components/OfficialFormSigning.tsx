@@ -1,4 +1,5 @@
 import { PackageSigningRequirementError, type PackageDestination } from '@/lib/packageDestinations';
+import { CacSignatureAppearance } from './CacSignatureAppearance';
 import { OfficialSignatureLocation } from './OfficialSignatureLocation';
 import { officialEdition } from '@/services/forms/nativeCatalog';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
@@ -38,6 +39,10 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
   const latest = record.revisions.at(-1)!;
   const [pending, setPending] = useState<PendingSignature>();
   const pendingSignature = pending?.sourceSha256 === latest.sha256 ? pending : undefined;
+  const graphicOwner = JSON.stringify([latest.sha256, field, certificate, session]);
+  const [appearance, setAppearance] = useState<{ owner: string; png?: string; busy?: boolean }>();
+  const graphic = appearance?.owner === graphicOwner ? appearance : undefined;
+  if (appearance && appearance.owner !== graphicOwner) setAppearance(undefined);
   const profile = inspection && officialEdition(inspection.formId, inspection.edition);
   const inspected = Boolean(session && inspectedSession === session && profile && inspection?.sha256 === latest.sha256);
   const [check, setCheck] = useState<{ field: string; digest: string; message?: string; target?: PackageDestination }>();
@@ -116,7 +121,7 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
     const bytes = await officialRevisionBytes(record);
     await beforeSign?.(field, bytes.buffer);
     signal.throwIfAborted();
-    const signed = await signOfficialPdf(bytes, field, certificate, finalize, session, signal);
+    const signed = await signOfficialPdf(bytes, field, certificate, finalize, session, signal, graphic?.png);
     signal.throwIfAborted();
     const candidate = { bytes: signed, field, sourceSha256: latest.sha256 };
     setPending(candidate);
@@ -193,10 +198,14 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
                 <ul>{selected.lockFields.map(name => <li key={name}>{name}</li>)}</ul></details>}
               {identities.length > 0 && <label className="grid gap-1 text-sm">Signing certificate<select className="rounded border bg-background p-2" value={certificate} onChange={e => { setCertificate(e.target.value); setReviewed(false); }}>
                 {identities.map(item => <option key={item.fingerprint} value={item.fingerprint}>{item.label}</option>)}</select></label>}
+              {selected.width && selected.height && <CacSignatureAppearance key={graphicOwner}
+                width={selected.width} height={selected.height} value={graphic?.png}
+                onBusyChange={busy => { setReviewed(false); setAppearance(prior => ({ owner: graphicOwner, png: prior?.owner === graphicOwner ? prior.png : undefined, busy })); }}
+                onChange={png => { setReviewed(false); setAppearance({ owner: graphicOwner, png }); }} />}
               {profile.format === 'xfa' && !inspection.fields.some(item => item.signed) &&
                 <label className="block text-sm"><input type="checkbox" checked={finalize} onChange={e => { setFinalize(e.target.checked); setReviewed(false); }} /> Lock the entire PDF after signing (prevents further signatures)</label>}
               <label className="block text-sm"><input type="checkbox" checked={reviewed} onChange={e => setReviewed(e.target.checked)} /> I reviewed the exact PDF and selected signature field.</label>
-              <Button disabled={!reviewed || !certificate || !!beforeSign && (!checked || !!checked.message)} onClick={() => void run(sign)}>Sign with CAC</Button></>}
+              <Button disabled={!reviewed || !!graphic?.busy || !certificate || !!beforeSign && (!checked || !!checked.message)} onClick={() => void run(sign)}>Sign with CAC</Button></>}
           </div>}
           <div className="flex flex-wrap items-center gap-2">
             <Button variant={signed && !onAttach ? 'default' : 'outline'} onClick={() => download(record.revisions.length - 1)}>
