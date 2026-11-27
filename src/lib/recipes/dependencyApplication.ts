@@ -10,15 +10,12 @@ export function dependencyApplication(): MaintainedRecipe {
         { id: 'marriage', label: 'Marriage' }, { id: 'birth', label: 'Birth of a child' },
         { id: 'loss', label: 'Loss of a dependent' },
       ] }),
-      question('supportOrder', 'Is there an applicable support or custody order?', 'boolean'),
-    ], { requirements: [
-      { id: 'certification', kind: 'confirmation', operations: ['review', 'pdf'],
-        label: 'Confirm the claimant signed and a different administrative official with by-direction authority attested the application' },
-    ] }),
+      question('supportOrder', 'Is there a court order or written agreement in effect concerning support, maintenance, or paternity?', 'boolean'),
+    ], { revision: '2' }),
     members: [
       { key: 'application', kind: 'attachment', role: 'supporting-document', required: true,
         label: 'Completed and signed NAVMC 10922', reference: { id: 'navmc10922', edition: '2021-07' },
-        completion: { reviewedScan: true } },
+        completion: { reviewedScan: 'I verified the claimant signed and a different administrative official with by-direction authority attested this application.' } },
       { key: 'marriage', kind: 'attachment', role: 'supporting-document', required: true,
         label: 'Marriage certificate', when: equals('event', 'marriage') },
       { key: 'birth', kind: 'attachment', role: 'supporting-document', required: true,
@@ -26,7 +23,7 @@ export function dependencyApplication(): MaintainedRecipe {
       { key: 'loss', kind: 'attachment', role: 'supporting-document', required: true,
         label: 'Record substantiating loss of dependency', when: equals('event', 'loss') },
       { key: 'order', kind: 'attachment', role: 'supporting-document', required: true,
-        label: 'Applicable support or custody order', when: equals('supportOrder', true) },
+        label: 'Court order or written agreement concerning support, maintenance, or paternity', when: equals('supportOrder', true) },
     ],
   };
 }

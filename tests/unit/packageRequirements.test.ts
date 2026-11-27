@@ -256,6 +256,23 @@ it('tracks manual scan review by exact PDF bytes independently of certificate tr
   expect((await inspectPackageRequirements(revision, 'pdf')).ready).toBe(false);
 });
 
+it('requires the exact declaration and original for both review and delivery', async () => {
+  const revision = getPackageRevision(await fixture());
+  const member = revision.members[1];
+  if (member.kind !== 'original') throw new Error('Expected original');
+  const statement = 'I verified both signatures on the application.';
+  revision.requirements = requirements(slot({ memberId: member.id, operations: ['pdf', 'review'], completion: { reviewedScan: statement } }));
+  member.signatureReviewSha256 = member.original.sha256;
+  for (const operation of ['review', 'pdf'] as const) {
+    for (const previous of [undefined, ['I reviewed the first signature.'], [statement]]) {
+      member.signatureReviewStatements = previous;
+      expect((await inspectPackageRequirements(revision, operation)).ready).toBe(previous?.includes(statement) ?? false);
+    }
+  }
+  member.signatureReviewSha256 = '0'.repeat(64);
+  expect((await inspectPackageRequirements(revision, 'review')).ready).toBe(false);
+});
+
 it('assigns an older exact PDF to a manual evidence slot across portable transfer without replacing the current member', async () => {
   const first = await fixture(), revision = getPackageRevision(first), original = revision.members[1];
   if (original.kind !== 'original') throw new Error('Expected an original');

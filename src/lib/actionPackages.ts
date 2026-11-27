@@ -99,6 +99,7 @@ const originalSchema = z
     }).strict().optional(),
     signedOriginal: z.boolean(),
     handwrittenSourceSha256: digest.optional(),
+    signatureReviewStatements: z.array(z.string().trim().min(1).max(160)).min(1).max(500).optional(),
     signatureReviewSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     officialFormId: z.string().max(100).optional(),
   })
