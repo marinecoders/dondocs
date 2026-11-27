@@ -1,3 +1,4 @@
+import { activePackageSignatureLabels } from '@/lib/packageSignatureFieldLabel';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
 import type { PackageMember, PackageRevision } from '@/lib/actionPackages';
@@ -59,4 +60,14 @@ it('keeps a manually accepted content difference distinct from signature verific
   fireEvent.click(screen.getByText('Signatures'));
   expect(screen.getByText('Content differs from the handoff. Association accepted manually.')).toBeVisible();
   expect(screen.queryByText(/Signed · trusted chain/)).toBeNull();
+});
+
+it('uses the catalog label when two active signer roles conflict on the same field', () => {
+  const rule = base.requirements!.items[0];
+  if (rule.kind !== 'document') throw new Error('Expected a document');
+  const alternate = { ...rule, id: 'second', completion: { signatureFields: ['Witness'], signatureLabels: { Witness: 'Alternate officer' } } };
+  const fieldLabels = (rules: typeof base.requirements) => activePackageSignatureLabels(rules, member('a'.repeat(64))).get('Witness');
+  expect(fieldLabels({ version: 1, items: [rule, alternate] })).toBeUndefined();
+  expect(fieldLabels({ version: 1, items: [alternate, rule] })).toBeUndefined();
+  expect(fieldLabels({ version: 1, items: [rule, { ...alternate, condition: 'inactive' }] })).toBe('Duty officer');
 });

@@ -61,7 +61,7 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
   const chooseField = !initialField;
   const selectInspection = (value: OfficialInspection) => {
     const available = value.fields.filter(item => !item.locked && !item.signed);
-    setInspection({ ...value, fields: value.fields.map(item => ({ ...item, label: signatureLabels?.get(item.name) || fieldLabels.current?.get(item.name) || item.label })) });
+    setInspection({ ...value, fields: value.fields.map(item => ({ ...item, label: fieldLabels.current?.get(item.name) || item.label })) });
     setField(previous => {
       if (previous) return available.some(item => item.name === previous) ? previous : '';
       return chooseField && !beforeSign && available.length === 1 ? available[0].name : '';
@@ -227,7 +227,7 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
         <details className="text-sm">
           <summary>Signature status ({inspection.fields.length})</summary>
           <ul className="divide-y">{inspection.fields.map(item => <li key={item.name} className="flex justify-between gap-3 py-2">
-            <span>{item.label}</span><span>{item.signed ? item.trusted ? 'Signed · trusted chain' : 'Signed · trust unconfirmed' : item.locked ? 'Locked' : 'Available'}</span>
+            <span>{signatureLabels?.get(item.name) || item.label}</span><span>{item.signed ? item.trusted ? 'Signed · trusted chain' : 'Signed · trust unconfirmed' : item.locked ? 'Locked' : 'Available'}</span>
           </li>)}</ul>
         </details>
       </>}
