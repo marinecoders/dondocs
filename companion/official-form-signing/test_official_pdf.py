@@ -7,6 +7,7 @@ from io import BytesIO
 from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from PIL import Image, ImageDraw
 from appearance import certificate_stamp_style, fit_column, graphic_signing_request
@@ -185,7 +186,13 @@ class OfficialSigning(unittest.TestCase):
         name = "9 NJP AUTHORITY SIGNATURE"
         with self.assertRaisesRegex(ValueError, "Sign first"):
             sign_revision(data, name, self.signer, self.context)
+        # Produce an otherwise valid return as an external signing application could.
+        with patch("official_pdf.check_signature_order"):
+            external = sign_revision(data, name, self.signer, self.context)
+        with self.assertRaisesRegex(ValueError, "Sign first"):
+            inspect_return(external, len(data), sha256(data).hexdigest(), self.context)
         rights = sign_revision(data, "2 ACC ELECTION AND RIGHTS SIGNATURE", self.signer, self.context)
+        inspect_return(rights, len(data), sha256(data).hexdigest(), self.context)
         attestation = sign_revision(rights, "3 RIGHTS ATTEST SIGNATURE", self.signer, self.context)
         one = sign_revision(attestation, name, self.signer, self.context)
         slots = {s["name"]: s for s in inspect_revision(one, self.context)[1]}
