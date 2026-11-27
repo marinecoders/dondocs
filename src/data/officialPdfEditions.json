@@ -44,6 +44,40 @@
         "accept": "I do not demand trial and will accept non-judicial punishment, subject to my right of appeal.",
         "refuse": "I demand trial and refuse non-judicial punishment."
       }
+    },
+    "priorSignatures": {
+      "3 RIGHTS ATTEST SIGNATURE": [
+        "2 ACC ELECTION AND RIGHTS SIGNATURE"
+      ],
+      "9 NJP AUTHORITY SIGNATURE": [
+        "2 ACC ELECTION AND RIGHTS SIGNATURE",
+        "3 RIGHTS ATTEST SIGNATURE"
+      ],
+      "11 APPEAL ADVISEMENT SIGNATURE": [
+        "2 ACC ELECTION AND RIGHTS SIGNATURE",
+        "3 RIGHTS ATTEST SIGNATURE",
+        "9 NJP AUTHORITY SIGNATURE"
+      ],
+      "12 APPEAL INTENT SIGNATURE": [
+        "2 ACC ELECTION AND RIGHTS SIGNATURE",
+        "3 RIGHTS ATTEST SIGNATURE",
+        "9 NJP AUTHORITY SIGNATURE",
+        "11 APPEAL ADVISEMENT SIGNATURE"
+      ],
+      "14 APPEAL DECISION SIGNATURE": [
+        "2 ACC ELECTION AND RIGHTS SIGNATURE",
+        "3 RIGHTS ATTEST SIGNATURE",
+        "9 NJP AUTHORITY SIGNATURE",
+        "11 APPEAL ADVISEMENT SIGNATURE",
+        "12 APPEAL INTENT SIGNATURE"
+      ],
+      "16 FINAL ADMIN INIT": [
+        "2 ACC ELECTION AND RIGHTS SIGNATURE",
+        "3 RIGHTS ATTEST SIGNATURE",
+        "9 NJP AUTHORITY SIGNATURE",
+        "11 APPEAL ADVISEMENT SIGNATURE",
+        "12 APPEAL INTENT SIGNATURE"
+      ]
     }
   },
   {

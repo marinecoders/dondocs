@@ -214,6 +214,14 @@ class OfficialRevisionWriter(IncrementalPdfFileWriter):
         pass
 
 
+def check_signature_order(profile, name, before):
+    verified = {slot["name"] for slot in before if slot["signed"] and slot["trusted"]}
+    required = profile.get("priorSignatures", {}).get(name, [])
+    missing = [field for field in required if field not in verified]
+    if missing:
+        raise ValueError("Sign first: " + ", ".join(missing) + ".")
+
+
 def sign_revision(data, name, signer, context, style=None, finalize=False):
     edition, before = inspect_revision(data, context)
     slot = next((item for item in before if item["name"] == name), None)
@@ -222,6 +230,7 @@ def sign_revision(data, name, signer, context, style=None, finalize=False):
     prior = {item["name"] for item in before if item["signed"]}
     if any(item["signed"] and not item["trusted"] for item in before):
         raise ValueError("Verify the earlier signer's certificate chain before countersigning.")
+    check_signature_order(official_profile(data), name, before)
     if finalize and edition != "Page 11":
         raise ValueError("This edition supplies its own signature locks.")
     if finalize and prior:
@@ -268,7 +277,9 @@ def inspect_return(data, base_length, base_hash, context):
     reader = OfficialReader(BytesIO(data), strict=False)
     if reader.security_handler:
         reader.decrypt("")
-    policy = revision_policy(official_profile(data))
+    profile = official_profile(data)
+    check_signature_order(profile, next(iter(additions)), before)
+    policy = revision_policy(profile)
     result = policy.review_file(reader, base.total_revisions - 1)
     if isinstance(result, Exception) or result.changed_form_fields != additions:
         raise ValueError("The return changes more than the selected signature.")

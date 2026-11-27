@@ -9,9 +9,11 @@ import type { PackageRequirements } from './packageRequirementsModel';
 export function activePackageSignatureLabels(requirements: PackageRequirements | undefined, member: PackageMember) {
   const labels = new Map<string, string>();
   const conflicts = new Set<string>();
+  const required = new Set<string>();
   for (const rule of requirements?.items ?? []) {
     if (rule.kind !== 'document' || rule.condition !== 'active' || rule.memberId !== member.id ||
         !rule.operations.includes('pdf') || rule.memberRevisionId && rule.memberRevisionId !== member.revisionId) continue;
+    for (const name of rule.completion?.signatureFields ?? []) required.add(name);
     for (const [field, label] of Object.entries(rule.completion?.signatureLabels ?? {})) {
       if (labels.has(field) && labels.get(field) !== label) conflicts.add(field);
       labels.set(field, label);
@@ -19,6 +21,7 @@ export function activePackageSignatureLabels(requirements: PackageRequirements |
   }
   // Use the catalog label if active requirements disagree about a field.
   for (const field of conflicts) labels.delete(field);
+  for (const field of required) if (!labels.has(field)) labels.set(field, packageSignatureFieldLabel(member, field));
   return labels;
 }
 
