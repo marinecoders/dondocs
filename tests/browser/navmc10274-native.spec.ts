@@ -63,3 +63,14 @@ test('edits an official Administrative Action inside a package and delivers its 
     expect(text.items.some(item => 'str' in item && item.str.includes('PKG-10274'))).toBe(true);
   } finally { await printed.destroy(); }
 });
+
+test('the signing workspace identifies an official form without CAC fields before connecting', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Download', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
+  const workspace = page.getByRole('dialog', { name: 'Signing workspace' });
+  await workspace.getByLabel('Open PDF').setInputFiles('public/templates/NAVMC10274 - Administrative Action/2020-07/original.pdf');
+  await expect(workspace.getByRole('alert')).toHaveText('This official PDF has no supported CAC signature fields.');
+  await expect(workspace.getByRole('button', { name: 'Connect CAC' })).toHaveCount(0);
+});

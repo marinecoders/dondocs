@@ -13,7 +13,7 @@ for (const kind of ['blocked marking', 'privacy review'] as const) {
     const bytes = Buffer.from(await pdf.save());
     await page.goto('/');await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
-    await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Review.pdf', mimeType: 'application/pdf', buffer: bytes });
+    await dialog.getByLabel('Open PDF').setInputFiles({ name: 'Review.pdf', mimeType: 'application/pdf', buffer: bytes });
     await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
     await dialog.getByRole('checkbox', { name: /^I reviewed every page,/ }).check();
     await dialog.getByRole('button', { name: 'Download unchanged source PDF', exact: true }).click();
@@ -50,7 +50,7 @@ test('requires a rendered signing preview before accepting page review', async (
     await page.goto('/');await page.getByRole('button', { name: 'Download', exact: true }).click();
     await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
-    await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Preview.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
+    await dialog.getByLabel('Open PDF').setInputFiles({ name: 'Preview.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
     await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
     await expect.poll(() => blockedWorkers).toBeGreaterThan(0);
     const reviewed = dialog.getByRole('checkbox', { name: /^I reviewed every page,/ });

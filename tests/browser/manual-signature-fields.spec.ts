@@ -10,7 +10,7 @@ test('retains manual positions across reload and exports real rotated PDF signat
   async function open() { await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click(); }
   await open();
   const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
-  await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Synthetic.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
+  await dialog.getByLabel('Open PDF').setInputFiles({ name: 'Synthetic.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
   await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
   await dialog.getByRole('button', { name: 'Add signature box', exact: true }).click();
   await dialog.getByLabel('Signer name', { exact: true }).fill('JANE EXAMPLE');

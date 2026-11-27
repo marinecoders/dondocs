@@ -249,7 +249,7 @@ for (const entry of ['document', 'field'] as const) {
     const confirm = page.getByRole('button', { name: 'Continue to signing' });
     await expect(signing.or(confirm)).toBeVisible({ timeout: 45_000 });
     if (await confirm.isVisible()) await confirm.click();
-    const location = signing.getByRole('combobox', { name: 'PDF signature location' });
+    const location = signing.getByRole('combobox', { name: 'Signature field', exact: true });
     if (entry === 'document') {
       await expect(location).toHaveValue('');
       await location.selectOption('9 NJP AUTHORITY SIGNATURE');
@@ -257,7 +257,9 @@ for (const entry of ['document', 'field'] as const) {
     await expect(location).toHaveValue('9 NJP AUTHORITY SIGNATURE');
     const preview = signing.locator('[data-signing-preview-page]');
     await expect(preview).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
-    await expect(preview.locator('span[aria-hidden]')).toBeVisible();
+    const highlight = preview.locator('span[aria-hidden]');
+    await expect(highlight).toBeInViewport({ ratio: 0.95 });
+    await expect(signing.getByRole('combobox', { name: 'Signature field', exact: true })).toHaveCount(1);
     await signing.getByRole('button', { name: 'Next page' }).click();
     await expect(signing.getByText('Page 2 of 3')).toBeVisible();
     await expect(preview.locator('span[aria-hidden]')).toHaveCount(0);

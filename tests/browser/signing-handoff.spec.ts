@@ -14,7 +14,7 @@ test('downloads an immutable handoff and transfers its exact source and placemen
   await page.goto('/');
   await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
-  await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Handoff.pdf', mimeType: 'application/pdf', buffer: source });
+  await dialog.getByLabel('Open PDF').setInputFiles({ name: 'Handoff.pdf', mimeType: 'application/pdf', buffer: source });
   await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
   await dialog.getByRole('button', { name: 'Add signature box', exact: true }).click();
   await dialog.getByLabel('Signer name', { exact: true }).fill('ORIGINAL SIGNER');await dialog.getByRole('checkbox').check();
@@ -144,7 +144,7 @@ test('keeps healthy records usable while damaged entries can be recovered and ex
   const pdf = await PDFDocument.create();pdf.addPage([400, 600]);const bytes = Buffer.from(await pdf.save());
   await page.goto('/');await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
-  await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Healthy.pdf', mimeType: 'application/pdf', buffer: bytes });
+  await dialog.getByLabel('Open PDF').setInputFiles({ name: 'Healthy.pdf', mimeType: 'application/pdf', buffer: bytes });
   await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
   await page.evaluate(() => new Promise<void>((resolve, reject) => {
     const opening = indexedDB.open('dondocs');opening.onerror = () => reject(opening.error);

@@ -19,7 +19,7 @@ async function openSigning(page: Page) {
 async function startHandoff(page: Page, providedSource?: Buffer) {
   await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));await page.goto('/');
   const dialog = await openSigning(page), source = providedSource ?? await pdfBytes('SYNTHETIC SIGNING RETURN SOURCE');
-  await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Same name.pdf', mimeType: 'application/pdf', buffer: source });
+  await dialog.getByLabel('Open PDF').setInputFiles({ name: 'Same name.pdf', mimeType: 'application/pdf', buffer: source });
   await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
   await dialog.getByRole('button', { name: 'Add signature box', exact: true }).click();
   await dialog.getByLabel('Signer name', { exact: true }).fill('TRAINING SIGNER');
