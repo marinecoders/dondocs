@@ -222,6 +222,10 @@ def sign_revision(data, name, signer, context, style=None, finalize=False):
     prior = {item["name"] for item in before if item["signed"]}
     if any(item["signed"] and not item["trusted"] for item in before):
         raise ValueError("Verify the earlier signer's certificate chain before countersigning.")
+    required = official_profile(data).get("priorSignatures", {}).get(name, [])
+    missing = [n for n in required if n not in prior]
+    if missing:
+        raise ValueError("Sign first: " + ", ".join(missing) + ".")
     if finalize and edition != "Page 11":
         raise ValueError("This edition supplies its own signature locks.")
     if finalize and prior:

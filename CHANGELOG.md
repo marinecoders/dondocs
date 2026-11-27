@@ -7,6 +7,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.374]
+
+- Signing checks the required signature order and warns before a signature closes an outstanding package slot.
+
 ## [1.3.373]
 
 - The signing workspace can update unlocked native fields on a verified signed form and save the revision back to its package.
