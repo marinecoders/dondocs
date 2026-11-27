@@ -80,7 +80,7 @@ function dimensions(width: number, height: number): void {
 
 /** Bound every PNG inflation path before calling an image decoder. In particular,
  * IHDR dimensions alone do not bound malformed IDAT data or compressed metadata. */
-function preflightPng(bytes: Uint8Array, budget: ReturnType<typeof createRasterDecodeBudget>): void {
+export function preflightPng(bytes: Uint8Array, budget = createRasterDecodeBudget()): void {
   const signature = [137, 80, 78, 71, 13, 10, 26, 10];
   if (bytes.length < 33 || signature.some((byte, index) => bytes[index] !== byte)) throw new Error('Choose a valid PNG image.');
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);

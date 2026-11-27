@@ -1,6 +1,6 @@
 import { packageDocumentName } from '@/lib/actionPackages';
 import { z } from 'zod';
-import { actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId,
+import { actionPackageSchema, commitActionPackage, reviseActionPackage, getPackageRevision, listActionPackages, newPackageId,
   packageMemberLabel, type ActionPackage, type PackageAsset, type PackageRevision } from './actionPackages';
 import { readPackageAsset } from './actionPackageAssets';
 import { withAttachmentStaging } from './attachments';
@@ -81,7 +81,7 @@ async function assertTargetProvenance(revision: PackageRevision, target: Package
     throw new Error('Retain a new PDF from this exact revision before preparing package signing. Its saved input association is unavailable or inconsistent.');
 }
 export interface PreparedPackageSigningSource { readonly filename: string; readonly sourceSha256: string; readonly reviews: readonly ExportReview[] }
-const sourcePlans = new WeakMap<PreparedPackageSigningSource, { before: ActionPackage; revisionId: string; target: PackageSigningTarget; asset: PackageAsset; bytes: ArrayBuffer; policy: string }>();
+const sourcePlans = new WeakMap<PreparedPackageSigningSource, { before: ActionPackage; revisionId: string; target: PackageSigningTarget; asset: PackageAsset; bytes: ArrayBuffer; policy: string; openedRecordId?: string }>();
 export async function preparePackageSigningSource(input: ActionPackage, revisionId: string, targetInput: PackageSigningTarget,
   policy: PolicyResolution, signal?: AbortSignal): Promise<PreparedPackageSigningSource> {
   signal?.throwIfAborted();
@@ -103,10 +103,43 @@ export async function openPackageSigningSource(prepared: PreparedPackageSigningS
     const existing = (await listSigningRecords()).find(record => record.id === existingRecordId);
     if (!existing || existing.source.sha256 !== captured.asset.sha256) throw new Error('The selected signing record no longer matches this exact PDF. Refresh the saved handoffs.');
     if (!current()) throw new Error('This signing operation is no longer current.');
+    captured.openedRecordId = existing.id;
     return existing;
   }
-  return createSigningRecord(new Uint8Array(captured.bytes), captured.asset.name, current);
+  const record = await createSigningRecord(new Uint8Array(captured.bytes), captured.asset.name, current);
+  captured.openedRecordId = record.id;
+  return record;
 }
+/** Attach only to the exact unsigned member selected when the package workspace opened. */
+export async function attachPackageHandwriting(prepared: PreparedPackageSigningSource, recordId: string, revisionId: string,
+  policy: PolicyResolution, signal?: AbortSignal, isCurrent: () => boolean = () => true) {
+  const captured = sourcePlans.get(prepared);
+  if (!captured || captured.target.kind !== 'member' || captured.policy !== policyKey(policy)) throw new Error('Reopen the original package member before saving.');
+  const current = await guard(captured.before, policy, signal, isCurrent);
+  const revision = getPackageRevision(captured.before);
+  const member = revision.members.find(item => item.id === captured.target.id);
+  if (member?.kind !== 'original' || member.revisionId !== captured.target.revisionId || member.signedOriginal || member.officialFormId) {
+    throw new Error('This document requires its original signing workflow.');
+  }
+  if (recordId !== captured.openedRecordId) throw new Error('Reopen the signing record for this package member.');
+  const { resolveConditionalPackageRequirements } = await import('./packageConditionalRequirements');
+  const rules = await resolveConditionalPackageRequirements(revision);
+  if (rules?.items.some(item => item.kind === 'document' && item.condition !== 'inactive' &&
+      (item.memberId === member.id || item.memberId === member.evidenceSlotId && !!member.evidenceSlotId) &&
+      (item.completion?.expectedForm || item.completion?.signatureFields?.length))) {
+    throw new Error('This package member requires an official form or certificate signature.');
+  }
+  const saved = (await listSigningRecords()).find(item => item.id === recordId);
+  const mark = saved?.handwritten?.at(-1);
+  if (!saved || saved.source.sha256 !== captured.asset.sha256 || !mark || mark.id !== revisionId) {
+    throw new Error('Review the current handwritten revision of this exact package PDF.');
+  }
+  const { preparePackagePdfReplacement } = await import('./packageMemberHistory');
+  const { replacement, attachment } = await preparePackagePdfReplacement(member, saved.source.filename, new Uint8Array(base64ToUint8Array(mark.pdf.data)).buffer, false);
+  return reviseActionPackage(captured.before, revision.members.map(value => value.id === member.id
+    ? { ...replacement, handwrittenSourceSha256: member.original.sha256 } : value), signal, revision.citations, current, undefined, [attachment]);
+}
+
 export interface PreparedPackageSigningHandoff { readonly filename: string; readonly handoffId: string; readonly signers: readonly string[]; readonly reviews: readonly ExportReview[] }
 const handoffPlans = new WeakMap<PreparedPackageSigningHandoff, { before: ActionPackage; revisionId: string; target: PackageSigningTarget;
   source: PackageAsset; record: SigningRecord; contextSha256: string; policy: string }>();
@@ -124,7 +157,7 @@ export async function preparePackageSigningHandoff(input: ActionPackage, revisio
   if (getPackageRevision(before).signing?.handoffs.some(item => item.handoffId === handoffId && item.signingRecordId === full.id))
     throw new Error('This signing handoff is already captured in the package.');
   await readPackageAsset(source);
-  const record = await validateSigningRecord({ ...full, fields: handoff.fields, handoffs: [handoff], returns: undefined });
+  const record = await validateSigningRecord({ ...full, fields: handoff.fields, handoffs: [handoff], handwritten: undefined, returns: undefined });
   const reviews = [reviewPackageText(metadataText(record), 'Exact package signing assignments and retained metadata', policy),
     await reviewPackageOriginal(base64ToUint8Array(record.source.data).buffer as ArrayBuffer, record.source.filename, policy),
     await reviewPackageOriginal(base64ToUint8Array(handoff.pdf.data).buffer as ArrayBuffer, handoff.pdf.filename, policy)];
@@ -274,7 +307,7 @@ export async function preparePackageSigningReturn(input: ActionPackage, entryId:
   if (!returned) throw new Error('Choose a returned file already associated with this exact handoff.');
   if (entry.returns?.some(item => item.signingReturnId === returned.id || item.returnedAsset.sha256 === returned.pdf.sha256))
     throw new Error('This exact returned PDF is already captured by the package.');
-  const snapshot = await validateSigningRecord({ ...full, fields: captured.handoffs![0].fields, handoffs: captured.handoffs, returns: [returned] });
+  const snapshot = await validateSigningRecord({ ...full, fields: captured.handoffs![0].fields, handoffs: captured.handoffs, handwritten: undefined, returns: [returned] });
   const reviews = [reviewPackageText(metadataText(snapshot), 'Returned package signing metadata and association decision', policy),
     await reviewPackageOriginal(base64ToUint8Array(snapshot.handoffs![0].pdf.data).buffer as ArrayBuffer, snapshot.handoffs![0].pdf.filename, policy),
     await reviewPackageOriginal(base64ToUint8Array(returned.pdf.data).buffer as ArrayBuffer, returned.pdf.filename, policy)];

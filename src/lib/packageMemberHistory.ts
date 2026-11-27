@@ -20,7 +20,7 @@ export async function preparePackagePdfReplacement(member: Extract<PackageMember
   data: ArrayBuffer, signedOriginal: boolean, blankSha256?: string) {
   const { original, officialFormId, attachment } = await preparePackagePdfAsset(name, data, signedOriginal, blankSha256);
   if (original.sha256 === member.original.sha256) throw new Error('This exact PDF is already saved in this slot.');
-  const { signatureReviewSha256: _review, printableCopy: _copy, officialFormId: _edition, ...slot } = member;
+  const { handwrittenSourceSha256: _handwritten, signatureReviewSha256: _review, printableCopy: _copy, officialFormId: _edition, ...slot } = member;
   const replacement = { ...slot, revisionId: newPackageId('member-revision'), original, signedOriginal,
     ...(signedOriginal && officialFormId && { officialFormId }) };
   return { replacement, attachment };

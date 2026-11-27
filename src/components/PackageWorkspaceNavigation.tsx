@@ -52,6 +52,7 @@ export function PackageWorkspaceSummary({ record, revision, children }: {
 }
 
 function memberKind(member: PackageMember): string {
+  if (member.kind === 'original' && member.handwrittenSourceSha256) return 'Handwritten · original PDF';
   if (member.kind === 'original') return member.signedOriginal ? 'Marked signed · original PDF' : 'Original PDF';
   if (member.kind === 'attachment') return 'Supporting file · original bytes';
   return member.session.documentCategory === 'forms' ? 'Editable form' : 'Editable document';

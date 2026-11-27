@@ -198,3 +198,30 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
     await expect(received.getByRole('region', { name: /^(Details|Package information)$/ }).getByLabel('Value 1', { exact: true })).toHaveValue('Preserve this newer package work');
   } finally { await receiver.close(); }
 });
+
+test('saves an uploaded handwritten signature to its exact package member', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  const welcome = page.getByRole('button', { name: 'Start writing', exact:true });
+  if (await welcome.isVisible()) await welcome.click();
+  const dialog = await packages(page), fixture = await inputPackage();
+  await importPackage(dialog, { name: 'training.json', mimeType: 'application/json', buffer: fixture.buffer });
+  const panel = await signingPanel(dialog);
+  await panel.getByLabel('Package signing PDF').selectOption({label:'Original PDF: Synthetic signing source.pdf'});
+  await panel.getByRole('button',{name:'Review signing source'}).click();
+  await panel.getByRole('checkbox',{name:/^I reviewed the exact source PDF/}).check();
+  await panel.getByRole('button',{name:'Open signing workspace for this PDF'}).click();
+  const workspace = page.getByRole('dialog',{name:'Signing workspace',exact:true});
+  await workspace.getByRole('button',{name:'Add signature box'}).click();
+  await expect(workspace.getByLabel('Open PDF',{exact:true})).toHaveCount(0);
+  await expect(workspace.getByRole('combobox',{name:/Saved signing draft/})).toHaveCount(0);
+  await workspace.getByRole('button',{name:'Add handwritten signature'}).click();
+  const graphic = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAABIAAAAICAYAAAD0g6+qAAAAV0lEQVR4nGP8//8/AzUAE6UG8GpGg13CgksCBD5fX8pIyAAYYMEnSciAz0gWsRBjCC+aHDaXMoICG90WbIbi8ybYRYTChJABcAByEY9G1H8QDcPofGIwALzFWalgAlxBAAAAAElFTkSuQmCC','base64');
+  await workspace.getByLabel('Signature PNG').setInputFiles({name:'Training.png',mimeType:'image/png',buffer:graphic});
+  await workspace.getByRole('button',{name:'Preview handwritten signature'}).click();
+  await workspace.getByRole('button',{name:'Save handwritten revision',exact:true}).click();
+  await workspace.getByRole('button',{name:'Save handwritten revision to package'}).click();
+  await expect(workspace).toBeHidden();
+  await packageSection(dialog,'Documents');
+  await expect(dialog.getByText('Handwritten · original PDF',{exact:true}).first()).toBeVisible();
+});

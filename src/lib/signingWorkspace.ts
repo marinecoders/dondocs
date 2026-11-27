@@ -6,6 +6,8 @@ import { inspectSigningPdf, placeManualSignatureFields, manualSignatureSchema, s
 import { capturedSigningSourceSchema, type CapturedSource } from './capturedDocument';
 import { assertSigningHandoffRelation, compareSigningPdfs } from './signingPdfComparison';
 
+export const MAX_SIGNING_RECORD_BYTES = 96 * 1024 * 1024;
+
 const signingPdfSchema = z.object({
   filename: z.string().min(1).max(180).refine(value => /\.pdf$/i.test(value)
     && [...value].every(char => char !== '/' && char !== '\\' && char.charCodeAt(0) >= 32), 'Choose a plain PDF filename.'),
@@ -13,6 +15,12 @@ const signingPdfSchema = z.object({
   sha256: z.string().regex(/^[a-f0-9]{64}$/),
   pages: z.array(signingPageSchema).min(1).max(100), existingFieldNames: z.array(z.string()).max(1000),
   existingSignatureNames: z.array(z.string()).max(1000).optional(),
+}).strict();
+// Keep the exact output with the mark that produced it. Portable records can verify
+// the relationship to the parent revision before adopting a handwritten PDF.
+const handwrittenRevisionSchema = z.object({
+  id: z.string().uuid(), parentSha256: z.string().regex(/^[a-f0-9]{64}$/), field: manualSignatureSchema,
+  graphic: z.string().min(1).max(Math.ceil(2 * 1024 * 1024 / 3) * 4), pdf: signingPdfSchema,
 }).strict();
 const signingHandoffSchema = z.object({ id: z.string().uuid(), createdAt: z.number().finite(),
   sourceSha256: z.string().regex(/^[a-f0-9]{64}$/), fields: z.array(manualSignatureSchema).max(30),
@@ -31,7 +39,7 @@ export const signingRecordSchema = z.object({
   title: z.string().trim().min(1).max(120), createdAt: z.number().finite(), updatedAt: z.number().finite(),
   source: signingPdfSchema, fields: z.array(manualSignatureSchema).max(30),
   sourceRevision: capturedSigningSourceSchema.optional(), handoffs: z.array(signingHandoffSchema).max(10).optional(),
-  returns: z.array(signingReturnSchema).max(10).optional(),
+  returns: z.array(signingReturnSchema).max(10).optional(), handwritten: z.array(handwrittenRevisionSchema).min(1).max(10).optional(),
 }).strict().refine(record => new Set(record.fields.map(field => field.id)).size === record.fields.length
   && record.fields.every(field => field.page < record.source.pages.length)
   && new Set(record.handoffs?.map(handoff => handoff.id)).size === (record.handoffs?.length ?? 0)
@@ -42,6 +50,22 @@ export const signingRecordSchema = z.object({
   && new Set(record.returns?.map(value => value.id)).size === (record.returns?.length ?? 0)
   && (record.returns ?? []).every(value => record.handoffs?.some(handoff => handoff.id === value.handoffId)), 'Invalid signature page, duplicate identity or missing handoff.');
 export type SigningRecord = z.infer<typeof signingRecordSchema>;
+
+export function assertSigningRecordFitsTransfer(record: SigningRecord): void {
+  // The file picker limits the complete portable JSON. Count the base64 directly
+  // so measuring a large record does not allocate another copy of every PDF.
+  let payloadBytes = 0;
+  const metadata = JSON.stringify(record, (key, value) => {
+    if (key === 'data' || key === 'graphic') {
+      payloadBytes += value.length;
+      return '';
+    }
+    return value;
+  });
+  if (payloadBytes + new TextEncoder().encode(metadata).byteLength > MAX_SIGNING_RECORD_BYTES) {
+    throw new Error('This change would exceed the 96 MB signing record limit.');
+  }
+}
 
 export function signingErrorMessage(cause: unknown): string {
   return cause instanceof z.ZodError ? cause.issues[0]?.message ?? 'The signing record is invalid.'
@@ -70,6 +94,24 @@ export async function validateSigningRecord(input: unknown): Promise<SigningReco
     if (JSON.stringify(inspected.pages) !== JSON.stringify(retained.pages)
       || JSON.stringify(inspected.existingFieldNames) !== JSON.stringify(retained.existingFieldNames)
       || retained.existingSignatureNames && JSON.stringify(inspected.existingSignatureNames) !== JSON.stringify(retained.existingSignatureNames)) throw new Error('The saved signing PDF geometry has changed.');
+  }
+  const handwrittenLength = record.handwritten?.reduce((size, item) => size + item.pdf.data.length + item.graphic.length, 0) ?? 0;
+  if (handwrittenLength + record.source.data.length > MAX_SIGNING_RECORD_BYTES) throw new Error('Handwritten history exceeds the signing record limit.');
+  let parent = record.source;
+  const handwrittenIds = new Set<string>(), signedFields = new Set<string>();
+  for (const revision of record.handwritten ?? []) {
+    if (revision.parentSha256 !== parent.sha256 || handwrittenIds.has(revision.id) || signedFields.has(revision.field.id)) {
+      throw new Error('The handwritten revision does not follow its saved source or field.');
+    }
+    const { renderHandwrittenPdf } = await import('./handwrittenPdf');
+    const bytes = await renderHandwrittenPdf(base64ToUint8Array(parent.data), revision.field, revision.graphic);
+    if (uint8ArrayToBase64(bytes) !== revision.pdf.data || await signingDigest(bytes) !== revision.pdf.sha256 ||
+        JSON.stringify(revision.pdf.pages) !== JSON.stringify(parent.pages) || revision.pdf.filename !== parent.filename ||
+        JSON.stringify(revision.pdf.existingFieldNames) !== JSON.stringify(parent.existingFieldNames) ||
+        JSON.stringify(revision.pdf.existingSignatureNames ?? []) !== JSON.stringify(parent.existingSignatureNames ?? [])) {
+      throw new Error('The handwritten PDF does not match its source and signature placement.');
+    }
+    handwrittenIds.add(revision.id); signedFields.add(revision.field.id); parent = revision.pdf;
   }
   for (const handoff of record.handoffs ?? []) await assertSigningHandoffRelation(record.source, handoff);
   for (const returned of record.returns ?? []) {
@@ -116,6 +158,7 @@ export async function removeUnreadableSigningRecord(input: UnreadableSigningReco
 }
 export async function updateSigningFields(before: SigningRecord, fields: readonly ManualSignature[], isCurrent: () => boolean = () => true): Promise<SigningRecord> {
   const after = await validateSigningRecord({ ...before, revision: crypto.randomUUID(), updatedAt: Date.now(), fields });
+  assertSigningRecordFitsTransfer(after);
   if (!await idbCompareSigningRecord(before, after, isCurrent)) throw new Error('This signing draft changed in another tab or the operation was cancelled. Reopen it before saving.');
   return structuredClone(after);
 }
@@ -126,6 +169,7 @@ export async function createSigningHandoff(before: SigningRecord, isCurrent: () 
   const handoff = signingHandoffSchema.parse({ id, createdAt: Date.now(), sourceSha256: owned.source.sha256,
     fields: owned.fields, pdf: await captureSigningPdf(bytes, `ready-to-sign-${owned.source.filename}`) });
   const after = await validateSigningRecord({ ...owned, revision: crypto.randomUUID(), updatedAt: Date.now(), handoffs: [...(owned.handoffs ?? []), handoff] });
+  assertSigningRecordFitsTransfer(after);
   if (!await idbCompareSigningRecord(before, after, isCurrent)) throw new Error('The signing handoff was not saved. Reopen the signing draft and retry.');
   return structuredClone(after);
 }
@@ -201,6 +245,7 @@ export async function associateSigningReturn(input: SigningRecord, candidate: Si
   const returned = signingReturnSchema.parse({ ...owned.returned, decision });
   if (input.returns?.some(value => value.handoffId === returned.handoffId && value.pdf.sha256 === returned.pdf.sha256)) throw new Error('This exact returned PDF is already associated with this handoff.');
   const after = await validateSigningRecord({ ...owned.before, revision: crypto.randomUUID(), updatedAt: Date.now(), returns: [...(owned.before.returns ?? []), returned] });
+  assertSigningRecordFitsTransfer(after);
   if (!await idbCompareSigningRecord(owned.before, after, isCurrent)) throw new Error('The return was not saved. Reopen the signing record and review the file again.');
   returnCandidates.delete(candidate);return structuredClone(after);
 }
