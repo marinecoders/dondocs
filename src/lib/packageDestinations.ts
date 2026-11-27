@@ -4,7 +4,10 @@ export type PackageCorrection =
 
 export class PackageSigningRequirementError extends Error {
   readonly target?: PackageDestination;
-  constructor(message: string, target?: PackageDestination) { super(message); this.target = target; }
+  readonly signedOriginal: boolean;
+  constructor(message: string, target?: PackageDestination, signedOriginal = false) {
+    super(message); this.target = target; this.signedOriginal = signedOriginal;
+  }
 }
 
 export interface PackageDestination {

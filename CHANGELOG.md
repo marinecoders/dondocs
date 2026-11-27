@@ -7,6 +7,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.376]
+
+- Open the missing unlocked field directly from a package signing requirement.
+
 ## [1.3.375]
 
 - Package recipes can require all fields on each started evidence row before signing or delivery.
