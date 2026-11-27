@@ -6,6 +6,7 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { createOfficialFormMember } from '@/lib/packageOfficialForms';
 import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
 import { createActionPackage, reviseActionPackage, getPackageRevision } from '@/lib/actionPackages';
+import { matchesExpectedForm } from '@/lib/packageFormCompletion';
 import { compileFormDefinition } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
 import { resolveMaintainedRecipe } from '@/lib/maintainedPackageActions';
@@ -45,6 +46,12 @@ it('opens the same catalog edition independently and transfers one exact three-p
     const output = await renderForm({ definition, answers: { '18_accused_full_name': 'TRAINING, PAT', '21_remarks': 'Second page' }, rows: {}, answerRevision: 1 }, 'export', async () => original);
     const remapped = structuredClone(definition);
     remapped.fields['18_accused_full_name'].sourceIds = ['21 REMARKS'];
+    const expected = { id: definition.formId, edition: definition.nativePdfEdition! };
+    expect(await matchesExpectedForm(a, expected)).toBe(true);
+    const mismatched = structuredClone(a);
+    mismatched.session.genericForm!.definition = remapped;
+    mismatched.session.forms = { officialPdfEdition: expected.edition, includeCoverPage: false };
+    expect(await matchesExpectedForm(mismatched, expected)).toBe(false);
     await expect(renderForm({ definition: remapped, answers: {}, rows: {}, answerRevision: 0 }, 'export', async () => original))
       .rejects.toThrow('field definitions do not match');
     expect(Buffer.compare(original, output.bytes.subarray(0,original.length))).toBe(0);

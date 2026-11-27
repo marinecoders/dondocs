@@ -41,7 +41,7 @@ import { showAppConfirm } from '@/stores/alertStore';
 const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
 export function Form6105Section() {
-  const { navmc10274, setNavmc10274Field, includeCoverPage, setIncludeCoverPage } = useFormStore();
+  const { navmc10274, setNavmc10274Field, includeCoverPage, setIncludeCoverPage, officialPdfEdition } = useFormStore();
 
   // The active profile's signature name in the abbreviated form signature
   // blocks use (initials + SURNAME), offered as a one-click fill for the
@@ -167,8 +167,9 @@ export function Form6105Section() {
           <AccordionContent className="space-y-4 pt-2">
             <div className="flex items-center gap-2 rounded-md border border-border px-3 py-3">
               <Checkbox id="includeCoverPage" checked={includeCoverPage} onCheckedChange={(checked) => setIncludeCoverPage(checked === true)} />
-              <Label htmlFor="includeCoverPage" className="text-sm cursor-pointer">Include Privacy Act cover page</Label>
+              <Label htmlFor="includeCoverPage" className="text-sm cursor-pointer">{officialPdfEdition ? 'Include Privacy Act cover page in print' : 'Include Privacy Act cover page'}</Label>
             </div>
+            {officialPdfEdition && <p className="text-xs text-muted-foreground">The editable PDF includes all three official pages.</p>}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="actionNo">1. Action No.</Label>

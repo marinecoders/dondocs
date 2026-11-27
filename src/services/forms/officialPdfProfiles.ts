@@ -9,12 +9,14 @@ export interface OfficialPdfProfile {
   readonly label: string;
   readonly source: string;
   readonly sha256: string;
-  readonly fill: (answers: FormSession, original: ArrayBuffer) => Promise<Uint8Array<ArrayBuffer>>;
+  readonly fill: (answers: FormSession, original: ArrayBuffer, mode?: 'editable' | 'printable') => Promise<Uint8Array<ArrayBuffer>>;
 }
 
 export const PAGE11_PRINTABLE_SHA256 = 'eaea7e582dc90ab4bffc88b5ff28b5795b0432206dda005ee2e912ff6a0401fb';
 const page11 = officialEdition('navmc_118_11', '2014-05')!;
 export const PAGE11_OFFICIAL_SHA256 = page11.sha256;
+
+const administrativeAction = officialEdition('navmc_10274', '2020-07')!;
 
 // Keep old profiles addressable by edition when a new one becomes the default.
 const profiles: readonly OfficialPdfProfile[] = [{
@@ -25,6 +27,14 @@ const profiles: readonly OfficialPdfProfile[] = [{
     if (!answers.navmc11811) throw new Error('The Page 11 draft is missing.');
     const { generateOfficialPage11Pdf } = await import('@/services/pdf/navmc11811Native');
     return generateOfficialPage11Pdf(answers.navmc11811, original, ['', '', '']);
+  },
+}, {
+  ...administrativeAction,
+  source: `${administrativeAction.directory}/${administrativeAction.file}`,
+  async fill(answers, original, mode) {
+    if (!answers.navmc10274) throw new Error('The Administrative Action draft is missing.');
+    const { fillAdministrativeAction } = await import('@/services/pdf/navmc10274Native');
+    return fillAdministrativeAction(answers.navmc10274, original, mode === 'printable' ? { includeCoverPage: answers.includeCoverPage } : undefined);
   },
 }];
 
@@ -50,7 +60,7 @@ export async function loadOfficialPdfSource(profile: OfficialPdfProfile): Promis
   return original;
 }
 
-export async function fillOfficialPdf(profile: OfficialPdfProfile, answers: FormSession, original: ArrayBuffer): Promise<Uint8Array<ArrayBuffer>> {
+export async function fillOfficialPdf(profile: OfficialPdfProfile, answers: FormSession, original: ArrayBuffer, mode: 'editable' | 'printable' = 'editable'): Promise<Uint8Array<ArrayBuffer>> {
   await checkOfficialPdfSource(profile, original);
-  return profile.fill(answers, original);
+  return profile.fill(answers, original, mode);
 }

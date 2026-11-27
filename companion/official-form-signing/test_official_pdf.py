@@ -47,6 +47,11 @@ class OfficialSigning(unittest.TestCase):
             cls.signer = SimpleSigner.load_pkcs12(str(pfx))
         cls.templates = Path(__file__).resolve().parents[2] / "public/templates"
 
+    def test_administrative_action_has_no_publisher_signing_fields(self):
+        original = self.templates / "NAVMC10274 - Administrative Action/2020-07/original.pdf"
+        with self.assertRaisesRegex(ValueError, "supported official form edition"):
+            inspect_revision(original.read_bytes(), self.context)
+
     def test_page11_countersign_and_first_signature_lock(self):
         data = (self.templates / "NAVMC11811 - Administrative Remarks/2014-05/original.pdf").read_bytes()
         _, slots = inspect_revision(data, self.context)

@@ -5,7 +5,10 @@ import type { OfficialSigningRecord } from '@/lib/officialSigning';
 
 const { read, preview } = vi.hoisted(() => ({ read: vi.fn(async () => new Uint8Array([1])), preview: vi.fn() }));
 vi.mock('@/lib/officialSigning', () => ({ officialRevisionBytes: read }));
-vi.mock('@/services/forms/nativeCatalog', () => ({ identifyOfficialOriginal: async () => 'fixture', officialEdition: () => ({ format: 'acroform' }) }));
+vi.mock('@/services/forms/nativeCatalog', async original => ({
+  ...await original<typeof import('@/services/forms/nativeCatalog')>(),
+  identifyOfficialOriginal: async () => 'fixture', officialEdition: () => ({ format: 'acroform' }),
+}));
 vi.mock('@/components/pdf/pdfConfig', () => ({ HARDENED_PDF_OPTIONS: {} }));
 vi.mock('react-pdf', () => ({ pdfjs: { getDocument: () => ({ destroy: vi.fn(), promise: Promise.resolve({
   numPages: 2, getPage: async (number: number) => ({

@@ -14,7 +14,7 @@ export function captureFormExportTemplates(kind: FormExportTemplates['kind'], fo
   const owned: Record<string, Uint8Array> = Object.create(null);
   if (!formType || !Object.keys(pages).length) throw new Error('Form templates are missing.');
   if (kind === 'builtin-form') {
-    const required = formType === 'navmc_10274' ? ['page1', 'page2', 'page3']
+    const required = formType === 'navmc_10274' ? (Object.hasOwn(pages, 'official') ? ['official'] : ['page1', 'page2', 'page3'])
       : formType === 'navmc_118_11' ? ['page1'] : undefined;
     if (!required) throw new Error('Unknown built-in form templates.');
     for (const file of required) if (!Object.hasOwn(pages, file)) throw new Error(`Form template missing: ${file}`);

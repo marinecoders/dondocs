@@ -128,6 +128,7 @@ import { useLatexEngine, useServiceWorker, useInstallPrompt, promptInstall } fro
 import { useInstallStore } from '@/stores/installStore';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { loadAttachment } from '@/lib/attachments';
+import { loadOfficialPdfSource, officialPdfProfile } from '@/services/forms/officialPdfProfiles';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
@@ -645,6 +646,7 @@ function App() {
     page2: ArrayBuffer;
     page3: ArrayBuffer;
   } | null>(null);
+  const [administrativeSource, setAdministrativeSource] = useState<{ edition: string; bytes: ArrayBuffer }>();
   const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [errorDocumentId, setErrorDocumentId] = useState(currentDocId);
@@ -678,9 +680,14 @@ function App() {
     const owns = () => !cancelled && isCurrentDocumentScope(scope)
       && useDocumentStore.getState().documentCategory === 'forms'
       && useDocumentStore.getState().formType === formType;
-    if (formType === 'navmc_10274' && !navmc10274Templates) {
+    if (formType === 'navmc_10274' && !officialPdfEdition && !navmc10274Templates) {
       void loadNavmc10274Templates()
         .then(templates => { if (owns()) setNavmc10274Templates(templates); })
+        .catch(() => { if (owns()) setFormError('Could not load the NAVMC 10274 template. Check your connection, then refresh the preview.'); });
+    }
+    if (formType === 'navmc_10274' && officialPdfEdition && officialPdfEdition !== administrativeSource?.edition) {
+      void Promise.resolve().then(() => loadOfficialPdfSource(officialPdfProfile(formType, officialPdfEdition)!))
+        .then(bytes => { if (owns()) setAdministrativeSource({ edition: officialPdfEdition, bytes }); })
         .catch(() => { if (owns()) setFormError('Could not load the NAVMC 10274 template. Check your connection, then refresh the preview.'); });
     }
     if (formType === 'navmc_118_11' && !navmc11811Template) {
@@ -689,7 +696,7 @@ function App() {
         .catch(() => { if (owns()) setFormError('Could not load the NAVMC 118 (11) template. Check your connection, then refresh the preview.'); });
     }
     return () => { cancelled = true; };
-  }, [workspaceReady, currentDocId, activationEpoch, documentCategory, formType, navmc10274Templates, navmc11811Template, officialPdfEdition, formRefresh]);
+  }, [workspaceReady, currentDocId, activationEpoch, documentCategory, formType, administrativeSource, navmc10274Templates, navmc11811Template, officialPdfEdition, formRefresh]);
 
   // Generate form preview based on selected form type
   useEffect(() => {
@@ -704,7 +711,7 @@ function App() {
 
     // A pending or failed template load cannot start a preview. Keep its error
     // until another owned load or a real generation attempt can replace it.
-    if (formType === 'navmc_10274' && !navmc10274Templates
+    if (formType === 'navmc_10274' && (officialPdfEdition ? administrativeSource?.edition !== officialPdfEdition : !navmc10274Templates)
       || formType === 'navmc_118_11' && !navmc11811Template) return;
 
     formCompileTimeoutRef.current = setTimeout(async () => {
@@ -717,7 +724,10 @@ function App() {
         let pdfBytes: Uint8Array | null = null;
         let previewIssue: string | null = null;
 
-        if (formType === 'navmc_10274' && navmc10274Templates) {
+        if (formType === 'navmc_10274' && owned.forms?.officialPdfEdition && administrativeSource?.edition === owned.forms.officialPdfEdition) {
+          const { fillAdministrativeAction } = await import('@/services/pdf/navmc10274Native');
+          pdfBytes = await fillAdministrativeAction(owned.forms.navmc10274!, administrativeSource.bytes, { includeCoverPage: owned.forms.includeCoverPage });
+        } else if (formType === 'navmc_10274' && navmc10274Templates) {
           pdfBytes = await generateNavmc10274Pdf(
             owned.forms!.navmc10274!,
             navmc10274Templates.page1.slice(0),
@@ -774,7 +784,7 @@ function App() {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [currentDocId, activationEpoch, documentCategory, formType, navmc10274, navmc11811, officialPdfEdition, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
+  }, [currentDocId, activationEpoch, documentCategory, formType, administrativeSource, navmc10274, navmc11811, officialPdfEdition, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
 
   const handleDownloadPdf = useCallback(() => {
     useUIStore.getState().setValidationVisible(true);
