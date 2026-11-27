@@ -38,7 +38,13 @@
         612,
         792
       ]
-    ]
+    ],
+    "choiceAliases": {
+      "2_demand": {
+        "accept": "I do not demand trial and will accept non-judicial punishment, subject to my right of appeal.",
+        "refuse": "I demand trial and refuse non-judicial punishment."
+      }
+    }
   },
   {
     "formId": "package_correspondence",
