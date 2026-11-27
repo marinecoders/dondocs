@@ -4,7 +4,7 @@ import { identifyOfficialOriginal, supportsOfficialSigning } from '@/services/fo
 import { idbDeleteSigningRecord } from '@/lib/documentsDb';
 import { OfficialFormSigning } from '@/components/OfficialFormSigning';
 import { saveOfficialRevision, officialSigningRecords, type OfficialSigningRecord } from '@/lib/officialSigning';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { SigningPdfPreview } from '@/components/SigningPdfPreview';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -17,14 +17,21 @@ import { SigningReturnReview } from '@/components/SigningReturnReview';
 import { confirmSigningDisclosure } from '@/components/signingDisclosure';
 import { signingRecordDisclosure } from '@/lib/signingDisclosure';
 
+import { SigningNavigationContext, useSigningLeavePrompt, useSigningNavigation } from './useSigningNavigation';
+
 export default function SigningWorkspace({ open, onOpenChange, initialRecordId, initialField, initialReturnFile, initialHandoffId, beforeSign, onCorrect, onAttach }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string; initialField?: string; initialReturnFile?: File; initialHandoffId?: string; beforeSign?: BeforeOfficialSignature; onCorrect?: SigningCorrection; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
-  return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="flex max-h-[95dvh] max-w-5xl flex-col overflow-hidden sm:max-w-5xl">
+  const navigation = useSigningLeavePrompt();
+  return <SigningNavigationContext.Provider value={navigation}><Dialog open={open} onOpenChange={next => {
+    if (next) onOpenChange(true);
+    else navigation.navigate(() => onOpenChange(false));
+  }}><DialogContent className="flex max-h-[95dvh] max-w-5xl flex-col overflow-hidden sm:max-w-5xl">
     <DialogHeader><DialogTitle>Signing workspace</DialogTitle><DialogDescription>Review the PDF revision, select a signature field, and save the signed original.</DialogDescription></DialogHeader>
     {open && <SigningRecords initialHandoffId={initialHandoffId} initialReturnFile={initialReturnFile} key={initialRecordId} initialRecordId={initialRecordId} initialField={initialField} beforeSign={beforeSign} onCorrect={onCorrect} onAttach={onAttach} />}
-  </DialogContent></Dialog>;
+  </DialogContent></Dialog>{navigation.prompt}</SigningNavigationContext.Provider>;
 }
 
 function SigningRecords({ initialRecordId, initialField, initialReturnFile, initialHandoffId, beforeSign, onCorrect, onAttach }: { initialRecordId?: string; initialField?: string; initialReturnFile?: File; initialHandoffId?: string; beforeSign?: BeforeOfficialSignature; onCorrect?: SigningCorrection; onAttach?(record: OfficialSigningRecord, inspection: OfficialInspection): Promise<void> }) {
+  const { navigate } = useSigningNavigation();
   const [records, setRecords] = useState<OfficialSigningRecord[]>([]);
   const [selected, setSelected] = useState(initialRecordId ?? '');
   const [error, setError] = useState('');
@@ -43,6 +50,7 @@ function SigningRecords({ initialRecordId, initialField, initialReturnFile, init
       <input type="file" accept="application/pdf,.pdf" className="mt-1 block" onChange={async event => {
         const file = event.target.files?.[0]; event.target.value = '';
         if (!file) return;
+        navigate(async () => {
         try {
           if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF up to 20 MB.');
           const data = await file.arrayBuffer();
@@ -50,15 +58,16 @@ function SigningRecords({ initialRecordId, initialField, initialReturnFile, init
           const next = await saveOfficialRevision(file.name, new Uint8Array(data), () => true);
           setRecords(rows => [next, ...rows]); setSelected(next.id); setError('');
         } catch (cause) { setError(signingErrorMessage(cause)); }
+        });
       }} /></label>}
     {records.length > 0 && !onAttach && <label className="block text-sm">Signing file
-      <select className="ml-2 rounded border bg-background p-2" value={record?.id ?? ''} onChange={e => setSelected(e.target.value)}>
+      <select className="ml-2 rounded border bg-background p-2" value={record?.id ?? ''} onChange={e => { const id = e.target.value; navigate(() => setSelected(id)); }}>
         <option value="">PDF handoffs and placement</option>
         {records.map(item => <option key={item.id} value={item.id}>{item.filename} · Revision {item.revisions.length}</option>)}
       </select></label>}
     {record ? <OfficialFormSigning initialReturnFile={initialRecordId === record.id ? initialReturnFile : undefined} key={record.id} record={record} beforeSign={beforeSign} onCorrect={onCorrect} initialField={record.id === initialRecordId ? initialField : undefined} onAttach={onAttach}
       onSave={saved => setRecords(rows => rows.map(item => item.id === saved.id ? saved : item))} />
-      : loaded && !onAttach ? <SigningEditor initialHandoffId={selected === initialRecordId ? initialHandoffId : undefined} initialReturnFile={selected === initialRecordId ? initialReturnFile : undefined} initialRecordId={selected || undefined} /> : <p role="status">{loaded ? 'This signing file is unavailable.' : 'Opening signing records…'}</p>}
+      : loaded && !onAttach ? <SigningEditor key={selected} initialHandoffId={selected === initialRecordId ? initialHandoffId : undefined} initialReturnFile={selected === initialRecordId ? initialReturnFile : undefined} initialRecordId={selected || undefined} /> : <p role="status">{loaded ? 'This signing file is unavailable.' : 'Opening signing records…'}</p>}
     {record && !onAttach && <Button variant="ghost" size="sm" onClick={async () => {
       if (!await showAppConfirm({ title: 'Remove this signing file?', message: 'Download any revisions you need before removing the local signing file.', confirmLabel: 'Remove file' })) return;
       try {
@@ -70,6 +79,7 @@ function SigningRecords({ initialRecordId, initialField, initialReturnFile, init
 }
 
 function SigningEditor({ initialRecordId, initialHandoffId, initialReturnFile }: { initialRecordId?: string; initialHandoffId?: string; initialReturnFile?: File }) {
+  const { navigate, registerSave } = useSigningNavigation();
   const [records, setRecords] = useState<SigningRecord[]>([]);
   const [unreadable, setUnreadable] = useState<UnreadableSigningRecord[]>([]);
   const [record, setRecord] = useState<SigningRecord | null>(null);
@@ -89,7 +99,14 @@ function SigningEditor({ initialRecordId, initialHandoffId, initialReturnFile }:
   };
   useEffect(() => {
     const owner = request, generation = ++owner.current;
-    void loadSigningInventory().then(inventory => { if (generation === owner.current) { setRecords(inventory.records);setUnreadable(inventory.unreadable);const selected = inventory.records.find(value => value.id === initialRecordId) ?? inventory.records[0];if (selected) selectRecord(selected); } })
+    void loadSigningInventory().then(inventory => {
+      if (generation !== owner.current) return;
+      setRecords(inventory.records);
+      setUnreadable(inventory.unreadable);
+      const next = initialRecordId ? inventory.records.find(value => value.id === initialRecordId) : inventory.records[0];
+      if (next) selectRecord(next);
+      else if (initialRecordId) setError('This signing file is unavailable. Close the workspace to return to your document.');
+    })
       .catch(cause => { if (generation === owner.current) setError(cause instanceof Error ? cause.message : 'Saved signing drafts could not be opened.'); });
     return () => { owner.current++; };
   }, [initialRecordId]);
@@ -113,9 +130,17 @@ function SigningEditor({ initialRecordId, initialHandoffId, initialReturnFile }:
     if (!record) return null;
     const generation = request.current, saved = await updateSigningFields(record, fields, () => generation === request.current);
     if (generation !== request.current) return null;
-    setRecord(saved);setRecords(all => [saved, ...all.filter(value => value.id !== saved.id)]);
+    setRecord(saved);
+    setFields(saved.fields);
+    setRecords(all => [saved, ...all.filter(value => value.id !== saved.id)]);
     setNotice('Signature placement saved in this browser.');return saved;
   }
+  useLayoutEffect(() => {
+    if (!record || JSON.stringify(fields) === JSON.stringify(record.fields)) return;
+    return registerSave(async () => {
+      if (working.current || !await save()) throw new Error('The placement could not be saved. Try again.');
+    });
+  });
   function runPdf(operation: () => Promise<{ bytes: Uint8Array; filename: string; metadata?: unknown } | null>) {
     if (working.current || !reviewed || !previewReady) return;
     let lease = reserveSigningPdfDownload();
@@ -164,26 +189,26 @@ function SigningEditor({ initialRecordId, initialHandoffId, initialReturnFile }:
     <label className="block text-sm">Unsigned PDF for signing<input className="mt-1 block w-full" type="file" accept="application/pdf,.pdf" disabled={busy} onChange={event => {
       const file = event.target.files?.[0];event.target.value = '';
       if (!file) return;
-      void run(async () => {
+      navigate(() => void run(async () => {
         if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF no larger than 20 MB.');
         const generation = request.current, created = await createSigningRecord(new Uint8Array(await file.arrayBuffer()), file.name, () => generation === request.current);
         if (generation !== request.current) return;
         setRecords(all => [created, ...all]);selectRecord(created);setNotice('Exact source PDF saved. Add the fields you need.');
-      });
+      }));
     }} /></label>
     <p className="text-xs text-muted-foreground">Up to 20 MB and 100 pages per PDF, 20 saved records and 96 MB of encoded record data in this browser. Download a signing record to retain or transfer its originals, placements and handoffs. Signing records are separate from workspace backups.</p>
     <label className="block text-sm">Import signing record<input className="mt-1 block w-full" type="file" accept="application/json,.json" disabled={busy} onChange={event => {
       const file = event.target.files?.[0];event.target.value = '';if (!file) return;
-      void run(async () => {
+      navigate(() => void run(async () => {
         if (file.size > 96 * 1024 * 1024) throw new Error('The signing record exceeds 96 MB.');
         const generation = request.current, imported = await importSigningRecord(JSON.parse(await file.text()), () => generation === request.current);
         if (generation !== request.current) return;
         setRecords(all => [imported, ...all.filter(value => value.id !== imported.id)]);selectRecord(imported);setNotice('Signing record imported with its exact saved PDFs.');
-      });
+      }));
     }} /></label>
     {!!records.length && <label className="block text-sm">Saved signing draft<select className="ml-2 max-w-full rounded border p-2" value={record?.id ?? ''} disabled={busy} onChange={event => {
-      const next = records.find(value => value.id === event.target.value);if (next) selectRecord(next);
-    }}>{records.map(value => <option key={value.id} value={value.id}>{value.title} · {new Date(value.createdAt).toLocaleString()}{value.sourceRevision ? ` · edit ${value.sourceRevision.editSequence}` : ''}</option>)}</select></label>}
+      const next = records.find(value => value.id === event.target.value);if (next) navigate(() => selectRecord(next));
+    }}>{!record && <option value="" disabled>Choose a saved signing draft</option>}{records.map(value => <option key={value.id} value={value.id}>{value.title} · {new Date(value.createdAt).toLocaleString()}{value.sourceRevision ? ` · edit ${value.sourceRevision.editSequence}` : ''}</option>)}</select></label>}
     {record && <>
       <p className="break-all text-xs">Source SHA-256: {record.source.sha256}</p>
       {record.sourceRevision && <p className="break-all text-xs">Captured draft: {record.sourceRevision.documentId} · edit {record.sourceRevision.editSequence} · {new Date(record.sourceRevision.capturedAt).toLocaleString()}. Later draft changes do not update this PDF.</p>}
