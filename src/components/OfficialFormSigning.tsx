@@ -1,11 +1,11 @@
 import { PackageSigningRequirementError, type PackageDestination } from '@/lib/packageDestinations';
 import { OfficialSignatureLocation } from './OfficialSignatureLocation';
 import { officialEdition } from '@/services/forms/nativeCatalog';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Button } from '@/components/ui/button';
 import { confirmSigningDisclosure } from './signingDisclosure';
 import { officialRevisionBytes, saveOfficialRevision, type OfficialSigningRecord } from '@/lib/officialSigning';
-import { inspectOfficialPdf, signOfficialPdf, signingIdentities, type OfficialInspection } from '@/services/forms/signingBridge';
+import { connectSigningCompanion, currentSigningSession, disconnectSigningCompanion, isDisconnectPending, subscribeSigningSession, inspectOfficialPdf, signOfficialPdf, signingIdentities, type OfficialInspection } from '@/services/forms/signingBridge';
 import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
 import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 
@@ -16,7 +16,9 @@ type Props = { initialReturnFile?: File; onCorrect?: SigningCorrection; initialF
 
 export function OfficialFormSigning({ record, initialField, initialReturnFile, beforeSign, onCorrect, onSave, onAttach }: Props) {
   const [pendingReturn, setPendingReturn] = useState(initialReturnFile);
-  const [code, setCode] = useState('');
+  const session = useSyncExternalStore(subscribeSigningSession, currentSigningSession);
+  const disconnectPending = useSyncExternalStore(subscribeSigningSession, isDisconnectPending);
+  const [inspectedSession, setInspectedSession] = useState<string>();
   const [inspection, setInspection] = useState<OfficialInspection>();
   const [identities, setIdentities] = useState<Awaited<ReturnType<typeof signingIdentities>>>([]);
   const [certificate, setCertificate] = useState('');
@@ -32,7 +34,7 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
   const selected = inspection?.fields.find(item => item.name === field);
   const latest = record.revisions.at(-1)!;
   const profile = inspection && officialEdition(inspection.formId, inspection.edition);
-  const inspected = Boolean(profile && inspection?.sha256 === latest.sha256);
+  const inspected = Boolean(session && inspectedSession === session && profile && inspection?.sha256 === latest.sha256);
   const [check, setCheck] = useState<{ field: string; digest: string; message?: string; target?: PackageDestination }>();
   useEffect(() => {
     if (!beforeSign || !field) return;
@@ -46,13 +48,13 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
     return () => { live = false; };
   }, [beforeSign, field, latest.sha256, record]);
   const checked = check?.field === field && check.digest === latest.sha256 ? check : undefined;
-  const choosePackageField = !!beforeSign && !initialField;
+  const chooseField = !initialField;
   const selectInspection = (value: OfficialInspection) => {
     const available = value.fields.filter(item => !item.locked && !item.signed);
     setInspection({ ...value, fields: value.fields.map(item => ({ ...item, label: fieldLabels.current?.get(item.name) || item.label })) });
     setField(previous => {
       if (previous) return available.some(item => item.name === previous) ? previous : '';
-      return choosePackageField ? '' : available[0]?.name ?? '';
+      return chooseField && (beforeSign || available.length !== 1) ? '' : available[0]?.name ?? '';
     });
     setReviewed(false); setFinalize(false);
   };
@@ -62,43 +64,52 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
     const controller = new AbortController();
     active.current = controller; setBusy(true); setError(''); setMessage('');
     try { await work(controller.signal); }
-    catch (cause) { if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : 'The operation failed.'); }
+    catch (cause) { if (!controller.signal.aborted) { setMessage(''); setError(cause instanceof Error ? cause.message : 'The operation failed.'); } }
     finally { active.current = null; if (!controller.signal.aborted) setBusy(false); }
   }
   function importReturn(file: File) {
+    if (!session || !inspected) return;
     return run(async signal => {
       if (file.size > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF up to 20 MB.');
       const bytes = new Uint8Array(await file.arrayBuffer());
       await confirmSigningDisclosure({ pdfs: [{ bytes, label: file.name }] }, () => !signal.aborted, { action: 'inspect' });
-      const result = await inspectOfficialPdf(bytes, code.trim(), signal, latest);
+      const result = await inspectOfficialPdf(bytes, session, signal, latest);
       const next = await saveOfficialRevision(record.filename, bytes, () => !signal.aborted, record);
       signal.throwIfAborted(); onSave(next); selectInspection(result); setPendingReturn(undefined); setMessage('Returned signature verified and saved.');
     });
   }
-  async function pair(signal: AbortSignal) {
+  async function prepareSigning(signal: AbortSignal) {
     const bytes = await officialRevisionBytes(record);
     if (field) await beforeSign?.(field, bytes.buffer);
     signal.throwIfAborted();
+    setInspection(undefined); setReviewed(false); setCertificate(''); setIdentities([]);
+    if (!currentSigningSession()) setMessage('Approve the connection in the signing companion.');
+    const token = await connectSigningCompanion(signal);
+    setMessage('');
     await confirmSigningDisclosure({ pdfs: [{ bytes, label: record.filename }] }, () => !signal.aborted, { action: 'inspect' });
-    const info = await inspectOfficialPdf(bytes, code.trim(), signal);
+    const info = await inspectOfficialPdf(bytes, token, signal);
     const { officialSignatureLabels } = await import('@/lib/packageSignatureFieldLabel');
     const labels = await officialSignatureLabels({ id: info.formId, edition: info.edition }).catch(() => undefined);
     signal.throwIfAborted();
     fieldLabels.current = labels;
+    setInspectedSession(token);
     selectInspection(info);
-    setIdentities([]); setCertificate('');
-    const cards = await signingIdentities(code.trim(), signal);
+    await refreshCard(token, signal);
+  }
+  async function refreshCard(token: string, signal: AbortSignal) {
+    setReviewed(false); setIdentities([]); setCertificate('');
+    const cards = await signingIdentities(token, signal);
     signal.throwIfAborted();
     setIdentities(cards); setCertificate(cards[0]?.fingerprint ?? '');
-    setMessage(cards.length ? 'CAC bridge connected.' : 'Bridge connected. Insert your signing card and reconnect to sign.');
+    setMessage(cards.length ? '' : 'Insert your CAC, then retry.');
   }
   async function sign(signal: AbortSignal) {
-    if (!inspected || !selected || selected.signed || selected.locked || !reviewed) return;
+    if (!session || !inspected || !selected || selected.signed || selected.locked || !reviewed) return;
     const bytes = await officialRevisionBytes(record);
     await beforeSign?.(field, bytes.buffer);
     signal.throwIfAborted();
-    const signed = await signOfficialPdf(bytes, field, certificate, finalize, code.trim(), signal);
-    const result = await inspectOfficialPdf(signed, code.trim(), signal);
+    const signed = await signOfficialPdf(bytes, field, certificate, finalize, session, signal);
+    const result = await inspectOfficialPdf(signed, session, signal);
     if (!result.fields.some(item => item.name === field && item.signed && item.trusted)) throw new Error('The selected signature could not be verified.');
     const next = await saveOfficialRevision(record.filename, signed, () => !signal.aborted, record);
     signal.throwIfAborted(); onSave(next); selectInspection(result); setMessage('Signed revision saved.');
@@ -119,14 +130,23 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {message && <p role="status" className="text-sm">{message}</p>}
     <fieldset disabled={busy} className="space-y-3">
-      <OfficialSignatureLocation requireChoice={choosePackageField} key={latest.sha256} initiallyOpen={!!initialField} record={record} choice={field} onChoice={setField} paired={inspected} />
+      <OfficialSignatureLocation requireChoice={chooseField} key={latest.sha256} initiallyOpen record={record} choice={field} onChoice={setField} paired={inspected} />
       {checked?.message && <div role="status" className="space-y-1 text-sm"><p>{checked.message}</p>
         {onCorrect && checked.target && record.revisions.length === 1 && <Button size="sm" variant="outline" onClick={() => onCorrect(checked.target!, field)}>
           {checked.target.correction?.label || 'Open package details'}</Button>}</div>}
-      <div className="flex flex-wrap items-end gap-2"><label className="grid gap-1 text-sm">Local bridge pairing code
-        <input type="password" autoComplete="off" className="rounded border bg-background px-2 py-1" value={code}
-          onChange={e => { setCode(e.target.value); setInspection(undefined); setIdentities([]); setReviewed(false); }} /></label>
-        <Button variant="outline" disabled={!code.trim()} onClick={() => void run(pair)}>{inspected ? 'Reconnect' : 'Connect CAC'}</Button>
+      <div className="flex flex-wrap items-center gap-2">
+        {session && <span className="text-sm">Companion connected</span>}
+        {!disconnectPending && (inspected && session
+          ? <Button variant="outline" onClick={() => void run(signal => refreshCard(session, signal))}>
+            {identities.length ? 'Refresh card' : 'Retry card'}
+          </Button>
+          : <Button onClick={() => void run(prepareSigning)}>{session ? 'Review for signing' : 'Connect CAC'}</Button>)}
+        {disconnectPending && <span role="status" className="text-sm">Waiting for disconnect confirmation</span>}
+        {(session || disconnectPending) && <Button variant="ghost" onClick={() => void run(async signal => {
+          setInspectedSession(undefined); setInspection(undefined); setIdentities([]); setCertificate(''); setReviewed(false);
+          await disconnectSigningCompanion(signal);
+          if (!signal.aborted) setMessage('Disconnected.');
+        })}>{disconnectPending ? 'Retry disconnect' : 'Disconnect'}</Button>}
       </div>
       {inspected && inspection && profile && <div className="space-y-3">
         {profile.format === 'xfa' && <p className="text-sm text-muted-foreground">Download the official PDF and review its filled fields in Acrobat before signing.
@@ -163,7 +183,8 @@ export function OfficialFormSigning({ record, initialField, initialReturnFile, b
           // Local signing checks the changes made by its own writer; imported returns
           // pass the stricter /return comparison before they can enter this record.
           const bytes = await officialRevisionBytes(record);
-          const checked = await inspectOfficialPdf(bytes, code.trim(), signal);
+          if (!session) return;
+          const checked = await inspectOfficialPdf(bytes, session, signal);
           signal.throwIfAborted();
           await onAttach(record, checked);
         })}>Save signed original to package</Button>}

@@ -11,7 +11,11 @@ python bridge.py --origin http://127.0.0.1:4399 \
   --font '/System/Library/Fonts/Supplemental/Times New Roman.ttf'
 ```
 
-Open **Download → Sign official form** in DonDocs. Enter the pairing code shown in the terminal. The browser may request permission to connect to a local device. The bridge binds only to 127.0.0.1:47993, accepts one exact web origin, and issues a new pairing code on restart. Stop it with Ctrl-C. The form catalog lives in `src/data/officialPdfEditions.json` in the same checkout.
+With the adapter running in the signed-in user's graphical session, open **Sign official form** in a document or package. Choose **Connect CAC** and allow the displayed DonDocs site in the native prompt. The browser may also ask for local-network access. A managed installation can start the adapter at user login. The signer only needs DonDocs and the native prompt during use.
+
+The adapter listens on 127.0.0.1:47993 and accepts the configured origin. Approval issues a credential held in the current tab's memory. Other documents and packages in that tab reuse the grant. Use **Disconnect** to revoke it. If confirmation fails, signing stops in the tab and **Retry disconnect** asks the companion to confirm revocation. Grants expire after 15 minutes of inactivity, four hours from approval, or a bridge restart. Reloading or closing the tab discards its credential. Each signature still requires native approval. If the reader is empty, insert the CAC and choose **Retry card**.
+
+The connection prompt uses the macOS graphical session. The Windows prompt adapter uses an interactive Windows desktop and requires a separately provisioned Windows signing helper. A fresh installation still requires an administrator or user to provision the helper, trust bundle and bridge. Stop a foreground adapter with Ctrl-C. The form catalog lives in `src/data/officialPdfEditions.json` in the same checkout.
 
 Run `python -m unittest` here for the software-certificate qualification. Physical CAC approval and Acrobat interoperability are separate checks.
 

@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
 import type { PackageMember, PackageRevision } from '@/lib/actionPackages';
 import { portableResourceDigest } from '@/lib/portableResources';
-import { hasInspectedSignature, inspectOfficialPdf } from '@/services/forms/signingBridge';
+import { connectSigningCompanion, disconnectSigningCompanion, hasInspectedSignature, inspectOfficialPdf } from '@/services/forms/signingBridge';
 import { PackageDocumentSignatures } from '@/components/PackageDocumentSignatures';
 
 const bytes = Uint8Array.of(1, 2, 3);
@@ -31,8 +31,13 @@ it('shows trusted, outstanding and locked fields for the inspected bytes alone',
     { name: 'Witness', label: 'Witness', signed: false, locked: false, trusted: null, lockAction: 'All', lockFields: [] },
     { name: 'Closed', label: 'Closed', signed: false, locked: true, trusted: null, lockAction: '', lockFields: [] },
   ];
-  vi.stubGlobal('fetch', async () => Response.json({ formId: 'demo', edition: '1', sha256, fields }));
-  const inspection = await inspectOfficialPdf(bytes, 'test-only', new AbortController().signal);
+  vi.stubGlobal('fetch', vi.fn()
+    .mockResolvedValueOnce(Response.json({ token: 'a'.repeat(43), expiresIn: 900, maxAgeSeconds: 14_400 }))
+    .mockResolvedValueOnce(Response.json({ formId: 'demo', edition: '1', sha256, fields }))
+    .mockResolvedValueOnce(Response.json({})));
+  const signal = new AbortController().signal;
+  const inspection = await inspectOfficialPdf(bytes, await connectSigningCompanion(signal), signal);
+  await disconnectSigningCompanion(signal);
   inspection.fields[2].locked = false;
   const onField = vi.fn();
   render(<PackageDocumentSignatures revision={base} member={member(sha256)} disabled={false} onField={onField} onHandoff={vi.fn()} />);
