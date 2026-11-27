@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from connection import Sessions, approve_connection
-from appearance import certificate_stamp_style
+from appearance import GRAPHIC_CONTENT_TYPE, MAX_GRAPHIC_BYTES, certificate_stamp_style, graphic_signing_request
 from cac_signer import CACError, CACSigner, dod_validation_context, eligible_certificate
 from official_pdf import official_profile, inspect_return, inspect_revision, sign_revision
 
@@ -54,7 +54,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         try:
             size = int(self.headers.get("Content-Length", "0"))
-            if size > MAX_PDF or size < 0 or "Transfer-Encoding" in self.headers:
+            graphic = self.path == "/sign" and self.headers.get_content_type() == GRAPHIC_CONTENT_TYPE
+            limit = MAX_PDF + 4 + MAX_GRAPHIC_BYTES if graphic else MAX_PDF
+            if size > limit or size < 0 or "Transfer-Encoding" in self.headers:
                 self.reply(413, {"error": "Choose a PDF up to 20 MB."})
                 return
             if self.path == "/session":
@@ -90,11 +92,14 @@ class Handler(BaseHTTPRequestHandler):
                         rows.append({"fingerprint": row["fingerprint"], "label": cert.subject.native.get("common_name", "Signing certificate")})
                 self.reply(200, rows)
                 return
-            if self.headers.get_content_type() != "application/pdf" or size < 1:
+            if (not graphic and self.headers.get_content_type() != "application/pdf") or size < 1:
                 raise ValueError("Choose an official PDF revision.")
             data = self.rfile.read(size)
             if len(data) != size:
                 raise ValueError("The document transfer was interrupted.")
+            style = self.server.style
+            if graphic:
+                data, style = graphic_signing_request(data, style, MAX_PDF)
             if self.path == "/return":
                 edition, slots = inspect_return(data, int(self.headers.get("X-Base-Length", "0")),
                                                 self.headers.get("X-Base-SHA256"), self.server.context)
@@ -111,7 +116,7 @@ class Handler(BaseHTTPRequestHandler):
                 raise ValueError("Choose an available signature field.")
             signer = CACSigner(self.server.helper, edition + " " + field["label"], sha256(data).hexdigest(),
                                self.server.bundle, self.headers.get("X-Certificate", ""))
-            result = sign_revision(data, name, signer, signer.validation_context, self.server.style,
+            result = sign_revision(data, name, signer, signer.validation_context, style,
                                    finalize=self.headers.get("X-Finalize") == "true")
             self.reply(200, result, "application/pdf")
         except (ValueError, CACError) as exc:

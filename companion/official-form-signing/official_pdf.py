@@ -168,7 +168,10 @@ def inspect_revision(data, context):
         widget = ref.get_object() if ref else {}
         locked = bool(locked or int(widget.get("/Ff", 0)) & 1)
         lock = widget["/Lock"] if "/Lock" in widget else {}
+        rect = widget["/Rect"] if ref else SLOTS[name]
         result.append({
+            "width": abs(float(rect[2]) - float(rect[0])),
+            "height": abs(float(rect[3]) - float(rect[1])),
             "name": name, "label": PAGE11_LABELS.get(name, str(widget.get("/TU", name))),
             "signed": value is not None, "locked": locked,
             "trusted": checked.get(name), "lockAction": str(lock.get("/Action", "")).lstrip("/"),

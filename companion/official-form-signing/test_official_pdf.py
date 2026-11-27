@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 import unittest
@@ -7,6 +8,8 @@ from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from PIL import Image, ImageDraw
+from appearance import certificate_stamp_style, fit_column, graphic_signing_request
 from asn1crypto import x509 as ax509
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
@@ -66,6 +69,66 @@ class OfficialSigning(unittest.TestCase):
         final = sign_revision(data, slots[0]["name"], self.signer, self.context, finalize=True)
         with self.assertRaisesRegex(ValueError, "locked"):
             sign_revision(final, slots[1]["name"], self.signer, self.context)
+
+    def test_rejects_boxes_without_room_for_certificate_text(self):
+        for width, height in [(0, 20), (-1, 20), (30, 0)]:
+            with self.subTest(width=width, height=height), self.assertRaisesRegex(ValueError, "too small"):
+                fit_column(["Signer"], width, height, len, 10)
+
+    def test_custom_graphic_before_countersigning(self):
+        font = Path(os.environ.get("DONDOCS_SIGNING_FONT", "/System/Library/Fonts/Supplemental/Times New Roman.ttf"))
+        if not font.is_file():
+            self.skipTest("Set DONDOCS_SIGNING_FONT to an installed Times New Roman Regular.")
+        default = certificate_stamp_style(font)
+        ink = Image.new("RGBA", (96, 32))
+        ImageDraw.Draw(ink).line([(4, 23), (24, 5), (16, 27), (88, 10)], fill="navy", width=4)
+        output = BytesIO()
+        ink.save(output, format="PNG")
+        png = output.getvalue()
+        for relative_file, first, second in [
+            ("NAVMC11811 - Administrative Remarks/2014-05/original.pdf", None, None),
+            ("NAVMC10132 - Unit Punishment Book/original.pdf", "9 NJP AUTHORITY SIGNATURE", "11 APPEAL ADVISEMENT SIGNATURE"),
+        ]:
+            with self.subTest(file=relative_file):
+                original = (self.templates / relative_file).read_bytes()
+                original_bytes, custom = graphic_signing_request(len(png).to_bytes(4, "big") + png + original,
+                                                                 default, len(original))
+                self.assertEqual(original_bytes, original)
+                _, slots = inspect_revision(original, self.context)
+                name = first or slots[0]["name"]
+                one = sign_revision(original_bytes, name, self.signer, self.context, custom)
+                reader = OfficialReader(BytesIO(one), strict=False)
+                if reader.security_handler:
+                    reader.decrypt("")
+                widget = next(ref.get_object() for n, _, ref in fields.enumerate_sig_fields(reader) if n == name)
+                stamp = widget["/AP"]["/N"]
+                image = stamp["/Resources"]["/XObject"]["/SignatureGraphic"]
+                self.assertEqual(image.data, custom.graphic.tobytes())
+                self.assertIn(b"/SignatureGraphic Do", stamp.data)
+                self.assertIsNone(default.graphic)
+                two = sign_revision(one, second or slots[1]["name"], self.signer, self.context, default)
+                self.assertTrue(two.startswith(one))
+                inspect_return(two, len(one), sha256(one).hexdigest(), self.context)
+                if shutil.which("pdfsig"):
+                    with TemporaryDirectory() as folder:
+                        dest = Path(folder, "synthetic.pdf")
+                        dest.write_bytes(two)
+                        report = subprocess.run(["pdfsig", str(dest)], check=True, capture_output=True,
+                                                text=True, timeout=20).stdout
+                        self.assertGreaterEqual(report.count("Signature is Valid"), 2, report)
+
+    def test_graphic_request_rejects_invalid_images(self):
+        # The same payload delimiter is used by the authenticated /sign endpoint.
+        for kind, size in [("transparent", (40, 10)), ("oversize", (1025, 1))]:
+            with self.subTest(kind=kind):
+                output = BytesIO()
+                Image.new("RGBA", size).save(output, format="PNG")
+                png = output.getvalue()
+                with self.assertRaises(ValueError):
+                    graphic_signing_request(len(png).to_bytes(4, "big") + png + b"pdf", None, 3)
+        for body in [b"", b"bad", b"\x00\x00\x00\x01xpdf", b"\x00\x00\x00\x10"]:
+            with self.assertRaises(ValueError):
+                graphic_signing_request(body, None, 3)
 
     def test_desktop_acrobat_returns_in_both_orders(self):
         blank = (self.templates / "NAVMC11811 - Administrative Remarks/2014-05/original.pdf").read_bytes()
