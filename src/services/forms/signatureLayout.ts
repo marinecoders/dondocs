@@ -21,6 +21,8 @@ export async function readSignatureLayout(bytes: Uint8Array<ArrayBuffer>, signal
           box: [Math.min(x1,x2), Math.min(y1,y2), Math.abs(x2-x1), Math.abs(y2-y1)] });
       }
     }
+    // Widget annotation order can differ from the reading order on the rendered page.
+    slots.sort((a, b) => a.page - b.page || a.box[1] - b.box[1] || a.box[0] - b.box[0]);
     return { sizes, slots };
   } finally { await task.destroy(); }
 }

@@ -2,7 +2,8 @@ import { expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { OfficialFormSigning } from '@/components/OfficialFormSigning';
 
-vi.mock('@/components/OfficialSignatureLocation', () => ({ OfficialSignatureLocation: () => null }));
+vi.mock('@/components/pdf/pdfConfig', () => ({ HARDENED_PDF_OPTIONS: {} }));
+vi.mock('@/services/forms/signatureLayout', () => ({ readSignatureLayout: async () => ({ sizes: [], slots: [] }) }));
 vi.mock('@/components/signingDisclosure', () => ({ confirmSigningDisclosure: vi.fn() }));
 vi.mock('@/lib/officialSigning', () => ({ officialRevisionBytes: async () => new Uint8Array([1]) }));
 vi.mock('@/services/forms/signingBridge', () => ({

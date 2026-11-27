@@ -2105,7 +2105,11 @@ function PackageDialog({
                 const bytes = await checkPackageFormReturn(record, source, saved, formSigning, inspection);
                 const original = await captureOriginalPackageMember({ name: saved.filename, data: bytes.buffer }, source.role, true);
                 await modify(revision.members.map(item => item.id === source.id
-                  ? { ...original, id: source.id, label: source.label, required: source.required, ...(source.endorsementLink && { endorsementLink: source.endorsementLink }) } : item));
+                  ? { ...original, id: source.id, label: source.label, required: source.required, ...(source.endorsementLink && { endorsementLink: source.endorsementLink }) } : item),
+                  undefined, next => {
+                    setActiveMemberId(source.id);
+                    setNotice(`Saved to package: ${source.label} · Version ${next.revisions.length}.`);
+                  });
                 setFormSigning(undefined);
               }} /></Suspense>}
       {record && revision && shareOpen && <Suspense fallback={<p role="status">Opening package sharing…</p>}><PackageShareDialog key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} onClose={() => setShareOpen(false)} /></Suspense>}

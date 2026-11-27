@@ -190,7 +190,7 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
       await page.getByRole('button', { name: 'Download', exact: true }).click();
       await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
       const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
-      await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'fresh-training-package.pdf', mimeType: 'application/pdf', buffer: assembled! });
+      await dialog.getByLabel('Open PDF').setInputFiles({ name: 'fresh-training-package.pdf', mimeType: 'application/pdf', buffer: assembled! });
       await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
       await dialog.getByRole('button', { name: 'Add signature box', exact: true }).click();
       await dialog.getByLabel('Signer name', { exact: true }).fill('A. EXAMPLE');
