@@ -3,6 +3,7 @@ import '@/components/pdf/pdfConfig';
 import { readFile } from 'node:fs/promises';
 import { pdfjs } from 'react-pdf';
 import { afterEach, expect, it, vi } from 'vitest';
+import * as catalog from '@/services/forms/nativeCatalog';
 import { namedPdfChoices } from '@/services/forms/officialFormDefinition';
 import { createOfficialFormMember } from '@/lib/packageOfficialForms';
 import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
@@ -11,7 +12,7 @@ import { savePackageFormValues } from '@/lib/packageFormEditing';
 import { renderForm } from '@/services/forms/render';
 
 const edition = { id: 'navmc10132', edition: '2023-08' };
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
 it('resolves both named elections to the published values and reopens a saved literal answer', async () => {
   pdfjs.GlobalWorkerOptions.workerSrc = import.meta.resolve('pdfjs-dist/build/pdf.worker.mjs');
@@ -44,4 +45,13 @@ it('resolves both named elections to the published values and reopens a saved li
   expect(() => choice('constructor')).toThrow('Unknown choice');
   await expect(namedPdfChoices(edition, 'constructor')).rejects.toThrow('No named choices');
   await expect(namedPdfChoices({ ...edition, edition: 'other' }, '2_demand')).rejects.toThrow('unavailable');
+});
+
+it('rejects a catalog alias when its target is absent from the verified edition', async () => {
+  const profile = catalog.officialEdition(edition.id, edition.edition)!;
+  vi.spyOn(catalog, 'officialEdition').mockReturnValue({
+    ...profile, choiceAliases: { '2_demand': { accept: 'obsolete choice', refuse: 'other obsolete choice' } },
+  });
+  vi.stubGlobal('fetch', async () => new Response(await readFile('public/templates/' + profile.directory + '/form.json', 'utf8')));
+  await expect(namedPdfChoices(edition, '2_demand')).rejects.toThrow('does not match the selected edition');
 });
