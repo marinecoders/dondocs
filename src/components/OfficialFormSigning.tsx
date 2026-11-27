@@ -149,6 +149,7 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
   async function saveFields(answers: Record<string, string | boolean>, signal: AbortSignal) {
     if (!session || !inspected || editor?.digest !== latest.sha256) throw new Error('Reconnect and reopen the signed revision.');
     const bytes = await officialRevisionBytes(record);
+    await confirmSigningDisclosure({ pdfs: [{ bytes, label: record.filename }], metadata: answers }, () => !signal.aborted, { action: 'inspect' });
     const edited = await editOfficialPdf(bytes, answers, session, signal);
     const result = await inspectOfficialPdf(edited, session, signal);
     const earlier = inspection!.fields.filter(f => f.signed);

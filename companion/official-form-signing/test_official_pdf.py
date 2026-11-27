@@ -208,6 +208,7 @@ class OfficialSigning(unittest.TestCase):
         if shutil.which("pdftotext"):
             text = subprocess.check_output(["pdftotext", "-layout", "-", "-"], input=edited)
             self.assertIn(b"Training entry", text)
+            self.assertRegex(text, rb"1A\s+G\s+1B")
         second = sign_revision(edited, "3 RIGHTS ATTEST SIGNATURE", self.signer, self.context)
         self.assertTrue(second.startswith(edited))
         self.assertEqual(sum(s["trusted"] is True for s in inspect_revision(second, self.context)[1]), 2)

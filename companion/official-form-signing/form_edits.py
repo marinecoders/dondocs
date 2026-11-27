@@ -85,12 +85,13 @@ def apply_field_edits(data, answers, context):
         else:
             if not isinstance(value, str) or len(value) > min(16000, int(target.get("/MaxLen") or 16000)):
                 raise ValueError("The value exceeds the field limit.")
-            if target["/FT"] == "/Ch" and value and value not in {o["value"] for o in spec["options"]}:
+            labels = {o["value"]: o["label"] for o in spec["options"]}
+            if target["/FT"] == "/Ch" and value and value not in labels:
                 raise ValueError("Choose a listed value.")
             # Generate the appearance against the original resource IDs. Only the new appearance
             # and selected widget's answer enter the incremental writer.
             widget = layout.get_object(ref.idnum)
-            widget[NameObject("/V")] = TextStringObject(value)
+            widget[NameObject("/V")] = TextStringObject(labels.get(value, value))
             appearance = TextStreamAppearance.from_text_annotation(layout, pages[ref.idnum], False, acro, widget, widget)
             raw = BytesIO()
             appearance.write_to_stream(raw)
