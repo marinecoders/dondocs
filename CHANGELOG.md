@@ -7,6 +7,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.372]
+
+- Official form editions can name PDF choices for use in recipes. The Unit Punishment Book exposes its accept and refuse elections.
+
 ## [1.3.371]
 
 - Package recipes can require signed correspondence, label the active signer, and check that a PDF field is empty.
