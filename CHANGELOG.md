@@ -7,6 +7,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.377]
+
+- Start a nonjudicial punishment package with official forms, stage-specific records and separate command-file and appeal deliveries.
+
 ## [1.3.376]
 
 - Open the missing unlocked field directly from a package signing requirement.

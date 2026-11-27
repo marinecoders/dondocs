@@ -1,0 +1,769 @@
+{
+  "schemaVersion": 2,
+  "formId": "jagman_a1d",
+  "label": "JAGMAN A-1-d - Rights notice and election",
+  "directory": "jagman/a-1-d/5800.7G-CH2/1",
+  "definitionRevision": "5800.7G-CH2.1",
+  "nativePdfEdition": "5800.7G-CH2.1",
+  "templateRevision": "ff1fe97d36ded4713b51085f6077989ad38fe258f22d9e0f7348357a96d6dd8d",
+  "pages": [
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "ff1fe97d36ded4713b51085f6077989ad38fe258f22d9e0f7348357a96d6dd8d"
+    },
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "ff1fe97d36ded4713b51085f6077989ad38fe258f22d9e0f7348357a96d6dd8d"
+    },
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "ff1fe97d36ded4713b51085f6077989ad38fe258f22d9e0f7348357a96d6dd8d"
+    },
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "ff1fe97d36ded4713b51085f6077989ad38fe258f22d9e0f7348357a96d6dd8d"
+    },
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "ff1fe97d36ded4713b51085f6077989ad38fe258f22d9e0f7348357a96d6dd8d"
+    }
+  ],
+  "fields": {
+    "marine": {
+      "kind": "text",
+      "label": "Marine name",
+      "sourceIds": [
+        "marine"
+      ],
+      "requiredAt": "export"
+    },
+    "unit": {
+      "kind": "text",
+      "label": "Assigned unit",
+      "sourceIds": [
+        "unit"
+      ],
+      "requiredAt": "export"
+    },
+    "manual": {
+      "kind": "text",
+      "label": "Manual for Courts-Martial edition",
+      "sourceIds": [
+        "manual"
+      ],
+      "requiredAt": "export"
+    },
+    "allegation": {
+      "kind": "text",
+      "label": "Alleged offenses, including articles",
+      "sourceIds": [
+        "allegation"
+      ],
+      "requiredAt": "export",
+      "multiline": true
+    },
+    "evidence": {
+      "kind": "text",
+      "label": "Evidence summary",
+      "sourceIds": [
+        "evidence"
+      ],
+      "requiredAt": "export",
+      "multiline": true
+    },
+    "maximum": {
+      "kind": "text",
+      "label": "Applicable maximum punishment",
+      "sourceIds": [
+        "maximum"
+      ],
+      "requiredAt": "export",
+      "multiline": true
+    },
+    "military_counsel": {
+      "kind": "boolean",
+      "label": "Request military counsel",
+      "sourceIds": [
+        "military_counsel"
+      ]
+    },
+    "civilian_counsel": {
+      "kind": "boolean",
+      "label": "Request civilian counsel",
+      "sourceIds": [
+        "civilian_counsel"
+      ]
+    },
+    "waived": {
+      "kind": "boolean",
+      "label": "Waive consultation",
+      "sourceIds": [
+        "waived"
+      ]
+    },
+    "unavailable": {
+      "kind": "boolean",
+      "label": "Command determination: consultation was not operationally feasible",
+      "sourceIds": [
+        "unavailable"
+      ]
+    },
+    "Counsel_witness": {
+      "kind": "signature",
+      "label": "Witness to counsel election",
+      "sourceIds": [
+        "Counsel_witness"
+      ]
+    },
+    "Counsel_Marine": {
+      "kind": "signature",
+      "label": "Marine counsel election",
+      "sourceIds": [
+        "Counsel_Marine"
+      ]
+    },
+    "witness_date": {
+      "kind": "date",
+      "label": "Witness date",
+      "sourceIds": [
+        "witness_date"
+      ]
+    },
+    "election_date": {
+      "kind": "date",
+      "label": "Marine election date",
+      "sourceIds": [
+        "election_date"
+      ]
+    },
+    "consulted": {
+      "kind": "boolean",
+      "label": "Consultation completed",
+      "sourceIds": [
+        "consulted"
+      ]
+    },
+    "lawyer": {
+      "kind": "text",
+      "label": "Lawyer consulted",
+      "sourceIds": [
+        "lawyer"
+      ]
+    },
+    "consultation_date": {
+      "kind": "date",
+      "label": "Consultation date",
+      "sourceIds": [
+        "consultation_date"
+      ]
+    },
+    "Consultation_witness": {
+      "kind": "signature",
+      "label": "Witness to consultation",
+      "sourceIds": [
+        "Consultation_witness"
+      ]
+    },
+    "Consultation_Marine": {
+      "kind": "signature",
+      "label": "Marine consultation acknowledgment",
+      "sourceIds": [
+        "Consultation_Marine"
+      ]
+    },
+    "consult_witness_date": {
+      "kind": "date",
+      "label": "Consultation witness date",
+      "sourceIds": [
+        "consult_witness_date"
+      ]
+    },
+    "consult_marine_date": {
+      "kind": "date",
+      "label": "Consultation acknowledgment date",
+      "sourceIds": [
+        "consult_marine_date"
+      ]
+    },
+    "election": {
+      "kind": "singleChoice",
+      "label": "NJP election",
+      "sourceIds": [
+        "election"
+      ],
+      "requiredAt": "export",
+      "options": [
+        {
+          "id": "refuse",
+          "label": "Refuse NJP"
+        },
+        {
+          "id": "accept",
+          "label": "Accept NJP"
+        }
+      ]
+    },
+    "appearance": {
+      "kind": "singleChoice",
+      "label": "Personal appearance",
+      "sourceIds": [
+        "appearance"
+      ],
+      "options": [
+        {
+          "id": "request",
+          "label": "Request a personal appearance"
+        },
+        {
+          "id": "waive",
+          "label": "Waive personal appearance"
+        }
+      ]
+    },
+    "matters": {
+      "kind": "singleChoice",
+      "label": "Written matters",
+      "sourceIds": [
+        "matters"
+      ],
+      "options": [
+        {
+          "id": "none",
+          "label": "No written matters"
+        },
+        {
+          "id": "submit",
+          "label": "Submit written matters"
+        }
+      ]
+    },
+    "witness_request": {
+      "kind": "boolean",
+      "label": "Request witnesses",
+      "sourceIds": [
+        "witness_request"
+      ]
+    },
+    "witnesses": {
+      "kind": "text",
+      "label": "Requested witnesses",
+      "sourceIds": [
+        "witnesses"
+      ],
+      "multiline": true
+    },
+    "open": {
+      "kind": "boolean",
+      "label": "Request public proceedings",
+      "sourceIds": [
+        "open"
+      ]
+    },
+    "accused_name": {
+      "kind": "text",
+      "label": "Printed name of accused",
+      "sourceIds": [
+        "accused_name"
+      ]
+    },
+    "witness_name": {
+      "kind": "text",
+      "label": "Printed name of witness",
+      "sourceIds": [
+        "witness_name"
+      ]
+    },
+    "Election_Marine": {
+      "kind": "signature",
+      "label": "Marine final election",
+      "sourceIds": [
+        "Election_Marine"
+      ]
+    },
+    "Election_witness": {
+      "kind": "signature",
+      "label": "Witness to final election",
+      "sourceIds": [
+        "Election_witness"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "notice",
+      "title": "Notification",
+      "fields": [
+        "marine",
+        "unit",
+        "manual",
+        "allegation",
+        "evidence",
+        "maximum"
+      ]
+    },
+    {
+      "id": "counsel",
+      "title": "Counsel consultation",
+      "fields": [
+        "military_counsel",
+        "civilian_counsel",
+        "waived",
+        "unavailable",
+        "Counsel_witness",
+        "Counsel_Marine",
+        "witness_date",
+        "election_date",
+        "consulted",
+        "lawyer",
+        "consultation_date",
+        "Consultation_witness",
+        "Consultation_Marine",
+        "consult_witness_date",
+        "consult_marine_date"
+      ]
+    },
+    {
+      "id": "elections",
+      "title": "Elections",
+      "fields": [
+        "election",
+        "appearance",
+        "matters",
+        "witness_request",
+        "witnesses",
+        "open",
+        "accused_name",
+        "witness_name",
+        "Election_Marine",
+        "Election_witness"
+      ]
+    }
+  ],
+  "placements": [
+    {
+      "fieldId": "marine",
+      "page": 1,
+      "box": {
+        "left": 94,
+        "top": 610,
+        "width": 232,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "unit",
+      "page": 1,
+      "box": {
+        "left": 94,
+        "top": 597,
+        "width": 159,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "manual",
+      "page": 1,
+      "box": {
+        "left": 151,
+        "top": 537,
+        "width": 173,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "allegation",
+      "page": 1,
+      "box": {
+        "left": 117,
+        "top": 489,
+        "width": 420,
+        "height": 35
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "evidence",
+      "page": 1,
+      "box": {
+        "left": 117,
+        "top": 423,
+        "width": 420,
+        "height": 31
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "maximum",
+      "page": 1,
+      "box": {
+        "left": 93,
+        "top": 255,
+        "width": 451,
+        "height": 54
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "military_counsel",
+      "page": 3,
+      "box": {
+        "left": 132,
+        "top": 533,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "civilian_counsel",
+      "page": 3,
+      "box": {
+        "left": 132,
+        "top": 497,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "waived",
+      "page": 3,
+      "box": {
+        "left": 132,
+        "top": 461,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "unavailable",
+      "page": 3,
+      "box": {
+        "left": 109,
+        "top": 425,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Counsel_witness",
+      "page": 3,
+      "box": {
+        "left": 94,
+        "top": 339,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Counsel_Marine",
+      "page": 3,
+      "box": {
+        "left": 329,
+        "top": 339,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "witness_date",
+      "page": 3,
+      "box": {
+        "left": 99,
+        "top": 296,
+        "width": 145,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "election_date",
+      "page": 3,
+      "box": {
+        "left": 330,
+        "top": 296,
+        "width": 145,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "consulted",
+      "page": 3,
+      "box": {
+        "left": 132,
+        "top": 185,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "lawyer",
+      "page": 3,
+      "box": {
+        "left": 291,
+        "top": 187,
+        "width": 213,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "consultation_date",
+      "page": 3,
+      "box": {
+        "left": 177,
+        "top": 163,
+        "width": 220,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Consultation_witness",
+      "page": 4,
+      "box": {
+        "left": 94,
+        "top": 687,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Consultation_Marine",
+      "page": 4,
+      "box": {
+        "left": 329,
+        "top": 687,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "consult_witness_date",
+      "page": 4,
+      "box": {
+        "left": 99,
+        "top": 645,
+        "width": 145,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "consult_marine_date",
+      "page": 4,
+      "box": {
+        "left": 330,
+        "top": 645,
+        "width": 145,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "election",
+      "page": 4,
+      "box": {
+        "left": 130,
+        "top": 581,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "refuse"
+    },
+    {
+      "fieldId": "election",
+      "page": 4,
+      "box": {
+        "left": 130,
+        "top": 473,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "accept"
+    },
+    {
+      "fieldId": "appearance",
+      "page": 4,
+      "box": {
+        "left": 130,
+        "top": 341,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "request"
+    },
+    {
+      "fieldId": "appearance",
+      "page": 4,
+      "box": {
+        "left": 130,
+        "top": 305,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "waive"
+    },
+    {
+      "fieldId": "matters",
+      "page": 4,
+      "box": {
+        "left": 130,
+        "top": 269,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "none"
+    },
+    {
+      "fieldId": "matters",
+      "page": 4,
+      "box": {
+        "left": 130,
+        "top": 233,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink",
+      "optionId": "submit"
+    },
+    {
+      "fieldId": "witness_request",
+      "page": 4,
+      "box": {
+        "left": 132,
+        "top": 149,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "witnesses",
+      "page": 4,
+      "box": {
+        "left": 201,
+        "top": 117,
+        "width": 275,
+        "height": 39
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "open",
+      "page": 5,
+      "box": {
+        "left": 132,
+        "top": 593,
+        "width": 9,
+        "height": 9
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "accused_name",
+      "page": 5,
+      "box": {
+        "left": 94,
+        "top": 487,
+        "width": 215,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "witness_name",
+      "page": 5,
+      "box": {
+        "left": 329,
+        "top": 487,
+        "width": 215,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Election_Marine",
+      "page": 5,
+      "box": {
+        "left": 94,
+        "top": 555,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Election_witness",
+      "page": 5,
+      "box": {
+        "left": 329,
+        "top": 555,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    }
+  ],
+  "rowGroups": {}
+}
