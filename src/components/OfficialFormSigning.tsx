@@ -28,7 +28,7 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
   const [inspection, setInspection] = useState<OfficialInspection>();
   const [identities, setIdentities] = useState<Awaited<ReturnType<typeof signingIdentities>>>([]);
   const [certificate, setCertificate] = useState('');
-  const [editor, setEditor] = useState<{ digest: string; fields: EditableSignedField[] }>();
+  const [editor, setEditor] = useState<{ digest: string; fields: EditableSignedField[]; initialField?: string }>();
   const [field, setField] = useState(initialField ?? '');
   const [unavailable, setUnavailable] = useState('');
   const [finalize, setFinalize] = useState(false);
@@ -50,7 +50,7 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
   const profile = inspection && officialEdition(inspection.formId, inspection.edition);
   const inspected = Boolean(session && inspectedSession === session && profile && inspection?.sha256 === latest.sha256);
   const orderIssue = inspected && inspection && field ? signatureOrderIssue(inspection, field, finalize, signatureLabels) : undefined;
-  const [check, setCheck] = useState<{ field: string; digest: string; message?: string; target?: PackageDestination }>();
+  const [check, setCheck] = useState<{ field: string; digest: string; message?: string; target?: PackageDestination; signedOriginal?: boolean }>();
   useEffect(() => {
     if (!beforeSign || !field) return;
     let live = true;
@@ -58,11 +58,14 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
       if (live) setCheck({ field, digest: latest.sha256 });
     }).catch(cause => {
       if (live) setCheck({ field, digest: latest.sha256, message: cause instanceof Error ? cause.message : 'Could not check signing requirements.',
+        signedOriginal: cause instanceof PackageSigningRequirementError && cause.signedOriginal,
         target: cause instanceof PackageSigningRequirementError ? cause.target : undefined });
     });
     return () => { live = false; };
   }, [beforeSign, field, latest.sha256, record]);
   const checked = check?.field === field && check.digest === latest.sha256 ? check : undefined;
+  const correction = checked?.target?.correction;
+  const signedCorrection = (checked?.signedOriginal || record.revisions.length > 1) && correction?.kind === 'edit' ? correction : undefined;
   const chooseField = !initialField;
   const selectInspection = (value: OfficialInspection) => {
     const available = value.fields.filter(item => !item.locked && !item.signed);
@@ -98,9 +101,15 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
       signal.throwIfAborted(); onSave(next); selectInspection(result); setPendingReturn(undefined); setMessage('Returned signature verified. Signed PDF ready.');
     });
   }
-  async function prepareSigning(signal: AbortSignal) {
+  async function prepareSigning(signal: AbortSignal, correctionId?: string) {
     const bytes = await officialRevisionBytes(record);
-    if (field) await beforeSign?.(field, bytes.buffer);
+    if (field && beforeSign) {
+      try { await beforeSign(field, bytes.buffer); }
+      catch (cause) {
+        const target = cause instanceof PackageSigningRequirementError && cause.target?.correction;
+        if (!correctionId || !target || target.kind !== 'edit' || target.fieldKey !== correctionId) throw cause;
+      }
+    }
     signal.throwIfAborted();
     setInspection(undefined); setReviewed(false); setCertificate(''); setIdentities([]);
     if (!currentSigningSession()) setMessage('Approve the connection in the signing companion.');
@@ -117,6 +126,10 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
       ? `The selected field is ${requested?.signed ? 'already signed' : requested?.locked ? 'locked' : 'unavailable'} on this revision.` : '');
     setInspectedSession(token);
     selectInspection(info);
+    if (correctionId) {
+      if (!requested || requested.locked || requested.signed) throw new Error('The selected signature field is no longer available.');
+      await openFields(signal, correctionId, token);
+    }
     await refreshCard(token, signal);
   }
   async function refreshCard(token: string, signal: AbortSignal) {
@@ -147,12 +160,16 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
     signal.throwIfAborted();
     setPending(undefined); onSave(next); selectInspection(result); setMessage('Signed PDF ready.');
   }
-  async function openFields(signal: AbortSignal) {
-    if (!session || !inspected) return;
+  async function openFields(signal: AbortSignal, initialField?: string, token = session) {
+    if (!token) return;
     const bytes = await officialRevisionBytes(record);
-    const fields = await readUnlockedFields(bytes, session, signal);
+    const fields = await readUnlockedFields(bytes, token, signal);
     signal.throwIfAborted();
-    setEditor({ digest: latest.sha256, fields });
+    if (initialField && !fields.some(item => item.id === initialField)) {
+      throw new Error('This field cannot be edited on the signed revision.');
+    }
+    setReviewed(false);
+    setEditor({ digest: latest.sha256, fields, initialField });
   }
   async function saveFields(answers: Record<string, string | boolean>, signal: AbortSignal) {
     if (!session || !inspected || editor?.digest !== latest.sha256) throw new Error('Reconnect and reopen the signed revision.');
@@ -185,7 +202,7 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
     <header><h3 className="font-medium">{record.filename}</h3><p className="text-sm text-muted-foreground">Official PDF · Revision {record.revisions.length}</p></header>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {message && <p role="status" className="text-sm">{message}</p>}
-    {editor?.digest === latest.sha256 && <fieldset disabled={busy}><SignedFormFields fields={editor.fields}
+    {editor?.digest === latest.sha256 && <fieldset disabled={busy}><SignedFormFields busy={busy} fields={editor.fields} initialField={editor.initialField}
       onSave={changes => void run(signal => saveFields(changes, signal))} onCancel={() => setEditor(undefined)} /></fieldset>}
     <fieldset disabled={busy || editor?.digest === latest.sha256} className="space-y-3">
       <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_minmax(15rem,20rem)]">
@@ -206,7 +223,9 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
           })}>Save to package</Button>}
           {orderIssue && <p role="status" className="text-sm">{orderIssue}</p>}
           {checked?.message && <div role="status" className="space-y-1 text-sm"><p>{checked.message}</p>
-            {onCorrect && checked.target && record.revisions.length === 1 && <Button size="sm" variant="outline" onClick={() => onCorrect(checked.target!, field)}>
+            {signedCorrection?.fieldKey ? <Button size="sm" variant="outline" onClick={() => void run(signal =>
+              inspected ? openFields(signal, signedCorrection.fieldKey) : prepareSigning(signal, signedCorrection.fieldKey))}>
+              {signedCorrection.label}</Button> : onCorrect && checked.target && !checked.signedOriginal && record.revisions.length === 1 && <Button size="sm" variant="outline" onClick={() => onCorrect(checked.target!, field)}>
               {checked.target.correction?.label || 'Open package details'}</Button>}</div>}
           <div className="flex flex-wrap items-center gap-2">
             {session && <span className="text-sm">Companion connected</span>}
@@ -214,7 +233,7 @@ export function OfficialFormSigning({ record, initialField, signatureLabels, ini
               ? <Button variant="outline" onClick={() => void run(signal => refreshCard(session, signal))}>
                 {identities.length ? 'Refresh card' : 'Retry card'}
               </Button>
-              : <Button onClick={() => void run(prepareSigning)}>{session ? 'Review for signing' : 'Connect CAC'}</Button>)}
+              : <Button onClick={() => void run(signal => prepareSigning(signal, signedCorrection?.fieldKey))}>{session ? 'Review for signing' : 'Connect CAC'}</Button>)}
             {disconnectPending && <span role="status" className="text-sm">Waiting for disconnect confirmation</span>}
             {(session || disconnectPending) && <Button variant="ghost" onClick={() => void run(async signal => {
               setInspectedSession(undefined); setInspection(undefined); setIdentities([]); setCertificate(''); setReviewed(false);

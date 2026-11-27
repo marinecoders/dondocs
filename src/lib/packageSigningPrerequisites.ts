@@ -1,3 +1,5 @@
+import { identifyOfficialEdition } from '@/services/forms/nativeCatalog';
+import { loadOfficialFormDefinition } from '@/services/forms/officialFormDefinition';
 import { PackageSigningRequirementError } from './packageDestinations';
 import type { PackageRevision } from './actionPackages';
 import { resolveConditionalPackageRequirements } from './packageConditionalRequirements';
@@ -26,16 +28,23 @@ export async function checkPackageSigningPrerequisites(revision: PackageRevision
   if (!groups.length && !selections.length) return;
   const fields = await readPdfAnswerStates(bytes);
   const invalid = missingPdfSelections(fields, selections);
-  if (invalid.length) throw new PackageSigningRequirementError(invalid.map(item => item.label).join(' '), { memberId });
   const { answered } = fields;
   const missing = missingAnswerGroups(groups, answered);
-  if (!missing.length) return;
-  const definition = member?.kind === 'native' ? member.session.genericForm?.definition : undefined;
-  const row = missing[0].alternatives.reduce((best, row) =>
+  if (!missing.length && !invalid.length) return;
+  const signedOriginal = member?.kind === 'original' && member.signedOriginal === true;
+  let definition = member?.kind === 'native' ? member.session.genericForm?.definition : undefined;
+  if (signedOriginal) {
+    const edition = await identifyOfficialEdition(bytes);
+    if (edition?.definitionSha256 && edition.formId === member.officialFormId) {
+      definition = await loadOfficialFormDefinition(edition).catch(() => undefined);
+    }
+  }
+  const row = missing[0]?.alternatives.reduce((best, row) =>
     row.filter(name => !answered.has(name)).length < best.filter(name => !answered.has(name)).length ? row : best);
-  const name = row.find(value => !answered.has(value));
+  const name = invalid[0]?.field ?? row?.find(value => !answered.has(value));
   const entry = name && Object.entries(definition?.fields ?? {}).find(([, value]) => value.sourceIds?.includes(name));
   const section = entry && definition?.sections.find(section => section.fields.includes(entry[0]));
-  throw new PackageSigningRequirementError(missing.map(group => group.label).join(' '), entry ? { memberId,
-    correction: { kind: 'edit', fieldKey: entry[0], sectionId: section && 'field/' + section.id, label: 'Fill ' + entry[1].label } } : undefined);
+  const message = (invalid.length ? invalid : missing).map(rule => rule.label).join(' ');
+  throw new PackageSigningRequirementError(message, entry ? { memberId,
+    correction: { kind: 'edit', fieldKey: entry[0], sectionId: section && 'field/' + section.id, label: 'Fill ' + entry[1].label } } : { memberId }, signedOriginal);
 }

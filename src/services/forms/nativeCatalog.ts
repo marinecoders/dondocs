@@ -12,11 +12,15 @@ export function supportsOfficialSigning(formId: string, edition?: string) {
 }
 
 /** Acrobat and DonDocs incremental revisions retain the exact publisher PDF as a prefix. */
-export async function identifyOfficialOriginal(data: ArrayBuffer) {
+export async function identifyOfficialEdition(data: ArrayBuffer) {
   const { portableResourceDigest } = await import('@/lib/portableResources');
   for (const source of editions) {
-    if (data.byteLength >= source.length && await portableResourceDigest(data.slice(0, source.length)) === source.sha256) return source.formId;
+    if (data.byteLength >= source.length && await portableResourceDigest(data.slice(0, source.length)) === source.sha256) return source;
   }
+}
+
+export async function identifyOfficialOriginal(data: ArrayBuffer) {
+  return (await identifyOfficialEdition(data))?.formId;
 }
 
 export function nativeSigningFormId<T>(category: unknown, formType: T) {

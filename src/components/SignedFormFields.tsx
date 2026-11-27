@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { EditableSignedField } from '@/services/forms/signingBridge';
 
 type Answers = Record<string, string | boolean>;
 
-export function SignedFormFields({ fields, onSave, onCancel }: {
-  fields: EditableSignedField[]; onSave: (changes: Answers) => void; onCancel: () => void;
+export function SignedFormFields({ fields, initialField, busy, onSave, onCancel }: {
+  fields: EditableSignedField[]; initialField?: string; busy?: boolean; onSave: (changes: Answers) => void; onCancel: () => void;
 }) {
-  const [id, setId] = useState(fields[0]?.id);
+  const [id, setId] = useState(initialField ?? fields[0]?.id);
+  const valueLabel = useRef<HTMLLabelElement>(null);
+  useEffect(() => { if (initialField && !busy) valueLabel.current?.control?.focus(); }, [initialField, busy]);
   const [changes, setChanges] = useState<Answers>({});
   const field = fields.find(item => item.id === id);
   const value = field && (changes[field.id] ?? field.value);
@@ -27,7 +29,7 @@ export function SignedFormFields({ fields, onSave, onCancel }: {
       <label className="grid gap-1">Field<select className={control} value={id} onChange={e => setId(e.target.value)}>
         {fields.map(f => <option key={f.id} value={f.id}>{f.label}</option>)}
       </select></label>
-      <label className="grid gap-1">{field.label}
+      <label ref={valueLabel} className="grid gap-1">{field.label}
         {typeof value === 'boolean' ? <input type="checkbox" checked={value} onChange={e => change(e.target.checked)} /> :
           field.options.length ? <select className={control} value={String(value)} onChange={e => change(e.target.value)}>
             {!field.options.some(o => o.value === value) && <option value={String(value)}>{String(value).trim() || 'Choose a value'}</option>}
