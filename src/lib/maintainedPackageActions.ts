@@ -16,6 +16,7 @@ const actions = [
   { id: 'administrative-request', build: administrative, name: 'Administrative request', description: 'A forwarding letter and request worksheet, with supporting evidence when needed.', kind: 'Letter-led' },
   { id: 'training-participation', build: training, name: 'Training participation', description: 'Participant worksheets with attendance details and optional cost estimates.', kind: 'Forms-led' },
   { id: 'evidence-submission', build: evidence, name: 'Evidence submission', description: 'A transmittal letter, submission index and original supporting PDF.', kind: 'Mixed evidence' },
+  { id: 'njp', build: async () => (await import('./recipes/enlistedNjp')).enlistedNjp(), startWithDocuments: true, startLabel: 'Start NJP', name: 'Nonjudicial punishment (NJP)', description: 'Prepare the Unit Punishment Book and supporting records for an active-duty enlisted Marine ashore who is neither attached to nor embarked on a vessel. Refer officer, vessel and special-jurisdiction cases for separate review.', kind: 'Forms-led' },
 ] as const satisfies readonly ActionListing[];
 // Unfinished drafts store an action ID and answers. Keep these editions resolvable on resume.
 const retiredActions: ReadonlySet<string> = new Set(['administrative-request', 'training-participation', 'evidence-submission']);

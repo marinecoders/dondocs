@@ -147,3 +147,73 @@ it('rejects missing and mismatched official editions when starting a recipe slot
   await expect(officialFormBlueprint({ ...member, completion: { expectedForm: { id: 'navmc10132', edition: '2023-08' } } }))
     .rejects.toThrow('different official form');
 });
+
+it('reads required answers from the actual saved election rather than its package metadata', async () => {
+  const { missingRequiredPdfFields } = await import('@/services/forms/readRequiredPdfFields');
+  const directory = 'public/templates/jagman/a-1-d/5800.7G-CH2/1';
+  const definition = compileFormDefinition(JSON.parse(await readFile(directory + '/form.json', 'utf8')));
+  const original = new Uint8Array(await readFile(directory + '/fillable.pdf'));
+  const required = ['marine', 'unit', 'election'];
+  expect(await missingRequiredPdfFields(original.buffer, required)).toEqual(required);
+  const rendered = await renderForm({ definition, answers: { marine: 'TRAINING EXAMPLE', election: 'refuse' }, rows: {}, answerRevision: 1 },
+    'preview', async () => original);
+  expect(await missingRequiredPdfFields(new Uint8Array(rendered.bytes).buffer, required)).toEqual(['unit']);
+});
+
+it('checks both NJP elections and appeal outcomes against the bytes of each saved PDF', async () => {
+  const { readPdfAnswerStates, missingPdfSelections } = await import('@/services/forms/readRequiredPdfFields');
+  vi.stubGlobal('fetch', async (url: string) => new Response(new Uint8Array(
+    await readFile('public' + decodeURIComponent(new URL(url, 'https://test.invalid').pathname)))));
+  try {
+    const { maintainedPackageAction } = await import('@/lib/maintainedPackageActions');
+    const recipe = await maintainedPackageAction('njp');
+    const rules = (id: string) => recipe.program.requirements.find(rule => rule.id === id)!.completion!.pdfSelections!;
+    for (const [formId, directory, filename, cases] of [
+      ['jagman_a1d', 'jagman/a-1-d/5800.7G-CH2/1', 'fillable.pdf', [
+        [{ election: 'accept' }, 'rights-acceptance', true], [{ election: 'accept' }, 'rights-refusal', false],
+        [{ election: 'refuse' }, 'rights-refusal', true], [{}, 'rights-acceptance', false],
+      ]],
+      ['navmc10132', 'NAVMC10132 - Unit Punishment Book', 'original.pdf', [
+        [{}, 'appeal-closed', false], [{ '13_not_appealed': true }, 'appeal-closed', true],
+        [{ '13_not_appealed': true, '13_date_of_appeal_if_any': '2026-11-01' }, 'appeal-closed', false],
+        [{ '13_not_appealed': true }, 'appeal-date', false],
+      ]],
+    ] as const) {
+      const member = await createOfficialFormMember(formId, 'supporting-document');
+      const bytes = await readFile('public/templates/' + directory + '/' + filename);
+      for (const [answers, id, valid] of cases) {
+        const session = { ...member.session.genericForm!, answers: { ...answers } };
+        const result = await renderForm(session, 'preview', async () => bytes);
+        const fields = await readPdfAnswerStates(new Uint8Array(result.bytes).buffer);
+        expect(missingPdfSelections(fields, rules(id)).length === 0, id + ' ' + JSON.stringify(answers)).toBe(valid);
+      }
+    }
+  } finally { vi.unstubAllGlobals(); }
+});
+
+it.each([false, true])('checks the item 2 refusal marker on the editable form and the returned PDF (marked %s)', async marked => {
+  const { officialFormCompletionIssues } = await import('@/lib/packageFormCompletion');
+  const { verifyRevisionForEvidence } = await import('@/lib/packageRequirements');
+  const { captureOriginalPackageMember } = await import('@/lib/actionPackageAssets');
+  const { maintainedPackageAction } = await import('@/lib/maintainedPackageActions');
+  vi.stubGlobal('fetch', async (url: string) => new Response(new Uint8Array(
+    await readFile('public' + decodeURIComponent(new URL(url, 'https://test.invalid').pathname)))));
+  try {
+    const recipe = await maintainedPackageAction('njp');
+    const marker = recipe.program.requirements.find(rule => rule.id === 'refusal-marker')!.completion!;
+    const election = recipe.program.requirements.find(rule => rule.id === 'refusal')!.completion!;
+    const member = await createOfficialFormMember('navmc10132', 'supporting-document');
+    const form = member.session.genericForm!;
+    form.answers = { '18_accused_full_name': 'EXAMPLE, TEST', '2_acc_refuse_to_sign': marked,
+      '2_demand': 'I demand trial and refuse non-judicial punishment.' };
+    const issues = officialFormCompletionIssues(member, marker);
+    expect(issues).toHaveLength(marked ? 0 : 1);
+    const bytes = await readFile('public/templates/NAVMC10132 - Unit Punishment Book/original.pdf');
+    const output = await renderForm(form, 'export', async () => bytes);
+    const returned = await captureOriginalPackageMember({ name: 'training.pdf', data: Uint8Array.from(output.bytes).buffer }, 'supporting-document', true);
+    const check = verifyRevisionForEvidence(returned, [marker]);
+    if (marked) await expect(check).rejects.toThrow('CO signs item 2');
+    else await expect(check).rejects.toThrow('Mark the refusal to sign in UPB item 2.');
+    await expect(verifyRevisionForEvidence(returned, [election])).resolves.toBeUndefined();
+  } finally { vi.unstubAllGlobals(); }
+});

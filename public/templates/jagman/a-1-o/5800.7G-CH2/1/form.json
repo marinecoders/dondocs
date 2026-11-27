@@ -1,0 +1,864 @@
+{
+  "schemaVersion": 2,
+  "formId": "jagman_a1o",
+  "label": "JAGMAN A-1-o - Suspect rights acknowledgment and statement",
+  "directory": "jagman/a-1-o/5800.7G-CH2/1",
+  "definitionRevision": "5800.7G-CH2.1",
+  "nativePdfEdition": "5800.7G-CH2.1",
+  "templateRevision": "2f216b0e343ba949cf112656abf545d5330fc7fc627a8c07baa59eb2fd03b2b9",
+  "pages": [
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "2f216b0e343ba949cf112656abf545d5330fc7fc627a8c07baa59eb2fd03b2b9"
+    },
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "2f216b0e343ba949cf112656abf545d5330fc7fc627a8c07baa59eb2fd03b2b9"
+    },
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "2f216b0e343ba949cf112656abf545d5330fc7fc627a8c07baa59eb2fd03b2b9"
+    },
+    {
+      "file": "fillable.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "2f216b0e343ba949cf112656abf545d5330fc7fc627a8c07baa59eb2fd03b2b9"
+    }
+  ],
+  "fields": {
+    "marine": {
+      "kind": "text",
+      "label": "Marine name",
+      "sourceIds": [
+        "marine"
+      ],
+      "requiredAt": "export"
+    },
+    "rank": {
+      "kind": "text",
+      "label": "Rate or rank",
+      "sourceIds": [
+        "rank"
+      ]
+    },
+    "service": {
+      "kind": "text",
+      "label": "Service",
+      "sourceIds": [
+        "service"
+      ]
+    },
+    "unit": {
+      "kind": "text",
+      "label": "Activity or unit",
+      "sourceIds": [
+        "unit"
+      ]
+    },
+    "birth": {
+      "kind": "date",
+      "label": "Date of birth",
+      "sourceIds": [
+        "birth"
+      ]
+    },
+    "interviewer": {
+      "kind": "text",
+      "label": "Interviewer name",
+      "sourceIds": [
+        "interviewer"
+      ]
+    },
+    "interviewer_rank": {
+      "kind": "text",
+      "label": "Interviewer rank",
+      "sourceIds": [
+        "interviewer_rank"
+      ]
+    },
+    "interviewer_service": {
+      "kind": "text",
+      "label": "Interviewer service",
+      "sourceIds": [
+        "interviewer_service"
+      ]
+    },
+    "organization": {
+      "kind": "text",
+      "label": "Organization",
+      "sourceIds": [
+        "organization"
+      ]
+    },
+    "billet": {
+      "kind": "text",
+      "label": "Billet",
+      "sourceIds": [
+        "billet"
+      ]
+    },
+    "location": {
+      "kind": "text",
+      "label": "Interview location",
+      "sourceIds": [
+        "location"
+      ]
+    },
+    "time": {
+      "kind": "text",
+      "label": "Interview time",
+      "sourceIds": [
+        "time"
+      ]
+    },
+    "date": {
+      "kind": "date",
+      "label": "Interview date",
+      "sourceIds": [
+        "date"
+      ]
+    },
+    "allegation": {
+      "kind": "text",
+      "label": "Suspected offenses",
+      "sourceIds": [
+        "allegation"
+      ],
+      "multiline": true
+    },
+    "initial_1": {
+      "kind": "text",
+      "label": "Notice of suspected offense",
+      "sourceIds": [
+        "initial_1"
+      ]
+    },
+    "initial_2": {
+      "kind": "text",
+      "label": "Right to remain silent",
+      "sourceIds": [
+        "initial_2"
+      ]
+    },
+    "initial_3": {
+      "kind": "text",
+      "label": "Use of statements",
+      "sourceIds": [
+        "initial_3"
+      ]
+    },
+    "initial_4": {
+      "kind": "text",
+      "label": "Right to consult counsel",
+      "sourceIds": [
+        "initial_4"
+      ]
+    },
+    "initial_5": {
+      "kind": "text",
+      "label": "Counsel present",
+      "sourceIds": [
+        "initial_5"
+      ]
+    },
+    "initial_6": {
+      "kind": "text",
+      "label": "Right to stop",
+      "sourceIds": [
+        "initial_6"
+      ]
+    },
+    "initial_7": {
+      "kind": "text",
+      "label": "Understanding of rights",
+      "sourceIds": [
+        "initial_7"
+      ]
+    },
+    "initial_8": {
+      "kind": "text",
+      "label": "Waiver of silence",
+      "sourceIds": [
+        "initial_8"
+      ]
+    },
+    "initial_9": {
+      "kind": "text",
+      "label": "Desire to make a statement",
+      "sourceIds": [
+        "initial_9"
+      ]
+    },
+    "initial_10": {
+      "kind": "text",
+      "label": "Waiver of consultation",
+      "sourceIds": [
+        "initial_10"
+      ]
+    },
+    "initial_11": {
+      "kind": "text",
+      "label": "Waiver of counsel presence",
+      "sourceIds": [
+        "initial_11"
+      ]
+    },
+    "initial_12": {
+      "kind": "text",
+      "label": "Voluntary waiver",
+      "sourceIds": [
+        "initial_12"
+      ]
+    },
+    "initial_13": {
+      "kind": "text",
+      "label": "Right to assert rights later",
+      "sourceIds": [
+        "initial_13"
+      ]
+    },
+    "Suspect_signature": {
+      "kind": "signature",
+      "label": "Suspect signature",
+      "sourceIds": [
+        "Suspect_signature"
+      ]
+    },
+    "Suspect_time": {
+      "kind": "text",
+      "label": "Suspect time",
+      "sourceIds": [
+        "Suspect_time"
+      ]
+    },
+    "Suspect_date": {
+      "kind": "date",
+      "label": "Suspect date",
+      "sourceIds": [
+        "Suspect_date"
+      ]
+    },
+    "Interviewer_signature": {
+      "kind": "signature",
+      "label": "Interviewer signature",
+      "sourceIds": [
+        "Interviewer_signature"
+      ]
+    },
+    "Interviewer_time": {
+      "kind": "text",
+      "label": "Interviewer time",
+      "sourceIds": [
+        "Interviewer_time"
+      ]
+    },
+    "Interviewer_date": {
+      "kind": "date",
+      "label": "Interviewer date",
+      "sourceIds": [
+        "Interviewer_date"
+      ]
+    },
+    "Witness_signature": {
+      "kind": "signature",
+      "label": "Witness signature",
+      "sourceIds": [
+        "Witness_signature"
+      ]
+    },
+    "Witness_time": {
+      "kind": "text",
+      "label": "Witness time",
+      "sourceIds": [
+        "Witness_time"
+      ]
+    },
+    "Witness_date": {
+      "kind": "date",
+      "label": "Witness date",
+      "sourceIds": [
+        "Witness_date"
+      ]
+    },
+    "page_count": {
+      "kind": "text",
+      "label": "Following statement pages",
+      "sourceIds": [
+        "page_count"
+      ]
+    },
+    "Statement_suspect": {
+      "kind": "signature",
+      "label": "Statement signature",
+      "sourceIds": [
+        "Statement_suspect"
+      ]
+    },
+    "statement": {
+      "kind": "text",
+      "label": "Statement",
+      "sourceIds": [
+        "statement"
+      ],
+      "multiline": true
+    },
+    "continuation": {
+      "kind": "text",
+      "label": "Continuation",
+      "sourceIds": [
+        "continuation"
+      ],
+      "multiline": true
+    }
+  },
+  "sections": [
+    {
+      "id": "interview",
+      "title": "Interview",
+      "fields": [
+        "marine",
+        "rank",
+        "service",
+        "unit",
+        "birth",
+        "interviewer",
+        "interviewer_rank",
+        "interviewer_service",
+        "organization",
+        "billet",
+        "location",
+        "time",
+        "date",
+        "allegation"
+      ]
+    },
+    {
+      "id": "rights",
+      "title": "Rights and waiver initials",
+      "fields": [
+        "initial_1",
+        "initial_2",
+        "initial_3",
+        "initial_4",
+        "initial_5",
+        "initial_6",
+        "initial_7",
+        "initial_8",
+        "initial_9",
+        "initial_10",
+        "initial_11",
+        "initial_12",
+        "initial_13"
+      ]
+    },
+    {
+      "id": "statement",
+      "title": "Statement and signatures",
+      "fields": [
+        "Suspect_signature",
+        "Suspect_time",
+        "Suspect_date",
+        "Interviewer_signature",
+        "Interviewer_time",
+        "Interviewer_date",
+        "Witness_signature",
+        "Witness_time",
+        "Witness_date",
+        "page_count",
+        "Statement_suspect",
+        "statement",
+        "continuation"
+      ]
+    }
+  ],
+  "placements": [
+    {
+      "fieldId": "marine",
+      "page": 1,
+      "box": {
+        "left": 96,
+        "top": 597,
+        "width": 263,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "rank",
+      "page": 1,
+      "box": {
+        "left": 373,
+        "top": 597,
+        "width": 61,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "service",
+      "page": 1,
+      "box": {
+        "left": 445,
+        "top": 597,
+        "width": 91,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "unit",
+      "page": 1,
+      "box": {
+        "left": 96,
+        "top": 549,
+        "width": 263,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "birth",
+      "page": 1,
+      "box": {
+        "left": 374,
+        "top": 549,
+        "width": 158,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "interviewer",
+      "page": 1,
+      "box": {
+        "left": 96,
+        "top": 500,
+        "width": 263,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "interviewer_rank",
+      "page": 1,
+      "box": {
+        "left": 373,
+        "top": 500,
+        "width": 61,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "interviewer_service",
+      "page": 1,
+      "box": {
+        "left": 445,
+        "top": 500,
+        "width": 91,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "organization",
+      "page": 1,
+      "box": {
+        "left": 96,
+        "top": 452,
+        "width": 263,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "billet",
+      "page": 1,
+      "box": {
+        "left": 373,
+        "top": 452,
+        "width": 157,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "location",
+      "page": 1,
+      "box": {
+        "left": 96,
+        "top": 404,
+        "width": 263,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "time",
+      "page": 1,
+      "box": {
+        "left": 373,
+        "top": 404,
+        "width": 61,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "date",
+      "page": 1,
+      "box": {
+        "left": 445,
+        "top": 404,
+        "width": 91,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "allegation",
+      "page": 1,
+      "box": {
+        "left": 94,
+        "top": 271,
+        "width": 450,
+        "height": 35
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_1",
+      "page": 1,
+      "box": {
+        "left": 504,
+        "top": 228,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_2",
+      "page": 1,
+      "box": {
+        "left": 504,
+        "top": 193,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_3",
+      "page": 1,
+      "box": {
+        "left": 504,
+        "top": 132,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_4",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 660,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_5",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 600,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_6",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 540,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_7",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 456,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_8",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 408,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_9",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 372,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_10",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 312,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_11",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 264,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_12",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 192,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "initial_13",
+      "page": 2,
+      "box": {
+        "left": 504,
+        "top": 132,
+        "width": 25,
+        "height": 10
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Suspect_signature",
+      "page": 3,
+      "box": {
+        "left": 96,
+        "top": 381,
+        "width": 209,
+        "height": 16
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Suspect_time",
+      "page": 3,
+      "box": {
+        "left": 323,
+        "top": 376,
+        "width": 74,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Suspect_date",
+      "page": 3,
+      "box": {
+        "left": 409,
+        "top": 376,
+        "width": 60,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Interviewer_signature",
+      "page": 3,
+      "box": {
+        "left": 96,
+        "top": 345,
+        "width": 209,
+        "height": 16
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Interviewer_time",
+      "page": 3,
+      "box": {
+        "left": 323,
+        "top": 340,
+        "width": 74,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Interviewer_date",
+      "page": 3,
+      "box": {
+        "left": 409,
+        "top": 340,
+        "width": 60,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Witness_signature",
+      "page": 3,
+      "box": {
+        "left": 96,
+        "top": 309,
+        "width": 209,
+        "height": 16
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Witness_time",
+      "page": 3,
+      "box": {
+        "left": 323,
+        "top": 304,
+        "width": 74,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Witness_date",
+      "page": 3,
+      "box": {
+        "left": 409,
+        "top": 304,
+        "width": 60,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "page_count",
+      "page": 3,
+      "box": {
+        "left": 94,
+        "top": 260,
+        "width": 31,
+        "height": 11
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "Statement_suspect",
+      "page": 3,
+      "box": {
+        "left": 320,
+        "top": 199,
+        "width": 195,
+        "height": 19
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "statement",
+      "page": 3,
+      "box": {
+        "left": 94,
+        "top": 143,
+        "width": 452,
+        "height": 66
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "continuation",
+      "page": 4,
+      "box": {
+        "left": 94,
+        "top": 667,
+        "width": 452,
+        "height": 556
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    }
+  ],
+  "rowGroups": {}
+}

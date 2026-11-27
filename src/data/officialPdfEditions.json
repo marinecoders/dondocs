@@ -81,6 +81,102 @@
     }
   },
   {
+    "formId": "jagman_a1d",
+    "edition": "5800.7G-CH2.1",
+    "label": "Rights notice and election",
+    "format": "acroform",
+    "directory": "jagman/a-1-d/5800.7G-CH2/1",
+    "file": "fillable.pdf",
+    "length": 175613,
+    "sha256": "ff1fe97d36ded4713b51085f6077989ad38fe258f22d9e0f7348357a96d6dd8d",
+    "definitionSha256": "0aa9dcea13bdf2adba9da0d444f6f16ceda04595bc2dce2784423f7f0b24dee1",
+    "pageSizes": [
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ]
+    ]
+  },
+  {
+    "formId": "jagman_a1g",
+    "edition": "5800.7G-CH2.1",
+    "label": "Acknowledgment of appeal rights",
+    "format": "acroform",
+    "directory": "jagman/a-1-g/5800.7G-CH2/1",
+    "file": "fillable.pdf",
+    "length": 147979,
+    "sha256": "256386c99b24f8af51367a61a2c192ffdca207885fe78afa6cd79e4552dd56e2",
+    "definitionSha256": "34921a6a4f0b73ff928882893ad3ae57731e1e000fdaeae80dc13ff1afd2652a",
+    "pageSizes": [
+      [
+        612,
+        792
+      ]
+    ]
+  },
+  {
+    "formId": "jagman_a1e",
+    "edition": "5800.7G-CH2.1",
+    "label": "Education assistance reimbursement notice",
+    "format": "acroform",
+    "directory": "jagman/a-1-e/5800.7G-CH2/1",
+    "file": "fillable.pdf",
+    "length": 44169,
+    "sha256": "2bcef17c46a2853aa667cdcfee06ff9e4ce6e61113e29a868589b451b396d7e0",
+    "definitionSha256": "eaa06248997ca16c613fb10bad3bfecc1223f4049aa0f1e366566d9b5ef5107b",
+    "pageSizes": [
+      [
+        612,
+        792
+      ]
+    ]
+  },
+  {
+    "formId": "jagman_a1o",
+    "edition": "5800.7G-CH2.1",
+    "label": "Suspect rights acknowledgment and statement",
+    "format": "acroform",
+    "directory": "jagman/a-1-o/5800.7G-CH2/1",
+    "file": "fillable.pdf",
+    "length": 125007,
+    "sha256": "2f216b0e343ba949cf112656abf545d5330fc7fc627a8c07baa59eb2fd03b2b9",
+    "definitionSha256": "df830436b7a49c493c2076e0255448cb8b140d062a0e30d77ac22fa666c030b3",
+    "pageSizes": [
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ]
+    ]
+  },
+  {
     "formId": "package_correspondence",
     "edition": "1",
     "label": "Correspondence signature",
