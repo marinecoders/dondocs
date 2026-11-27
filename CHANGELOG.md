@@ -7,6 +7,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.375]
+
+- Package recipes can require all fields on each started evidence row before signing or delivery.
+
 ## [1.3.374]
 
 - Signing checks the required signature order and warns before a signature closes an outstanding package slot.

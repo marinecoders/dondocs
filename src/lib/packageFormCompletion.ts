@@ -12,7 +12,16 @@ function hasValue(value: Answer) {
 }
 
 export function missingAnswerGroups(groups: FormCompletion['answerGroups'], answered: ReadonlySet<string>) {
-  return groups?.filter(group => !group.alternatives.some(row => row.every(field => answered.has(field)))) ?? [];
+  return (groups ?? []).flatMap(group => {
+    const rows = group.alternatives;
+    if (group.eachStartedRow) {
+      const started = rows.filter(row => row.some(field => answered.has(field)));
+      const incomplete = started.filter(row => row.some(field => !answered.has(field)));
+      if (!started.length || incomplete.length) return [{ ...group, alternatives: incomplete.length ? incomplete : [rows[0]] }];
+      return [];
+    }
+    return rows.some(row => row.every(field => answered.has(field))) ? [] : [group];
+  });
 }
 
 export function missingPackageSignatures(member: PackageMember, rule?: FormCompletion) {
@@ -52,7 +61,8 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
       const answered = new Set(Object.entries(definition.fields).flatMap(([key, field]) =>
         hasValue(answers[key]) && answers[key] !== false ? field.sourceIds ?? [] : []));
       for (const group of missingAnswerGroups(rule.answerGroups, answered)) {
-        const key = Object.keys(definition.fields).find(key => definition.fields[key].sourceIds?.includes(group.alternatives[0][0]));
+        const missing = group.alternatives[0].find(name => !answered.has(name));
+        const key = missing && Object.keys(definition.fields).find(key => definition.fields[key].sourceIds?.includes(missing));
         add(group.label, key ? fieldTarget(key) : undefined);
       }
     }
