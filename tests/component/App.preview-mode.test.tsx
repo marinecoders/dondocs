@@ -28,6 +28,10 @@ vi.mock('@/components/layout/PreviewPanel', () => ({
   PreviewPanel: ({ pdfUrl, isCompiling, error }: { pdfUrl: string | null; isCompiling: boolean; error: string | null }) =>
     <output aria-label="Form preview state" data-testid="preview-state" data-compiling={isCompiling}>{error ?? (pdfUrl ? 'Ready' : isCompiling ? 'Generating' : 'Idle')}</output>,
 }));
+vi.mock('@/services/forms/officialPdfProfiles', async original => ({
+  ...await original<typeof import('@/services/forms/officialPdfProfiles')>(), loadOfficialPdfSource: load10274,
+}));
+vi.mock('@/services/pdf/navmc10274Native', () => ({ fillAdministrativeAction: generate10274 }));
 vi.mock('@/services/pdf/navmc10274Generator', () => ({ loadNavmc10274Templates: load10274, generateNavmc10274Pdf: generate10274 }));
 vi.mock('@/services/pdf/navmc11811Generator', () => ({ loadNavmc11811Template: load11811, generateNavmc11811Pdf: generate11811 }));
 
@@ -41,7 +45,7 @@ import * as updateCheckpoint from '@/lib/updateCheckpoint';
 beforeEach(() => {
   vi.useFakeTimers();
   compile.mockReset().mockResolvedValue(null);
-  load10274.mockReset().mockResolvedValue({ page1: new ArrayBuffer(1), page2: new ArrayBuffer(1), page3: new ArrayBuffer(1) });
+  load10274.mockReset().mockResolvedValue(new ArrayBuffer(1));
   load11811.mockReset().mockResolvedValue(new ArrayBuffer(1));
   generate10274.mockReset().mockResolvedValue(new Uint8Array([1]));
   generate11811.mockReset().mockResolvedValue(new Uint8Array([1]));
@@ -206,6 +210,8 @@ it('owns captured built-in form values and cached template bytes during preview 
   const templates = { page1: new Uint8Array([2]).buffer, page2: new Uint8Array([3]).buffer, page3: new Uint8Array([4]).buffer };
   load10274.mockResolvedValue(templates);
   useDocumentsStore.getState().newDocument('navmc_10274');
+  // Restored legacy drafts still use the three separate printable templates.
+  useFormStore.setState({ officialPdfEdition: undefined });
   useFormStore.getState().setNavmc10274Field('from', 'CAPTURED SOURCE');
   generate10274.mockImplementationOnce(async (data, page1, page2, page3) => {
     expect(data.from).toBe('CAPTURED SOURCE');

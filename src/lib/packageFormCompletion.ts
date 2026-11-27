@@ -55,6 +55,11 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
       }
     }
     for (const issue of validateAnswers(definition, answers, rows)) if (issue.severity === 'error') add(issue.message, fieldTarget(issue.path));
+  } else if (member.kind === 'native' && member.session.formType === 'navmc_10274' && member.session.forms?.officialPdfEdition) {
+    const { signatureBlocks, ...fields } = member.session.forms.navmc10274 ?? {};
+    if (!Object.values(fields).some(value => typeof value === 'string' && value.trim()) && !signatureBlocks?.some(block => block.name?.trim() || block.statement?.trim())) {
+      add('The official form is still blank.', { kind: 'edit', label: 'Fill form' });
+    }
   } else if (member.kind !== 'native' && (rule?.blankSha256 === member.original.sha256 ||
       editions.some(edition => edition.sha256 === member.original.sha256))) {
     add('The saved PDF is the unchanged official blank.', member.kind === 'original' && !member.signedOriginal ? { kind: 'replace', label: 'Replace PDF' } : undefined);
@@ -75,7 +80,7 @@ export async function matchesExpectedForm(member: PackageMember, expected: NonNu
   if (expected.id === 'package_correspondence') return member.session.documentCategory === 'correspondence';
   if (member.session.formType !== expected.id) return false;
   const definition = member.session.genericForm?.definition;
-  return profile.format === 'xfa' ? member.session.forms?.officialPdfEdition === expected.edition :
+  return profile.format === 'xfa' || profile.fieldIds ? member.session.forms?.officialPdfEdition === expected.edition :
     !!definition && definition.nativePdfEdition === expected.edition &&
     await portableResourceDigest(new TextEncoder().encode(canonicalJson(definition)).buffer) === profile.definitionSha256;
 }

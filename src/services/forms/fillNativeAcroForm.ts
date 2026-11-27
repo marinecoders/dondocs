@@ -14,16 +14,24 @@ export async function fillNativeAcroForm(instance: FormInstance, original: Uint8
   if (profile?.format !== 'acroform' || await portableResourceDigest(bytes.buffer) !== profile.sha256) throw new Error('The official form edition does not match this draft.');
   const definitionDigest = await portableResourceDigest(new TextEncoder().encode(canonicalJson(definition)).buffer);
   if (definitionDigest !== profile.definitionSha256) throw new Error('The field definitions do not match the maintained official form.');
-  if (!Object.keys(answers).length) return bytes;
+  const values = Object.entries(answers).map(([key, value]) => {
+    const name = Object.hasOwn(definition.fields, key) && definition.fields[key].sourceIds?.[0];
+    if (!name) throw new Error(`Missing native field: ${key}`);
+    return { name, value };
+  });
+  return writeNativeWidgetValues(bytes, values, profile.formId === 'navmc10132' ? syncUpbFields : undefined);
+}
+
+export async function writeNativeWidgetValues(bytes: Uint8Array<ArrayBuffer>, values: ReadonlyArray<{ name: string; value: FormInstance['answers'][string] }>,
+  synchronize?: typeof syncUpbFields): Promise<Uint8Array<ArrayBuffer>> {
+  if (!values.length) return bytes;
   const task = pdfjs.getDocument({ data: bytes, ...HARDENED_PDF_OPTIONS });
   try {
     const pdf = await task.promise;
     const fields = await pdf.getFieldObjects();
-    for (const [key, value] of Object.entries(answers)) {
-      const field = definition.fields[key];
-      const name = field?.sourceIds?.[0];
+    for (const { name, value } of values) {
       const widgets = name ? fields?.[name]?.filter(widget => !('kidIds' in widget && 'page' in widget && widget.page === -1)) : undefined;
-      if (!widgets?.length) throw new Error(`Missing native field: ${key}`);
+      if (!widgets?.length) throw new Error(`Missing native field: ${name}`);
       for (const widget of widgets) {
         if (!('id' in widget) || typeof widget.id !== 'string' || !('editable' in widget) || !widget.editable || !('type' in widget) || widget.type === 'signature') throw new Error(`This field cannot be edited: ${name}`);
         const widgetValue = widget.type === 'radiobutton' && 'exportValues' in widget
@@ -31,7 +39,7 @@ export async function fillNativeAcroForm(instance: FormInstance, original: Uint8
         pdf.annotationStorage.setValue(widget.id, { value: widgetValue });
       }
     }
-    if (profile.formId === 'navmc10132') await syncUpbFields(pdf);
-    return await pdf.saveDocument();
+    await synchronize?.(pdf);
+    return new Uint8Array(await pdf.saveDocument());
   } finally { await task.destroy(); }
 }

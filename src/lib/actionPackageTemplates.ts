@@ -33,7 +33,7 @@ export async function validatePackageMemberTemplates(
     ? Object.fromEntries(
         formTemplateFiles(definition).map((page) => [page.file, page.sha256]),
       )
-    : profile ? { ...builtinTemplateHashes[profile.formId], official: profile.sha256 }
+    : profile ? { ...(profile.formId === 'navmc_118_11' ? builtinTemplateHashes[profile.formId] : {}), official: profile.sha256 }
       : builtinTemplateHashes[member.session.formType];
   if (
     !required ||

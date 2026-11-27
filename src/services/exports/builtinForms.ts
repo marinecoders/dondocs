@@ -16,8 +16,8 @@ export async function renderPreparedBuiltinForm(ready: ReadyExportJob, signal: A
   };
   const edition = forms.officialPdfEdition;
   const profile = edition ? officialPdfProfile(formType, edition) : undefined;
-  const bytes = mode === 'editable' && profile
-    ? await fillOfficialPdf(profile, forms, page('official'))
+  const bytes = profile && (mode === 'editable' || formType === 'navmc_10274')
+    ? await fillOfficialPdf(profile, forms, page('official'), mode)
     : formType === 'navmc_10274'
       ? await generateNavmc10274Pdf(forms.navmc10274!, page('page1'), page('page2'), page('page3'), { includeCoverPage: forms.includeCoverPage })
       : await generateNavmc11811Pdf(forms.navmc11811!, page('page1'), profile ? { officialEdition: true, rejectOverflow: true } : undefined);

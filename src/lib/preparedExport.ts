@@ -1,4 +1,5 @@
 import { formTemplateFiles } from '@/services/forms/model';
+import { supportsOfficialSigning } from '@/services/forms/nativeCatalog';
 import { officialPdfProfile } from '@/services/forms/officialPdfProfiles';
 import { directiveAddressIssues, directiveAuthorityIssues, directiveIssues, isDirective, isSecnavDirective } from './directiveFormats';
 import { staffPaperIssues } from './staffPapers';
@@ -263,9 +264,11 @@ export function prepareExport(input: {
       ...(input.placeholders ? [detectBatchPII(input.captured, input.placeholders)] : []),
     ]);
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
+    const edition = snapshot.forms?.officialPdfEdition ?? snapshot.genericForm?.definition.nativePdfEdition;
+    const officialSigning = edition && supportsOfficialSigning(snapshot.formType!, edition);
     const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target,
       ...(input.incompleteFormPreview && { incompleteFormPreview: true as const }),
-      ...(snapshot.forms?.officialPdfEdition || snapshot.genericForm?.definition.nativePdfEdition ? { officialForm: true as const } : {}), ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.wordProofreadComments ? { wordProofreadComments: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
+      ...(officialSigning ? { officialForm: true as const } : {}), ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.wordProofreadComments ? { wordProofreadComments: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
     prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview, ...(layoutReview ? { layoutReview: true } : {}) } });
     return privacy.found || structure.length || markingReview || layoutReview
       ? Object.freeze({ status: 'needs-review', job })

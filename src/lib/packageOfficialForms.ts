@@ -1,6 +1,6 @@
 import { FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
-import { identifyOfficialOriginal, officialEdition, nativeSigningFormId, officialFormChoices } from '@/services/forms/nativeCatalog';
+import { supportsOfficialSigning, identifyOfficialOriginal, officialEdition, nativeSigningFormId, officialFormChoices } from '@/services/forms/nativeCatalog';
 import { loadPackageFormDefinition } from './packageFormFields';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { captureDocumentRevision } from './capturedDocument';
@@ -21,8 +21,8 @@ async function officialFormStarter(formId: string, catalogLabel?: string, pinned
   const label = edition?.label ?? (builtin ? formTypeLabel(formId) : catalogLabel);
   if (!label) throw new Error('This form is unavailable.');
   const session = createBlankSession(formId);
-  if (edition?.format === 'xfa' && session.forms) session.forms.officialPdfEdition = edition.edition;
-  if (edition?.format === 'acroform' || !builtin && !edition) {
+  if (builtin && edition && session.forms) session.forms.officialPdfEdition = edition.edition;
+  if (!builtin && (!edition || edition.format === 'acroform')) {
     const definition = edition ? await loadPackageFormDefinition(edition) : await (await import('@/services/formRegistry')).configForFormType(formId);
     if (!definition || definition.formId !== formId || edition && definition.nativePdfEdition !== edition.edition)
       throw new Error('The form definition does not match the selected edition.');
@@ -92,11 +92,11 @@ export function memberSigningFormId(member: PackageMember) {
 }
 
 export function packageFormSigningAction(member: PackageMember) {
-  if (member.kind === 'original' && member.signedOriginal && member.officialFormId) return 'Open signed form';
+  if (member.kind === 'original' && member.signedOriginal && member.officialFormId && supportsOfficialSigning(member.officialFormId)) return 'Open signed form';
   if (member.kind === 'native') {
     if (member.session.documentCategory === 'correspondence') return 'Sign correspondence';
-    const edition = member.session.formType === 'navmc_118_11' ? member.session.forms?.officialPdfEdition : member.session.genericForm?.definition.nativePdfEdition;
-    if (edition && officialEdition(member.session.formType ?? '', edition)) return 'Sign official form';
+    const edition = member.session.forms?.officialPdfEdition ?? member.session.genericForm?.definition.nativePdfEdition;
+    if (edition && supportsOfficialSigning(member.session.formType ?? '', edition)) return 'Sign official form';
   }
 }
 
@@ -113,7 +113,7 @@ export async function preparePackageFormSigning(member: PackageMember, policy: P
     }
     return { bytes: new Uint8Array(bytes), label: member.label + '.pdf', metadata: member.session.genericForm?.answers ?? member.session.forms };
   }
-  if (member.kind === 'original' && member.signedOriginal) {
+  if (member.kind === 'original' && packageFormSigningAction(member)) {
     const bytes = await readPackageAsset(member.original);
     if (member.officialFormId && await identifyOfficialOriginal(bytes) === member.officialFormId) {
       return { bytes: new Uint8Array(bytes), label: member.original.name };

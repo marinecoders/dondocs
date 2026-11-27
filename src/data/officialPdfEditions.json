@@ -58,5 +58,45 @@
     "signatureFieldIds": {
       "signing_authority": "Signing_authority"
     }
+  },
+  {
+    "formId": "navmc_10274",
+    "edition": "2020-07",
+    "label": "NAVMC 10274 - Administrative Action",
+    "format": "acroform",
+    "directory": "NAVMC10274 - Administrative Action/2020-07",
+    "file": "original.pdf",
+    "length": 1914753,
+    "sha256": "ca93f0f8bcb0ba97442c3807f070ba752e48a8c0ea3d02bc0ffabbcc53ceeb4a",
+    "pageSizes": [
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ],
+      [
+        612,
+        792
+      ]
+    ],
+    "nativeSigning": false,
+    "fieldIds": {
+      "actionNo": "form1[0].ActNum[0]",
+      "ssicFileNo": "form1[0].FileNum[0]",
+      "date": "form1[0].Date[0]",
+      "from": "form1[0].NameFrom[0]",
+      "orgStation": "form1[0].OrgStat[0]",
+      "via": "form1[0].Via1[0]",
+      "to": "form1[0].AddrTo[0]",
+      "natureOfAction": "form1[0].NatOfAct[0]",
+      "copyTo": "form1[0].CopyTo[0]",
+      "references": "form1[0].RefAuth[0]",
+      "enclosures": "form1[0].Encl1[0]",
+      "supplementalInfo": "form1[0].SuppInfo[0]",
+      "continuation": "form1[0].ProcAct[0]"
+    }
   }
 ]
