@@ -249,7 +249,6 @@ for (const entry of ['document', 'field'] as const) {
     const confirm = page.getByRole('button', { name: 'Continue to signing' });
     await expect(signing.or(confirm)).toBeVisible({ timeout: 45_000 });
     if (await confirm.isVisible()) await confirm.click();
-    if (entry === 'document') await signing.getByRole('button', { name: 'Review signature location' }).click();
     const location = signing.getByRole('combobox', { name: 'PDF signature location' });
     if (entry === 'document') {
       await expect(location).toHaveValue('');
@@ -264,7 +263,7 @@ for (const entry of ['document', 'field'] as const) {
     await expect(preview.locator('span[aria-hidden]')).toHaveCount(0);
     await signing.getByRole('button', { name: 'Previous page' }).click();
     await expect(preview.locator('span[aria-hidden]')).toBeVisible({ timeout: 30_000 });
-    await expect(signing.getByLabel('Local bridge pairing code')).toHaveValue('');
+    await expect(signing.getByRole('button', { name: 'Connect CAC' })).toBeEnabled();
   });
 }
 

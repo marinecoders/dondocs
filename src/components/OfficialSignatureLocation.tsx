@@ -9,7 +9,8 @@ async function readLayout(record: OfficialSigningRecord, signal: AbortSignal) {
   const bytes = await officialRevisionBytes(record);
   const id = await identifyOfficialOriginal(bytes.buffer);
   const profile = id && officialEdition(id);
-  if (!profile || profile.format !== 'acroform') return;
+  if (profile && profile.format === 'xfa') return null;
+  if (!profile) return;
   const layout = await readSignatureLayout(bytes, signal);
   const { officialSignatureLabels } = await import('@/lib/packageSignatureFieldLabel');
   const labels = profile.definitionSha256 && await officialSignatureLabels({ id: profile.formId, edition: profile.edition }).catch(() => undefined);
@@ -29,13 +30,15 @@ export function OfficialSignatureLocation(props: LocationProps) {
 
 function SignatureLocations({ record, choice, onChoice, paired, requireChoice }: LocationProps) {
   const [layout, setLayout] = useState<Awaited<ReturnType<typeof readLayout>>>();
+  const [externalPreview, setExternalPreview] = useState(false);
   const [error, setError] = useState('');
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
     void readLayout(record, signal).then(value => {
       if (signal.aborted) return;
-      if (value?.slots.length) setLayout(value);
+      if (value === null) setExternalPreview(true);
+      else if (value?.slots.length) setLayout(value);
       else setError('This PDF has no signature location available for preview.');
     }).catch(() => {
       if (!signal.aborted) setError('The signature locations could not be read from this revision.');
@@ -46,6 +49,7 @@ function SignatureLocations({ record, choice, onChoice, paired, requireChoice }:
   useEffect(() => {
     if (first && !choice && !paired) onChoice(first);
   }, [first, choice, paired, onChoice]);
+  if (externalPreview) return <p className="text-sm">Download the official PDF to review its layout. Connect to see its signature fields.</p>;
   if (error) return <p role="alert">{error}</p>;
   if (!layout?.slots.length) return <p role="status">Reading signature locations…</p>;
   const slot = choice ? layout.slots.find(item => item.name === choice) : paired || requireChoice ? undefined : layout.slots[0];

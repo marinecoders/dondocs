@@ -2,13 +2,13 @@
 import argparse
 import json
 import logging
-import secrets
 import subprocess
 from hashlib import sha256
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from connection import Sessions, approve_connection
 from appearance import certificate_stamp_style
 from cac_signer import CACError, CACSigner, dod_validation_context, eligible_certificate
 from official_pdf import official_profile, inspect_return, inspect_revision, sign_revision
@@ -32,7 +32,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Origin", self.server.origin)
             self.send_header("Vary", "Origin")
         self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Field, X-Certificate, X-Finalize, X-Base-Length, X-Base-SHA256")
+        self.send_header("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Field, X-Certificate, X-Finalize, X-Base-Length, X-Base-SHA256, X-DonDocs-Connect")
         self.send_header("Access-Control-Allow-Private-Network", "true")
         self.send_header("Cache-Control", "no-store")
         self.send_header("Content-Type", mime)
@@ -43,21 +43,41 @@ class Handler(BaseHTTPRequestHandler):
     def allowed(self):
         return (self.headers.get("Host") == f"127.0.0.1:{self.server.server_port}"
                 and self.headers.get("Origin") == self.server.origin
-                and self.path in ("/identities", "/inspect", "/sign", "/return"))
+                and self.path in ("/session", "/disconnect", "/identities", "/inspect", "/sign", "/return"))
 
     def do_OPTIONS(self):
         self.reply(200 if self.allowed() else 403, {})
 
     def do_POST(self):
-        if not self.allowed() or not secrets.compare_digest(
-            self.headers.get("Authorization", "").encode(), ("Bearer " + self.server.token).encode()
-        ):
-            self.reply(403, {"error": "Check the pairing code and the configured DonDocs origin."})
+        if not self.allowed():
+            self.reply(403, {"error": "This DonDocs address is not allowed."})
             return
         try:
             size = int(self.headers.get("Content-Length", "0"))
             if size > MAX_PDF or size < 0 or "Transfer-Encoding" in self.headers:
                 self.reply(413, {"error": "Choose a PDF up to 20 MB."})
+                return
+            if self.path == "/session":
+                if size or self.headers.get("X-DonDocs-Connect") != "1":
+                    self.reply(400, {"error": "Invalid connection request."})
+                    return
+                try:
+                    status, body = self.server.sessions.request(self.server.origin, approve_connection)
+                except (OSError, subprocess.SubprocessError):
+                    self.reply(503, {"error": "Could not complete approval. Open the signing companion in your desktop session and retry."})
+                    return
+                self.reply(status, body)
+                return
+            auth = self.headers.get("Authorization", "")
+            token = auth.removeprefix("Bearer ")
+            if token == auth or not self.server.sessions.authorized(token):
+                self.reply(401, {"error": "Your signing connection expired. Choose Connect CAC again."})
+                return
+            if self.path == "/disconnect":
+                if size:
+                    raise ValueError("Unexpected disconnect request body.")
+                self.server.sessions.disconnect(token)
+                self.reply(200, {})
                 return
             if self.path == "/identities":
                 if size:
@@ -119,8 +139,8 @@ def main():
         server.origin, server.helper, server.bundle = args.origin, args.helper.resolve(strict=True), args.ca_bundle
         server.context = dod_validation_context(args.ca_bundle)
         server.style = certificate_stamp_style(args.font.resolve(strict=True))
-        server.token = secrets.token_urlsafe(32)
-        print(f"Pair {server.origin} with this code: {server.token}", flush=True)
+        server.sessions = Sessions()
+        print(f"Ready for connection requests from {server.origin}.", flush=True)
         server.serve_forever()
 
 
