@@ -50,6 +50,13 @@ def available_fields(data, context):
             continue
         val = str(field["/V"]) if "/V" in field else ""
         options = [{"value": o["id"], "label": o["label"]} for o in spec.get("options", [])]
+        if native_type == "/Ch":
+            for option in field["/Opt"]:
+                native = option.get_object()
+                export = str(native[0] if isinstance(native, generic.ArrayObject) else native)
+                if not export.strip() and all(o["value"] != export for o in options):
+                    options.insert(0, {"value": export, "label": "No selection"})
+                    break
         result[key] = (ref, {"id": key, "label": spec["label"], "kind": spec["kind"],
                              "value": val not in ("", "/Off") if native_type == "/Btn" else val,
                              "options": options, "multiline": bool(spec.get("multiline"))})
@@ -86,12 +93,12 @@ def apply_field_edits(data, answers, context):
             if not isinstance(value, str) or len(value) > min(16000, int(target.get("/MaxLen") or 16000)):
                 raise ValueError("The value exceeds the field limit.")
             labels = {o["value"]: o["label"] for o in spec["options"]}
-            if target["/FT"] == "/Ch" and value and value not in labels:
+            if target["/FT"] == "/Ch" and value not in labels:
                 raise ValueError("Choose a listed value.")
             # Generate the appearance against the original resource IDs. Only the new appearance
             # and selected widget's answer enter the incremental writer.
             widget = layout.get_object(ref.idnum)
-            widget[NameObject("/V")] = TextStringObject(labels.get(value, value))
+            widget[NameObject("/V")] = TextStringObject(labels.get(value, value) if value.strip() else "")
             appearance = TextStreamAppearance.from_text_annotation(layout, pages[ref.idnum], False, acro, widget, widget)
             raw = BytesIO()
             appearance.write_to_stream(raw)

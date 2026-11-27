@@ -209,6 +209,13 @@ class OfficialSigning(unittest.TestCase):
             text = subprocess.check_output(["pdftotext", "-layout", "-", "-"], input=edited)
             self.assertIn(b"Training entry", text)
             self.assertRegex(text, rb"1A\s+G\s+1B")
+        empty = next(o["value"] for o in available["1a_finding"][1]["options"] if not o["value"].strip())
+        cleared = apply_field_edits(edited, {"1a_finding": empty}, self.context)
+        self.assertEqual(available_fields(cleared, self.context)[0]["1a_finding"][1]["value"], empty)
+        if shutil.which("pdftotext"):
+            printed = subprocess.check_output(["pdftotext", "-layout", "-", "-"], input=cleared)
+            self.assertRegex(printed, rb"1A\s+1B")
+            self.assertNotIn(b"No selection", printed)
         second = sign_revision(edited, "3 RIGHTS ATTEST SIGNATURE", self.signer, self.context)
         self.assertTrue(second.startswith(edited))
         self.assertEqual(sum(s["trusted"] is True for s in inspect_revision(second, self.context)[1]), 2)
