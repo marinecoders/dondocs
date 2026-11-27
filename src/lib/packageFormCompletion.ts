@@ -64,6 +64,8 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
       editions.some(edition => edition.sha256 === member.original.sha256))) {
     add('The saved PDF is the unchanged official blank.', member.kind === 'original' && !member.signedOriginal ? { kind: 'replace', label: 'Replace PDF' } : undefined);
   }
+  if (rule?.handwrittenSignature && (member.kind !== 'original' || !member.handwrittenSourceSha256))
+    add('Add a handwritten signature to this document.');
   if (rule?.reviewedScan && (member.kind !== 'original' || member.signatureReviewSha256 !== member.original.sha256))
     add('Review the visible signature on the received PDF in Documents.');
   if (rule?.writtenContent && member.kind === 'native' && !member.session.paragraphs?.some(p => p.text?.trim()))

@@ -4,7 +4,7 @@ import { PackageSigningPdfPreview } from './PackageSigningPdfPreview';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
-import { downloadPackageSigningHandoff, inspectPackageSigning, applyPackageSigningReturn, preparePackageSigningReturn, copyPreparedPackageSigningReturn, capturePackageSigningHandoff, copyPreparedPackageSigningSource, copyPreparedPackageSigningHandoff, getPackageSigningPdf, openPackageSigningSource, openCapturedPackageSigningRecord, packageSigningTargets,
+import { attachPackageHandwriting, downloadPackageSigningHandoff, inspectPackageSigning, applyPackageSigningReturn, preparePackageSigningReturn, copyPreparedPackageSigningReturn, capturePackageSigningHandoff, copyPreparedPackageSigningSource, copyPreparedPackageSigningHandoff, getPackageSigningPdf, openPackageSigningSource, openCapturedPackageSigningRecord, packageSigningTargets,
   preparePackageSigningHandoff, preparePackageSigningSource, readPackageSigningRecord, reviewPackageSigningCapture,
   type PackageSigningHandoff, type PreparedPackageSigningHandoff, type PreparedPackageSigningSource, type PreparedPackageSigningReturn, type PackageSigningFinding } from '@/lib/packageSigning';
 import { listSigningRecords, type SigningRecord } from '@/lib/signingWorkspace';
@@ -256,7 +256,14 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
         </div>}
       </fieldset>}
     </div>}
-    {workspaceId && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><SigningWorkspace open initialRecordId={workspaceId}
+    {workspaceId && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><SigningWorkspace open packageScoped initialRecordId={workspaceId}
+      onAttachHandwritten={source && target?.target.kind === 'member' && workspaceId === recordId && editable ? async (signedRecord, mark, live) => {
+        if (signedRecord.id !== workspaceId) throw new Error('Reopen the selected package document.');
+        const ownerAtOpen = owner;
+        const current = () => live() && mounted.current && isCurrent() && editableRef.current && ownerRef.current === ownerAtOpen;
+        const saved = await attachPackageHandwriting(source, workspaceId, mark.id, await getExportDeploymentPolicy(), signal(), current);
+        if (current()) { dirtyCallback.current?.(false); setWorkspaceId(''); onApply(saved); }
+      } : undefined}
       initialReturnFile={matchedHandoff ? matchedReturn?.file : undefined}
       initialHandoffId={matchedHandoff?.handoffId} onOpenChange={value => { if (!value) setWorkspaceId(''); }} /></Suspense>}
   </section>;

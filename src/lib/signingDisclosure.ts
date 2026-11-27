@@ -15,7 +15,7 @@ export async function reviewSigningDisclosure(input: SigningDisclosureInput, pol
   isCurrent: () => boolean = () => true): Promise<ExportReview> {
   if (!isCurrent()) throw new Error('The signing delivery was cancelled.');
   const metadata = JSON.stringify(input.metadata ?? null);
-  if (metadata.length > 2 * 1024 * 1024 || input.pdfs.length > 21) throw new Error('The signing delivery exceeds its review limits.');
+  if (metadata.length > 2 * 1024 * 1024 || input.pdfs.length > 31) throw new Error('The signing delivery exceeds its review limits.');
   const strings: string[] = [];let nodes = 0;
   function collect(value: unknown, depth: number) {
     if (++nodes > 50_000 || depth > 30) throw new Error('The signing metadata exceeds its review limits.');
@@ -38,7 +38,7 @@ export async function reviewSigningDisclosure(input: SigningDisclosureInput, pol
 }
 
 /** Also works for a recovery record whose PDF digest or identity is damaged. */
-export function signingRecordDisclosure(input: unknown): SigningDisclosureInput {
+export function signingRecordDisclosure(input: unknown, validatedRecord = false): SigningDisclosureInput {
   const pdfs: Array<{ bytes: Uint8Array; label: string }> = [];let nodes = 0;
   function metadata(value: unknown, path: string, depth: number): unknown {
     if (++nodes > 50_000 || depth > 30) throw new Error('The signing record exceeds its review limits.');
@@ -46,6 +46,11 @@ export function signingRecordDisclosure(input: unknown): SigningDisclosureInput 
     if (Array.isArray(value)) return value.map((item, index) => metadata(item, `${path}[${index}]`, depth + 1));
     const object = value as Record<string, unknown>, result = Object.create(null) as Record<string, unknown>;
     for (const [key, child] of Object.entries(object)) {
+      // Validated handwritten graphics contain only the image samples used in
+      // the retained PDF, which is reviewed below. Recovery blobs stay opaque.
+      if (validatedRecord && key === 'graphic' && /^Signing record\.handwritten\[\d+\]$/.test(path)) {
+        result[key] = 'Handwritten signature PNG, included with the retained PDF.'; continue;
+      }
       if (key === 'data' && typeof child === 'string' && (child.startsWith('JVBERi0') || Array.isArray(object.pages) && typeof object.filename === 'string')) {
         try {
           pdfs.push({ bytes: base64ToUint8Array(child), label: typeof object.filename === 'string' ? object.filename : path });

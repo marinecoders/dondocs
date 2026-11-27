@@ -31,3 +31,34 @@ test('retains manual positions across reload and exports real rotated PDF signat
   expect(rect.x).toBeCloseTo(120);expect(rect.y).toBeCloseTo(120);
   expect(rect.width).toBeCloseTo(40);expect(rect.height).toBeCloseTo(240);
 });
+
+test('draws a handwritten revision, reopens it and downloads its pixels without a companion', async ({ page }, info) => {
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  const pdf = await PDFDocument.create(); pdf.addPage([300,400]).setRotation(degrees(90));
+  await page.goto('/');
+  const welcome = page.getByRole('button', { name: 'Start writing', exact: true });
+  if (await welcome.isVisible()) await welcome.click();
+  async function open() {
+    await page.getByRole('button', { name: 'Download', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
+  }
+  await open();
+  const workspace = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
+  await workspace.getByLabel('Open PDF', {exact:true}).setInputFiles({name:'Training.pdf',mimeType:'application/pdf',buffer:Buffer.from(await pdf.save())});
+  await workspace.getByRole('button', { name:'Add signature box' }).click();
+  await workspace.getByRole('button', { name:'Add handwritten signature' }).click();
+  await workspace.getByRole('button',{ name:'Draw',exact:true }).click();
+  const area = page.getByRole('application',{name:'Signature drawing area'});
+  await area.focus(); await area.press('Space'); await area.press('ArrowRight'); await area.press('ArrowDown'); await area.press('Space');
+  await page.getByRole('button',{name:'Use signature'}).click();
+  await workspace.getByRole('button',{name:'Preview handwritten signature'}).click();
+  await workspace.getByRole('button',{name:'Save handwritten revision',exact:true}).click();
+  await expect(workspace.getByText('Handwritten revision saved in this browser.')).toBeVisible();
+  await page.reload(); await open();
+  await expect(workspace.getByRole('button', { name: 'Save handoff of original PDF' })).toBeVisible();
+  await expect(workspace.getByRole('button', { name: 'Download original PDF with signature boxes' })).toBeVisible();
+  const bytes = await signingPdfDownload(page, info.project.name, () => workspace.getByRole('button',{name:'Download handwritten PDF 1'}).click());
+  const reopened = await PDFDocument.load(bytes);
+  expect(reopened.getForm().getFields()).toHaveLength(0);
+  expect(reopened.getPage(0).node.Resources()?.toString()).toContain('/Image');
+});

@@ -30,6 +30,7 @@ export const formCompletionSchema = z.object({
   reviewedScan: z.literal(true).optional(),
   writtenContent: z.literal(true).optional(),
   blankSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+  handwrittenSignature: z.literal(true).optional(),
   signatureFields: z.array(z.string().trim().min(1).max(250)).min(1).max(32).optional(),
 }).strict();
 export type FormCompletion = z.infer<typeof formCompletionSchema>;
