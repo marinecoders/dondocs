@@ -153,3 +153,28 @@ export async function signOfficialPdf(bytes: Uint8Array, field: string, certific
   if (response.headers.get('Content-Type') !== 'application/pdf') throw new Error('The bridge did not return a signed PDF.');
   return new Uint8Array(await response.arrayBuffer());
 }
+
+const editableField = z.object({
+  id: z.string(), label: z.string(), kind: z.string(), value: z.union([z.string(), z.boolean()]),
+  options: z.array(z.object({ value: z.string(), label: z.string() })), multiline: z.boolean(),
+});
+export type EditableSignedField = z.infer<typeof editableField>;
+
+export async function readUnlockedFields(bytes: Uint8Array, token: string, signal: AbortSignal) {
+  const response = await request('/fields', token, signal, bytes);
+  const listing = z.object({ sha256: z.string(), fields: z.array(editableField) }).parse(await response.json());
+  if (listing.sha256 !== await portableResourceDigest(Uint8Array.from(bytes).buffer)) throw new Error('Reopen the current signed revision.');
+  return listing.fields;
+}
+
+export async function editOfficialPdf(bytes: Uint8Array, answers: Record<string, string | boolean>, token: string, signal: AbortSignal) {
+  const json = new TextEncoder().encode(JSON.stringify(answers));
+  if (json.length > 65536) throw new Error('Save fewer field changes at a time.');
+  const body = new Uint8Array(4 + json.length + bytes.length);
+  new DataView(body.buffer).setUint32(0, json.length);
+  body.set(json, 4);
+  body.set(bytes, 4 + json.length);
+  const response = await request('/edit', token, signal, body, { 'Content-Type': 'application/vnd.dondocs.field-edits' });
+  if (response.headers.get('Content-Type') !== 'application/pdf') throw new Error('The companion did not return an edited PDF.');
+  return new Uint8Array(await response.arrayBuffer());
+}

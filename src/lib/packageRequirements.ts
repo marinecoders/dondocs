@@ -159,7 +159,8 @@ export async function checkMemberSigningSelections(revision: PackageRevision, me
     const { expectedForm, pdfSelections } = item.completion;
     if (pdfSelections?.length) selections.push({ expectedForm, pdfSelections });
   }
-  if (selections.length) await verifyRevisionForEvidence(member, selections, { signal });
+  // A signed original may need a permitted field correction before its next signature.
+  if (selections.length && !(member.kind === 'original' && member.signedOriginal)) await verifyRevisionForEvidence(member, selections, { signal });
   return activePackageSignatureLabels(rules, member);
 }
 

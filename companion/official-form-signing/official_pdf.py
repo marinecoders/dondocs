@@ -10,6 +10,8 @@ from pyhanko.pdf_utils import generic
 from pyhanko.pdf_utils.reader import PdfFileReader, HistoricalResolver
 from pyhanko.sign import fields, signers
 from pyhanko.sign.diff_analysis import DEFAULT_DIFF_POLICY, StandardDiffPolicy, SuspiciousModification
+from pyhanko.sign.diff_analysis.form_rules_api import FormUpdatingRule
+from pyhanko.sign.diff_analysis.rules.form_field_rules import GenericFieldModificationRule, VALUE_UPDATE_KEYS
 from pyhanko.sign.diff_analysis.rules.file_structure_rules import CatalogModificationRule
 from pyhanko.sign.validation import async_validate_pdf_signature
 from pyhanko.sign.validation.status import SignatureCoverageLevel
@@ -63,12 +65,37 @@ class ImmutableCatalogRule(CatalogModificationRule):
         return ()
 
 
+class ChoiceIndexRule(GenericFieldModificationRule):
+    """A single-select widget may store its selected option twice, in /V and /I."""
+
+    def compare_fields(self, spec):
+        old, new = spec.old_field, spec.new_field
+        if old is not None and new is not None and old.get("/I") != new.get("/I"):
+            indices = new.get("/I")
+            if (new.get("/FT") != "/Ch" or not isinstance(indices, generic.ArrayObject)
+                    or len(indices) != 1 or not isinstance(indices[0], generic.NumberObject)
+                    or "/Opt" not in new or not 0 <= indices[0] < len(new["/Opt"])):
+                raise SuspiciousModification("Invalid changed choice index.")
+            option = new["/Opt"][indices[0]].get_object()
+            export = option[0] if isinstance(option, generic.ArrayObject) else option
+            if "/V" not in new or new["/V"] != export or ("/V" in old and old["/V"] == new["/V"]):
+                raise SuspiciousModification("The changed choice index disagrees with the selected value.")
+        return super().compare_fields(spec)
+
+
+ACROFORM_FIELDS = FormUpdatingRule([
+    ChoiceIndexRule(value_update_keys=VALUE_UPDATE_KEYS | {"/I"})
+    if type(rule) is GenericFieldModificationRule else rule
+    for rule in DEFAULT_DIFF_POLICY.form_rule.field_rules
+])
+
+
 class ChangedFormObjects:
     def apply(self, old, new):
         # The default appearance rules emit candidates for unchanged widgets as
         # well. Only whitelist updates that actually have a new xref location.
         xrefs = old.reader.xrefs
-        for level, update in DEFAULT_DIFF_POLICY.form_rule.apply(old, new):
+        for level, update in ACROFORM_FIELDS.apply(old, new):
             ref = update.updated_ref
             before = xrefs.get_historical_ref(ref, old.revision)
             after = xrefs.get_historical_ref(ref, new.revision)
@@ -126,10 +153,10 @@ def check_slots(profile, data, slots):
         raise ValueError("The signature fields differ from the maintained official edition.")
 
 
-def inspect_revision(data, context):
+def inspect_revision(data, context, *, reader=None):
     profile = official_profile(data)
     edition = profile["label"]
-    reader = OfficialReader(BytesIO(data), strict=False)
+    reader = reader or OfficialReader(BytesIO(data), strict=False)
     if reader.security_handler:
         reader.decrypt("")
     signatures = reader.embedded_signatures

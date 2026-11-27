@@ -191,6 +191,35 @@ class OfficialSigning(unittest.TestCase):
         two = sign_revision(one, "11 APPEAL ADVISEMENT SIGNATURE", self.signer, self.context)
         self.assertTrue(two.startswith(one))
 
+    def test_edit_between_upb_signatures(self):
+        from form_edits import apply_field_edits, available_fields
+        data = (self.templates / "NAVMC10132 - Unit Punishment Book/original.pdf").read_bytes()
+        first = sign_revision(data, "2 ACC ELECTION AND RIGHTS SIGNATURE", self.signer, self.context)
+        available, _ = available_fields(first, self.context)
+        self.assertNotIn("18_accused_full_name", available)
+        with self.assertRaisesRegex(ValueError, "locked"):
+            apply_field_edits(first, {"18_accused_full_name": "Training"}, self.context)
+        # The item 2 signer has already locked the allegations. Findings are entered later.
+        changes = {"1a_finding": "Guilty", "6_punishment_imposed": "Training entry", "13_not_appealed": True}
+        edited = apply_field_edits(first, changes, self.context)
+        self.assertTrue(edited.startswith(first))
+        available, _ = available_fields(edited, self.context)
+        self.assertEqual({key: available[key][1]["value"] for key in changes}, changes)
+        if shutil.which("pdftotext"):
+            text = subprocess.check_output(["pdftotext", "-layout", "-", "-"], input=edited)
+            self.assertIn(b"Training entry", text)
+            self.assertRegex(text, rb"1A\s+G\s+1B")
+        empty = next(o["value"] for o in available["1a_finding"][1]["options"] if not o["value"].strip())
+        cleared = apply_field_edits(edited, {"1a_finding": empty}, self.context)
+        self.assertEqual(available_fields(cleared, self.context)[0]["1a_finding"][1]["value"], empty)
+        if shutil.which("pdftotext"):
+            printed = subprocess.check_output(["pdftotext", "-layout", "-", "-"], input=cleared)
+            self.assertRegex(printed, rb"1A\s+1B")
+            self.assertNotIn(b"No selection", printed)
+        second = sign_revision(edited, "3 RIGHTS ATTEST SIGNATURE", self.signer, self.context)
+        self.assertTrue(second.startswith(edited))
+        self.assertEqual(sum(s["trusted"] is True for s in inspect_revision(second, self.context)[1]), 2)
+
     def test_rejects_changed_publisher_signature_rectangle(self):
         data = (self.templates / "NAVMC10132 - Unit Punishment Book/original.pdf").read_bytes()
         writer = OfficialRevisionWriter(BytesIO(data), strict=False)

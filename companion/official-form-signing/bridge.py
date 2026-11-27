@@ -11,6 +11,7 @@ from urllib.parse import urlsplit
 from connection import Sessions, approve_connection
 from appearance import GRAPHIC_CONTENT_TYPE, MAX_GRAPHIC_BYTES, certificate_stamp_style, graphic_signing_request
 from cac_signer import CACError, CACSigner, dod_validation_context, eligible_certificate
+from form_edits import MAX_ANSWERS, apply_field_edits, available_fields
 from official_pdf import official_profile, inspect_return, inspect_revision, sign_revision
 
 PORT = 47993
@@ -43,7 +44,7 @@ class Handler(BaseHTTPRequestHandler):
     def allowed(self):
         return (self.headers.get("Host") == f"127.0.0.1:{self.server.server_port}"
                 and self.headers.get("Origin") == self.server.origin
-                and self.path in ("/session", "/disconnect", "/identities", "/inspect", "/sign", "/return"))
+                and self.path in ("/session", "/disconnect", "/identities", "/inspect", "/sign", "/return", "/fields", "/edit"))
 
     def do_OPTIONS(self):
         self.reply(200 if self.allowed() else 403, {})
@@ -55,7 +56,8 @@ class Handler(BaseHTTPRequestHandler):
         try:
             size = int(self.headers.get("Content-Length", "0"))
             graphic = self.path == "/sign" and self.headers.get_content_type() == GRAPHIC_CONTENT_TYPE
-            limit = MAX_PDF + 4 + MAX_GRAPHIC_BYTES if graphic else MAX_PDF
+            edit = self.path == "/edit"
+            limit = MAX_PDF + 4 + MAX_GRAPHIC_BYTES if graphic else MAX_PDF + (4 + MAX_ANSWERS if edit else 0)
             if size > limit or size < 0 or "Transfer-Encoding" in self.headers:
                 self.reply(413, {"error": "Choose a PDF up to 20 MB."})
                 return
@@ -92,11 +94,25 @@ class Handler(BaseHTTPRequestHandler):
                         rows.append({"fingerprint": row["fingerprint"], "label": cert.subject.native.get("common_name", "Signing certificate")})
                 self.reply(200, rows)
                 return
-            if (not graphic and self.headers.get_content_type() != "application/pdf") or size < 1:
+            mime = "application/vnd.dondocs.field-edits" if edit else "application/pdf"
+            if (not graphic and self.headers.get_content_type() != mime) or size < 1:
                 raise ValueError("Choose an official PDF revision.")
             data = self.rfile.read(size)
             if len(data) != size:
                 raise ValueError("The document transfer was interrupted.")
+            if self.path == "/fields":
+                available, _ = available_fields(data, self.server.context)
+                self.reply(200, {"sha256": sha256(data).hexdigest(), "fields": [spec for _, spec in available.values()]})
+                return
+            if edit:
+                length = int.from_bytes(data[:4], "big")
+                if not 0 < length <= MAX_ANSWERS or not 0 < len(data) - 4 - length <= MAX_PDF:
+                    raise ValueError("Invalid field edit request.")
+                result = apply_field_edits(data[4 + length:], json.loads(data[4:4 + length]), self.server.context)
+                if len(result) > MAX_PDF:
+                    raise ValueError("The updated PDF exceeds the file limit.")
+                self.reply(200, result, "application/pdf")
+                return
             style = self.server.style
             if graphic:
                 data, style = graphic_signing_request(data, style, MAX_PDF)
